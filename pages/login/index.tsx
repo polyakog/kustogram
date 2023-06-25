@@ -1,10 +1,11 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import styled from "styled-components";
 import {themeProject} from "../../styles/styledComponents/Them.styled";
 import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
 import google from '../../public/icons/google-svgrepo-com 1.svg'
 import github from '../../public/icons/github-svgrepo-com (3) 1.svg'
 import Image from "next/image";
+import {Button, ThemeButton} from "../../components/Button/ui/Button";
 
 
 const Login = () => {
@@ -16,6 +17,9 @@ const Login = () => {
       <div>
         <Image  src={google} alt={'Kusto'}/>
         <Image  src={github} alt={'it'}/>
+      </div>
+      <div>
+        <Button theme={ThemeButton.PRIMARY}>HHHHHH</Button>
       </div>
     </StyledModal>
     // </StyledPageWrapper>

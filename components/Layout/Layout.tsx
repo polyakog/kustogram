@@ -1,8 +1,8 @@
 import {PropsWithChildren} from "react";
 import {NextPage} from "next";
 import styled from "styled-components";
-import {StyledPageWrapper} from "../../styles/styledComponents/StyledPageWrapper.styled";
 import {Header} from "../Header/Header";
+import {themeProject} from "../../styles/styledComponents/Them.styled";
 
 export const Layout:NextPage<PropsWithChildren> = (props)=>{
   const {children} = props
@@ -15,6 +15,17 @@ export const Layout:NextPage<PropsWithChildren> = (props)=>{
   )
 }
 
+const StyledPageWrapper = styled.div
+  `
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    background: ${themeProject.colors.dark_700};;
+    color: white;
+  `
 
 
 const Main = styled.div

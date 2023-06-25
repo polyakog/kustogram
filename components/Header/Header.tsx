@@ -10,13 +10,13 @@ export const Header = () => {
   );
 };
 
-const StyledHeader =styled.div
-`
-width: 100%;
-  height: 60px;
-  background: ${themeProject.colors.dark_700};
-  border: 1px solid  ${themeProject.colors.dark_300} ;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+const StyledHeader = styled.div
+  `
+    width: 100%;
+    height: 60px;
+    background: ${themeProject.colors.dark_700};
+    border: 1px solid ${themeProject.colors.dark_300};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `

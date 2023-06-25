@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import {NextPageWithLayout} from './_app';
 import styled from "styled-components";
+import { getLayout } from 'components/Layout/BaseLayout/BaseLayout';
 
 const Home: NextPageWithLayout = () => (
     <StyledWrap>
@@ -15,6 +16,8 @@ const Home: NextPageWithLayout = () => (
 );
 
 export default Home;
+
+Home.getLayout = getLayout
 
 const StyledWrap = styled.div
 `

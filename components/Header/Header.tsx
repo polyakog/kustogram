@@ -1,6 +1,6 @@
 import { baseTheme } from "assets/constants/theme";
 import { Logo } from "./Logo";
-import { SelectLanguage } from "./SelectLanguage";
+import { SelectLanguage } from "../SelectedLanguage/SelectLanguage";
 import styled from "styled-components";
 import OutlineBell from "./OutlineBell";
 

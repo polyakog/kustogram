@@ -28,7 +28,7 @@ height: 60px;
 `
 
 const Main = styled.div`
-width: 100%;
+// width: 100%;
 // padding-botton: 10px;
 overflow: hidden;
 `

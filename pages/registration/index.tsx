@@ -1,28 +1,25 @@
 import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import Image from "next/image";
+import { Formik } from "formik";
 import showPasswordBtn from "../../assets/svg/eye-outline.svg";
 import hidePasswordBtn from "../../assets/svg/eye-off-outline.svg";
-import { baseTheme } from "assets/constants/theme";
-import styled from "styled-components";
-import { getLayout } from 'components/Layout/BaseLayout/BaseLayout';
+import googleIcon from "../../assets/svg//google-icon.svg";
+import githubIcon from "../../assets/svg/github-icon.svg";
+import { SignupSchema } from "utils/registrationValidation";
+import {
+  StyledBtn,
+  StyledContainer,
+  StyledErrorMsg,
+  StyledField,
+  StyledForm,
+  StyledShowPasswordBtn,
+  StyledSignIn,
+  StyledSignInWrapper,
+  StyledSocialMediaIcon,
+  StyledSocialMediaWrapper,
+  StyledText,
+  StyledTitle,
+} from "styles/styles";
 
-
-const signupValidation = Yup.object().shape({
-  username: Yup.string()
-    .min(6, "Too Short!")
-    .max(30, "Too Long!")
-    .required("Required username"),
-  password: Yup.string()
-    .min(6, "Too Short!")
-    .max(20, "Too Long!")
-    .required("Required password"),
-  email: Yup.string().email("Invalid email").required("Required email"),
-  passwordConfirmation: Yup.string()
-    .required("required")
-    .oneOf([Yup.ref("password")], "password mismatch"),
-});
 
 export default function Registration() {
   const [passwordType, setPasswordType] = useState("password");
@@ -32,7 +29,6 @@ export default function Registration() {
   const showPasswordHandler = () => {
     if (passwordType === "text") {
       setPasswordType("password");
-
     } else {
       setPasswordType("text");
     }
@@ -48,14 +44,18 @@ export default function Registration() {
   return (
     <StyledContainer>
       <StyledTitle>Sign Up</StyledTitle>
+      <StyledSocialMediaWrapper>
+        <StyledSocialMediaIcon alt="google-icon" src={googleIcon} />
+        <StyledSocialMediaIcon alt="github-icon" src={githubIcon} />
+      </StyledSocialMediaWrapper>
       <Formik
         initialValues={{
           username: "",
-          email: "",
           password: "",
-          passwordConfirmation: "",          
+          passwordConfirmation: "",
+          email: "",
         }}
-        validationSchema={signupValidation}
+        validationSchema={SignupSchema}
         onSubmit={async (values, { resetForm }) => {
           console.log(values);
           const data = {
@@ -71,136 +71,72 @@ export default function Registration() {
             }).then(() => console.log("otpravleno"));
             resetForm();
           } catch {
-            console.error("SING UP ERROR");
-           
+            console.log("err");
           }
         }}
       >
         {({ errors, touched }) => (
           <StyledForm>
-            <label htmlFor="username">
+            <label>
               Username
-              <StyledField id='username' name="username" />
+              <StyledField
+                name="username"
+                // border={errors.username?.length ? "red" : "white"}
+              />
               {errors.username && touched.username ? (
                 <StyledErrorMsg>{errors.username}</StyledErrorMsg>
               ) : null}
             </label>
-
-            <label htmlFor="email">
-              Email
-              <StyledField id='email' name="email" type="email" />
-              {errors.email && touched.email ? (
-                <StyledErrorMsg>{errors.email}</StyledErrorMsg>
-              ) : null}
-            </label>
-
-            <label htmlFor="password">
+            <label id="pass">
               Password
-              <StyledField id='password' name="password" type={passwordType} />
+              <StyledField name="password" type={passwordType} />
               <StyledShowPasswordBtn
                 alt="show password"
-                src={(passwordType === 'password' ? showPasswordBtn : hidePasswordBtn)}
+                src={
+                  passwordType === "password"
+                    ? showPasswordBtn
+                    : hidePasswordBtn
+                }
                 onClick={() => showPasswordHandler()}
               />
               {errors.password && touched.password ? (
                 <StyledErrorMsg>{errors.password}</StyledErrorMsg>
               ) : null}
             </label>
-
-            <label htmlFor="passwordConfirmation">
+            <label id="pass">
               Password confirmation
-              <StyledField id='passwordConfirmation'
-                name="passwordConfirmation"
-                type={passwordConfirmationType}
-              />
               <StyledShowPasswordBtn
                 alt="show password"
-                src={(passwordConfirmationType === 'password' ? showPasswordBtn : hidePasswordBtn)}
+                src={
+                  passwordConfirmationType === "password"
+                    ? showPasswordBtn
+                    : hidePasswordBtn
+                }
                 onClick={() => showPasswordConfirmationHandler()}
+              />
+              <StyledField
+                name="passwordConfirmation"
+                type={passwordConfirmationType}
               />
               {errors.passwordConfirmation && touched.passwordConfirmation ? (
                 <StyledErrorMsg>{errors.passwordConfirmation}</StyledErrorMsg>
               ) : null}
             </label>
-            
+            <label>
+              Email
+              <StyledField name="email" type="email" />
+              {errors.email && touched.email ? (
+                <StyledErrorMsg>{errors.email}</StyledErrorMsg>
+              ) : null}
+            </label>
             <StyledBtn type="submit">Sign Up</StyledBtn>
           </StyledForm>
         )}
       </Formik>
+      <StyledSignInWrapper>
+        <StyledText>Do you have an account?</StyledText>
+        <StyledSignIn href="/login">Sign in</StyledSignIn>
+      </StyledSignInWrapper>
     </StyledContainer>
   );
 }
-
-Registration.getLayout = getLayout
-
-const StyledContainer = styled.div`
-  background: ${baseTheme.colors.dark[300]};
-
-  width: 378px;
-  height: 624px;
-  display: flex;
-  flex-direction: column;
-  // justify-content: center;
-  align-items: center;
-  flex-shrink: 0;  
-`;
-
-const StyledTitle = styled.h2`
-  color: ${baseTheme.colors.light[100]};
-  text-align: center;
-
-  /* H1 */
-  font-size: 20px;
-  font-family: Inter;
-  font-weight: 700;
-  line-height: 36px;
-`;
-
-const StyledForm = styled(Form)`
-  
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  label {
-    display: flex;
-    flex-direction: column;
-    
-    // font-size: 16px;
-    width: 330px;
-    height: 80px;
-
-    color: ${baseTheme.colors.light[900]};
-
-    /* regular_text 14 */
-    font-family: Inter;
-    line-height: 24px;
-    font-size: 14px;
-  }
-`;
-
-const StyledField = styled(Field)`
-  font-size: 14px;
-  width: 100%;
-  height: 36px;
-  border: 1px solid ${baseTheme.colors.dark[100]};
-`;
-
-const StyledBtn = styled.button`
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  height: 40px;
-  width: 330px;
-
-  color: ${baseTheme.colors.light["100"]};
-  background: ${baseTheme.colors.accent[500]};
-`;
-
-const StyledShowPasswordBtn = styled(Image)``;
-
-const StyledErrorMsg = styled.div`
-  color: ${baseTheme.colors.danger[500]};
-`;

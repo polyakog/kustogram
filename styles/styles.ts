@@ -1,10 +1,8 @@
-"use client";
-
-import { styled } from "styled-components";
-import { baseTheme } from "../constants/theme";
 import { Field, Form } from "formik";
 import Image from "next/image";
 import Link from "next/link";
+import styled from "styled-components";
+import {baseTheme} from "./styledComponents/theme";
 
 export const StyledContainer = styled.div`
   display: flex;
@@ -20,7 +18,7 @@ export const StyledContainer = styled.div`
 
 export const StyledTitle = styled.h2`
   color: ${baseTheme.colors.light["100"]};
-
+  
   font-size: 20px;
   font-weight: 700;
   line-height: 36px;

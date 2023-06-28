@@ -1,29 +1,22 @@
 import Image from 'next/image';
 import {NextPageWithLayout} from './_app';
-import styled from "styled-components";
-import { getLayout } from 'components/Layout/BaseLayout/BaseLayout';
+import {getLayout} from 'components/Layout/BaseLayout/BaseLayout';
+import Link from "next/link";
 
 const Home: NextPageWithLayout = () => (
-    <StyledWrap>
-        <Image
-            src="/kusto.png"
-            alt="Next.js Logo"
-            width={180}
-            height={180}
-            priority
-        />
-    </StyledWrap>
+ 
+  <>
+    <Image
+      src="/kusto.png"
+      alt="Next.js Logo"
+      width={180}
+      height={180}
+      priority
+    />
+    <Link href={'/login'}>Login</Link>
+  </>
+ 
 );
 
-export default Home;
-
 Home.getLayout = getLayout
-
-const StyledWrap = styled.div
-`
-  width: 100vw;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+export default Home;

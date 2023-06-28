@@ -23,7 +23,7 @@ const StyledWrapper = styled.div
     align-items: center;
 
     background: ${baseTheme.colors.dark["700"]};
-  `
+    color: ${baseTheme.colors.light[100]};  `
 
 const Main = styled.div
   `

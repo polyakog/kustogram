@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const SignupSchema = Yup.object().shape({
+export const validateRegistration = Yup.object().shape({
   username: Yup.string()
     .min(6, "Too Short!")
     .max(30, "Too Long!")

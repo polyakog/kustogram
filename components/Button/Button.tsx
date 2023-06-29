@@ -1,6 +1,7 @@
 import {ButtonHTMLAttributes, FC} from 'react';
-import classNames from '../../../assets/lib/classNames/classNames';
+import classNames from '../../assets/lib/classNames/classNames';
 import styled from 'styled-components';
+import {baseTheme} from '../../styles/styledComponents/theme';
 
 export enum ThemeButton {
   PRIMARY = 'primary',
@@ -12,6 +13,7 @@ export enum ThemeButton {
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   theme: ThemeButton;
+  width?: string
 }
 
 export const Button: FC<ButtonProps> = (props) => {
@@ -20,11 +22,13 @@ export const Button: FC<ButtonProps> = (props) => {
     children,
     theme = ThemeButton.PRIMARY,
     disabled,
+    width,
     ...otherProps
   } = props;
 
   return (
     <StyledButton
+      width={width}
       className={classNames('', {['disabled']: disabled}, [className, theme])}
       {...otherProps}
     >
@@ -49,102 +53,84 @@ const StyledButton = styled.button.attrs(props => ({
     border-radius: 2px;
 
     &.primary {
-      background: #397DF6;
-      color: #FFFFFF;
+      background: ${baseTheme.colors.accent[500]};
+      color: ${baseTheme.colors.light[100]};
     }
-
     &.primary:hover {
-      background: #73A5FF;
+      background: ${baseTheme.colors.accent[100]};
     }
-
-    &.primary:focus {
-      background: #2F68CC;
-    }
-
     &.primary:active {
-      background: #2F68CC;
-      color: #EDF3FA;
+      background: ${baseTheme.colors.accent[700]};
+      color: ${baseTheme.colors.light[500]};
     }
-
     &.primary.disabled {
-      background: #234E99;
-      color: #8D9094;
+      background: ${baseTheme.colors.accent[900]};
+      color: ${baseTheme.colors.light[900]};
     }
 
     &.secondary {
-      background: #333333;
-      color: #FFFFFF;
+      background: ${baseTheme.colors.dark[300]};
+      color: ${baseTheme.colors.light[100]};
     }
-
     &.secondary:hover {
-      background: #4C4C4C;
+      background: ${baseTheme.colors.dark[100]};
     }
-
     &.secondary:focus {
-      background: #333333;
-      border: 1px solid #4C8DFF;
+      background: ${baseTheme.colors.dark[300]};
+      border: 1px solid ${baseTheme.colors.accent[300]};
     }
-
     &.secondary:active {
       background: #212121;
     }
-
     &.secondary.disabled {
-      background: #4C4C4C;
+      background: ${baseTheme.colors.dark[100]};
       color: #8D9094;
     }
 
     &.outlined {
-      color: #397DF6;
-      border: 1px solid #397DF6;
+      color: ${baseTheme.colors.accent[500]};
+      border: 1px solid ${baseTheme.colors.accent[500]};
+      background: none;
     }
-
     &.outlined:hover {
-      color: #73A5FF;
-      border: 1px solid #73A5FF;
+      color: ${baseTheme.colors.accent[100]};
+      border: 1px solid ${baseTheme.colors.accent[100]};
     }
-
     &.outlined:focus {
-      color: #2F68CC;
-      border: 1px solid #2F68CC;
+      color: ${baseTheme.colors.accent[700]};
+      border: 1px solid ${baseTheme.colors.accent[700]};
     }
-
     &.outlined:active {
-      color: #2F68CC;
-      border: 1px solid #2F68CC;
+      color: ${baseTheme.colors.accent[700]};
+      border: 1px solid ${baseTheme.colors.accent[700]};
     }
-
     &.outlined.disabled {
-      background: #234E99;
-      color: #234E99;
+      color: ${baseTheme.colors.accent[900]};
+      border: 1px solid ${baseTheme.colors.accent[900]};
     }
 
     &.clear {
       max-width: 100px;
       max-height: 36px;
 
-      color: #397DF6;
+      color: ${baseTheme.colors.accent[500]};
       padding: 0;
       border: none;
       background: none;
       outline: none;
     }
-
     &.clear:hover {
-      color: #73A5FF;
+      color: ${baseTheme.colors.accent[100]};
     }
-
     &.clear:focus {
-      color: #397DF6;
-      border: 1px solid #397DF6;
+      color: ${baseTheme.colors.accent};
+      border: 1px solid ${baseTheme.colors.accent[500]};
     }
-
     &.clear:active {
-      color: #2F68CC;
+      color: ${baseTheme.colors.accent[700]};
     }
-
     &.clear.disabled {
-      color: #234E99;
+      color: ${baseTheme.colors.accent[900]};
     }
 
     @media (max-width: 390px) {

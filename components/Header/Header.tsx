@@ -7,7 +7,7 @@ import bell from '../../public/icons/initialBell.svg'
 const Header = () => {
   return (
     <StyledHeader>
-      <LogoStyle>KustoSocialNet</LogoStyle>;
+      <LogoStyle>KustoSocialNet</LogoStyle>
       <Image width={24} height={24} src={bell} alt={'bell'}/>
       <SelectLanguage/>
     </StyledHeader>

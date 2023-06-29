@@ -1,7 +1,7 @@
 import React, {FC, PropsWithChildren} from 'react';
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
-import AuthIcons from "./AuthIcons";
+import {FormAuthPropsType} from "../types";
 
 export const WrapperContainerAuth: FC<PropsWithChildren&{title:string}>=  (props)=> {
   const {children, title} = props
@@ -46,8 +46,3 @@ const StaledTitle = styled.h1
     
     color: ${baseTheme.colors.light["100"]};
   `
-
-type FormAuthPropsType = {
-  width?: string
-  height?: string
-}

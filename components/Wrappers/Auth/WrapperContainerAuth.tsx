@@ -13,7 +13,7 @@ export const WrapperContainerAuth: FC<PropsWithChildren&{title:string}>=  (props
   )
 }
 
-const StyledFormAuth = styled.div<FormAuthPropsType>
+export const StyledFormAuth = styled.div<FormAuthPropsType>
   `
     max-width: ${props => props.width?props.width:'378px'};
     width: 100%;
@@ -33,7 +33,7 @@ const StyledFormAuth = styled.div<FormAuthPropsType>
     }
   `
 
-const StaledTitle = styled.h1
+export const StaledTitle = styled.h1
   `
     width: 100%;
     text-align: center;

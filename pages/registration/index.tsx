@@ -54,7 +54,7 @@ export default function Registration() {
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerAuth title={"Sing In"}>
+      <WrapperContainerAuth title={"Sing Up"}>
         <AuthIcons/>
         <Formik
           initialValues={initialAuthValues}

@@ -7,8 +7,8 @@ import styled from "styled-components";
 const AuthIcons = () => {
   return (
     <StyledIconBlock>
-      <Image width={36} height={36} src={google} alt={'Kusto'}/>
-      <Image width={36} height={36} src={github} alt={'it'}/>
+      <Image width={36} height={36} src={google} alt={'google'}/>
+      <Image width={36} height={36} src={github} alt={'github'}/>
     </StyledIconBlock>
   );
 };

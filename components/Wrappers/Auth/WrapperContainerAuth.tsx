@@ -40,7 +40,7 @@ export const StaledTitle = styled.h1
     margin: 0;
 
     font-size: 20px;
-    font-family: Inter;
+    font-family: Arial;
     font-weight: 700;
     line-height: 36px;
     

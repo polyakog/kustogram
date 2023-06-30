@@ -1,15 +1,23 @@
-import {baseTheme} from "../../styles/styledComponents/theme";
-import {SelectLanguage} from "./SelectedLanguage/SelectLanguage";
+import { baseTheme } from "../../styles/styledComponents/theme";
+import { SelectLanguage } from "./SelectedLanguage/SelectLanguage";
 import styled from "styled-components";
 import Image from "next/image";
 import bell from '../../public/icons/initialBell.svg'
+import { StyledSignIn } from "styles/styledComponents/auth/FormikAuth.styled";
+import { useRouter } from "next/router";
 
 const Header = () => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push('/');
+  };
+
   return (
     <StyledHeader>
-      <LogoStyle>KustoSocialNet</LogoStyle>
-      <Image width={24} height={24} src={bell} alt={'bell'}/>
-      <SelectLanguage/>
+      <LogoStyle onClick={handleClick} >KustoSocialNet</LogoStyle>
+      <Image width={24} height={24} src={bell} alt={'bell'} />
+      <SelectLanguage />
     </StyledHeader>
   );
 };
@@ -32,13 +40,14 @@ const StyledHeader = styled.header
 const LogoStyle = styled.div
   `
     flex:1 0 auto;
-    
+    cursor:pointer;
+
     font-size: 26px;
-    font-family: Inter;
+    font-family: Arial;
     font-weight: 600;
     line-height: 36px;
 
-    color: ${baseTheme.colors.light[100]};
+    color: ${baseTheme.colors.light[700]};
   `
 
 

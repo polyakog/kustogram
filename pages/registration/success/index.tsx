@@ -49,8 +49,6 @@ export const StyledContainerButton = styled.div
 const StyledImage = styled.div
   `
   margin-top: 72px;
-  display: flex;
-  align-items: center;
   `
 
 SuccessRegistration.getLayout = getLayout

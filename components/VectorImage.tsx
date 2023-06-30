@@ -16,14 +16,27 @@ export const VectorImage: React.FC<PropsType> = ({ image, screenWidth, imageWidt
         : width - screenWidth + imageWidth) : imageWidth)
 
     return (
-        
+        <StyledVectorImage>
             <Image
+            // fill
                 width={imageSize}
                 src={image}
                 alt={'vector-image'} />
+        </StyledVectorImage>
+            
         
     );
 };
+
+const StyledVectorImage = styled.div
+  `
+  position:relative;
+//   margin-top: 72px;
+  display: flex;
+  align-items: center;
+//   width:100%;
+//   max-width: 473px;
+  `
 
 export default VectorImage;
 

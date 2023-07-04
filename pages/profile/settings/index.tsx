@@ -1,13 +1,14 @@
-import {getLayout} from "../../../components/Layout/BaseLayout/BaseLayout";
-import {StyledAuthForm, StyledContainerAuth} from "../../../styles/styledComponents/auth/FormikAuth.styled";
+import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
+import {StyledAuthForm} from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
-import {FormikLabel} from "../../../components/Formik/FormikLabel";
-import {Button, ThemeButton} from "../../../components/Button/Button";
+import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
+import {Button, ThemeButton} from "../../../common/components/Button/Button";
 import {Formik} from "formik";
-import {useSetProfileMutation} from "../../../store/api/auth/authApi";
-import {FormValueProfile, ResetForm} from "../../../components/Formik/types";
-import {validateProfile} from "../../../utils/validateProfile";
+import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
+import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
+import {validateProfile} from "../../../common/utils/validateProfile";
+import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
 
 
 const ProfileSettings = () => {

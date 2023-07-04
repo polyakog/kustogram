@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {getLayout} from "../components/Layout/BaseLayout/BaseLayout";
+import {getLayout} from "../common/components/Layout/BaseLayout/BaseLayout";
 import Link from "next/link";
 
 const NotFound = () => {

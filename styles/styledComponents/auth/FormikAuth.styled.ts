@@ -5,15 +5,15 @@ import Image from "next/image"
 import {Form} from "formik";
 import {AuthFormPropsType} from "./types";
 
-export const StyledContainerAuth = styled.div
-  `
-    width: 96vw;
-    min-height: 90vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `
+// export const StyledContainerAuth = styled.div
+//   `
+//     width: 96vw;
+//     min-height: 90vh;
+//
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   `
 
 export const StyledAuthForm = styled(Form)<AuthFormPropsType>
   `

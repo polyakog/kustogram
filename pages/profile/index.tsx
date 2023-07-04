@@ -1,5 +1,5 @@
 import React from 'react';
-import {getLayout} from "../../components/Layout/BaseLayout/BaseLayout";
+import {getLayout} from "../../common/components/Layout/BaseLayout/BaseLayout";
 
 const MyProfile = () => {
   return (

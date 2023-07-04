@@ -40,8 +40,8 @@ export const baseTheme = {
       300: "#F7FBFF",
       500: "#EDF3FA",
       700: "#D5DAE0",
-      900: "#8D9094", 
-      950: "#BDC1C7",     
+      900: "#8D9094",
+      950: "#BDC1C7",
     },
   },
 };

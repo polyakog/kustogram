@@ -20,9 +20,17 @@ import {validateLogin} from "../../utils/validateLogin";
 import styled from 'styled-components';
 import Link from 'next/link';
 import {baseTheme} from '../../styles/styledComponents/theme';
+import {loadState, saveState} from '../../components/localStorage/localStorage';
+import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from '../../components/localStorage/types';
+import {useRouter} from "next/router";
 
 
 const Login = () => {
+  const route = useRouter()
+  const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
+  const profile = false
+
+  console.log('token profile', token, profile)
 
   const {
     passwordType,
@@ -38,74 +46,90 @@ const Login = () => {
     loginOrEmail: ""
   }
 
-  const [loginHandler] = useLoginMutation()
+  const [loginHandler, {data}] = useLoginMutation()
+  if (data) {
+    saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
+  }
 
   const handleSubmit = async (values: FormValueLogin, {resetForm}: ResetForm) => {
+
     const data = {
       loginOrEmail: values.loginOrEmail,
       password: values.password,
     }
     try {
-      await loginHandler(data)
-      resetForm()
-    } catch (error) {
-    }
-  }
+      const res = await loginHandler(data)
+      console.log('LOGIN', res)
+      alert('Шалунишка!!! Авторизуйся!!!! Сделать проверку на вход и переход по профилю ')
 
-  return (
-    <StyledContainerAuth>
-      <WrapperContainerAuth title={"Sing In"}>
-        <AuthIcons/>
-        <Formik
-          initialValues={initialAuthValues}
-          validationSchema={validateLogin}
-          onSubmit={handleSubmit}
-        >
-          {({errors, touched, values, setFieldValue}) => (
-            <StyledAuthForm>
-              <FormikLabel
-                name="loginOrEmail"
-                onChange={(e) => setFieldValue("loginOrEmail", e)}
-                value={values.loginOrEmail}
-                type={"text"}
-                title={"login or Email"}
-                border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
-                errors={errors}
-                touched={touched}
+      //   route.push('/login')
+      // } else {
+      resetForm()
+        !profile ? route.push('/profile/settings')
+          : route.push('/profile')
+      // }
+
+    }
+catch
+  (error)
+  {
+  }
+}
+
+return (
+  <StyledContainerAuth>
+    <WrapperContainerAuth title={"Sing In"}>
+      <AuthIcons/>
+      <Formik
+        initialValues={initialAuthValues}
+        validationSchema={validateLogin}
+        onSubmit={handleSubmit}
+      >
+        {({errors, touched, values, setFieldValue}) => (
+          <StyledAuthForm>
+            <FormikLabel
+              name="loginOrEmail"
+              onChange={(e) => setFieldValue("loginOrEmail", e)}
+              value={values.loginOrEmail}
+              type={"text"}
+              title={"login or Email"}
+              border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
+              errors={errors}
+              touched={touched}
+            />
+            <FormikLabel
+              id="pass"
+              name="password"
+              onChange={(e) => setFieldValue("password", e)}
+              value={values.password}
+              type={passwordType}
+              title={"Password"}
+              border={errors.password?.length && touched.password ? "red" : "white"}
+              errors={errors}
+              touched={touched}
+            >
+              <StyledShowPasswordBtn
+                alt="show password"
+                src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
+                onClick={() => showPassword()}
               />
-              <FormikLabel
-                id="pass"
-                name="password"
-                onChange={(e) => setFieldValue("password", e)}
-                value={values.password}
-                type={passwordType}
-                title={"Password"}
-                border={errors.password?.length && touched.password ? "red" : "white"}
-                errors={errors}
-                touched={touched}
-              >
-                <StyledShowPasswordBtn
-                  alt="show password"
-                  src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
-                  onClick={() => showPassword()}
-                />
-              </FormikLabel>
-              <StyledLinkBlock>
-                <StyledForgotLink href="/recovery">Forgot Password</StyledForgotLink>
-              </StyledLinkBlock>
-              <Button theme={ThemeButton.PRIMARY} type="submit">
-                Sign in
-              </Button>
-            </StyledAuthForm>
-          )}
-        </Formik>
-        <StyledSignInWrapper>
-          <StyledText>Don’t have an account?</StyledText>
-          <StyledSignIn href="/registration">Sign up</StyledSignIn>
-        </StyledSignInWrapper>
-      </WrapperContainerAuth>
-    </StyledContainerAuth>
-  )
+            </FormikLabel>
+            <StyledLinkBlock>
+              <StyledForgotLink href="/recovery">Forgot Password</StyledForgotLink>
+            </StyledLinkBlock>
+            <Button theme={ThemeButton.PRIMARY} type="submit">
+              Sign in
+            </Button>
+          </StyledAuthForm>
+        )}
+      </Formik>
+      <StyledSignInWrapper>
+        <StyledText>Don’t have an account?</StyledText>
+        <StyledSignIn href="/registration">Sign up</StyledSignIn>
+      </StyledSignInWrapper>
+    </WrapperContainerAuth>
+  </StyledContainerAuth>
+)
 }
 
 Login.getLayout = getLayout

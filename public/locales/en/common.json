@@ -1,0 +1,7 @@
+{
+    "n_password_title": "Create New Password",
+    "password_lable": "New password",
+    "password_conf_lable": "Password confirmation",
+    "info": "Your password must be between 6 and 20 characters",
+    "n_password_btn": "Create New Password"
+}

@@ -27,7 +27,10 @@
     "styled-components": "5.3.9",
     "typeface-inter": "^3.18.1",
     "typescript": "5.0.4",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "i18next": "^23.2.5",
+    "next-i18next": "^14.0.0",
+    "react-i18next": "^13.0.1"
   },
   "devDependencies": {
     "@types/nprogress": "0.2.0",

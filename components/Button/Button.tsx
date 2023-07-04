@@ -45,18 +45,12 @@ const StyledButton = styled.button.attrs(props => ({
   type:props.type ? props.type : 'button'})) <ButtonPropsType>
   `
     cursor: pointer;
-    height: 36px;
+    min-height: 36px;
     width: ${props => props.width ? props.width : '330px'};
     padding: 0 20px;
 
     border: none;
     border-radius: 2px;
-
-    font-family: 'Arial Narrow';
-    font-weight: 600;
-    line-height: 24px;
-    font-size: 16px;
-
 
     &.primary {
       background: ${baseTheme.colors.accent[500]};
@@ -141,5 +135,4 @@ const StyledButton = styled.button.attrs(props => ({
 
     @media (max-width: 390px) {
       width: ${props => props.width ? props.width : '80vw'};
-    }
   `

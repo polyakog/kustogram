@@ -5,7 +5,7 @@ import {baseTheme} from "../../styles/styledComponents/theme";
 import {labelType} from "./types";
 
 
-export const FormikLabel = ({title, name, border, id, errors, touched, type, value, onChange,children}: labelType) => {
+export const FormikLabel = ({title, name, border, id, errors, touched, type, value, onChange,children, width, errorShow}: labelType) => {
 
   let errorMessage = '';
 
@@ -14,6 +14,13 @@ export const FormikLabel = ({title, name, border, id, errors, touched, type, val
   if (name === 'password') errors.password && touched.password ? errorMessage = errors.password : ''
   if (name === 'passwordConfirmation') errors.passwordConfirmation && touched.passwordConfirmation ? errorMessage = errors.passwordConfirmation : ''
   if (name === 'loginOrEmail') errors.loginOrEmail && touched.loginOrEmail ? errorMessage = errors.loginOrEmail : ''
+  if (name === 'newPassword') errors.newPassword && touched.newPassword ? errorMessage = errors.newPassword : ''
+  if (name === 'aboutMe') errors.aboutMe && touched.aboutMe ? errorMessage = errors.aboutMe : ''
+  if (name === 'recoveryCode') errors.recoveryCode && touched.recoveryCode ? errorMessage = errors.recoveryCode : ''
+  if (name === 'firstname') errors.firstname && touched.firstname ? errorMessage = errors.firstname : ''
+  if (name === 'lastname') errors.lastname && touched.lastname ? errorMessage = errors.lastname : ''
+  if (name === 'birthday') errors.birthday && touched.birthday ? errorMessage = errors.birthday : ''
+  if (name === 'city') errors.city && touched.city ? errorMessage = errors.city : ''
 
 
   return (
@@ -25,17 +32,23 @@ export const FormikLabel = ({title, name, border, id, errors, touched, type, val
         type={type}
         value={value}
         onChange={(e) => onChange(e)}
+        width={width}
       />
-      <StyledErrorMsg>{errorMessage}</StyledErrorMsg>
+      <StyledErrorMsg errorShow={errorShow}>{errorMessage}</StyledErrorMsg>
       {children}
     </label>
   )
 }
 
-const StyledErrorMsg = styled.div
+type StyledErrorMsgPropsType={
+  errorShow?:boolean
+}
+
+
+const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>
   `
     width: 100%;
-    height: 30px;
+    height: ${props=>props.errorShow?'':'30px'};
 
     display: flex;
     justify-content: flex-start;
@@ -46,7 +59,7 @@ const StyledErrorMsg = styled.div
 
 const StyledTitle = styled(StyledErrorMsg)
   `
-    color: ${baseTheme.colors.light["900"]};
+    color: ${baseTheme.colors.light["950"]};
 
     & span::first-letter {
       text-transform: uppercase;

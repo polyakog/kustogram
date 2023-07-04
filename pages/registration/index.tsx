@@ -11,7 +11,9 @@ import {Button, ThemeButton} from "../../components/Button/Button"
 import {FormikLabel} from "../../components/Formik/FormikLabel"
 import {
   StyledAuthForm,
-  StyledContainerAuth, StyledShowPasswordBtn, StyledSignIn,
+  StyledContainerAuth,
+  StyledShowPasswordBtn,
+  StyledSignIn,
   StyledSignInWrapper,
   StyledText
 } from "../../styles/styledComponents/auth/FormikAuth.styled"
@@ -37,7 +39,6 @@ export default function Registration() {
 
   const [registrationHandler] = useRegistrationMutation()
 
-
   const handleSubmit = async (values: FormValueRegistration, {resetForm}: ResetForm) => {
     const data = {
       email: values.email,
@@ -47,8 +48,8 @@ export default function Registration() {
     try {
       await registrationHandler(data)
       resetForm()
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      console.log(err)
     }
   }
 

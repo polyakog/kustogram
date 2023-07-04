@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import classNames from 'assets/lib/classNames/classNames';
 import {AppLink} from '../AppLink/AppLink';
+import {useLogoutMutation} from '../../store/api/auth/authApi';
 
 interface SidebarLinkProps {
   className?: string
@@ -10,8 +11,14 @@ interface SidebarLinkProps {
 
 export const LogoutLink: FC<SidebarLinkProps> = ({className}) => {
 
+  const [logout] = useLogoutMutation()
+
+  const logoutHandler = () => {
+    logout()
+  }
+
   return (
-    <AppLink href={''}>
+    <AppLink onClick={logoutHandler} href={''}>
       <StyledDiv className={classNames('cls.MainLink', {}, [className])}>
         <Image
           src={'/img/icon/LogOut.svg'}

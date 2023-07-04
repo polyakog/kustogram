@@ -9,6 +9,11 @@ type FormikAllValuesType = {
   loginOrEmail?: string
   newPassword?: string
   recoveryCode?: string
+  firstname?: string
+  lastname?: string
+  birthday?: string
+  city?: string
+  aboutMe?: string
 }
 
 
@@ -23,6 +28,8 @@ export type labelType = {
   touched: FormikTouched<FormikAllValuesType>
   value: string
   onChange: (e: string) => void
+  width?:string
+  errorShow?:boolean
 }
 
 export type FormValueRegistration = {
@@ -35,6 +42,19 @@ export type FormValueLogin = {
   loginOrEmail: string
   password: string
 }
+
+export type FormValueProfile = {
+  username: string
+  firstname: string
+  lastname: string
+  birthday: string
+  city: string
+  aboutMe: string
+}
+
+
+
+
 export type FormValueRecovery = {
   email: string
 }
@@ -58,6 +78,11 @@ export type ResetForm = {
         loginOrEmail: string
         newPassword: string
         recoveryCode: string
+        firstname: string
+        lastname: string
+        birthday: string
+        city: string
+        aboutMe: string
       }>
     >
       | undefined
@@ -72,4 +97,6 @@ export type FiledProps = {
   name?: string
   value:string
   onChange:(value:string)=>void
+  // onChange: ChangeEvent<HTMLTextAreaElement> | ((value: string) => void);
+  width?:string
 }

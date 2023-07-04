@@ -1,34 +1,34 @@
-import { ChangeEventHandler } from "react";
 import styled from "styled-components";
+import { Field } from "formik";
 
 export const Input = ({
-  value,
-  onChange,
+  placeholder,
+  name,
   labelText,
   hintText,
-  type = 'text',
-}: {
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  type = "text",
+}:{
+  placeholder?: string;
+  name: string;
   labelText: string;
   hintText?: string;
-  type?: HTMLInputElement['type']
+  type?: HTMLInputElement["type"];
 }) => {
   return (
     <StyledInputContainer>
       <StyledLabel>
         {labelText}
-        <StyledInput value={value} onChange={onChange} type={type}/>
+        <StyledInput name={name} placeholder={placeholder} type={type} />
       </StyledLabel>
       {hintText && <StyledHint>{hintText} </StyledHint>}
     </StyledInputContainer>
   );
 };
 
-const StyledInput = styled.input`
+const StyledInput = styled(Field)`
   background-color: #171717;
   border: 1px solid #8d9094;
-  color: #8D9094;
+  color: #8d9094;
   padding: 6px 12px;
   border-radius: 2px;
   width: 100%;
@@ -52,5 +52,6 @@ const StyledLabel = styled.label`
 `;
 
 const StyledHint = styled.p`
-margin-top: 7px;
+  margin-top: 7px;
 `;
+

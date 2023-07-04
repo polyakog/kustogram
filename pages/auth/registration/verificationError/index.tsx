@@ -1,7 +1,6 @@
 import React from "react"
 import { getLayout } from "../../../../common/components/Layout/BaseLayout/BaseLayout"
 import { Button, ThemeButton } from "../../../../common/components/Button/Button"
-import {StyledContainerAuth} from "../../../../styles/styledComponents/auth/Auth.styled";
 import {
   StyledTextWrapper,
   StyledCenteredText
@@ -11,13 +10,14 @@ import VectorImage from "../../../../common/components/VectorImage"
 import styled from "styled-components"
 import { useRouter } from 'next/router';
 import overtime from "../../../../public/icons/web-app-ui-time-management-rafiki.svg";
+import { StyledContainerAuth } from "styles/styledComponents/auth/Auth.styled"
 
 
 const Verification = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    console.log('Resend verificationError link')
+    router.push('/auth/registration');
   };
 
   return (

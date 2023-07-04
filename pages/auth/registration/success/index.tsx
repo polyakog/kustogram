@@ -17,7 +17,7 @@ const SuccessRegistration = () => {
   const router = useRouter();
 
   const handleClick = () => {
-    router.push('/login');
+    router.push('/auth/login');
   };
 
   return (
@@ -29,7 +29,7 @@ const SuccessRegistration = () => {
         </StyledSignInWrapper>
         <StyledContainerButton>
           <Button theme={ThemeButton.PRIMARY} width="182px" onClick={handleClick} type="button">
-            Sign in
+          Sing In
           </Button>
         </StyledContainerButton>
 

@@ -36,5 +36,11 @@ const StyledSelectLanguage = styled.select
     background: ${baseTheme.colors.dark[700]};
     outline: none;
 
-    color: white;
+    color: ${baseTheme.colors.light[100]};
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    font-family: Inter;
   `

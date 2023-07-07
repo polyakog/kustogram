@@ -6,6 +6,7 @@ import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
 import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {Path} from "../common/enums/path";
+import kusto from "../public/img/kusto.png"
 
 
 export async function getStaticProps(context: GetStaticPropsContext) {
@@ -21,8 +22,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 const Home: NextPageWithLayout = () => (
   <>
     <Image
-      src="/kusto.png"
-      alt="Next.js Logo"
+      src={kusto}
+      alt="Logo"
       width={180}
       height={180}
       priority

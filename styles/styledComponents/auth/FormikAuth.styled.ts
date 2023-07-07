@@ -35,7 +35,7 @@ export const StyledAuthForm = styled(Form)<AuthFormPropsType>
       flex-direction: column;
       flex-shrink: 0;
 
-      font-family: Arial;
+      font-family: Inter;
       font-size: 16px;
 
       @media (max-width: 390px) {
@@ -77,7 +77,7 @@ export const StyledText = styled.p
     text-align: center;
     color: ${baseTheme.colors.light[100]};
     line-height: 24px;
-    font-family: Arial;
+    font-family: Inter;
     font-size: 16px;
 
   `
@@ -87,7 +87,7 @@ export const StyledSignIn = styled(Link)
     text-decoration: none;
     color: ${baseTheme.colors.accent[500]};
     font-weight: 600;
-    font-family: Arial;
+    font-family: Inter;
     font-size: 16px;
     margin:10px;
   `

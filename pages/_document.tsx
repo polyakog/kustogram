@@ -5,7 +5,7 @@ import Document, {
   Main,
   NextScript,
 } from "next/document";
-import {ServerStyleSheet} from "styled-components";
+import { ServerStyleSheet } from "styled-components";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
@@ -35,14 +35,23 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          {
+          {/* {
             // @ts-ignore
             this.props.styleTags
-          }
+          } */}
+
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Russo+One&display=optional"
+            rel="stylesheet"
+          />
         </Head>
         <body>
-        <Main/>
-        <NextScript/>
+          <Main />
+          <NextScript />
         </body>
       </Html>
     );

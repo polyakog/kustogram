@@ -42,7 +42,7 @@ export const StaledTitle = styled.h1
     margin: 0;
 
     font-size: 20px;
-    font-family: Arial;
+    font-family: Inter;
     font-weight: 700;
     line-height: 36px;
     
@@ -59,7 +59,7 @@ export const StyledForgotLink = styled(Link)
     color: ${baseTheme.colors.light[900]};
     font-weight: 400;
     font-size: 14px;
-    font-family: Arial;
+    font-family: Inter;
     line-height: 24px;
   `
 export const StyledLinkBlock = styled.div

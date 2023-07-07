@@ -15,6 +15,7 @@ export const FormikLabel = ({title, name, border, id, errors, touched, type, val
   if (name === 'passwordConfirmation') errors.passwordConfirmation && touched.passwordConfirmation ? errorMessage = errors.passwordConfirmation : ''
   if (name === 'loginOrEmail') errors.loginOrEmail && touched.loginOrEmail ? errorMessage = errors.loginOrEmail : ''
   if (name === 'newPassword') errors.newPassword && touched.newPassword ? errorMessage = errors.newPassword : ''
+  if (name === 'newPassword') errors.newPassword && touched.newPassword ? errorMessage = errors.newPassword : ''
   if (name === 'aboutMe') errors.aboutMe && touched.aboutMe ? errorMessage = errors.aboutMe : ''
   if (name === 'recoveryCode') errors.recoveryCode && touched.recoveryCode ? errorMessage = errors.recoveryCode : ''
   if (name === 'firstname') errors.firstname && touched.firstname ? errorMessage = errors.firstname : ''

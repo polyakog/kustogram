@@ -1,4 +1,7 @@
 import {FormAuthPropsType} from "../../../features/auth/types";
+import styled from "styled-components";
+import Link from "next/link";
+import {baseTheme} from "../theme";
 
 export const StyledContainerAuth = styled.div
   `
@@ -50,11 +53,6 @@ export const StaledTitle = styled.h1
 
 
 //Login
-import styled from "styled-components";
-import Link from "next/link";
-import {baseTheme} from "../theme";
-import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
-import SuccessRegistration from "../../../pages/auth/registration/success";
 
 export const StyledForgotLink = styled(Link)
   `
@@ -78,4 +76,13 @@ export const StyledContainerButton = styled.div
 export const StyledImage = styled.div
   `
   margin-top: 72px;
+  `
+// VerificationError
+export const StyledContainerButtonVer = styled.div
+  `
+  margin-top: 10px;   
+  `
+export const StyledImageVer = styled.div
+  `
+  margin-top: 25px; 
   `

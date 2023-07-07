@@ -73,6 +73,8 @@ export const StyledSignInWrapper = styled.div
 
 export const StyledText = styled.p
   `
+    width: 300px;
+    text-align: center;
     color: ${baseTheme.colors.light[100]};
     line-height: 24px;
     font-family: Arial;

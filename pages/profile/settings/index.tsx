@@ -9,16 +9,21 @@ import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
 import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
 import {validateProfile} from "../../../common/utils/validateProfile";
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+import {useRouter} from "next/router";
 
 
 const ProfileSettings = () => {
 
   // const serverAvatar:string = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4kkpSJ586hYNP7WOnZ9eQ3_KrPh2GLMBOg&usqp=CAU'
-  const serverAvatar:string = ''
+  const serverAvatar: string = ''
   const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
 
+  const router = useRouter()
+  const {login} = router.query
+
+
   const initialAuthValues = {
-    username: "",
+    username: login as string,
     firstname: "",
     lastname: "",
     birthday: "",
@@ -165,8 +170,8 @@ const StyledContent = styled.div
 
     display: flex;
     gap: 36px;
-  
-    @media(max-width:790px ){
+
+    @media (max-width: 790px ) {
       flex-direction: column;
       align-items: center;
     }
@@ -186,10 +191,10 @@ const StyledNavigation = styled.header
     background: ${baseTheme.colors.dark[700]};
     border-bottom: 2px solid ${baseTheme.colors.dark[100]};
     color: ${baseTheme.colors.dark[100]};
-    @media(max-width:790px ){
-      width:100%;      
+    @media (max-width: 790px ) {
+      width: 100%;
     }
-    
+
   `
 const StyledAvatarBlock = styled.div
   `
@@ -210,24 +215,24 @@ const StyledAvatarBlock = styled.div
       width: 13.5vw;
       height: 13.5vw;
       border-radius: 50%;
-      
-    //& Image {
-    //  width: 13.5vw;
-    //  height: 13.5vw;
-    //  border-radius: 50%;
 
-      @media(max-width:790px ){
+      //& Image {
+      //  width: 13.5vw;
+      //  height: 13.5vw;
+      //  border-radius: 50%;
+
+      @media (max-width: 790px ) {
         width: 40vw;
         height: 40vw;
       }
     }
 
-    @media(max-width:790px ){
+    @media (max-width: 790px ) {
       width: 60%;
     }
   `
 
 const StyledProfileForm = styled(StyledAuthForm)
-`
-align-items: flex-end;
-`
+  `
+    align-items: flex-end;
+  `

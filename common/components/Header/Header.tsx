@@ -2,7 +2,7 @@ import { baseTheme } from "../../../styles/styledComponents/theme";
 import { SelectLanguage } from "./SelectedLanguage/SelectLanguage";
 import styled from "styled-components";
 import Image from "next/image";
-import bell from '../../../public/icons/initialBell.svg'
+import bell from '../../../public/img/icons/initialBell.svg'
 import { StyledSignIn } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import { useRouter } from "next/router";
 

@@ -1,11 +1,15 @@
 import {baseTheme} from "../../../../styles/styledComponents/theme";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import {useTranslation} from 'next-i18next'
 
 // Компонента выбора языка (русский и английский)
 export const SelectLanguage = () => {
   const router = useRouter()
   const { pathname, asPath, query } = router
+
+  const {i18n} = useTranslation()
+  
 
   // Обработчик селектора языка, который перенаправляет на тот же url, 
   // с теми же query параметрами, но со сменой языка
@@ -15,9 +19,9 @@ export const SelectLanguage = () => {
   }
 
   return (
-    <StyledSelectLanguage onChange={handleLangChange}>
-      <option value="ru">&#127479;&#127482; Русский</option>
+    <StyledSelectLanguage value={i18n.language == "ru" ? "ru" : "en"} onChange={handleLangChange}>
       <option value="en">&#127468;&#127463; English</option>
+      <option value="ru">&#127479;&#127482; Русский</option>
     </StyledSelectLanguage>
   );
 };

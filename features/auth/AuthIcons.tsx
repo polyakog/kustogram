@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from "next/image";
-import google from "../../public/icons/google-svgrepo-com.svg";
-import github from "../../public/icons/github-svgrepo-com.svg";
+import google from "../../public/img/icons/google-svgrepo-com.svg";
+import github from "../../public/img/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
 
 const AuthIcons = () => {

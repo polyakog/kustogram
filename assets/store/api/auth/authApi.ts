@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {loadState} from '../../../../common/components/localStorage/localStorage';
 import {
+  CheckLinkType,
   LoginResponseType,
   LoginType,
   NewPasswordResType,
   NewPasswordType,
-  ProfileType, RegistrationResType,
+  ProfileType,
   RegistrationType,
   SendLinkType
 } from "./types";
@@ -35,7 +36,7 @@ export const authApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    registration: builder.mutation<RegistrationResType, RegistrationType>({
+    registration: builder.mutation<any, RegistrationType>({
       query: (body) => ({
         url: "auth/registration",
         method: "POST",
@@ -65,6 +66,25 @@ export const authApi = createApi({
         };
       },
     }),
+    checkLinkHandler: builder.query<any, CheckLinkType>({
+      query: (code) => {
+        return {
+          method: "GET",
+          url: `/auth/email-confirmation/${code}`,
+        };
+      },
+    }),
+    refreshLink: builder.mutation<any, any>({
+      query: (body) => {
+        return {
+          method: "POST",
+          url: `/auth/refresh-link`,
+          body
+        };
+      },
+    }),
+
+
     //заглушка!!!!!!!
       setProfile: builder.mutation<undefined, ProfileType>({
         query: (body) => ({
@@ -90,4 +110,6 @@ export const {
   useNewPasswordMutation,
   useLogoutMutation,
   useSetProfileMutation,
+  useLazyCheckLinkHandlerQuery,
+  useRefreshLinkMutation
 } = authApi

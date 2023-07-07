@@ -1,7 +1,51 @@
 {
     "n_password_title": "Create New Password",
-    "password_lable": "New password",
-    "password_conf_lable": "Password confirmation",
+    "n_password_label": "New password",
+    "password_conf_label": "Password confirmation",
     "info": "Your password must be between 6 and 20 characters",
-    "n_password_btn": "Create New Password"
+    "n_password_btn": "Create New Password",
+
+    "rec_password_title": "Forgot Password",
+    "enter_email_text": "Enter your email address and we will send you further instructions",
+    "send_link_btn": "Send Link",
+    "back_singIn_btn": "Back to Sign In",
+    "not_robot": "I am not a robot",
+    "link_sent_text": "The link has been sent by email. If you do not receive an email send link again",
+    "send_again_btn": "Send Link Again",
+    "email_modal_title": "Email sent",
+    "email_modal_text": "We have sent a link to confirm your email to",
+
+    "sign_up": "Sign Up",
+    "username": "Username",
+    "password": "Password",
+    "have_account": "Do you have an account?",
+    "sign_in": "Sign In",
+    "user_err": "User with this username is already registered",
+    "email_err": "User with this email is already registered",
+
+    "congrat": "Congratulations!",
+    "email_confirm": "Your email has been confirmed",
+    
+    "link_exp_title": "Email verification link expired",
+    "link_exp_text": "Looks like the verification link has expired. Not to worry, we can send the link again",
+    "resend_btn": "Resend verification link",
+    "link_exp_title_recov": "Email verification link invalid",
+    "resend_btn_recov": "Resend link",
+
+
+
+    "log_in_err": "The password or email you entered is incorrect. Please try again",
+
+    "signIn_title": "Sign In",
+    "signUp_link": "Sign Up",
+    "email_label": "Email",
+    "password_label": "Password",
+    "forgotPassword_link": "Forgot Password",
+    "notAccount_title": "Don’t have an account?",
+    "error_login": "Password or email - incorrect. Try again"
 }
+
+
+
+
+

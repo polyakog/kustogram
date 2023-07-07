@@ -17,6 +17,8 @@ export type NewPasswordType = {
   newPassword: string
   recoveryCode: string | string[] | undefined
 }
+export type CheckLinkType =  string | string[] | undefined
+
 
 export type NewPasswordResType = {
   status: number

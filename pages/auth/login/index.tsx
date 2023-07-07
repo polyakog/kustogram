@@ -1,9 +1,7 @@
 import React from 'react';
 import {Formik} from "formik";
-
-import showPasswordBtn from "../../../public/icons/eye-outline.svg";
-import hidePasswordBtn from "../../../public/icons/eye-off-outline.svg";
-
+import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
+import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
 import {useRouter} from "next/router";
 import {useLoginMutation} from "../../../assets/store/api/auth/authApi";
 import {saveState} from "../../../common/components/localStorage/localStorage";
@@ -17,19 +15,36 @@ import {
 import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth";
 import {
   StyledAuthForm,
-  StyledShowPasswordBtn, StyledSignIn,
-  StyledSignInWrapper, StyledText
+  StyledShowPasswordBtn,
+  StyledSignIn,
+  StyledSignInWrapper,
+  StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import AuthIcons from "../../../features/auth/AuthIcons";
 import {useShowPassword} from "../../../common/hooks/useShowPassword";
-import {validateLogin} from "../../../common/utils/validateLogin";
+import {validateLoginEn, validateLoginRu} from "../../../common/utils/validateLogin";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button, ThemeButton} from "../../../common/components/Button/Button";
+import {Button} from "../../../common/components/Button/Button";
 import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout";
+import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
+import {GetStaticPropsContext} from "next"
+import config from '../../../next-i18next.config.js'
+import {useTranslation} from 'next-i18next'
+import {ThemeButton} from "../../../common/enums/themeButton";
+import {Path} from "../../../common/enums/path";
 
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const {locale} = context as any
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"], config)),
+    }
+  }
+}
 
 const Login = () => {
-
+  const {t, i18n} = useTranslation()
   const route = useRouter()
   const {
     passwordType,
@@ -46,13 +61,12 @@ const Login = () => {
 
   if (data) {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
-    data.profile ? route.push('/profile'):route.push('/profile/settings')
+    data.profile ? route.push(Path.PROFILE) : route.push(`${Path.PROFILE_SETTINGS}?login=LOGIN`)
   }
-
 
   const handleSubmit = async (
     values: FormValueLogin,
-    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
+    {resetForm, setFieldError}: ResetForm & SetFieldErrorType
   ) => {
     const data = {
       loginOrEmail: values.loginOrEmail,
@@ -65,21 +79,21 @@ const Login = () => {
         .catch(() =>
           setFieldError(
             "password",
-            "Password or email - incorrect. Try again"
+            t("log_in_err")
           )
         )
     } catch (error) {
-      console.log(error)
+      console.log('LoginError:', error)
     }
   }
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerAuth title={"Sing In"}>
+      <WrapperContainerAuth title={t("signIn_title")}>
         <AuthIcons/>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={validateLogin}
+          validationSchema={i18n.language == 'en' ? validateLoginEn : validateLoginRu}
           onSubmit={handleSubmit}
         >
           {({errors, touched, values, setFieldValue}) => (
@@ -89,7 +103,7 @@ const Login = () => {
                 onChange={(e) => setFieldValue("loginOrEmail", e)}
                 value={values.loginOrEmail}
                 type={"text"}
-                title={"login or Email"}
+                title={t("email_label")}
                 border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -100,7 +114,7 @@ const Login = () => {
                 onChange={(e) => setFieldValue("password", e)}
                 value={values.password}
                 type={passwordType}
-                title={"Password"}
+                title={t("password_label")}
                 border={errors.password?.length && touched.password ? "red" : "white"}
                 errors={errors}
                 touched={touched}
@@ -112,17 +126,17 @@ const Login = () => {
                 />
               </FormikLabel>
               <StyledLinkBlock>
-                <StyledForgotLink href="/recovery">Forgot Password</StyledForgotLink>
+                <StyledForgotLink href="/auth/recovery">{t("forgotPassword_link")}</StyledForgotLink>
               </StyledLinkBlock>
               <Button theme={ThemeButton.PRIMARY} type="submit">
-                Sign in
+                {t("signIn_title")}
               </Button>
             </StyledAuthForm>
           )}
         </Formik>
         <StyledSignInWrapper>
-          <StyledText>Don’t have an account?</StyledText>
-          <StyledSignIn href="/registration">Sign up</StyledSignIn>
+          <StyledText>{t("notAccount_title")}</StyledText>
+          <StyledSignIn href={Path.REGISTRATION}>{t("signUp_link")}</StyledSignIn>
         </StyledSignInWrapper>
       </WrapperContainerAuth>
     </StyledContainerAuth>

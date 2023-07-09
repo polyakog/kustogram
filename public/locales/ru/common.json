@@ -39,5 +39,7 @@
     "email_label": "Email",
     "password_label": "Пароль",
     "forgotPassword_link": "Забыли пароль?",
-    "notAccount_title": "У вас нет аккаунта?"
+    "notAccount_title": "У вас нет аккаунта?",
+
+    "error_404": "Ошибка 404: страница не найдена"
 }

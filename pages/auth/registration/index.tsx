@@ -28,6 +28,7 @@ import {Modal} from "common/components/Modal"
 import {useRouter} from "next/router"
 import {Path} from "../../../common/enums/path";
 import {ThemeButton} from "../../../common/enums/themeButton";
+import { useLocalStorage } from "../../../common/hooks/useLocalStorage"
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const {locale} = context as any
@@ -56,11 +57,11 @@ export default function Registration() {
   }
 
   const [registrationHandler] = useRegistrationMutation()
-  const [email, setEmail] = useState("")
   const [isModalActive, setIsModalActive] = useState(false)
   const router = useRouter()
   const {t, i18n} = useTranslation()
-
+  const {setItem,getItem}=useLocalStorage()
+ 
   const handleModalClose = () => {
     setIsModalActive(false)
     router.push(Path.LOGIN)
@@ -79,8 +80,7 @@ export default function Registration() {
       await registrationHandler(data)
         .unwrap()
         .then(() => {
-          setEmail(data.email)
-          localStorage.setItem('email', data.email)
+          setItem('email',data.email)
           resetForm()
           setIsModalActive(true)
         })
@@ -109,11 +109,11 @@ export default function Registration() {
       {isModalActive && (
         <Modal
           title="Email sent"
-          bodyText={`We have sent a link to confirm your email to ${email}`}
+          bodyText={`We have sent a link to confirm your email to ${getItem('email')}`}
           handleModalClose={handleModalClose}
         />
       )}
-      <StyledContainerAuth style={{filter: isModalActive ? "blur(4px)" : ""}}>
+      <StyledContainerAuth style={{filter: isModalActive? "blur(4px)":"blur(0px)"}} >
         <WrapperContainerAuth title={t("sign_up")}>
           <AuthIcons/>
           <Formik

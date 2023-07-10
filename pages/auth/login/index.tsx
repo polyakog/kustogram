@@ -32,6 +32,7 @@ import config from '../../../next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
 import {ThemeButton} from "../../../common/enums/themeButton";
 import {Path} from "../../../common/enums/path";
+import { useLocalStorage } from 'common/hooks/useLocalStorage';
 
 
 export async function getStaticProps(context: GetStaticPropsContext) {
@@ -51,6 +52,8 @@ const Login = () => {
     showPassword,
   } =
     useShowPassword()
+
+  const {removeItem}=useLocalStorage()
 
   const initialAuthValues = {
     password: "",
@@ -75,7 +78,10 @@ const Login = () => {
     try {
       await loginHandler(data)
         .unwrap()
-        .then(() => resetForm())
+        .then(() => {
+          removeItem('email')
+          resetForm();
+        })
         .catch(() =>
           setFieldError(
             "password",

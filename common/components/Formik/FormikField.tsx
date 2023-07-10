@@ -6,7 +6,6 @@ import {FiledProps} from "./types";
 
 
 export const FormikField = (props: FiledProps) => {
-  console.log(props.type)
   return (
     (props.type !== 'textarea')
       ? <StyledField {...props} onChange={(e: ChangeEvent<HTMLInputElement>) => props.onChange(e.target.value)}

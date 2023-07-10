@@ -3,20 +3,21 @@ import {StyledAuthForm} from "../../../styles/styledComponents/auth/FormikAuth.s
 import styled from "styled-components";
 import {baseTheme} from "../../../styles/styledComponents/theme";
 import {FormikLabel} from "../../../common/components/Formik/FormikLabel";
-import {Button, ThemeButton} from "../../../common/components/Button/Button";
+import {Button} from "../../../common/components/Button/Button";
 import {Formik} from "formik";
 import {useSetProfileMutation} from "../../../assets/store/api/auth/authApi";
 import {FormValueProfile, ResetForm} from "../../../common/components/Formik/types";
 import {validateProfile} from "../../../common/utils/validateProfile";
 import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
 import {useRouter} from "next/router";
+import {ThemeButton} from "../../../common/enums/themeButton";
 
 
 const ProfileSettings = () => {
 
   // const serverAvatar:string = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4kkpSJ586hYNP7WOnZ9eQ3_KrPh2GLMBOg&usqp=CAU'
   const serverAvatar: string = ''
-  const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
+  const avatar = serverAvatar !== '' ? serverAvatar : '/img/icons/avatar.svg'
 
   const router = useRouter()
   const {login} = router.query

@@ -70,10 +70,10 @@ const StyledButton = styled.button.attrs(props => ({
     &.secondary:hover {
       background: ${baseTheme.colors.dark[100]};
     }
-    &.secondary:focus {
-      background: ${baseTheme.colors.dark[300]};
-      border: 1px solid ${baseTheme.colors.accent[300]};
-    }
+    // &.secondary:focus {
+    //   background: ${baseTheme.colors.dark[300]};
+    //   border: 1px solid ${baseTheme.colors.accent[300]};
+    // }
     &.secondary:active {
       background: #212121;
     }
@@ -91,10 +91,10 @@ const StyledButton = styled.button.attrs(props => ({
       color: ${baseTheme.colors.accent[100]};
       border: 1px solid ${baseTheme.colors.accent[100]};
     }
-    &.outlined:focus {
-      color: ${baseTheme.colors.accent[700]};
-      border: 1px solid ${baseTheme.colors.accent[700]};
-    }
+    // &.outlined:focus {
+    //   color: ${baseTheme.colors.accent[700]};
+    //   border: 1px solid ${baseTheme.colors.accent[700]};
+    // }
     &.outlined:active {
       color: ${baseTheme.colors.accent[700]};
       border: 1px solid ${baseTheme.colors.accent[700]};
@@ -117,10 +117,10 @@ const StyledButton = styled.button.attrs(props => ({
     &.clear:hover {
       color: ${baseTheme.colors.accent[100]};
     }
-    &.clear:focus {
-      color: ${baseTheme.colors.accent};
-      border: 1px solid ${baseTheme.colors.accent[500]};
-    }
+    // &.clear:focus {
+    //   color: ${baseTheme.colors.accent};
+    //   border: 1px solid ${baseTheme.colors.accent[500]};
+    // }
     &.clear:active {
       color: ${baseTheme.colors.accent[700]};
     }

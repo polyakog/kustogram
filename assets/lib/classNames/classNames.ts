@@ -1,4 +1,6 @@
-type Mods = Record<string, string | boolean | undefined>
+import {ReactNode} from 'react';
+
+type Mods = Record<string, string | boolean | undefined | ReactNode>
 
 export default function classNames(cls: string, mods: Mods = {}, additional: Array<string | undefined> = []): string {
   return [

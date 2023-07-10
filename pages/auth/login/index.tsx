@@ -64,7 +64,7 @@ const Login = () => {
 
   if (data) {
     saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
-    data.profile ? route.push(Path.PROFILE) : route.push(`${Path.PROFILE_SETTINGS}?login=LOGIN`)
+    data.profile ? route.push(Path.PROFILE) : route.push(`${Path.PROFILE_SETTINGS}?profile=${data.profile}`)
   }
 
   const handleSubmit = async (

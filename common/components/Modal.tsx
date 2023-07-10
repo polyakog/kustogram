@@ -3,33 +3,48 @@ import styled from "styled-components";
 
 export const Modal = ({
   handleModalClose,
+  handleCrossClick,
+  handleConfirmClick,
   title,
   bodyText,
+  buttonText = "OK",
+  width,
+  height
 }: {
   handleModalClose: () => void;
+  handleCrossClick?: () => void;
+  handleConfirmClick?: () => void;
   title: string;
   bodyText: string;
+  buttonText?: string;
+  width?: string;
+  height?: string;
 }) => {
+  const onCloseButtonClick = () => {
+    handleModalClose();
+    if (handleCrossClick) {
+      handleCrossClick();
+    }
+  };
+  const onConfirmButtonClick = () => {
+    handleModalClose();
+    if (handleConfirmClick) {
+      handleConfirmClick();
+    }
+  };
+
   return (
     <StyledModalOverlay>
-      <StyledModalContainer>
+      <StyledModalContainer width={width} height={height}>
         <StyledModalHeader>
           <StyledModalTitle>{title}</StyledModalTitle>
-          <StyledCloseButton onClick={handleModalClose}>
-            <Image
-              priority
-              src="img/icons/close_white.svg"
-              height={24}
-              width={24}
-              alt="close"
-            />
+          <StyledCloseButton onClick={onCloseButtonClick}>
+            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
           <p>{bodyText}</p>
-          <StyledConfirmButton onClick={handleModalClose}>
-            OK
-          </StyledConfirmButton>
+          <StyledConfirmButton onClick={onConfirmButtonClick}>{buttonText}</StyledConfirmButton>
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>
@@ -46,8 +61,10 @@ const StyledModalOverlay = styled.div`
   height: 100%;
 `;
 
-const StyledModalContainer = styled.div`
+const StyledModalContainer = styled.div<{ width?: string; height?: string }>`
   position: fixed;
+  width: ${(props) => (props.width ? props.width : "380px")};
+  height: ${(props) => (props.height ? props.height : "230px")};
 
   border-radius: 2px;
   border: 1px solid #4c4c4c;

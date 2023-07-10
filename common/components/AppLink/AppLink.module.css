@@ -3,17 +3,7 @@
     font-weight: 500;
     line-height: 24px;
     text-decoration: none;
-    /*color: #FFFFFF;*/
-    color: red;
-}
-
-.AppLink:active {
-    font-weight: 700;
-    color: #397DF6;
-}
-
-.AppLink:hover {
-    color: #73A5FF;
+    color: #FFFFFF;
 }
 
 .AppLink:disabled {

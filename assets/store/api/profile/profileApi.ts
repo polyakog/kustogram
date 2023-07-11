@@ -1,18 +1,18 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import {loadState} from '../../../../common/components/localStorage/localStorage';
-import {UserType} from './types';
-import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../../../common/components/localStorage/types";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { loadState } from "../../../../common/components/localStorage/localStorage";
+import { UserType } from "./types";
+import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
     prepareHeaders: (headers) => {
-      const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
-      headers.set('Authorization', `Bearer ${token}`)
-      headers.set('Content-Type', `application/json`)
-      return headers
-    },
+      const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
+      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("Content-Type", `application/json`);
+      return headers;
+    }
     // fetchFn: async (url) => {
     //
     //   const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
@@ -39,7 +39,16 @@ export const profileApi = createApi({
         method: "GET"
       })
     }),
+    saveProfileInfo: builder.mutation<any, any>({
+      query: (body: UserType) => {
+        return {
+          method: "POST",
+          url: `users/profiles/save-profileInfo`,
+          body
+        };
+      }
+    })
   })
-})
+});
 
-export const { useProfileQuery } = profileApi
+export const { useProfileQuery, useSaveProfileInfoMutation } = profileApi;

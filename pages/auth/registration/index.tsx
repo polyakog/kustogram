@@ -92,11 +92,17 @@ export default function Registration() {
         const messages = err.data;
         if (messages.errorsMessages.length > 1) {
           setFieldError("username", t("user_err"));
-          setFieldError("email", t("email_err"));
+          messages.errorsMessages[1].message === "Invalid email"
+            ? setFieldError("email", t("invalid_email"))
+            : setFieldError("email", t("email_err"));
         } else {
           if (messages.errorsMessages[0].field === "email") {
+            if (messages.errorsMessages[0].message === "Invalid email") {
+              setFieldError("email", t("invalid_email"));
+            } else {
+              setFieldError("email", t("email_err"));
+            }
             setFieldError("username", "");
-            setFieldError("email", t("email_err"));
           } else {
             setFieldError("username", t("user_err"));
             setFieldError("email", "");
@@ -113,7 +119,6 @@ export default function Registration() {
           title="Email sent"
           bodyText={`We have sent a link to confirm your email to ${getItem("email")}`}
           handleModalClose={handleModalClose}
-          height="auto"
         />
       )}
       <StyledContainerAuth style={{ filter: isModalActive ? "blur(4px)" : "blur(0px)" }}>

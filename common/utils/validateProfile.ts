@@ -6,5 +6,5 @@ export const validateProfile = Yup.object().shape({
   lastname: Yup.string().min(6, "Too Short!").max(20, "Too Long!").required("Required lastname"),
   birthday: Yup.string().required("Required birthday"),
   city: Yup.string().min(6, "Too Short!").max(20, "Too Long!").required("Required city"),
-  aboutMe: Yup.string().min(10, "to short").max(200, "to long")
+  aboutMe: Yup.string().min(10, "Too Short!").max(200, "Too Long!")
 });

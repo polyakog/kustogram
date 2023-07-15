@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
 import Image from "next/image";
-import { useProfileQuery } from "assets/store/api/profile/profileApi";
+import { useAuthMeQuery, useProfileQuery } from "assets/store/api/profile/profileApi";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import { Button } from "common/components/Button/Button";
@@ -10,11 +10,18 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { Path } from "common/enums/path";
 import { useWindowSize } from "common/hooks/useWindowSize";
+import { UserType } from "assets/store/api/profile/types";
+import Paid from "../../public/img/icons/paid.svg"
 
 const MyProfile = () => {
   const serverAvatar: string = "";
   const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
-  const { data } = useProfileQuery();
+
+  const { data, isLoading } = useProfileQuery();
+  let user = data;
+  // if (data) {user===data}
+
+  const { currentData, isSuccess } = useAuthMeQuery();
 
   const { width, height } = useWindowSize();
   const [isVisible, setIsVisible] = useState(true);
@@ -36,67 +43,83 @@ const MyProfile = () => {
   }, [width]);
 
   return (
-    <ProfileWrapper>
-      <HeaderStyle>
-        {isVisible && (
-          <BlockButton>
-            <Button
-              theme={ThemeButton.SECONDARY}
-              type="button"
-              width={"auto"}
-              style={{ padding: "6px 24px", gap: "10px" }}
-              onClick={handleClick}
-            >
-              Profile Settings
-            </Button>
-          </BlockButton>
-        )}
+    <>
+      {isSuccess && isLoading ? (
+        <div>Loading ...</div>
+      ) : (
+        <ProfileWrapper>
+          <HeaderStyle>
+            {isVisible && (
+              <BlockButton>
+                <Button
+                  theme={ThemeButton.SECONDARY}
+                  type="button"
+                  width={"auto"}
+                  style={{ padding: "6px 24px", gap: "10px" }}
+                  onClick={handleClick}
+                >
+                  Profile Settings
+                </Button>
+              </BlockButton>
+            )}
 
-        <IconBlock>
-          <Image
-            src={avatar}
-            width={width ? (width < 790 ? 72 : 204) : 204}
-            height={width ? (width < 790 ? 72 : 204) : 204}
-            alt={"avatar"}
-            style={{ maxWidth: "204px", maxHeight: "204px" }}
-          />
-        </IconBlock>
-        <UserNameStyle> URLProfile</UserNameStyle>
+            <IconBlock>
+              <Image
+                src={user?.photo || avatar}
+                width={width ? (width < 790 ? 72 : 204) : 204}
+                height={width ? (width < 790 ? 72 : 204) : 204}
+                alt={"avatar"}
+                style={{ maxWidth: "204px", maxHeight: "204px" }}
+              />
+            </IconBlock>
+            <UserNameStyle>
+              {user?.firstName || "FirstName"} {user?.lastName || "LastName"}
+            <Image
+                src={Paid}
+                width={width ? (width < 790 ? 16 : 24) : 24}
+                height={width ? (width < 790 ? 16 : 24) : 24}
+                alt={"paid"}
+                // style={{ }}
+              />
+            </UserNameStyle>
+          
+            <InfoBlock>
+              <FolowBlock>
+                <div>
+                  <div>2 218</div>
+                  <div>Following</div>
+                </div>
+                <div>
+                  <div>2 358</div>
+                  <div>Followers</div>
+                </div>
+                <div>
+                  <div>2 358</div>
+                  <div>Publications</div>
+                </div>
+              </FolowBlock>
 
-        <InfoBlock>
-          <FolowBlock>
-            <div>
-              <div>2 218</div>
-              <div>Following</div>
-            </div>
-            <div>
-              <div>2 358</div>
-              <div>Followers</div>
-            </div>
-            <div>
-              <div>2 358</div>
-              <div>Publications</div>
-            </div>
-          </FolowBlock>
-
-          <AboutMeBlock>
-            <AboutMeText>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt. laboris nisi ut aliquip ex ea commodo consequat.
-            </AboutMeText>
-          </AboutMeBlock>
-        </InfoBlock>
-      </HeaderStyle>
-      <PhotosBlock>
-        <PhotoStyle>Photo</PhotoStyle>
-        <PhotoStyle>Photo</PhotoStyle>
-        <PhotoStyle>Photo</PhotoStyle>
-        <PhotoStyle>Photo</PhotoStyle>
-        <PhotoStyle>Photo</PhotoStyle>
-        <PhotoStyle>Photo</PhotoStyle>
-        <PhotoStyle>Photo</PhotoStyle>
-      </PhotosBlock>
-    </ProfileWrapper>
+              <AboutMeBlock>
+                <AboutMeText>
+                  {user?.userInfo}
+                  {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                  incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
+                </AboutMeText>
+              </AboutMeBlock>
+            </InfoBlock>
+          </HeaderStyle>
+          <PhotosBlock>
+            <PhotoStyle>Photo</PhotoStyle>
+            <PhotoStyle>Photo</PhotoStyle>
+            <PhotoStyle>Photo</PhotoStyle>
+            <PhotoStyle>Photo</PhotoStyle>
+            <PhotoStyle>Photo</PhotoStyle>
+            <PhotoStyle>Photo</PhotoStyle>
+            <PhotoStyle>Photo</PhotoStyle>
+          </PhotosBlock>
+        </ProfileWrapper>
+      )}
+    </>
   );
 };
 MyProfile.getLayout = getLayout;
@@ -143,6 +166,11 @@ const UserNameStyle = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: 36px;
+
+  display: inline-flex;
+align-items: center;
+gap: 12px;
+
 
   @media (max-width: 790px) {
     position: absolute;
@@ -191,9 +219,9 @@ const AboutMeBlock = styled.div`
   @media (max-width: 790px) {
     margin-top: 80px;
     margin-left: -110px;
-    width: auto;
+    min-width: 300px;
     display: flex;
-    max-width: 330px;
+    /* max-width: 330px; */
     flex-direction: column;
     flex-shrink: 0;
   }
@@ -222,9 +250,14 @@ const PhotosBlock = styled.div`
 `;
 
 const PhotoStyle = styled.div`
-  width: 234px;
+  width: 228px;
   height: 228px;
   flex-shrink: 0;
   border-radius: 2px;
   background: url(<path-to-image>), lightgray 50% / cover no-repeat;
+
+  @media (max-width: 790px) {
+    width: 108px;
+    height: 108px;
+  }
 `;

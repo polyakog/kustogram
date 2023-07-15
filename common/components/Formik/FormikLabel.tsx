@@ -16,7 +16,8 @@ export const FormikLabel = ({
   onChange,
   children,
   width,
-  errorShow
+  errorShow,
+  textAreaData
 }: labelType) => {
   let errorMessage = "";
 
@@ -58,6 +59,7 @@ export const FormikLabel = ({
         value={value}
         onChange={(e) => onChange(e)}
         width={width}
+        textAreaData={textAreaData}
       />
       {errorMessage && <StyledErrorMsg errorShow={errorShow}>{errorMessage}</StyledErrorMsg>}
       {children}

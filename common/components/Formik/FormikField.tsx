@@ -28,13 +28,16 @@ type TextAreaPropsType = {
   value?: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   width?: string;
+  textAreaData?: string;
 };
 const FieldTextarea = (props: TextAreaPropsType) => {
   return (
     <StyledTextArea
       onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onChange(e)}
       width={props.width}
-    />
+    >
+      {props.textAreaData}
+    </StyledTextArea>
   );
 };
 

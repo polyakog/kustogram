@@ -21,12 +21,14 @@ export const Modal = ({
   height?: string;
 }) => {
   const onCloseButtonClick = () => {
+    if(handleModalClose)
     handleModalClose();
     if (handleCrossClick) {
       handleCrossClick();
     }
   };
   const onConfirmButtonClick = () => {
+    if(handleModalClose)
     handleModalClose();
     if (handleConfirmClick) {
       handleConfirmClick();

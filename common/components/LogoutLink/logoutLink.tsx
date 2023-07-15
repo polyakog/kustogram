@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import classNames from '../../../assets/lib/classNames/classNames';
 import {AppLink} from '../AppLink/AppLink';
 import {useLogoutMutation} from '../../../assets/store/api/auth/authApi';
-import {LogoutModal} from '../PopUpModal/logoutModal';
+import {Modal} from "../Modal";
+// import {LogoutModal} from '../PopUpModal/logoutModal';
 
 interface SidebarLinkProps {
   className?: string
@@ -36,12 +37,15 @@ export const LogoutLink: FC<SidebarLinkProps> = ({className}) => {
       </StyledDiv>
     </AppLink>
       {isOpenModalEdit && (
-        <LogoutModal
-          title={'Log Out'}
-          textBody={'Are you really want to log out of your account'}
-          userInfo={'Epam@epam.com'}
-          callback={logoutHandler}
-          onClose={onClose}
+        <Modal
+          title={'ТУТ БЫЛ МАКС'}
+          // textBody={'Are you really want to log out of your account'}
+          // userInfo={'Epam@epam.com'}
+          // callback={logoutHandler}
+          // userInfo={'Epam@epam.com'}
+          bodyText={'РАЗБЕРИСЬ С ЭТОЙ ПРИБЛУДОЙ'}
+          handleCrossClick={logoutHandler}
+          handleModalClose={onClose}
         />
       )}
 

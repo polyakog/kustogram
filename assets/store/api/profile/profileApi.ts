@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { loadState } from "../../../../common/components/localStorage/localStorage";
-import { UserType } from "./types";
+import { AvatarType, UserType } from "./types";
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
+import { AuthMeType } from "pages/profile/settings";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
@@ -47,8 +48,34 @@ export const profileApi = createApi({
           body
         };
       }
+    }),
+    authMe: builder.query<AuthMeType, void>({
+      query: () => ({
+        url: "auth/me",
+        method: "GET"
+      })
+    }),
+    saveAvatar: builder.mutation<undefined, AvatarType>({
+      query: (body: any) => {
+        return {
+          method: "POST",
+          url: `users/profiles/save-avatar`,
+          prepareHeaders: (headers: any) => {
+            headers.set("Content-Type", "multipart/form-data");
+            return headers;
+          },
+          body: body
+        };
+      }
     })
   })
 });
 
-export const { useProfileQuery, useSaveProfileInfoMutation } = profileApi;
+export const {
+  useLazyProfileQuery,
+  useSaveProfileInfoMutation,
+  useLazyAuthMeQuery,
+  useSaveAvatarMutation,
+  useProfileQuery,
+  useAuthMeQuery
+} = profileApi;

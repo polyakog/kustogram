@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Path } from "common/enums/path";
 import { useWindowSize } from "common/hooks/useWindowSize";
 import { UserType } from "assets/store/api/profile/types";
-import Paid from "../../public/img/icons/paid.svg"
+import Paid from "../../public/img/icons/paid.svg";
 
 const MyProfile = () => {
   const serverAvatar: string = "";
@@ -19,7 +19,6 @@ const MyProfile = () => {
 
   const { data, isLoading } = useProfileQuery();
   let user = data;
-  // if (data) {user===data}
 
   const { currentData, isSuccess } = useAuthMeQuery();
 
@@ -41,6 +40,35 @@ const MyProfile = () => {
       }
     }
   }, [width]);
+
+  /*   __________Нахождение ссылки в тексте______ */
+  const urlify = (text: string) => {
+    const urlRegex =
+      /((https?:\/\/|ftp:\/\/|file:\/\/|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const urlRegex2 = /(https?|ftp|file|www)[:\/\/|.]/gi;
+    const urlRegex3 = /((www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const urlRegex4 =
+      /((https?:\/\/|ftp:\/\/|file:\/\/)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+
+    return text.split(urlRegex).map((part, i, a) => {
+      let url;
+      if (part.match(urlRegex)) {
+        if (part.match(urlRegex3)) {
+          if (part.match(urlRegex4)) {
+            url = part;
+          } else {
+            url = "https://" + part;
+          }
+        }
+        return (
+          <Link key={i} href={url}>
+            {part}
+          </Link>
+        );
+      }
+      return part.match(urlRegex2) ? " " : part;
+    });
+  };
 
   return (
     <>
@@ -74,7 +102,7 @@ const MyProfile = () => {
             </IconBlock>
             <UserNameStyle>
               {user?.firstName || "FirstName"} {user?.lastName || "LastName"}
-            <Image
+              <Image
                 src={Paid}
                 width={width ? (width < 790 ? 16 : 24) : 24}
                 height={width ? (width < 790 ? 16 : 24) : 24}
@@ -82,7 +110,7 @@ const MyProfile = () => {
                 // style={{ }}
               />
             </UserNameStyle>
-          
+
             <InfoBlock>
               <FolowBlock>
                 <div>
@@ -101,7 +129,10 @@ const MyProfile = () => {
 
               <AboutMeBlock>
                 <AboutMeText>
-                  {user?.userInfo}
+                  {/* {user?.userInfo || 'About me text'} */}
+
+                  {urlify(user?.userInfo || "")}
+
                   {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                   incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
                 </AboutMeText>
@@ -168,9 +199,18 @@ const UserNameStyle = styled.div`
   line-height: 36px;
 
   display: inline-flex;
-align-items: center;
-gap: 12px;
+  align-items: center;
+  gap: 12px;
 
+  /* &a{
+    color: ${baseTheme.colors.accent[500]};
+    font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+text-decoration-line: underline;
+  } */
 
   @media (max-width: 790px) {
     position: absolute;
@@ -180,6 +220,16 @@ gap: 12px;
     font-size: 16px;
     line-height: 24px;
   }
+`;
+
+const Link = styled.a`
+  color: ${baseTheme.colors.accent[500]};
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration-line: underline;
 `;
 const InfoBlock = styled.div`
   margin-top: 151px;

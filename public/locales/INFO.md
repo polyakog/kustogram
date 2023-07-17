@@ -1,0 +1,1 @@
+Json files for internalization must be in public/locales/(lang)/common.json

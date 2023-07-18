@@ -6,6 +6,8 @@ import { ThemeButton } from "common/enums/themeButton";
 import styled from "styled-components";
 import { useSaveAvatarMutation } from "assets/store/api/profile/profileApi";
 
+////  //  Модальное окно редактирования изображения  //  ////
+
 const PhotoEditorModal = ({
   photo,
   handleEditorClose
@@ -13,34 +15,38 @@ const PhotoEditorModal = ({
   photo: File;
   handleEditorClose: () => void;
 }) => {
-  const [value, setValue] = useState(12);
-  const [rotateAngle, setRotateAngle] = useState(0);
+  const [value, setValue] = useState(12); // начальное значение для zoom
+  const [rotateAngle, setRotateAngle] = useState(0); // начальное значение для rotate
 
   const [saveAvatarHandler] = useSaveAvatarMutation();
 
   const cropRef = useRef<AvatarEditor | null>(null);
 
-  const handleSlider = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target) {
-      setValue(parseInt(e.target.value));
-      console.log(value);
-    }
-  };
+  // Сохранение значений в локальный state при перемещении бегунка
+  const handleSlider =
+    (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target) {
+        setState(parseInt(e.target.value));
+      }
+    };
 
-  const handleRotate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target) {
-      setRotateAngle(parseInt(e.target.value));
-      console.log(rotateAngle);
-    }
-  };
-
+  // Обработчик сохранени отредактированного изображения
   const handleSave = async () => {
+    // подготовка данных
     if (cropRef.current) {
       const avatar = cropRef.current.getImage().toDataURL();
 
-      const data = { avatar: avatar };
+      // преобразование base64 в file
+      const result = await fetch(avatar);
+      const blob = await result.blob();
+      const file = new File([blob], "avatar", { type: "image/png" });
+
+      // преобразование file в FormData
+      const formData = new FormData();
+      formData.append("avatar", file as File);
+
       try {
-        await saveAvatarHandler(data)
+        await saveAvatarHandler(formData)
           .unwrap()
           .then(() => {
             handleEditorClose();
@@ -75,8 +81,8 @@ const PhotoEditorModal = ({
           min="10"
           max="50"
           id="zoom"
-          onInput={handleSlider}
-          onChange={handleSlider}
+          onInput={handleSlider(setValue)}
+          onChange={handleSlider(setValue)}
           value={value}
           type="range"
           style={{
@@ -93,8 +99,8 @@ const PhotoEditorModal = ({
           min="-180"
           max="180"
           id="rotate"
-          onInput={handleRotate}
-          onChange={handleRotate}
+          onInput={handleSlider(setRotateAngle)}
+          onChange={handleSlider(setRotateAngle)}
           value={rotateAngle}
           type="range"
           style={{
@@ -114,6 +120,7 @@ const PhotoEditorModal = ({
   );
 };
 
+// Стили
 export default PhotoEditorModal;
 
 const StyledAvatarEditor = styled.div`

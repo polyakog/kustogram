@@ -7,9 +7,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "rickandmortyapi.com",
+        hostname: "storage.yandexcloud.net",
         port: "",
-        pathname: "/api/character/avatar/**"
+        pathname: "/**"
       }
     ]
   }

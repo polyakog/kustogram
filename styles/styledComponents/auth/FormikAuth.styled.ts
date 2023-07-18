@@ -25,23 +25,6 @@ export const StyledAuthForm = styled(Form)<AuthFormPropsType>`
 
   color: ${baseTheme.colors.light[900]};
 
-  label {
-    max-width: ${(props) => (props.width ? props.width : "330px")};
-    width: 100%;
-    height: ${(props) => (props.errorShow ? "" : "100px")};
-
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-
-    font-family: Inter;
-    font-size: 16px;
-
-    @media (max-width: 390px) {
-      max-width: ${(props) => (props.width ? "40vw" : "80vw")};
-    }
-  }
-
   #pass {
     position: relative;
   }
@@ -53,8 +36,9 @@ export const StyledAuthForm = styled(Form)<AuthFormPropsType>`
 
 export const StyledShowPasswordBtn = styled(Image)`
   position: absolute;
-  top: 35px;
+  top: 50%;
   right: 10px;
+  transform: translateY(-50%);
 `;
 
 export const StyledSignInWrapper = styled.div<{ margin?: string }>`

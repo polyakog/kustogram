@@ -1,17 +1,22 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { loadState } from "../../../../common/components/localStorage/localStorage";
-import { AvatarType, UserType } from "./types";
+import { AuthMeType, UserType } from "./types";
 import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
-import { AuthMeType } from "pages/profile/settings";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
-    prepareHeaders: (headers) => {
+    prepareHeaders: (headers, { endpoint }) => {
+      // условие для создания автоматического заголовка при загрузке аватарки
+      const UPLOAD_ENDPOINTS = ["saveAvatar"];
+      if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
+        headers.set("Content-Type", `application/json`);
+      }
+
       const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
       headers.set("Authorization", `Bearer ${token}`);
-      headers.set("Content-Type", `application/json`);
+
       return headers;
     }
     // fetchFn: async (url) => {
@@ -33,12 +38,14 @@ export const profileApi = createApi({
     //   return response
     // },
   }),
+  tagTypes: ["UserInfo"],
   endpoints: (builder) => ({
     profile: builder.query<UserType, void>({
       query: () => ({
         url: "users/profiles/profile",
         method: "GET"
-      })
+      }),
+      providesTags: ["UserInfo"]
     }),
     saveProfileInfo: builder.mutation<any, any>({
       query: (body: UserType) => {
@@ -55,18 +62,40 @@ export const profileApi = createApi({
         method: "GET"
       })
     }),
-    saveAvatar: builder.mutation<undefined, AvatarType>({
-      query: (body: any) => {
+    saveAvatar: builder.mutation<void, FormData>({
+      query: (body: FormData) => {
         return {
           method: "POST",
           url: `users/profiles/save-avatar`,
-          prepareHeaders: (headers: any) => {
-            headers.set("Content-Type", "multipart/form-data");
-            return headers;
-          },
           body: body
         };
-      }
+      },
+      async onQueryStarted(
+        // 1 параметр: QueryArg - аргументы, которые приходят в query
+        body,
+        // 2 параметр: MutationLifecycleApi - dispatch, queryFulfilled, getState и пр.
+        { dispatch, queryFulfilled }
+      ) {
+        const patchResult = dispatch(
+          profileApi.util.updateQueryData(
+            // 1 параметр: endpointName, который мы выполняем после удачного первого запроса (invalidatesTags)
+            "profile",
+            // 2 параметр: QueryArgFrom - параметры, которые приходят в endpoint выше
+            undefined,
+            // 3 параметр: Коллбек функция.
+            (draft) => {
+              const file = URL.createObjectURL(body.entries().next().value[1]); // достаем файл из FormData
+              Object.assign(draft, { photo: file });
+            }
+          )
+        );
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+      invalidatesTags: ["UserInfo"]
     })
   })
 });
@@ -75,7 +104,5 @@ export const {
   useLazyProfileQuery,
   useSaveProfileInfoMutation,
   useLazyAuthMeQuery,
-  useSaveAvatarMutation,
-  useProfileQuery,
-  useAuthMeQuery
+  useSaveAvatarMutation
 } = profileApi;

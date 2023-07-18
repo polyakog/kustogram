@@ -16,6 +16,7 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
+    credentials: "include",
     fetchFn: async (url) => {
       const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
 
@@ -28,9 +29,9 @@ export const authApi = createApi({
         // body: JSON.stringify(body),
       };
 
-      const response = await fetch(url, options);
+      // const response = await fetch(url, options);
 
-      return response;
+      return await fetch(url, options);
     }
   }),
   endpoints: (builder) => ({
@@ -80,23 +81,23 @@ export const authApi = createApi({
           body
         };
       }
-    }),
+    })
 
     //заглушка!!!!!!!
-    setProfile: builder.mutation<undefined, ProfileType>({
-      query: (body) => ({
-        url: "auth/registration",
-        method: "POST",
-        body
-      })
-    }),
+    //   setProfile: builder.mutation<undefined, ProfileType>({
+    //     query: (body) => ({
+    //       url: "auth/registration",
+    //       method: "POST",
+    //       body
+    //     })
+    //   }),
     //заглушка!!!!!!!
-    logout: builder.mutation<undefined, void>({
-      query: () => ({
-        url: "auth/logout",
-        method: "POST"
-      })
-    })
+    // logout: builder.mutation<undefined,void>({
+    //   query: () => ({
+    //     url: "auth/logout",
+    //     method: "POST"
+    //   })
+    // }),
   })
 });
 
@@ -105,8 +106,8 @@ export const {
   useLoginMutation,
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
-  useLogoutMutation,
-  useSetProfileMutation,
+  // useLogoutMutation,
+  // useSetProfileMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation
 } = authApi;

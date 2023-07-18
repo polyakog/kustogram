@@ -26,10 +26,10 @@ import { Path } from "../../../common/enums/path";
 import { Modal } from "common/components/Modal";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context as any;
+  const { locale } = context;
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"], config))
+      ...(await serverSideTranslations(locale as string, ["common"], config))
     }
   };
 }
@@ -90,6 +90,7 @@ export default function Recovery() {
                 border={errors.email?.length && touched.email ? "red" : "white"}
                 errors={errors}
                 touched={touched}
+                marginBottom={"0px"}
               />
               <StyledRecoveryWrapper>
                 <StyledText

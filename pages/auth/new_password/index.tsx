@@ -31,10 +31,10 @@ import { ThemeButton } from "../../../common/enums/themeButton";
 import { baseTheme } from "styles/styledComponents/theme";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context as any;
+  const { locale } = context;
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"], config))
+      ...(await serverSideTranslations(locale as string, ["common"], config))
     }
   };
 }

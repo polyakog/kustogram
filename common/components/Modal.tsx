@@ -1,37 +1,49 @@
 import Image from "next/image";
 import styled from "styled-components";
+import React from "react";
 
 export const Modal = ({
   handleModalClose,
   handleCrossClick,
   handleConfirmClick,
+  handleConfirmSecondClick,
   title,
   bodyText,
-  buttonText = "OK",
+  // buttonText = "OK",
+  // buttonSecondText = 'NO',
+  children,
   width,
   height
 }: {
   handleModalClose: () => void;
   handleCrossClick?: () => void;
   handleConfirmClick?: () => void;
+  handleConfirmSecondClick?: () => void;
   title: string;
   bodyText: string;
-  buttonText?: string;
+  // buttonText?: string;
+  // buttonSecondText?: string;
   width?: string;
   height?: string;
+  children?: React.ReactElement;
 }) => {
   const onCloseButtonClick = () => {
-    if(handleModalClose)
-    handleModalClose();
+    if (handleModalClose) handleModalClose();
     if (handleCrossClick) {
       handleCrossClick();
     }
   };
   const onConfirmButtonClick = () => {
-    if(handleModalClose)
-    handleModalClose();
+    if (handleModalClose) handleModalClose();
     if (handleConfirmClick) {
       handleConfirmClick();
+    }
+  };
+
+  const onConfirmButtonSecondClick = () => {
+    if (handleModalClose) handleModalClose();
+    if (handleConfirmSecondClick) {
+      handleConfirmSecondClick();
     }
   };
 
@@ -46,7 +58,11 @@ export const Modal = ({
         </StyledModalHeader>
         <StyledModalBody>
           <p>{bodyText}</p>
-          <StyledConfirmButton onClick={onConfirmButtonClick}>{buttonText}</StyledConfirmButton>
+          <StyledBlockButton>
+            {children}
+            {/*<StyledConfirmButton width={'96px'}  theme={ThemeButton.OUTLINED} onClick={onConfirmButtonClick}>{buttonText}</StyledConfirmButton>*/}
+            {/*<StyledConfirmButton  width={'96px'} theme={ThemeButton.PRIMARY} onClick={onConfirmButtonSecondClick}>{buttonSecondText}</StyledConfirmButton>*/}
+          </StyledBlockButton>
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>
@@ -96,6 +112,7 @@ const StyledCloseButton = styled.button`
   margin: 0;
   padding: 0;
   background: transparent;
+
   &:hover {
     fill: #397df6;
   }
@@ -109,13 +126,19 @@ const StyledModalBody = styled.div`
   padding: 30px 24px;
 `;
 
-const StyledConfirmButton = styled.button`
-  margin-top: 18px;
-  width: 96px;
-  padding: 6px 24px;
-  border-radius: 2px;
-  background: #397df6;
-  color: #fff;
-  border: 0;
-  align-self: flex-end;
+// const StyledConfirmButton = styled(Button)`
+//margin-top: 18px;
+//width: 96px;
+//padding: 6px 24px;
+//border-radius: 2px;
+////background: #397df6;
+//color: #fff;
+//border: 0;
+//align-self: flex-end;
+// `;
+const StyledBlockButton = styled.div`
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+  gap: 20px;
 `;

@@ -1,5 +1,4 @@
 export type UserType = {
-  userId: string;
   login: string;
   firstName: string;
   lastName: string;
@@ -10,5 +9,12 @@ export type UserType = {
 };
 
 export type AvatarType = {
+  formData: FormData;
   avatar: string;
+};
+
+export type AuthMeType = {
+  email: string;
+  id: string;
+  login: string;
 };

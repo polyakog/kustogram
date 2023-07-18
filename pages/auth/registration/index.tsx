@@ -36,12 +36,13 @@ import { useRouter } from "next/router";
 import { Path } from "../../../common/enums/path";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
+import styled from "styled-components";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context as any;
+  const { locale } = context;
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"], config))
+      ...(await serverSideTranslations(locale as string, ["common"], config))
     }
   };
 }
@@ -193,9 +194,9 @@ export default function Registration() {
                     onClick={() => showPasswordConfirmation()}
                   />
                 </FormikLabel>
-                <Button theme={ThemeButton.PRIMARY} type="submit">
+                <StyledButton theme={ThemeButton.PRIMARY} type="submit">
                   {t("sign_up")}
-                </Button>
+                </StyledButton>
               </StyledAuthForm>
             )}
           </Formik>
@@ -208,5 +209,9 @@ export default function Registration() {
     </>
   );
 }
+
+const StyledButton = styled(Button)`
+  margin-top: 20px;
+`;
 
 Registration.getLayout = getLayout;

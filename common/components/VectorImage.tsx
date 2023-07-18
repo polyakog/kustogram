@@ -7,9 +7,17 @@ type PropsType = {
   image: string;
   screenWidth: number;
   imageWidth: number;
+  imageHeight?: number;
+  alt?: string;
 };
 
-export const VectorImage: React.FC<PropsType> = ({ image, screenWidth, imageWidth }) => {
+export const VectorImage: React.FC<PropsType> = ({
+  image,
+  screenWidth,
+  imageWidth,
+  imageHeight,
+  alt = "vector-image"
+}) => {
   const { width, height } = useWindowSize();
   const imageSize = width
     ? width > screenWidth
@@ -19,12 +27,7 @@ export const VectorImage: React.FC<PropsType> = ({ image, screenWidth, imageWidt
 
   return (
     <StyledVectorImage>
-      <Image
-        // fill
-        width={imageSize}
-        src={image}
-        alt={"vector-image"}
-      />
+      <Image width={imageSize} height={imageHeight} src={image} alt={alt} />
     </StyledVectorImage>
   );
 };

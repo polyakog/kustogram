@@ -104,5 +104,7 @@ export const {
   useLazyProfileQuery,
   useSaveProfileInfoMutation,
   useLazyAuthMeQuery,
-  useSaveAvatarMutation
+  useSaveAvatarMutation,
+  useProfileQuery,
+  useAuthMeQuery
 } = profileApi;

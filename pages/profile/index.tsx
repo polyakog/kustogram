@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
 import Image from "next/image";
-import { useAuthMeQuery, useLazyAuthMeQuery, useLazyProfileQuery, useProfileQuery } from "assets/store/api/profile/profileApi";
+import {
+  useAuthMeQuery,
+  useLazyAuthMeQuery,
+  useLazyProfileQuery,
+  useProfileQuery
+} from "assets/store/api/profile/profileApi";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import { Button } from "common/components/Button/Button";
@@ -31,8 +36,7 @@ const MyProfile = () => {
   };
 
   useEffect(() => {
-    getProfileInfo()
-
+    getProfileInfo();
   }, []);
 
   useEffect(() => {
@@ -48,14 +52,14 @@ const MyProfile = () => {
   /*   __________Нахождение ссылки в тексте______ */
   const urlify = (text: string) => {
     // const urlRegex =/((https?:\/\/|ftp:\/\/|file:\/\/|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-    const urlRegex = /(https?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(ftp:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(file:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(www.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-    const urlRegex2 = /((https?:\/\/|ftp:\/\/|file:\/\/)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const urlRegex =
+      /(https?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(ftp:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(file:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(www.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const urlRegex2 =
+      /((https?:\/\/|ftp:\/\/|file:\/\/)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 
     return text.split(urlRegex).map((part, i, a) => {
-
       let url;
       if (part?.match(urlRegex)) {
-
         if (part.match(urlRegex2)) {
           url = part;
         } else url = "https://" + part;
@@ -67,13 +71,12 @@ const MyProfile = () => {
         );
       }
       return part;
-
     });
   };
 
   return (
     <>
-      {isSuccess &&
+      {isSuccess && (
         <ProfileWrapper>
           <HeaderStyle>
             {isVisible && (
@@ -98,7 +101,6 @@ const MyProfile = () => {
                   alt={"avatar"}
                   style={{ maxWidth: "204px", maxHeight: "204px" }}
                 />
-
               </IconBlock>
             </StyledAvatarBlock>
 
@@ -109,7 +111,7 @@ const MyProfile = () => {
                 width={width ? (width < 790 ? 16 : 24) : 24}
                 height={width ? (width < 790 ? 16 : 24) : 24}
                 alt={"paid"}
-              // style={{ }}
+                // style={{ }}
               />
             </UserNameStyle>
 
@@ -131,7 +133,6 @@ const MyProfile = () => {
 
               <AboutMeBlock>
                 <AboutMeText>
-                 
                   {urlify(user?.userInfo || "about me")}
 
                   {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -150,10 +151,7 @@ const MyProfile = () => {
             <PhotoStyle>Photo</PhotoStyle>
           </PhotosBlock>
         </ProfileWrapper>
-        
-      }
-
-
+      )}
     </>
   );
 };
@@ -183,7 +181,7 @@ const StyledAvatarBlock = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
-    background: ${baseTheme.colors.dark[700]}; 
+  background: ${baseTheme.colors.dark[700]};
 `;
 
 /* _______________расположение аватарки________________ */

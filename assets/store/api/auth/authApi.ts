@@ -1,36 +1,27 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { loadState } from "../../../../common/components/localStorage/localStorage";
 import {
   CheckLinkType,
   LoginResponseType,
   LoginType,
   NewPasswordResType,
   NewPasswordType,
-  ProfileType,
   RegistrationType,
   SendLinkType
 } from "./types";
-import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
+import { getItem } from "../../../../common/hooks/useLocalStorage";
 
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
-    credentials: "include",
     fetchFn: async (url) => {
-      const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
-
+      const token = getItem("accessToken");
       const options = {
-        // method: 'POST',
         headers: new Headers({
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         })
-        // body: JSON.stringify(body),
       };
-
-      // const response = await fetch(url, options);
-
       return await fetch(url, options);
     }
   }),
@@ -82,22 +73,6 @@ export const authApi = createApi({
         };
       }
     })
-
-    //заглушка!!!!!!!
-    //   setProfile: builder.mutation<undefined, ProfileType>({
-    //     query: (body) => ({
-    //       url: "auth/registration",
-    //       method: "POST",
-    //       body
-    //     })
-    //   }),
-    //заглушка!!!!!!!
-    // logout: builder.mutation<undefined,void>({
-    //   query: () => ({
-    //     url: "auth/logout",
-    //     method: "POST"
-    //   })
-    // }),
   })
 });
 
@@ -106,8 +81,6 @@ export const {
   useLoginMutation,
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
-  // useLogoutMutation,
-  // useSetProfileMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation
 } = authApi;

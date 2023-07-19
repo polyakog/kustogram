@@ -23,7 +23,7 @@ import config from "next-i18next.config.js";
 import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
-import { Modal } from "common/components/Modal";
+import { Modal } from "../../../common/components/Modal/Modal";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -121,7 +121,11 @@ export default function Recovery() {
           bodyText={t("email_modal_text") + " " + `${email}`}
           handleModalClose={handleModalClose}
           height="auto"
-        ></Modal>
+        >
+          <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"96px"}>
+            OK
+          </Button>
+        </Modal>
       )}
     </StyledContainerAuth>
   );

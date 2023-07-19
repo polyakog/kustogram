@@ -19,7 +19,7 @@ const PhotoSelectModal = ({
   const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
   const [isEditorOpen, setIsEditorOpen] = useState(false); // открытие модального окна для редактирования
 
-  const image = avatar || "/img/icons/image-outline.svg";
+  // const image = avatar || "/img/icons/image-outline.svg"
 
   // обработчик выбора новой аватарки из файловой системы компьютера
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +141,6 @@ const StyledModalBody = styled.div`
 
   & #file-upload {
     display: none;
-    height: 0px;
   }
 
   & #upload-btn {
@@ -193,6 +192,6 @@ const StyledModalImage = styled(Image)`
 
   margin: auto;
   border-radius: 2px;
-  width: props.width;
-  height: props.height;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 `;

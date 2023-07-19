@@ -4,8 +4,6 @@ import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
 import { useRouter } from "next/router";
 import { useLoginMutation } from "../../../assets/store/api/auth/authApi";
-import { saveState } from "../../../common/components/localStorage/localStorage";
-import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../common/components/localStorage/types";
 import {
   FormValueLogin,
   ResetForm,
@@ -39,10 +37,10 @@ import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context as any;
+  const { locale } = context;
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"], config))
+      ...(await serverSideTranslations(locale as string, ["common"], config))
     }
   };
 }
@@ -52,7 +50,7 @@ const Login = () => {
   const route = useRouter();
   const { passwordType, showPassword } = useShowPassword();
 
-  const { removeItem } = useLocalStorage();
+  const { removeItem, setItem } = useLocalStorage();
 
   const initialAuthValues = {
     password: "",
@@ -62,7 +60,7 @@ const Login = () => {
   const [loginHandler, { data }] = useLoginMutation();
 
   if (data) {
-    saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken);
+    setItem("accessToken", data.accessToken);
     data.profile
       ? route.push(Path.PROFILE)
       : route.push(`${Path.PROFILE_SETTINGS}?profile=${data.profile}`);

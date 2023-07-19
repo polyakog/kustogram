@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
 import Image from "next/image";
-import { useAuthMeQuery, useProfileQuery } from "assets/store/api/profile/profileApi";
+import { useAuthMeQuery, useLazyAuthMeQuery, useLazyProfileQuery, useProfileQuery } from "assets/store/api/profile/profileApi";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import { Button } from "common/components/Button/Button";
@@ -16,20 +16,24 @@ import Paid from "../../public/img/icons/paid.svg";
 const MyProfile = () => {
   const serverAvatar: string = "";
   const avatar = serverAvatar !== "" ? serverAvatar : "/img/icons/avatar.svg";
+  const [getProfileInfo, { data: user }] = useLazyProfileQuery();
 
-  const { data, isLoading } = useProfileQuery();
-  let user = data;
-
-  const { currentData, isSuccess } = useAuthMeQuery();
+  const { isSuccess } = useAuthMeQuery();
 
   const { width, height } = useWindowSize();
   const [isVisible, setIsVisible] = useState(true);
+  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { t } = useTranslation();
 
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS);
   };
+
+  useEffect(() => {
+    getProfileInfo()
+
+  }, []);
 
   useEffect(() => {
     if (width) {
@@ -43,38 +47,33 @@ const MyProfile = () => {
 
   /*   __________Нахождение ссылки в тексте______ */
   const urlify = (text: string) => {
-    const urlRegex =
-      /((https?:\/\/|ftp:\/\/|file:\/\/|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-    const urlRegex2 = /(https?|ftp|file|www)[:\/\/|.]/gi;
-    const urlRegex3 = /((www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
-    const urlRegex4 =
-      /((https?:\/\/|ftp:\/\/|file:\/\/)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    // const urlRegex =/((https?:\/\/|ftp:\/\/|file:\/\/|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const urlRegex = /(https?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(ftp:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(file:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(www.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
+    const urlRegex2 = /((https?:\/\/|ftp:\/\/|file:\/\/)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
 
     return text.split(urlRegex).map((part, i, a) => {
+
       let url;
-      if (part.match(urlRegex)) {
-        if (part.match(urlRegex3)) {
-          if (part.match(urlRegex4)) {
-            url = part;
-          } else {
-            url = "https://" + part;
-          }
-        }
+      if (part?.match(urlRegex)) {
+
+        if (part.match(urlRegex2)) {
+          url = part;
+        } else url = "https://" + part;
+
         return (
           <Link key={i} href={url}>
             {part}
           </Link>
         );
       }
-      return part.match(urlRegex2) ? " " : part;
+      return part;
+
     });
   };
 
   return (
     <>
-      {isSuccess && isLoading ? (
-        <div>Loading ...</div>
-      ) : (
+      {isSuccess &&
         <ProfileWrapper>
           <HeaderStyle>
             {isVisible && (
@@ -92,15 +91,14 @@ const MyProfile = () => {
             )}
             <StyledAvatarBlock>
               <IconBlock>
-                {/* <Image
-                src={user?.photo || avatar}
-                width={width ? (width < 790 ? 72 : 204) : 204}
-                height={width ? (width < 790 ? 72 : 204) : 204}
-                alt={"avatar"}
-                style={{ maxWidth: "204px", maxHeight: "204px" }}
-              /> */}
+                <Image
+                  src={user?.photo || avatar}
+                  width={width ? (width < 790 ? 72 : 204) : 204}
+                  height={width ? (width < 790 ? 72 : 204) : 204}
+                  alt={"avatar"}
+                  style={{ maxWidth: "204px", maxHeight: "204px" }}
+                />
 
-                <Image src={user?.photo || avatar} alt={"Avatar"} width={192} height={192} />
               </IconBlock>
             </StyledAvatarBlock>
 
@@ -111,7 +109,7 @@ const MyProfile = () => {
                 width={width ? (width < 790 ? 16 : 24) : 24}
                 height={width ? (width < 790 ? 16 : 24) : 24}
                 alt={"paid"}
-                // style={{ }}
+              // style={{ }}
               />
             </UserNameStyle>
 
@@ -133,9 +131,8 @@ const MyProfile = () => {
 
               <AboutMeBlock>
                 <AboutMeText>
-                  {/* {user?.userInfo || 'About me text'} */}
-
-                  {urlify(user?.userInfo || "")}
+                 
+                  {urlify(user?.userInfo || "about me")}
 
                   {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                   incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
@@ -153,7 +150,10 @@ const MyProfile = () => {
             <PhotoStyle>Photo</PhotoStyle>
           </PhotosBlock>
         </ProfileWrapper>
-      )}
+        
+      }
+
+
     </>
   );
 };
@@ -178,48 +178,35 @@ const HeaderStyle = styled.div`
 `;
 
 const StyledAvatarBlock = styled.div`
-  max-width: 192px;
+  max-width: 204px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-content: flex-start;
-  gap: 20px;
-
-  background: ${baseTheme.colors.dark[700]};
-  color: ${baseTheme.colors.dark[100]};
+    background: ${baseTheme.colors.dark[700]}; 
 `;
 
 /* _______________расположение аватарки________________ */
 const IconBlock = styled.div`
   position: relative;
-
-  width: 192px;
-  height: 192px;
+  width: 204px;
+  height: 204px;
   overflow: hidden;
   background: ${baseTheme.colors.dark[100]};
   border-radius: 50%;
+
+  @media (max-width: 790px) {
+    margin-top: 0px;
+    max-width: 72px;
+    max-height: 72px;
+  }
 
   & img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 192px;
-    height: 192px;
     object-fit: cover;
-  }
-`;
-
-const IconBlock2 = styled.div`
-  border-radius: 50%;
-  background: ${baseTheme.colors.dark[100]};
-  max-width: 204px;
-  max-height: 204px;
-
-  @media (max-width: 790px) {
-    margin-top: 0px;
-    max-width: 72px;
-    max-height: 72px;
   }
 `;
 

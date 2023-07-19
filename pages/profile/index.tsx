@@ -90,16 +90,20 @@ const MyProfile = () => {
                 </Button>
               </BlockButton>
             )}
-
-            <IconBlock>
-              <Image
+            <StyledAvatarBlock>
+              <IconBlock>
+                {/* <Image
                 src={user?.photo || avatar}
                 width={width ? (width < 790 ? 72 : 204) : 204}
                 height={width ? (width < 790 ? 72 : 204) : 204}
                 alt={"avatar"}
                 style={{ maxWidth: "204px", maxHeight: "204px" }}
-              />
-            </IconBlock>
+              /> */}
+
+                <Image src={user?.photo || avatar} alt={"Avatar"} width={192} height={192} />
+              </IconBlock>
+            </StyledAvatarBlock>
+
             <UserNameStyle>
               {user?.firstName || "FirstName"} {user?.lastName || "LastName"}
               <Image
@@ -173,7 +177,40 @@ const HeaderStyle = styled.div`
   width: auto;
 `;
 
+const StyledAvatarBlock = styled.div`
+  max-width: 192px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  gap: 20px;
+
+  background: ${baseTheme.colors.dark[700]};
+  color: ${baseTheme.colors.dark[100]};
+`;
+
+/* _______________расположение аватарки________________ */
 const IconBlock = styled.div`
+  position: relative;
+
+  width: 192px;
+  height: 192px;
+  overflow: hidden;
+  background: ${baseTheme.colors.dark[100]};
+  border-radius: 50%;
+
+  & img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 192px;
+    height: 192px;
+    object-fit: cover;
+  }
+`;
+
+const IconBlock2 = styled.div`
   border-radius: 50%;
   background: ${baseTheme.colors.dark[100]};
   max-width: 204px;
@@ -185,6 +222,8 @@ const IconBlock = styled.div`
     max-height: 72px;
   }
 `;
+
+/* _____________конец аватарки______________________ */
 
 const UserNameStyle = styled.div`
   position: absolute;

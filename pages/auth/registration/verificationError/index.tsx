@@ -5,7 +5,7 @@ import { GetStaticPropsContext } from "next";
 import config from "next-i18next.config.js";
 import { useTranslation } from "next-i18next";
 import { useRefreshLinkMutation } from "../../../../assets/store/api/auth/authApi";
-import { Modal } from "../../../../common/components/Modal";
+import { Modal } from "../../../../common/components/Modal/Modal";
 import VerificationWindow from "../../../../features/auth/VerificationWindow";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
 

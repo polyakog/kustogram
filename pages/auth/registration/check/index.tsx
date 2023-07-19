@@ -3,19 +3,6 @@ import { useRouter } from "next/router";
 import { useLazyCheckLinkHandlerQuery } from "../../../../assets/store/api/auth/authApi";
 import { codeCheckLink } from "../../../../common/utils/codeCheckLink";
 import { Path } from "../../../../common/enums/path";
-import { GetStaticPropsContext } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import config from "../../../../next-i18next.config";
-import { useTranslation } from "next-i18next";
-
-export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context as any;
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"], config))
-    }
-  };
-}
 
 const CheckLink = () => {
   const { code } = codeCheckLink();

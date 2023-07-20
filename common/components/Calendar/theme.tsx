@@ -1,8 +1,7 @@
 import { baseTheme } from "styles/styledComponents/theme";
 import { createTheme } from "@mui/material/styles";
-import { padding } from "@mui/system";
 
-export const MuiCalendarProfile = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: baseTheme.colors.accent[700]

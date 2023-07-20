@@ -5,7 +5,10 @@ import { MainLink } from "./MainLink/MainLink";
 import { StyledItemBlock, StyledLogout, StyledSidebar } from "./Navbar.styled";
 import { LogoutLink } from "./LogoutLink/logoutLink";
 
-export const Navbar = () => {
+export type NavbarPropsType = {
+  showNavbar: string | string[] | undefined;
+};
+export const Navbar = ({ showNavbar }: NavbarPropsType) => {
   const location = usePathname();
   const isActive = (name: string) => location === name;
 
@@ -20,7 +23,7 @@ export const Navbar = () => {
   ));
 
   return (
-    <StyledSidebar>
+    <StyledSidebar showNavbar={showNavbar}>
       <StyledItemBlock>{items}</StyledItemBlock>
       <StyledLogout>
         <LogoutLink />

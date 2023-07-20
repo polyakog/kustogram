@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
 import Image from "next/image";
-import {
-  useAuthMeQuery,
-  useLazyAuthMeQuery,
-  useLazyProfileQuery,
-  useProfileQuery
-} from "assets/store/api/profile/profileApi";
+import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
 import { Path } from "common/enums/path";
 import { useWindowSize } from "common/hooks/useWindowSize";
 import { UserType } from "assets/store/api/profile/types";
@@ -25,11 +19,9 @@ const MyProfile = () => {
 
   const { isSuccess } = useAuthMeQuery();
 
-  const { width, height } = useWindowSize();
+  const { width, height } = useWindowSize(); // хук для измерения размера экрана
   const [isVisible, setIsVisible] = useState(true);
-  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { t } = useTranslation();
 
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS);
@@ -41,7 +33,8 @@ const MyProfile = () => {
 
   useEffect(() => {
     if (width) {
-      if (width < 880) {
+      if (width < 950) {
+        // вывести для мобильной версии
         setIsVisible(false);
       } else {
         setIsVisible(true);
@@ -51,7 +44,6 @@ const MyProfile = () => {
 
   /*   __________Нахождение ссылки в тексте______ */
   const urlify = (text: string) => {
-    // const urlRegex =/((https?:\/\/|ftp:\/\/|file:\/\/|www.)[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
     const urlRegex =
       /(https?:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(ftp:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(file:\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])|(www.[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gi;
     const urlRegex2 =
@@ -73,6 +65,8 @@ const MyProfile = () => {
       return part;
     });
   };
+
+  /*   _____________________________________ */
 
   return (
     <>
@@ -96,10 +90,10 @@ const MyProfile = () => {
               <IconBlock>
                 <Image
                   src={user?.photo || avatar}
-                  width={width ? (width < 790 ? 72 : 204) : 204}
+                  width={width ? (width < 790 ? 72 : 204) : 204} // вывести для мобильной версии
                   height={width ? (width < 790 ? 72 : 204) : 204}
                   alt={"avatar"}
-                  style={{ maxWidth: "204px", maxHeight: "204px" }}
+                  style={{ maxWidth: "204px", maxHeight: "204px" }} // вывести для мобильной версииу
                 />
               </IconBlock>
             </StyledAvatarBlock>
@@ -108,8 +102,8 @@ const MyProfile = () => {
               {user?.firstName || "FirstName"} {user?.lastName || "LastName"}
               <Image
                 src={Paid}
-                width={width ? (width < 790 ? 16 : 24) : 24}
-                height={width ? (width < 790 ? 16 : 24) : 24}
+                width={width ? (width < 790 ? 16 : 24) : 24} // вывести для мобильной версии
+                height={width ? (width < 790 ? 16 : 24) : 24} // вывести для мобильной версии
                 alt={"paid"}
                 // style={{ }}
               />
@@ -155,11 +149,15 @@ const MyProfile = () => {
     </>
   );
 };
-MyProfile.getLayout = getLayout;
+MyProfile.getLayout = getLayout; // отредактировать layout
 export default MyProfile;
+
+// перенести в отдельный файл
 
 const ProfileWrapper = styled.div`
   position: relative;
+  /* padding-left: 0px;
+  padding-top: 36px; */
 `;
 
 const BlockButton = styled.div`
@@ -285,7 +283,6 @@ const AboutMeBlock = styled.div`
     margin-left: -110px;
     min-width: 300px;
     display: flex;
-    /* max-width: 330px; */
     flex-direction: column;
     flex-shrink: 0;
   }

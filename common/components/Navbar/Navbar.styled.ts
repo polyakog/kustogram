@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { baseTheme } from "../../../styles/styledComponents/theme";
+import { NavbarPropsType } from "./Navbar";
 
 //Navbar
-export const StyledSidebar = styled.div`
+export const StyledSidebar = styled.div<NavbarPropsType>`
   position: relative;
   max-width: 220px;
   min-width: 160px;
   height: 660px;
   width: 17vw;
+  opacity: ${(props) => (props.showNavbar ? 0 : 1)};
 
   border-right: 1px solid ${baseTheme.colors.dark[300]};
 `;

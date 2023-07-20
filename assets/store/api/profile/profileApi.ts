@@ -52,7 +52,7 @@ export const profileApi = createApi({
         const patchResult = dispatch(
           profileApi.util.updateQueryData("profile", undefined, (draft) => {
             const file = URL.createObjectURL(body.entries().next().value[1]);
-            Object.assign(draft, { photo: file });
+            Object.assign(draft ? draft : {}, { photo: file });
           })
         );
         try {

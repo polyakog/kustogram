@@ -11,12 +11,12 @@ import { Path } from "../../../enums/path";
 
 export const LogoutLink: FC = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
-  const { removeItem, getItem } = useLocalStorage();
+  const { clearAll, getItem } = useLocalStorage();
   const router = useRouter();
   const userEmail = getItem("userEmail");
 
   const logoutHandler = () => {
-    removeItem("accessToken");
+    clearAll();
     router.push(Path.LOGIN);
   };
   const onClose = () => {

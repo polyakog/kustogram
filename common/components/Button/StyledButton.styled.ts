@@ -4,7 +4,7 @@ import { StyledButtonPropsType } from "./types";
 export const StyledButton = styled.button.attrs((props) => ({
   type: props.type ? props.type : "button"
 }))<StyledButtonPropsType>`
-    min-height: 36px;
+    height: 36px;
     width: ${(props) => (props.width ? props.width : "330px")};
     padding: 0 20px;
 

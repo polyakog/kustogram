@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { NextPage } from "next";
 import { useLoader } from "../common/hooks/useLoader";
 import "styles/nprogress.css";

@@ -23,6 +23,7 @@ import {
   StyledAvatarBlock,
   UserNameStyle
 } from "styles/styledComponents/profile/profile.styled";
+import { mediaSizes } from "../../common/components/Profile/mediaSizes";
 
 const MyProfile = () => {
   const serverAvatar: string = "";
@@ -32,20 +33,19 @@ const MyProfile = () => {
   const { isSuccess } = useAuthMeQuery();
 
   const { width, height } = useWindowSize(); // хук для измерения размера экрана
+
   const [isVisible, setIsVisible] = useState(true);
+  const [isPaid, setIsPaid] = useState(false);
   const router = useRouter();
+  /*  ____________<переменные для мобильной версии>______________*/
+
+  const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
+  const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
+  /*  ____________</переменные для мобильной версии>_______________*/
 
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS);
   };
-
-  /*  ____________<переменные для мобильной версии>______________*/
-  const buttonUnvisible = 950;
-  const mobileScreenSize = 790;
-  const avatarSize = width ? (width < mobileScreenSize ? 72 : 204) : 204;
-  const paidImageSize = width ? (width < mobileScreenSize ? 16 : 24) : 24;
-
-  /*  ____________</переменные для мобильной версии>_______________*/
 
   useEffect(() => {
     getProfileInfo();
@@ -53,7 +53,7 @@ const MyProfile = () => {
 
   useEffect(() => {
     if (width) {
-      if (width < buttonUnvisible) {
+      if (width < mediaSizes.buttonUnvisible) {
         // для мобильной версии
         setIsVisible(false);
       } else {
@@ -119,13 +119,15 @@ const MyProfile = () => {
 
             <UserNameStyle>
               {user?.firstName || "FirstName"} {user?.lastName || "LastName"}
-              <Image
-                src={Paid}
-                width={paidImageSize}
-                height={paidImageSize}
-                alt={"paid"}
-                // style={{ }}
-              />
+              {isPaid && (
+                <Image
+                  src={Paid}
+                  width={paidImageSize}
+                  height={paidImageSize}
+                  alt={"paid"}
+                  // style={{ }}
+                />
+              )}
             </UserNameStyle>
 
             <InfoBlock>
@@ -155,6 +157,8 @@ const MyProfile = () => {
             </InfoBlock>
           </HeaderStyle>
           <PhotosBlock>
+            <PhotoStyle>Photo</PhotoStyle>
+            <PhotoStyle>Photo</PhotoStyle>
             <PhotoStyle>Photo</PhotoStyle>
             <PhotoStyle>Photo</PhotoStyle>
             <PhotoStyle>Photo</PhotoStyle>

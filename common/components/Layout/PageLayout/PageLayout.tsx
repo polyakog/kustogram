@@ -9,6 +9,9 @@ import { Provider } from "react-redux";
 import { useRouter } from "next/router";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import { mediaSizes } from "common/components/Profile/mediaSizes";
+
+const media = mediaSizes.media;
 
 export const PageLayout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
@@ -66,8 +69,9 @@ export const NavbarWrapper = styled.div`
   min-width: 150px;
   max-width: 220px;
   align-items: start;
+  font-family: Inter;
 
-  @media (max-width: 790px) {
+  @media (max-width: ${media}) {
     display: none;
   }
 `;

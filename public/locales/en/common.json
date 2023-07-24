@@ -41,5 +41,17 @@
   "forgotPassword_link": "Forgot Password",
   "notAccount_title": "Don’t have an account?",
   "error_login": "Password or email - incorrect. Try again",
-  "invalid_email": "Invalid email"
+  "invalid_email": "Invalid email",
+
+  "too_short": "Too Short!",
+  "too_long": "Too Long!",
+  "req_login": "Required login or email",
+  "short_pas": "Too short password!",
+  "long_pas": "Too long password!",
+  "req_pas": "Required password",
+  "req": "Required",
+  "pas_match": "Please make sure your passwords match",
+  "req_email": "Required email",
+  "req_user": "Required Username",
+  "inv_user": "Invalid Username"
 }

@@ -17,7 +17,8 @@ export const FormikLabel = ({
   width,
   errorShow,
   textAreaData,
-  marginBottom
+  marginBottom,
+  t
 }: labelType) => {
   return (
     <StyledLabel id={id} withError={!!errors[name] && !!touched[name]} marginBottom={marginBottom}>
@@ -37,7 +38,9 @@ export const FormikLabel = ({
         {children}
       </StyledInputContainer>
       {!!errors[name] && touched[name] && (
-        <StyledErrorMsg errorShow={errorShow}>{errors[name]}</StyledErrorMsg>
+        <StyledErrorMsg errorShow={errorShow}>
+          {t ? t(`${errors[name]}`) : errors[name]}
+        </StyledErrorMsg>
       )}
     </StyledLabel>
   );

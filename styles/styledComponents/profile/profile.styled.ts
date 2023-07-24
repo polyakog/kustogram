@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { baseTheme } from "../theme";
-import { mediaSizes } from "common/components/Profile/mediaSizes";
+import { mediaSizes } from "common/constants/Profile/mediaSizes";
 
 const media = mediaSizes.media;
 
@@ -156,7 +156,7 @@ export const PhotosBlock = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
   padding-top: 24px;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   gap: 10px;
 `;

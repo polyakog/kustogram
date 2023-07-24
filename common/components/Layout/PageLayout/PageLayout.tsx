@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { useRouter } from "next/router";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { mediaSizes } from "common/components/Profile/mediaSizes";
+import { mediaSizes } from "common/constants/Profile/mediaSizes";
 
 const media = mediaSizes.media;
 

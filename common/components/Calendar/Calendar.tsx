@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import React from "react";
 import { theme } from "common/components/Calendar/theme";
 import { StyledTitle } from "../Formik/Formik.styled";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 type CalendarProps = {
   date: string;
@@ -11,7 +12,11 @@ type CalendarProps = {
 };
 
 const Calendar = ({ date, setFieldValue }: CalendarProps) => {
-  const birthDate = dayjs(date, "DD-MM-YYYY");
+  dayjs.extend(customParseFormat);
+  let birthDate = dayjs();
+  if (date) {
+    birthDate = dayjs(date, "DD-MM-YYYY");
+  }
 
   return (
     <>

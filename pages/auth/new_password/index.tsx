@@ -15,10 +15,7 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
 import { Button } from "../../../common/components/Button/Button";
-import {
-  validateNewPasswordEn,
-  validateNewPasswordRu
-} from "../../../common/utils/validateNewPassword";
+import { validateNewPassword } from "../../../common/utils/validateNewPassword";
 import { useRouter } from "next/router";
 import { StyledContainerAuth } from "../../../styles/styledComponents/auth/Auth.styled";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -48,7 +45,7 @@ export default function NewPassword() {
 
   const [newPasswordHandler] = useNewPasswordMutation();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const router = useRouter();
   const { code } = router.query;
 
@@ -80,7 +77,7 @@ export default function NewPassword() {
       <WrapperContainerAuth title={t("n_password_title")}>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={i18n.language == "en" ? validateNewPasswordEn : validateNewPasswordRu}
+          validationSchema={validateNewPassword}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, values, setFieldValue }) => (
@@ -95,6 +92,7 @@ export default function NewPassword() {
                 border={errors.newPassword?.length && touched.newPassword ? "red" : "white"}
                 errors={errors}
                 touched={touched}
+                t={t}
               >
                 <StyledShowPasswordBtn
                   alt="show password"
@@ -116,6 +114,7 @@ export default function NewPassword() {
                 }
                 errors={errors}
                 touched={touched}
+                t={t}
               >
                 <StyledShowPasswordBtn
                   alt="show password"

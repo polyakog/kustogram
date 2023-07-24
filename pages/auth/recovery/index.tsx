@@ -13,7 +13,7 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import { useSendRecoveryLinkMutation } from "../../../assets/store/api/auth/authApi";
 import { FormValueRecovery, ResetForm } from "../../../common/components/Formik/types";
-import { validateRecoveryEn, validateRecoveryRu } from "../../../common/utils/validateRecovery";
+import { validateRecovery } from "../../../common/utils/validateRecovery";
 import { baseTheme } from "../../../styles/styledComponents/theme";
 import Image from "next/image";
 import { StyledContainerAuth } from "../../../styles/styledComponents/auth/Auth.styled";
@@ -45,7 +45,7 @@ export default function Recovery() {
 
   const [recoveryHandler, result] = useSendRecoveryLinkMutation();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -76,7 +76,7 @@ export default function Recovery() {
       <WrapperContainerAuth title={t("rec_password_title")} titleMarginBottom={"37px"}>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={i18n.language == "en" ? validateRecoveryEn : validateRecoveryRu}
+          validationSchema={validateRecovery}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, values, setFieldValue }) => (
@@ -91,6 +91,7 @@ export default function Recovery() {
                 errors={errors}
                 touched={touched}
                 marginBottom={"0px"}
+                t={t}
               />
               <StyledRecoveryWrapper>
                 <StyledText

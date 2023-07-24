@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
 import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
@@ -24,7 +24,7 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import AuthIcons from "../../../features/auth/AuthIcons";
 import { useShowPassword } from "../../../common/hooks/useShowPassword";
-import { validateLoginEn, validateLoginRu } from "../../../common/utils/validateLogin";
+import { validateLogin } from "../../../common/utils/validateLogin";
 import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
 import { Button } from "../../../common/components/Button/Button";
 import { getLayout } from "../../../common/components/Layout/BaseLayout/BaseLayout";
@@ -46,7 +46,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const Login = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const route = useRouter();
   const { passwordType, showPassword } = useShowPassword();
 
@@ -93,7 +93,7 @@ const Login = () => {
         <AuthIcons />
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={i18n.language == "en" ? validateLoginEn : validateLoginRu}
+          validationSchema={validateLogin}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, values, setFieldValue }) => (
@@ -107,6 +107,7 @@ const Login = () => {
                 border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
                 errors={errors}
                 touched={touched}
+                t={t}
               />
               <FormikLabel
                 id="pass"
@@ -119,6 +120,7 @@ const Login = () => {
                 errors={errors}
                 touched={touched}
                 marginBottom={"48px"}
+                t={t}
               >
                 <StyledShowPasswordBtn
                   alt="show password"

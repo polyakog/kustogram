@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { FormValueProfile } from "../../../common/components/Formik/types";
 import { Button } from "../../../common/components/Button/Button";
 import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
@@ -13,20 +13,30 @@ import {
 import type {} from "@mui/x-date-pickers/themeAugmentation";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
-import styled from "styled-components";
 import Image from "next/image";
-import { baseTheme } from "styles/styledComponents/theme";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import { Modal } from "../../../common/components/Modal/Modal";
 import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
 import { useRouter } from "next/router";
 import { Path } from "../../../common/enums/path";
 import Calendar from "common/components/Calendar/Calendar";
+import {
+  BlockButton,
+  IconBlock,
+  StyledAvatarBlock,
+  StyledContent,
+  StyledLine,
+  StyledProfileForm
+} from "styles/styledComponents/profile/Settings.styled";
+
+// //// Отображение страницы редактирования профиля  //  ////
+//      с возможностью изменения аватарки                 //
 
 const GeneralInformation = () => {
-  const [isModalOpen, setIsModalOpen] = useState({ photoModal: false, saveProfileModal: false });
+  const [isModalOpen, setIsModalOpen] = useState({
+    photoModal: false, // открытие модального окна выбора аватарки
+    saveProfileModal: false // открытие модального окна при сохранении изменений
+  });
   const [isLoading, setIsLoading] = useState(false);
   const { setItem } = useLocalStorage();
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
@@ -45,13 +55,12 @@ const GeneralInformation = () => {
       .finally(() => {
         setIsLoading(true);
       });
-  }, []);
+  }, [authMeHandler, getProfileInfo, setItem, setIsLoading]);
 
+  // аватарка, отображаемая при загрузке
   const avatar = data?.photo || "/img/icons/avatar.svg";
 
-  dayjs.extend(customParseFormat);
-  const birthDate = dayjs(data?.dateOfBirthday, "DD-MM-YYYY");
-
+  // начальные значения для формы
   const initialAuthValues = {
     username: usernameAuth?.login || data?.login || "",
     firstname: data?.firstName || "",
@@ -60,7 +69,7 @@ const GeneralInformation = () => {
     city: data?.city || "",
     aboutMe: data?.userInfo || ""
   };
-
+  // обработчик нажатия кнопки сохранения данных в форме
   const handleSubmit = async (values: FormValueProfile) => {
     const data = {
       login: values.username,
@@ -79,10 +88,12 @@ const GeneralInformation = () => {
         });
     } catch (error) {}
   };
-
+  // обработчик нажатия кнопки для открытия окна смены аватарки
   const handleAddPhoto = () => {
     setIsModalOpen({ photoModal: true, saveProfileModal: false });
   };
+
+  // обработчик нажатия кнопки для закрытия модального окна смены аватарки
   const handleModalClose = () => {
     setIsModalOpen({ photoModal: false, saveProfileModal: false });
   };
@@ -197,66 +208,3 @@ const GeneralInformation = () => {
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
-
-export const StyledContent = styled.div`
-  position: relative;
-  display: flex;
-  gap: 40px;
-
-  @media (max-width: 790px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-export const StyledAvatarBlock = styled.div`
-  max-width: 192px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-  gap: 20px;
-
-  background: ${baseTheme.colors.dark[700]};
-  color: ${baseTheme.colors.dark[100]};
-`;
-
-export const IconBlock = styled.div`
-  position: relative;
-
-  width: 192px;
-  height: 192px;
-  overflow: hidden;
-  background: ${baseTheme.colors.dark[100]};
-  border-radius: 50%;
-
-  & img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 192px;
-    height: 192px;
-    object-fit: cover;
-  }
-`;
-
-const StyledProfileForm = styled(Form)`
-  align-items: flex-end;
-  width: 100%;
-`;
-
-const StyledLine = styled.div`
-  position: absolute;
-  bottom: 60px;
-  right: 0;
-  width: 100%;
-  max-width: 726px;
-  height: 1px;
-  background: ${baseTheme.colors.dark[300]};
-`;
-
-const BlockButton = styled.div`
-  text-align: right;
-  padding-top: 24px;
-`;

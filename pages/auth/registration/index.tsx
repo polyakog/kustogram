@@ -4,10 +4,7 @@ import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
 import { getLayout } from "../../../common/components/Layout/BaseLayout/BaseLayout";
 import { useShowPassword } from "../../../common/hooks/useShowPassword";
-import {
-  validateRegistrationEn,
-  validateRegistrationRu
-} from "../../../common/utils/validateRegistraition";
+import { validateRegistration } from "../../../common/utils/validateRegistraition";
 import AuthIcons from "../../../features/auth/AuthIcons";
 import { WrapperContainerAuth } from "../../../features/auth/WrapperContainerAuth";
 import { Button } from "../../../common/components/Button/Button";
@@ -109,9 +106,7 @@ export default function Registration() {
           <AuthIcons />
           <Formik
             initialValues={initialAuthValues}
-            validationSchema={
-              i18n.language == "en" ? validateRegistrationEn : validateRegistrationRu
-            }
+            validationSchema={validateRegistration}
             onSubmit={handleSubmit}
           >
             {({ errors, touched, values, setFieldValue }) => (
@@ -125,6 +120,7 @@ export default function Registration() {
                   border={errors.username?.length && touched.username ? "red" : "white"}
                   errors={errors}
                   touched={touched}
+                  t={t}
                 />
                 <FormikLabel
                   name="email"
@@ -135,6 +131,7 @@ export default function Registration() {
                   border={errors.email?.length && touched.email ? "red" : "white"}
                   errors={errors}
                   touched={touched}
+                  t={t}
                 />
                 <FormikLabel
                   id="pass"
@@ -146,6 +143,7 @@ export default function Registration() {
                   border={errors.password?.length && touched.password ? "red" : "white"}
                   errors={errors}
                   touched={touched}
+                  t={t}
                 >
                   <StyledShowPasswordBtn
                     alt="show password"
@@ -167,6 +165,7 @@ export default function Registration() {
                   }
                   errors={errors}
                   touched={touched}
+                  t={t}
                 >
                   <StyledShowPasswordBtn
                     alt="show password"

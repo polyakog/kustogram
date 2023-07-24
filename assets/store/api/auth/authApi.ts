@@ -1,39 +1,29 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import {loadState} from '../../../../common/components/localStorage/localStorage';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
   CheckLinkType,
   LoginResponseType,
   LoginType,
   NewPasswordResType,
   NewPasswordType,
-  ProfileType,
   RegistrationType,
   SendLinkType
 } from "./types";
-import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../../../common/components/localStorage/types";
+import { getItem } from "../../../../common/hooks/useLocalStorage";
 
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
     fetchFn: async (url) => {
-
-      const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
-
+      const token = getItem("accessToken");
       const options = {
-        // method: 'POST',
         headers: new Headers({
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-
-        }),
-        // body: JSON.stringify(body),
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        })
       };
-
-      const response = await fetch(url, options);
-
-      return response
-    },
+      return await fetch(url, options);
+    }
   }),
   endpoints: (builder) => ({
     registration: builder.mutation<any, RegistrationType>({
@@ -55,7 +45,7 @@ export const authApi = createApi({
         method: "POST",
         url: `/auth/password-recovery`,
         body
-      }),
+      })
     }),
     newPassword: builder.mutation<NewPasswordResType, NewPasswordType>({
       query: (body) => {
@@ -64,15 +54,15 @@ export const authApi = createApi({
           url: `/auth/new-password`,
           body
         };
-      },
+      }
     }),
     checkLinkHandler: builder.query<any, CheckLinkType>({
       query: (code) => {
         return {
           method: "GET",
-          url: `/auth/email-confirmation/${code}`,
+          url: `/auth/email-confirmation/${code}`
         };
-      },
+      }
     }),
     refreshLink: builder.mutation<any, any>({
       query: (body) => {
@@ -81,35 +71,16 @@ export const authApi = createApi({
           url: `/auth/refresh-link`,
           body
         };
-      },
-    }),
-
-
-    //заглушка!!!!!!!
-      setProfile: builder.mutation<undefined, ProfileType>({
-        query: (body) => ({
-          url: "auth/registration",
-          method: "POST",
-          body
-        })
-      }),
-    //заглушка!!!!!!!
-    logout: builder.mutation<undefined, void>({
-      query: () => ({
-        url: "auth/logout",
-        method: "POST"
-      })
-    }),
+      }
+    })
   })
-})
+});
 
 export const {
   useRegistrationMutation,
   useLoginMutation,
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
-  useLogoutMutation,
-  useSetProfileMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation
-} = authApi
+} = authApi;

@@ -9,8 +9,7 @@ import VectorImage from "common/components/VectorImage"
 import overtime from "../../public/img/icons/web-app-ui-time-management-rafiki.svg";
 import { StyledContainerAuth, StyledContainerButtonVer, StyledImageVer } from "styles/styledComponents/auth/Auth.styled"
 import { VerificationWindowType } from "./types"
-import { ThemeButton } from "common/enums/themeButton"
-
+import {ThemeButton} from "../../../kusto/common/enums/themeButton";
 
 const VerificationWindow = ({handleClick, title, text, btnTitle}: VerificationWindowType) => {
 

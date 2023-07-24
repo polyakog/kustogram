@@ -1,5 +1,11 @@
 import * as Yup from "yup";
 
-export const validateRecovery = Yup.object().shape({
-  email: Yup.string().email("invalid_email").required("req_email")
+export const validateRecoveryEn = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required email"),
+
+});
+
+export const validateRecoveryRu = Yup.object().shape({
+  email: Yup.string().email("Email указан неверно").required("Обязательное поле"),
+
 });

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
 import Image from "next/image";
-import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
+import {
+  useAuthMeQuery,
+  useLazyProfileQuery,
+  useProfileQuery
+} from "assets/store/api/profile/profileApi";
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
 import { useRouter } from "next/router";
@@ -24,14 +28,17 @@ import {
 } from "styles/styledComponents/profile/profile.styled";
 import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
-import { redirect } from "next/navigation";
 import { urlify } from "./../../common/utils/urlify";
+import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import { PostPhotos } from "features/profile/PostPhoto";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";
-  const [getProfileInfo, { data: user }] = useLazyProfileQuery();
-
   const { isSuccess } = useAuthMeQuery();
+  const [getProfileInfo, { data: user }] = useLazyProfileQuery();
+  const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
+
+  const posts = postsData?.items;
 
   const { width } = useWindowSize(); // хук для измерения размера экрана
 
@@ -42,10 +49,18 @@ const MyProfile = () => {
 
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
+  const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
+
   /*  ____________</переменные для мобильной версии>_______________*/
 
   useEffect(() => {
     getProfileInfo();
+  }, []);
+
+  useEffect(() => {
+    if (user?.userId) {
+      getPostsInfo(user?.userId);
+    }
   }, []);
 
   useEffect(() => {
@@ -127,7 +142,10 @@ const MyProfile = () => {
                 </AboutMeBlock>
               </InfoBlock>
             </HeaderStyle>
-            <PhotosBlock>
+            {/* <PhotosBlock> */}
+            <PostPhotos posts={posts} postSize={postSize} />
+
+            {/* <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
@@ -135,9 +153,8 @@ const MyProfile = () => {
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-            </PhotosBlock>
+              <PhotoStyle>Photo</PhotoStyle> */}
+            {/* </PhotosBlock> */}
           </ProfileWrapper>
         )}
       </LoginNavigate>

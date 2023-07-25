@@ -7,5 +7,5 @@ export type ModalPropsType = {
   bodyText: string;
   width?: string;
   height?: string;
-  children?: React.ReactElement;
-};
+  children?: React.ReactElement
+}

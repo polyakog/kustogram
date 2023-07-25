@@ -9,19 +9,21 @@ import {
   StyledModalOverlay,
   StyledModalTitle
 } from "./Modal.styled";
-import { ModalPropsType } from "./types";
+import {ModalPropsType} from "./types";
 
-export const Modal = ({
-  handleModalClose,
-  handleCrossClick,
-  title,
-  bodyText,
-  children,
-  width,
-  height
-}: ModalPropsType) => {
+export const Modal = (
+  {
+    handleModalClose,
+    handleCrossClick,
+    title,
+    bodyText,
+    children,
+    width,
+    height,
+  }: ModalPropsType) => {
   const onCloseButtonClick = () => {
-    if (handleModalClose) handleModalClose();
+    if (handleModalClose)
+      handleModalClose();
     if (handleCrossClick) {
       handleCrossClick();
     }
@@ -33,12 +35,14 @@ export const Modal = ({
         <StyledModalHeader>
           <StyledModalTitle>{title}</StyledModalTitle>
           <StyledCloseButton onClick={onCloseButtonClick}>
-            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
+            <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close"/>
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
           <p>{bodyText}</p>
-          <StyledBlockButton>{children}</StyledBlockButton>
+          <StyledBlockButton>
+            {children}
+          </StyledBlockButton>
         </StyledModalBody>
       </StyledModalContainer>
     </StyledModalOverlay>

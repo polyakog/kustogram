@@ -2,8 +2,9 @@
 
 /** @type {import('next-i18next').UserConfig} */
 module.exports = {
-    i18n: {
-      locales: ['en', 'ru'], // используемые языки
-      defaultLocale: 'en', // язык по умолчанию
-    } 
-  } 
+  i18n: {
+    locales: ["en", "ru"], // используемые языки
+    defaultLocale: "en" // язык по умолчанию
+  },
+  react: { useSuspense: false }
+};

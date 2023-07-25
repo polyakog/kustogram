@@ -20,8 +20,8 @@ import {
   HeaderStyle,
   IconBlock,
   InfoBlock,
-  PhotoStyle,
-  PhotosBlock,
+  // PhotoStyle,
+  // PhotosBlock,
   ProfileWrapper,
   StyledAvatarBlock,
   UserNameStyle
@@ -30,7 +30,7 @@ import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
-import { PostPhotos } from "features/profile/PostPhoto";
+import { PostPhotos } from "features/profile/PostPhotos";
 
 const MyProfile = () => {
   const avatar = "/img/icons/avatar.svg";

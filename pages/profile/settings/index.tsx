@@ -55,7 +55,7 @@ const GeneralInformation = () => {
       .finally(() => {
         setIsLoading(true);
       });
-  }, [authMeHandler, getProfileInfo, setItem, setIsLoading]);
+  }, [authMeHandler, getProfileInfo, setIsLoading]);
 
   // аватарка, отображаемая при загрузке
   const avatar = data?.photo || "/img/icons/avatar.svg";

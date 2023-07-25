@@ -4,15 +4,10 @@ import { StyledButton } from "./StyledButton.styled";
 import { useButtonColorType } from "../../hooks/useButtonColorType";
 
 export const Button: FC<ButtonPropsType> = ({ children, theme, width, ...otherProps }) => {
-  const { handleButtonType } = useButtonColorType();
+  const { handler } = useButtonColorType();
 
   return (
-    <StyledButton
-      theme={theme}
-      handleButtonType={handleButtonType(theme)}
-      width={width}
-      {...otherProps}
-    >
+    <StyledButton theme={theme} handler={handler(theme)} width={width} {...otherProps}>
       {children}
     </StyledButton>
   );

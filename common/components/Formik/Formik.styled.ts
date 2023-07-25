@@ -73,7 +73,7 @@ export const StyledInputContainer = styled.div`
   position: relative;
 `;
 
-export const StyledLabel = styled.label<{ withError: boolean; marginBottom?: string }>`
+export const StyledLabel = styled.label<{ witherror: string; margin?: string }>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ export const StyledLabel = styled.label<{ withError: boolean; marginBottom?: str
   font-family: Inter;
   font-size: 16px;
 
-  margin-bottom: ${(props) => (props.withError ? 0 : props.marginBottom || "24px")};
+  margin-bottom: ${(props) => (props.witherror === "err" ? 0 : props.margin || "24px")};
 `;
 
 export const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>`

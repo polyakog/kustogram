@@ -17,11 +17,11 @@ export const FormikLabel = ({
   width,
   errorShow,
   textAreaData,
-  marginBottom,
+  margin,
   t
 }: labelType) => {
   return (
-    <StyledLabel id={id} withError={!!errors[name] && !!touched[name]} marginBottom={marginBottom}>
+    <StyledLabel id={id} witherror={!!errors[name] && !!touched[name] ? "err" : ""} margin={margin}>
       <StyledTitle>
         <span>{title}</span>
       </StyledTitle>

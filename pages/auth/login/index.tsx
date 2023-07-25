@@ -119,7 +119,7 @@ const Login = () => {
                 border={errors.password?.length && touched.password ? "red" : "white"}
                 errors={errors}
                 touched={touched}
-                marginBottom={"48px"}
+                margin="48px"
                 t={t}
               >
                 <StyledShowPasswordBtn

@@ -52,10 +52,10 @@ export const StyledDiv = styled.div`
   align-items: center;
 `;
 
-export const StyledText = styled.div<{ isActive: boolean }>`
+export const StyledText = styled.div<{ isactive: string }>`
   font-size: 14px;
-  font-weight: ${(props) => (props.isActive ? 700 : 500)};
+  font-weight: ${(props) => (props.isactive === "active" ? 700 : 500)};
   line-height: 24px;
   color: ${(props) =>
-    props.isActive ? baseTheme.colors.accent[500] : baseTheme.colors.light[100]};
+    props.isactive === "active" ? baseTheme.colors.accent[500] : baseTheme.colors.light[100]};
 `;

@@ -18,7 +18,7 @@ export const PostPhotos: React.FC<PropsType> = ({ posts, postSize }) => {
             width={postSize}
             height={postSize}
             alt={"post image"}
-            // style={{ maxWidth: "204px", maxHeight: "204px" }}
+            // style={{ }}
           />
         </PhotoStyle>
       ))}

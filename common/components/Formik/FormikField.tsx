@@ -15,6 +15,7 @@ export const FormikField = (props: FiledProps) => {
       {...props}
       onChange={(e) => props.onChange(e.target.value)}
       width={props.width}
+      value={props.value}
     />
   );
 };

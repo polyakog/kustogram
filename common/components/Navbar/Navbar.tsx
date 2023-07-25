@@ -10,7 +10,7 @@ export type NavbarPropsType = {
 };
 export const Navbar = ({ showNavbar }: NavbarPropsType) => {
   const location = usePathname();
-  const isActive = (name: string) => location === name;
+  const isActive = (name: string) => (location === name ? "active" : "");
 
   const items = ITEM_LINK.map((item) => (
     <MainLink
@@ -18,7 +18,7 @@ export const Navbar = ({ showNavbar }: NavbarPropsType) => {
       src={isActive(item.href) ? item.selectIcon : item.icon}
       name={item.name}
       href={item.href}
-      isActive={isActive(item.href)}
+      isactive={isActive(item.href)}
     />
   ));
 

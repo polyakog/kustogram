@@ -31,7 +31,7 @@ export type labelType = {
   width?: string;
   errorShow?: boolean;
   textAreaData?: string;
-  marginBottom?: string;
+  margin?: string;
   t?: TFunction;
 };
 

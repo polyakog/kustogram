@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
+import { Providers } from "common/components/Navigation/Providers";
 
 const media = mediaSizes.media;
 
@@ -16,6 +17,7 @@ export const PageLayout: NextPage<PropsWithChildren> = (props) => {
   const router = useRouter();
   const { profile } = router.query;
   return (
+    <Providers>   
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Header />
@@ -27,6 +29,7 @@ export const PageLayout: NextPage<PropsWithChildren> = (props) => {
         </Page>
       </LocalizationProvider>
     </StyledWrapper>
+    </Providers>
   );
 };
 

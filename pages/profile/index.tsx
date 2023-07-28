@@ -31,8 +31,11 @@ import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
 import { PostPhotos } from "features/profile/PostPhotos";
+import { getServerSession } from "next-auth/next";
+import { authConfig } from "configs/auth";
 
-const MyProfile = () => {
+const MyProfile = async () => {
+  // const session = await getServerSession (authConfig)
   const avatar = "/img/icons/avatar.svg";
   const { isSuccess } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
@@ -100,16 +103,19 @@ const MyProfile = () => {
               <StyledAvatarBlock>
                 <IconBlock>
                   <Image
-                    src={user?.photo || avatar}
+                    src={user?.photo 
+                      // || session?.user?.image 
+                      ||avatar}
                     width={avatarSize}
                     height={avatarSize}
                     alt={"avatar"}
-                    // style={{ maxWidth: "204px", maxHeight: "204px" }}
+                    // style={{}}
                   />
                 </IconBlock>
               </StyledAvatarBlock>
 
               <UserNameStyle>
+                {/* {session?.user?.name} */}
                 {user?.firstName} {user?.lastName}
                 {isPaid && (
                   <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />

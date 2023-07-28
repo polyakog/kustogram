@@ -35,6 +35,7 @@ import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -51,6 +52,7 @@ const Login = () => {
   const { passwordType, showPassword } = useShowPassword();
 
   const { removeItem, setItem } = useLocalStorage();
+  const { data: session, status } = useSession();
 
   const initialAuthValues = {
     password: "",
@@ -87,64 +89,75 @@ const Login = () => {
     }
   };
 
+  if (session?.user) {
+    route.push(Path.PROFILE_SETTINGS)
+
+  }
+
   return (
-    <StyledContainerAuth>
-      <WrapperContainerAuth title={t("signIn_title")}>
-        <AuthIcons />
-        <Formik
-          initialValues={initialAuthValues}
-          validationSchema={validateLogin}
-          onSubmit={handleSubmit}
-        >
-          {({ errors, touched, values, setFieldValue }) => (
-            <StyledAuthForm>
-              <FormikLabel
-                name="loginOrEmail"
-                onChange={(e) => setFieldValue("loginOrEmail", e)}
-                value={values.loginOrEmail}
-                type={"text"}
-                title={t("email_label")}
-                border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
-                errors={errors}
-                touched={touched}
-                t={t}
-              />
-              <FormikLabel
-                id="pass"
-                name="password"
-                onChange={(e) => setFieldValue("password", e)}
-                value={values.password}
-                type={passwordType}
-                title={t("password_label")}
-                border={errors.password?.length && touched.password ? "red" : "white"}
-                errors={errors}
-                touched={touched}
-                margin="48px"
-                t={t}
-              >
-                <StyledShowPasswordBtn
-                  alt="show password"
-                  src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
-                  onClick={() => showPassword()}
+    <>
+    {!session && (
+        <StyledContainerAuth>
+        <WrapperContainerAuth title={t("signIn_title")}>
+          <AuthIcons />
+          <Formik
+            initialValues={initialAuthValues}
+            validationSchema={validateLogin}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched, values, setFieldValue }) => (
+              <StyledAuthForm>
+                <FormikLabel
+                  name="loginOrEmail"
+                  onChange={(e) => setFieldValue("loginOrEmail", e)}
+                  value={values.loginOrEmail}
+                  type={"text"}
+                  title={t("email_label")}
+                  border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
+                  errors={errors}
+                  touched={touched}
+                  t={t}
                 />
-              </FormikLabel>
-              <StyledLinkBlock>
-                <StyledForgotLink href="/auth/recovery">
-                  {t("forgotPassword_link")}
-                </StyledForgotLink>
-              </StyledLinkBlock>
-              <Button theme={ThemeButton.PRIMARY} type="submit">
-                {t("signIn_title")}
-              </Button>
-            </StyledAuthForm>
-          )}
-        </Formik>
-        <StyledSignInWrapper>
-          <StyledText>{t("notAccount_title")}</StyledText>
-          <StyledSignIn href={Path.REGISTRATION}>{t("signUp_link")}</StyledSignIn>
-        </StyledSignInWrapper>
-      </WrapperContainerAuth>
-    </StyledContainerAuth>
+                <FormikLabel
+                  id="pass"
+                  name="password"
+                  onChange={(e) => setFieldValue("password", e)}
+                  value={values.password}
+                  type={passwordType}
+                  title={t("password_label")}
+                  border={errors.password?.length && touched.password ? "red" : "white"}
+                  errors={errors}
+                  touched={touched}
+                  margin="48px"
+                  t={t}
+                >
+                  <StyledShowPasswordBtn
+                    alt="show password"
+                    src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
+                    onClick={() => showPassword()}
+                  />
+                </FormikLabel>
+                <StyledLinkBlock>
+                  <StyledForgotLink href="/auth/recovery">
+                    {t("forgotPassword_link")}
+                  </StyledForgotLink>
+                </StyledLinkBlock>
+                <Button theme={ThemeButton.PRIMARY} type="submit">
+                  {t("signIn_title")}
+                </Button>
+              </StyledAuthForm>
+            )}
+          </Formik>
+          <StyledSignInWrapper>
+            <StyledText>{t("notAccount_title")}</StyledText>
+            <StyledSignIn href={Path.REGISTRATION}>{t("signUp_link")}</StyledSignIn>
+          </StyledSignInWrapper>
+        </WrapperContainerAuth>
+      </StyledContainerAuth>
+
+    )}
+    </>   
+  
   );
 };
 

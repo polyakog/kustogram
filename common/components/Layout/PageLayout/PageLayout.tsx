@@ -50,7 +50,7 @@ const Page = styled.div`
   display: flex;
   max-width: 1310px;
   width: 100%;
-  gap: 72px;
+  gap: 16px;
 
   padding: 0 10px;
   margin: auto;

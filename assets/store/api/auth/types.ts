@@ -41,3 +41,9 @@ export type RegistrationResponseError = {
     errorsMessages: ErrorMessagesType[];
   };
 };
+
+export type MeType = {
+  id: string
+  login: string
+  email: string
+}

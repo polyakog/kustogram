@@ -1,14 +1,15 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import {
   CheckLinkType,
   LoginResponseType,
   LoginType,
+  MeType,
   NewPasswordResType,
   NewPasswordType,
   RegistrationType,
   SendLinkType
 } from "./types";
-import {getItem} from "../../../../common/hooks/useLocalStorage";
+import { getItem } from "../../../../common/hooks/useLocalStorage";
 
 
 export const authApi = createApi({
@@ -74,6 +75,17 @@ export const authApi = createApi({
         };
       },
     }),
+    me: builder.query<MeType, void>({
+      query: () => {
+        return {
+          method: "GET",
+          url: `/auth/me`,
+
+        };
+      }
+
+    })
+
   })
 })
 
@@ -83,5 +95,6 @@ export const {
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
   useLazyCheckLinkHandlerQuery,
-  useRefreshLinkMutation
+  useRefreshLinkMutation,
+  useMeQuery
 } = authApi

@@ -7,8 +7,7 @@ export const FieldTextarea = (props: TextAreaPropsType) => {
     <StyledTextArea
       onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onChange(e)}
       width={props.width}
-    >
-      {props.textAreaData}
-    </StyledTextArea>
+      value={props.value}
+    />
   );
 };

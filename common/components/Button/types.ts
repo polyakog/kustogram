@@ -2,7 +2,6 @@ import { ButtonHTMLAttributes } from "react";
 import { ThemeButton } from "../../enums/themeButton";
 
 export type ButtonPropsType = ButtonHTMLAttributes<HTMLButtonElement> & {
-  className?: string;
   theme: ThemeButton;
   disabled?: boolean;
   width?: string;
@@ -13,7 +12,7 @@ export type StyledButtonPropsType = {
   height?: string;
   type?: "button" | "reset" | "submit";
   theme: ThemeButton;
-  handleButtonType: HandleButtonType;
+  handler: HandleButtonType;
 };
 
 export type HandleButtonType = {

@@ -5,32 +5,31 @@ import {GetStaticPropsContext} from "next"
 import config from 'next-i18next.config.js'
 import {useTranslation} from 'next-i18next'
 import {useRefreshLinkMutation} from "../../../../assets/store/api/auth/authApi";
-import {Modal} from "../../../../common/components/Modal";
+import {Modal} from "../../../../common/components/Modal/Modal";
 import VerificationWindow from "../../../../features/auth/VerificationWindow";
+import { useLocalStorage } from "common/hooks/useLocalStorage"
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const {locale} = context as any
+  const {locale} = context
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"], config)),
+      ...(await serverSideTranslations(locale as string, ["common"], config)),
     }
   }
 }
 
 const Verification = () => {
   const [isModalActive, setIsModalActive] = useState(false)
+  const {getItem}=useLocalStorage()
 
-  let localEmail: { email?:string|null }={}
   const {t} = useTranslation()
 
-  if (typeof window !== 'undefined') {
-     localEmail = {email:localStorage?.getItem('email')}
-  }
+  const data={email:getItem('email')}
 
   const [refreshLinkHandler] = useRefreshLinkMutation()
 
     const handleClick = () => {
-      refreshLinkHandler(localEmail)
+      refreshLinkHandler(data)
         .unwrap()
         .then(()=>{
           setIsModalActive(true)
@@ -45,7 +44,7 @@ const Verification = () => {
       <> {isModalActive && (
         <Modal
           title="Refresh link"
-          bodyText={`We have sent a refresh link your email to ${localEmail.email}`}
+          bodyText={`We have sent a refresh link your email to ${getItem('email')}`}
           handleModalClose={handleModalClose}
         />
       )}

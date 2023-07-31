@@ -46,6 +46,12 @@ export type ProfileType = {
 export type RegistrationResponseError = {
   status: number
   data: {
-    errorsMessages: [{ field: string; message: "string" }]
-  }
+    errorsMessages: ErrorMessagesType[];
+  };
+};
+
+export type MeType = {
+  id: string
+  login: string
+  email: string
 }

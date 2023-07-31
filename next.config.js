@@ -12,6 +12,9 @@ const nextConfig = {
         pathname: '/api/character/avatar/**',
       },
     ]
+  },
+  compiler: {
+    styledComponents: true
   }
 }
 

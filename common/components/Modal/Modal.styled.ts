@@ -57,9 +57,10 @@ export const StyledModalBody = styled.div`
   padding: 30px 24px;
 `;
 
-export const StyledBlockButton = styled.div`
-  display: flex;
-  justify-content: right;
-  margin-top: 20px;
-  gap: 20px;
-`;
+export const StyledBlockButton = styled.div
+  `
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+    gap: 20px;
+  `;

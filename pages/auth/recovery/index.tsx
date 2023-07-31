@@ -90,7 +90,8 @@ export default function Recovery() {
                 border={errors.email?.length && touched.email ? "red" : "white"}
                 errors={errors}
                 touched={touched}
-                errorShow={true}
+                margin={"0px"}
+                t={t}
               />
               <StyledRecoveryWrapper>
                 <StyledText color={baseTheme.colors.light[950]}>

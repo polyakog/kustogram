@@ -2,7 +2,7 @@
 
 /* Make clicks pass-through */
 #nprogress {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 #nprogress .bar {

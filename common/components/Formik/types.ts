@@ -17,19 +17,22 @@ type FormikAllValuesType = {
 }
 
 export type labelType = {
-  children?: React.ReactNode
-  id?: string
-  type?: string
-  title: string
-  name?: string
-  border?: string
-  errors: FormikErrors<FormikAllValuesType>
-  touched: FormikTouched<FormikAllValuesType>
-  value: string
-  onChange: (e: string) => void
-  width?: string
-  errorShow?: boolean
-}
+  children?: React.ReactNode;
+  id?: string;
+  type?: string;
+  title: string;
+  name: keyof FormikAllValuesType;
+  border?: string;
+  errors: FormikErrors<FormikAllValuesType>;
+  touched: FormikTouched<FormikAllValuesType>;
+  value: string;
+  onChange: (e: string) => void;
+  width?: string;
+  errorShow?: boolean;
+  textAreaData?: string;
+  margin?: string;
+  t?: TFunction;
+};
 
 export type FormValueRegistration = {
   username: string

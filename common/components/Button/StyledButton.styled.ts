@@ -12,7 +12,7 @@ export const StyledButton = styled.button.attrs((props) => ({
     border-radius: 2px;
     cursor: pointer;
 
-    ${(props) => (props.theme ? props.handleButtonType : "")};
+    ${(props) => (props.theme ? props.handler : "")};
 
     @media (max-width: 390px) {
       width: ${(props) => (props.width ? props.width : "80vw")};

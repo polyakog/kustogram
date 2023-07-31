@@ -11,22 +11,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: string
 }
 
-export const Button: FC<ButtonProps> = (props) => {
-  const {
-    className,
-    children,
-    theme = ThemeButton.PRIMARY,
-    disabled,
-    width,
-    ...otherProps
-  } = props;
+export const Button: FC<ButtonPropsType> = ({ children, theme, width, ...otherProps }) => {
+  const { handler } = useButtonColorType();
 
   return (
-    <StyledButton
-      width={width}
-      className={classNames('', {['disabled']: disabled}, [className, theme])}
-      {...otherProps}
-    >
+    <StyledButton theme={theme} handler={handler(theme)} width={width} {...otherProps}>
       {children}
     </StyledButton>
   );

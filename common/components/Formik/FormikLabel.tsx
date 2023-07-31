@@ -24,45 +24,45 @@ export const FormikLabel = ({title, name, border, id, errors, touched, type, val
   if (name === 'city') errors.city && touched.city ? errorMessage = errors.city : ''
 
 
+export const FormikLabel = ({
+  title,
+  name,
+  border,
+  id,
+  errors,
+  touched,
+  type,
+  value,
+  onChange,
+  children,
+  width,
+  errorShow,
+  textAreaData,
+  margin,
+  t
+}: labelType) => {
   return (
-    <label  id={id}>
-      <StyledTitle><span>{title}</span></StyledTitle>
-      <FormikField
-        name={name}
-        border={border}
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e)}
-        width={width}
-      />
-      <StyledErrorMsg errorShow={errorShow}>{errorMessage}</StyledErrorMsg>
-      {children}
-    </label>
-  )
-}
-
-type StyledErrorMsgPropsType={
-  errorShow?:boolean
-}
-
-
-const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>
-  `
-    width: 100%;
-    height: ${props=>props.errorShow?'':'30px'};
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    
-    color: ${baseTheme.colors.danger["500"]};
-  `
-
-const StyledTitle = styled(StyledErrorMsg)
-  `
-    color: ${baseTheme.colors.light["950"]};
-
-    & span::first-letter {
-      text-transform: uppercase;
-    }
-  `
+    <StyledLabel id={id} witherror={!!errors[name] && !!touched[name] ? "err" : ""} margin={margin}>
+      <StyledTitle>
+        <span>{title}</span>
+      </StyledTitle>
+      <StyledInputContainer>
+        <FormikField
+          name={name}
+          border={border}
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e)}
+          width={width}
+          textAreaData={textAreaData}
+        />
+        {children}
+      </StyledInputContainer>
+      {!!errors[name] && touched[name] && (
+        <StyledErrorMsg errorShow={errorShow}>
+          {t ? t(`${errors[name]}`) : errors[name]}
+        </StyledErrorMsg>
+      )}
+    </StyledLabel>
+  );
+};

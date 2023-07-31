@@ -1,21 +1,6 @@
-import Image from "next/image";
-import {getLayout} from "../common/components/Layout/BaseLayout/BaseLayout";
-import Link from "next/link";
-
 const NotFound = () => {
-  return <div>
-    <Image
-    src="/404.svg"
-    alt="Next.js Logo"
-    width={1280}
-    height={720}
-    priority
-  />
-    <div>
-      <Link href={'/'}>Back Main</Link>
-    </div>
-
-  </div>
+  return <div>404 NOT FOUND</div>
+}
 
 }
 NotFound.getLayout = getLayout

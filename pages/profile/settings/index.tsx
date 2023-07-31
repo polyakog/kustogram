@@ -18,8 +18,18 @@ const ProfileSettings = () => {
   const serverAvatar: string = ''
   const avatar = serverAvatar !== '' ? serverAvatar : '/icons/avatar.svg'
 
-  const router = useRouter()
-  const {login} = router.query
+  useEffect(() => {
+    authMeHandler()
+      .unwrap()
+      .then((res) => {
+        setItem("userEmail", res.email);
+      });
+    getProfileInfo()
+      .unwrap()
+      .finally(() => {
+        setIsLoading(true);
+      });
+  }, [authMeHandler, getProfileInfo, setIsLoading]);
 
 
   const initialAuthValues = {
@@ -141,96 +151,8 @@ const ProfileSettings = () => {
   );
 };
 
-
-ProfileSettings.getLayout = getLayout
-export default ProfileSettings;
-
-const StyledContainerSettings = styled(StyledContainerAuth)
-  `
-    width: 70vw;
-    //border: 1px solid red;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-
-  `
-
-const StyledSidebar = styled(StyledContainerAuth)
-  `
-    width: 20vw;
-    display: flex;
-    //border: 1px solid green;
-
-  `
-
-const StyledContent = styled.div
-  `
-    width: 100%;
-    margin-top: 40px;
-
-    display: flex;
-    gap: 36px;
-
-    @media (max-width: 790px ) {
-      flex-direction: column;
-      align-items: center;
-    }
-  `
-
-
-const StyledNavigation = styled.header
-  `
-    width: 80%;
-    height: 60px;
-    padding: 0 4.6%;
-
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    background: ${baseTheme.colors.dark[700]};
-    border-bottom: 2px solid ${baseTheme.colors.dark[100]};
-    color: ${baseTheme.colors.dark[100]};
-    @media (max-width: 790px ) {
-      width: 100%;
-    }
-
-  `
-const StyledAvatarBlock = styled.div
-  `
-    width: 20%;
-
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    //align-items: flex-start;
-    align-content: flex-start;
-    gap: 20px;
-
-    background: ${baseTheme.colors.dark[700]};
-    //border: 2px solid darkred;
-    color: ${baseTheme.colors.dark[100]};
-
-    & img {
-      width: 13.5vw;
-      height: 13.5vw;
-      border-radius: 50%;
-
-      //& Image {
-      //  width: 13.5vw;
-      //  height: 13.5vw;
-      //  border-radius: 50%;
-
-      @media (max-width: 790px ) {
-        width: 40vw;
-        height: 40vw;
-      }
-    }
-
-    @media (max-width: 790px ) {
-      width: 60%;
-    }
-  `
+GeneralInformation.getLayout = getLayout;
+export default GeneralInformation;
 
 const StyledProfileForm = styled(StyledAuthForm)
   `

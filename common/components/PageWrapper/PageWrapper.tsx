@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
-import { HeadMeta } from "../HeadMeta/HeadMeta";
+import {HeadMeta} from '../HeadMeta/HeadMeta';
 
 type PropsType = {
   title?: string;
@@ -25,7 +25,7 @@ const MainBlock = styled.div`
   column-gap: 15px;
   position: relative;
   padding: 4rem 0;
-  max-width: 1280px;
+  //max-width: 1280px;
   margin: 0 auto;
 
   @media (max-width: 700px) {

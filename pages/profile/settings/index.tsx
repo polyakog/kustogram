@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import { FormValueProfile } from "../../../common/components/Formik/types";
 import { Button } from "../../../common/components/Button/Button";
 import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
@@ -10,65 +10,92 @@ import {
   useLazyProfileQuery,
   useSaveProfileInfoMutation
 } from "../../../assets/store/api/profile/profileApi";
+import type {} from "@mui/x-date-pickers/themeAugmentation";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import PhotoSelectModal from "features/profile/PhotoSelectModal";
-import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
-import styled from "styled-components";
-import { baseTheme } from "../../../styles/styledComponents/theme";
 import Image from "next/image";
-import { transformDate } from "common/utils/transformDate";
+import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
+import { Modal } from "../../../common/components/Modal/Modal";
+import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import { useRouter } from "next/router";
+import { Path } from "../../../common/enums/path";
+import Calendar from "common/components/Calendar/Calendar";
+import {
+  BlockButton,
+  IconBlock,
+  StyledAvatarBlock,
+  StyledContent,
+  StyledLine,
+  StyledProfileForm
+} from "styles/styledComponents/profile/Settings.styled";
+
+// //// Отображение страницы редактирования профиля  //  ////
+//      с возможностью изменения аватарки                 //
 
 const GeneralInformation = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // открытие модального окна загрузки новой аватарки
+  const [isModalOpen, setIsModalOpen] = useState({
+    photoModal: false, // открытие модального окна выбора аватарки
+    saveProfileModal: false // открытие модального окна при сохранении изменений
+  });
   const [isLoading, setIsLoading] = useState(false);
-
+  const { setItem } = useLocalStorage();
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation();
   const [getProfileInfo, { data }] = useLazyProfileQuery();
   const [authMeHandler, { data: usernameAuth }] = useLazyAuthMeQuery();
+  const router = useRouter();
 
   useEffect(() => {
-    authMeHandler();
+    authMeHandler()
+      .unwrap()
+      .then((res) => {
+        setItem("userEmail", res.email);
+      });
     getProfileInfo()
       .unwrap()
       .finally(() => {
         setIsLoading(true);
       });
-  }, []);
+  }, [authMeHandler, getProfileInfo, setIsLoading]);
 
-  // начальные значения, отображаемые на странице
+  // аватарка, отображаемая при загрузке
   const avatar = data?.photo || "/img/icons/avatar.svg";
+
+  // начальные значения для формы
   const initialAuthValues = {
-    username: data?.login || usernameAuth?.login || "",
+    username: usernameAuth?.login || data?.login || "",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",
-    birthday: data?.dateOfBirthday ? transformDate(data.dateOfBirthday) : "",
+    birthday: data?.dateOfBirthday || "",
     city: data?.city || "",
     aboutMe: data?.userInfo || ""
   };
-
+  // обработчик нажатия кнопки сохранения данных в форме
   const handleSubmit = async (values: FormValueProfile) => {
-    const date = transformDate(values.birthday);
     const data = {
       login: values.username,
       firstName: values.firstname,
       lastName: values.lastname,
-      dateOfBirthday: date,
+      dateOfBirthday: values.birthday,
       city: values.city,
       userInfo: values.aboutMe
     };
     try {
-      await saveProfileInfoHandler(data);
+      await saveProfileInfoHandler(data)
+        .unwrap()
+        .then(() => {
+          setIsModalOpen({ photoModal: false, saveProfileModal: true });
+          router.push(Path.PROFILE_SETTINGS);
+        });
     } catch (error) {}
   };
-
-  // открытие модального окна для загрузки новой аватарки
+  // обработчик нажатия кнопки для открытия окна смены аватарки
   const handleAddPhoto = () => {
-    setIsModalOpen(true);
+    setIsModalOpen({ photoModal: true, saveProfileModal: false });
   };
 
-  // закрытие модального окна для загрузки аватарки
+  // обработчик нажатия кнопки для закрытия модального окна смены аватарки
   const handleModalClose = () => {
-    setIsModalOpen(false);
+    setIsModalOpen({ photoModal: false, saveProfileModal: false });
   };
 
   return (
@@ -136,17 +163,7 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <FormikLabel
-                    name="birthday"
-                    onChange={(e) => setFieldValue("birthday", e)}
-                    value={values.birthday}
-                    type={"date"}
-                    title={"Date of birthday"}
-                    border={errors.birthday?.length && touched.birthday ? "red" : "white"}
-                    errors={errors}
-                    touched={touched}
-                    width={"150px"}
-                  />
+                  <Calendar setFieldValue={setFieldValue} date={data?.dateOfBirthday || ""} />
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}
@@ -169,8 +186,19 @@ const GeneralInformation = () => {
               )}
             </Formik>
           </StyledContent>
-          {isModalOpen && (
+          {isModalOpen.photoModal && (
             <PhotoSelectModal handleModalClose={handleModalClose} avatar={data?.photo} />
+          )}
+          {isModalOpen.saveProfileModal && (
+            <Modal
+              title="General information "
+              bodyText={`Profile changes saved`}
+              handleModalClose={handleModalClose}
+            >
+              <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"96px"}>
+                OK
+              </Button>
+            </Modal>
           )}
         </SettingsPageWrapper>
       )}
@@ -180,66 +208,3 @@ const GeneralInformation = () => {
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
-
-const StyledContent = styled.div`
-  position: relative;
-  display: flex;
-  gap: 40px;
-
-  @media (max-width: 790px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const StyledAvatarBlock = styled.div`
-  max-width: 192px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-  gap: 20px;
-
-  background: ${baseTheme.colors.dark[700]};
-  color: ${baseTheme.colors.dark[100]};
-`;
-
-const IconBlock = styled.div`
-  position: relative;
-
-  width: 192px;
-  height: 192px;
-  overflow: hidden;
-  background: ${baseTheme.colors.dark[100]};
-  border-radius: 50%;
-
-  & img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 192px;
-    height: 192px;
-    object-fit: cover;
-  }
-`;
-
-const StyledProfileForm = styled(Form)`
-  align-items: flex-end;
-  width: 100%;
-`;
-
-const StyledLine = styled.div`
-  position: absolute;
-  bottom: 60px;
-  right: 0;
-  width: 100%;
-  max-width: 726px;
-  height: 1px;
-  background: ${baseTheme.colors.dark[300]};
-`;
-
-const BlockButton = styled.div`
-  text-align: right;
-  padding-top: 24px;
-`;

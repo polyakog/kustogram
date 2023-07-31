@@ -1,12 +1,14 @@
-import { FC, PropsWithChildren } from "react";
-import { useRouter } from "next/router";
 
-export const LoginNavigate: FC<PropsWithChildren<{}>> = ({ children }) => {
-  const router = useRouter();
+import {FC, PropsWithChildren} from "react";
+import {useRouter} from "next/router";
 
-  const isAuth = true; // запрос авторизации
+export const LoginNavigate: FC<PropsWithChildren<{}>> = ({children}) => {
+  const router = useRouter()
 
-  if (!isAuth) router.push("/login");
+  const isAuth = true  // запрос авторизации
 
-  return <>{children}</>;
+  if (!isAuth) router.push('/login')
+
+  return <>{children}</>
 };
+

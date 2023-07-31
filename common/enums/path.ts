@@ -7,5 +7,6 @@ export enum Path {
   NEW_PASSWORD = "/auth/new_password",
   REGISTRATION_SUCCESS = "/auth/registration/success",
   REGISTRATION_ERROR = "/auth/registration/verificationError",
-  NEW_PASSWORD_ERROR = "/auth/new_password/verificationError"
+  NEW_PASSWORD_ERROR = "/auth/new_password/verificationError",
+  ERROR_404 = "*"
 }

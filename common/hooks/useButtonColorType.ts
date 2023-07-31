@@ -1,7 +1,7 @@
 import { baseTheme } from "../../styles/styledComponents/theme";
 
 export const useButtonColorType = () => {
-  const handleButtonType = (theme: string) => {
+  const handler = (theme: string) => {
     switch (theme) {
       case "primary":
         return {
@@ -79,5 +79,5 @@ export const useButtonColorType = () => {
     }
   };
 
-  return { handleButtonType };
+  return { handler };
 };

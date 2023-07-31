@@ -5,9 +5,12 @@ import { MainLink } from "./MainLink/MainLink";
 import { StyledItemBlock, StyledLogout, StyledSidebar } from "./Navbar.styled";
 import { LogoutLink } from "./LogoutLink/logoutLink";
 
-export const Navbar = () => {
+export type NavbarPropsType = {
+  showNavbar: string | string[] | undefined;
+};
+export const Navbar = ({ showNavbar }: NavbarPropsType) => {
   const location = usePathname();
-  const isActive = (name: string) => location === name;
+  const isActive = (name: string) => (location === name ? "active" : "");
 
   const items = ITEM_LINK.map((item) => (
     <MainLink
@@ -15,15 +18,15 @@ export const Navbar = () => {
       src={isActive(item.href) ? item.selectIcon : item.icon}
       name={item.name}
       href={item.href}
-      isActive={isActive(item.href)}
+      isactive={isActive(item.href)}
     />
   ));
 
   return (
-    <StyledSidebar>
+    <StyledSidebar showNavbar={showNavbar}>
       <StyledItemBlock>{items}</StyledItemBlock>
       <StyledLogout>
-        <LogoutLink userEmail={"Epam@epam.com"} />
+        <LogoutLink />
       </StyledLogout>
     </StyledSidebar>
   );

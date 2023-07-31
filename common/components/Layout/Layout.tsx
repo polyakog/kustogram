@@ -3,17 +3,13 @@ import { NextPage } from "next";
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import { baseTheme } from "../../../styles/styledComponents/theme";
-import { store } from "../../../assets/store/store";
-import { Provider } from "react-redux";
 
 export const Layout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
   return (
     <StyledWrapper>
-      <Provider store={store}>
-        <Header />
-        <Main>{children}</Main>
-      </Provider>
+      <Header />
+      <Main>{children}</Main>
     </StyledWrapper>
   );
 };
@@ -30,6 +26,4 @@ const StyledWrapper = styled.div`
   color: ${baseTheme.colors.light[100]};
 `;
 
-const Main = styled.div`
-  //overflow: hidden;                          //уточнить
-`;
+const Main = styled.div``;

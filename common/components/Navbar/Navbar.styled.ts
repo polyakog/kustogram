@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { baseTheme } from "../../../styles/styledComponents/theme";
+import { NavbarPropsType } from "./Navbar";
 
 //Navbar
-export const StyledSidebar = styled.div`
+export const StyledSidebar = styled.div<NavbarPropsType>`
   position: relative;
   max-width: 220px;
   min-width: 160px;
   height: 660px;
   width: 17vw;
+  opacity: ${(props) => (props.showNavbar ? 0 : 1)};
 
   border-right: 1px solid ${baseTheme.colors.dark[300]};
 `;
@@ -50,10 +52,10 @@ export const StyledDiv = styled.div`
   align-items: center;
 `;
 
-export const StyledText = styled.div<{ isActive: boolean }>`
+export const StyledText = styled.div<{ isactive: string }>`
   font-size: 14px;
-  font-weight: ${(props) => (props.isActive ? 700 : 500)};
+  font-weight: ${(props) => (props.isactive === "active" ? 700 : 500)};
   line-height: 24px;
   color: ${(props) =>
-    props.isActive ? baseTheme.colors.accent[500] : baseTheme.colors.light[100]};
+    props.isactive === "active" ? baseTheme.colors.accent[500] : baseTheme.colors.light[100]};
 `;

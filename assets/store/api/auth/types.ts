@@ -30,15 +30,6 @@ export type LoginResponseType = {
   profile: boolean;
 };
 
-export type ProfileType = {
-  username: string;
-  firstname: string;
-  lastname: string;
-  birthday: string;
-  city: string;
-  aboutMe: string;
-};
-
 type ErrorMessagesType = {
   field: string;
   message: string;
@@ -50,3 +41,9 @@ export type RegistrationResponseError = {
     errorsMessages: ErrorMessagesType[];
   };
 };
+
+export type MeType = {
+  id: string
+  login: string
+  email: string
+}

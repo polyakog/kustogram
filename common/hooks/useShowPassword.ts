@@ -1,28 +1,28 @@
-import { useState } from "react";
+import { useState } from "react"
 
 export const useShowPassword = () => {
-  const [passwordType, setPasswordType] = useState("password");
-  const [passwordConfirmationType, setPasswordConfirmationType] = useState("password");
+  const [passwordType, setPasswordType] = useState("password")
+  const [passwordConfirmationType, setPasswordConfirmationType] = useState("password")
 
   const showPassword = () => {
     if (passwordType === "text") {
-      setPasswordType("password");
+      setPasswordType("password")
     } else {
-      setPasswordType("text");
+      setPasswordType("text")
     }
-  };
+  }
   const showPasswordConfirmation = () => {
     if (passwordConfirmationType === "text") {
-      setPasswordConfirmationType("password");
+      setPasswordConfirmationType("password")
     } else {
-      setPasswordConfirmationType("text");
+      setPasswordConfirmationType("text")
     }
-  };
+  }
 
   return {
     passwordType,
     passwordConfirmationType,
     showPassword,
     showPasswordConfirmation
-  };
-};
+  }
+}

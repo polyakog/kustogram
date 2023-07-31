@@ -1,42 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { loadState } from "../../../../common/components/localStorage/localStorage";
 import { AuthMeType, UserType } from "./types";
-import { LOCAL_STORAGE_ACCESS_TOKEN_KEY } from "../../../../common/components/localStorage/types";
+import { getItem } from "../../../../common/hooks/useLocalStorage";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
     prepareHeaders: (headers, { endpoint }) => {
-      // условие для создания автоматического заголовка при загрузке аватарки
       const UPLOAD_ENDPOINTS = ["saveAvatar"];
       if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
         headers.set("Content-Type", `application/json`);
       }
-
-      const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
+      const token = getItem("accessToken");
       headers.set("Authorization", `Bearer ${token}`);
-
       return headers;
     }
-    // fetchFn: async (url) => {
-    //
-    //   const token = loadState(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
-    //
-    //   const options = {
-    //     // method: 'POST',
-    //     headers: new Headers({
-    //       'Authorization': `Bearer ${token}`,
-    //       'Content-Type': 'application/json',
-    //
-    //     }),
-    //     // body: JSON.stringify(body),
-    //   };
-    //
-    //   const response = await fetch(url, options);
-    //
-    //   return response
-    // },
   }),
   tagTypes: ["UserInfo"],
   endpoints: (builder) => ({
@@ -70,24 +48,12 @@ export const profileApi = createApi({
           body: body
         };
       },
-      async onQueryStarted(
-        // 1 параметр: QueryArg - аргументы, которые приходят в query
-        body,
-        // 2 параметр: MutationLifecycleApi - dispatch, queryFulfilled, getState и пр.
-        { dispatch, queryFulfilled }
-      ) {
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          profileApi.util.updateQueryData(
-            // 1 параметр: endpointName, который мы выполняем после удачного первого запроса (invalidatesTags)
-            "profile",
-            // 2 параметр: QueryArgFrom - параметры, которые приходят в endpoint выше
-            undefined,
-            // 3 параметр: Коллбек функция.
-            (draft) => {
-              const file = URL.createObjectURL(body.entries().next().value[1]); // достаем файл из FormData
-              Object.assign(draft, { photo: file });
-            }
-          )
+          profileApi.util.updateQueryData("profile", undefined, (draft) => {
+            const file = URL.createObjectURL(body.entries().next().value[1]);
+            Object.assign(draft ? draft : {}, { photo: file });
+          })
         );
         try {
           await queryFulfilled;

@@ -13,7 +13,7 @@ import {
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
 import { useSendRecoveryLinkMutation } from "../../../assets/store/api/auth/authApi";
 import { FormValueRecovery, ResetForm } from "../../../common/components/Formik/types";
-import { validateRecoveryEn, validateRecoveryRu } from "../../../common/utils/validateRecovery";
+import { validateRecovery } from "../../../common/utils/validateRecovery";
 import { baseTheme } from "../../../styles/styledComponents/theme";
 import Image from "next/image";
 import { StyledContainerAuth } from "../../../styles/styledComponents/auth/Auth.styled";
@@ -23,7 +23,7 @@ import config from "next-i18next.config.js";
 import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
-import { Modal } from "common/components/Modal";
+import { Modal } from "../../../common/components/Modal/Modal";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -45,7 +45,7 @@ export default function Recovery() {
 
   const [recoveryHandler, result] = useSendRecoveryLinkMutation();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const handleModalClose = () => {
     setIsModalOpen(false);
@@ -76,7 +76,7 @@ export default function Recovery() {
       <WrapperContainerAuth title={t("rec_password_title")} titleMarginBottom={"37px"}>
         <Formik
           initialValues={initialAuthValues}
-          validationSchema={i18n.language == "en" ? validateRecoveryEn : validateRecoveryRu}
+          validationSchema={validateRecovery}
           onSubmit={handleSubmit}
         >
           {({ errors, touched, values, setFieldValue }) => (
@@ -90,7 +90,8 @@ export default function Recovery() {
                 border={errors.email?.length && touched.email ? "red" : "white"}
                 errors={errors}
                 touched={touched}
-                marginBottom={"0px"}
+                margin={"0px"}
+                t={t}
               />
               <StyledRecoveryWrapper>
                 <StyledText
@@ -121,7 +122,11 @@ export default function Recovery() {
           bodyText={t("email_modal_text") + " " + `${email}`}
           handleModalClose={handleModalClose}
           height="auto"
-        ></Modal>
+        >
+          <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"96px"}>
+            OK
+          </Button>
+        </Modal>
       )}
     </StyledContainerAuth>
   );

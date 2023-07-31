@@ -4,7 +4,7 @@ import { StyledButtonPropsType } from "./types";
 export const StyledButton = styled.button.attrs((props) => ({
   type: props.type ? props.type : "button"
 }))<StyledButtonPropsType>`
-    min-height: 36px;
+    height: 36px;
     width: ${(props) => (props.width ? props.width : "330px")};
     padding: 0 20px;
 
@@ -12,7 +12,7 @@ export const StyledButton = styled.button.attrs((props) => ({
     border-radius: 2px;
     cursor: pointer;
 
-    ${(props) => (props.theme ? props.handleButtonType : "")};
+    ${(props) => (props.theme ? props.handler : "")};
 
     @media (max-width: 390px) {
       width: ${(props) => (props.width ? props.width : "80vw")};

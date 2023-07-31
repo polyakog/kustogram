@@ -1,10 +1,14 @@
-import React from "react";
-import { SettingsPageWrapper } from "../../../../features/settings/SettingsPageWrapper";
-import { getLayout } from "../../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import React from 'react';
+import {SettingsPageWrapper} from '../../../../features/settings/SettingsPageWrapper';
+import {getLayout} from '../../../../common/components/Layout/SettingsLayout/SettingsLayout';
 
 const AccountManagement = () => {
-  return <SettingsPageWrapper>acc management</SettingsPageWrapper>;
-};
+  return (
+    <SettingsPageWrapper>
+      acc management
+    </SettingsPageWrapper>
+  )
+}
 
-AccountManagement.getLayout = getLayout;
+AccountManagement.getLayout = getLayout
 export default AccountManagement;

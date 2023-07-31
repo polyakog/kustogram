@@ -22,7 +22,7 @@ export const StyledField = styled(Field)`
   background: ${baseTheme.colors.dark[500]};
   color: ${baseTheme.colors.light[100]};
   box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
-  -webkit-text-fill-color: ${baseTheme.colors.light[900]};
+  -webkit-text-fill-color: ${baseTheme.colors.light[100]};
 
   &::-webkit-calendar-picker-indicator {
     filter: invert(100%);
@@ -31,8 +31,8 @@ export const StyledField = styled(Field)`
   }
 
   @media (max-width: 390px) {
-    width: 80vw;
-    max-width: ${(props) => (props.width ? "40vw" : "330px")};
+    width: 90vw;
+    max-width: ${(props) => (props.width ? "100vw" : "330px")};
   }
 `;
 
@@ -54,7 +54,7 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   background: ${baseTheme.colors.dark[500]};
   color: ${baseTheme.colors.light[100]};
   box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
-  -webkit-text-fill-color: ${baseTheme.colors.light[900]};
+  -webkit-text-fill-color: ${baseTheme.colors.light[100]};
 
   &::-webkit-calendar-picker-indicator {
     filter: invert(100%);
@@ -63,8 +63,8 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
   }
 
   @media (max-width: 390px) {
-    width: 80vw;
-    max-width: ${(props) => (props.width ? "40vw" : "330px")};
+    width: 90vw;
+    max-width: ${(props) => (props.width ? "100vw" : "330px")};
   }
 `;
 
@@ -73,7 +73,7 @@ export const StyledInputContainer = styled.div`
   position: relative;
 `;
 
-export const StyledLabel = styled.label<{ withError: boolean; marginBottom?: string }>`
+export const StyledLabel = styled.label<{ witherror: string; margin?: string }>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ export const StyledLabel = styled.label<{ withError: boolean; marginBottom?: str
   font-family: Inter;
   font-size: 16px;
 
-  margin-bottom: ${(props) => (props.withError ? 0 : props.marginBottom || "24px")};
+  margin-bottom: ${(props) => (props.witherror === "err" ? 0 : props.margin || "24px")};
 `;
 
 export const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>`

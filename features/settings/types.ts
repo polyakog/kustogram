@@ -1,3 +1,3 @@
 export type StyleProps = {
-  isVisit: boolean;
-};
+  isVisit: boolean
+}

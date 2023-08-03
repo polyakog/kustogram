@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import { MainLink } from "./MainLink/MainLink";
 import { StyledItemBlock, StyledLogout, StyledSidebar } from "./Navbar.styled";
 import { LogoutLink } from "./LogoutLink/logoutLink";
+import { Provider } from "react-redux";
+import { store } from "assets/store/store";
 
 export type NavbarPropsType = {
   showNavbar: string | string[] | undefined;
@@ -24,10 +26,15 @@ export const Navbar = ({ showNavbar }: NavbarPropsType) => {
 
   return (
     <StyledSidebar showNavbar={showNavbar}>
-      <StyledItemBlock>{items}</StyledItemBlock>
-      <StyledLogout>
-        <LogoutLink />
-      </StyledLogout>
+      <Provider store={store}>
+        {" "}
+        {/* //? */}
+        <StyledItemBlock>{items}</StyledItemBlock>
+        <StyledLogout>
+          <LogoutLink />
+        </StyledLogout>
+      </Provider>{" "}
+      {/* //? */}
     </StyledSidebar>
   );
 };

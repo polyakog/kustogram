@@ -8,8 +8,37 @@ import styled from "styled-components";
 import { baseTheme } from "../styles/styledComponents/theme";
 import { signIn, signOut, useSession } from "next-auth/react";
 import styles from "../styles/styledComponents/auth/Home.module.css";
+import {
+  errorSelector,
+  isLoadingSelector,
+  meSelector,
+  isAppInitializedSelector
+} from "assets/store/app.selector";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useEffect } from "react";
+import { initializeApp } from "assets/store/initializeApp";
+import { useLazyMeQuery } from "assets/store/api/auth/authApi";
 
 const Home: NextPageWithLayout = () => {
+  /*   ________Инициализация_____________ */ //?
+  const dispatch = useAppDispatch();
+  const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery();
+
+  useEffect(() => {
+    getInitialize();
+  }, []);
+
+  useEffect(() => {
+    initializeApp(me, isLoading, error, dispatch);
+  }, [me, isLoading, error, dispatch]);
+
+  /*   ________/Инициализация_____________ */
+
+  // const isLoading = useAppSelector(isLoadingSelector);
+  // const error = useAppSelector(errorSelector);
+  // const isAppInitialized = useAppSelector(isAppInitializedSelector);
+  // const me = useAppSelector(meSelector);
+
   const { data: session, status } = useSession();
   const loading = status === "loading";
   return (

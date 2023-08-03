@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactElement, ReactNode, useEffect } from "react";
 import { NextPage } from "next";
 import { useLoader } from "../common/hooks/useLoader";
 import "styles/nprogress.css";
@@ -37,6 +37,7 @@ export default appWithTranslation(App as React.FC);
 
 const GlobalStyle = createGlobalStyle`
   *{
+    font-family: Inter;
     margin: 0;
     padding: 0;
     box-sizing: border-box;

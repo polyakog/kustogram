@@ -8,6 +8,9 @@ import { ThemeButton } from "../../../enums/themeButton";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { Path } from "../../../enums/path";
+import { useAppDispatch } from "common/hooks";
+import { useLazyMeQuery } from "assets/store/api/auth/authApi";
+import { initializeApp } from "assets/store/initializeApp";
 
 export const LogoutLink: FC = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
@@ -15,8 +18,16 @@ export const LogoutLink: FC = () => {
   const router = useRouter();
   const userEmail = getItem("userEmail");
 
+  /*   ________Инициализация_____________ */ //?
+  const dispatch = useAppDispatch();
+  const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery();
+
+  /*   ________/Инициализация_____________ */
+
   const logoutHandler = () => {
     clearAll();
+    getInitialize(); //?
+    initializeApp(me, isLoading, error, dispatch); //?
     router.push(Path.LOGIN);
   };
   const onClose = () => {

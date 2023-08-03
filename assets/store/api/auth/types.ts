@@ -43,7 +43,7 @@ export type RegistrationResponseError = {
 };
 
 export type MeType = {
-  id: string
-  login: string
-  email: string
-}
+  id: string;
+  login: string;
+  email: string;
+};

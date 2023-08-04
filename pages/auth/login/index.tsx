@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Formik } from "formik";
 import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { useLazyMeQuery, useLoginMutation } from "../../../assets/store/api/auth/authApi"; //?
 import {
   FormValueLogin,
@@ -38,6 +38,7 @@ import { useLocalStorage } from "common/hooks/useLocalStorage";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { initializeApp } from "assets/store/initializeApp"; //?
 import { useAppDispatch } from "common/hooks"; //?
+import { LoginResponseType, LoginType } from "assets/store/api/auth/types";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -69,12 +70,7 @@ const Login = () => {
 
   const [loginHandler, { data }] = useLoginMutation();
 
-  if (data) {
-    setItem("accessToken", data.accessToken);
-    data.profile
-      ? route.push(Path.PROFILE)
-      : route.push(`${Path.PROFILE_SETTINGS}?profile=${data.profile}`);
-  }
+  redirect(data, setItem, route);
 
   const handleSubmit = async (
     values: FormValueLogin,
@@ -90,8 +86,7 @@ const Login = () => {
         .then(() => {
           removeItem("email");
           resetForm();
-          getInitialize(); // ________Инициализация_____________ //?
-          initializeApp(me, isLoading, error, dispatch); // ________Инициализация_____________//?
+          getInitialize();
         })
         .catch(() => setFieldError("password", t("log_in_err")));
     } catch (error) {
@@ -102,6 +97,15 @@ const Login = () => {
   if (session?.user) {
     route.push(Path.PROFILE_SETTINGS);
   }
+
+  useEffect(() => {
+    getInitialize();
+  }, []);
+
+  useEffect(() => {
+    initializeApp(dispatch, me, isLoading, error, session);
+    redirect(data, setItem, route);
+  }, [me, isLoading, error, dispatch, data, session]);
 
   return (
     <>
@@ -170,3 +174,16 @@ const Login = () => {
 
 Login.getLayout = getLayout;
 export default Login;
+
+export const redirect = (
+  data: LoginResponseType | undefined,
+  setItem: (key: string, value: string) => void,
+  route: NextRouter
+) => {
+  if (data) {
+    setItem("accessToken", data.accessToken);
+    data.profile
+      ? route.push(Path.PROFILE)
+      : route.push(`${Path.PROFILE_SETTINGS}?profile=${data.profile}`);
+  }
+};

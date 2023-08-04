@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, SerializedError, ThunkAction } from "@reduxjs/toolkit";
 import { MeType } from "./api/auth/types";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import type { Session } from "next-auth";
 
 const slice = createSlice({
   name: "app",
@@ -8,7 +9,8 @@ const slice = createSlice({
     error: undefined as FetchBaseQueryError | SerializedError | undefined,
     isLoading: false,
     isAppInitialized: false,
-    me: null as MeType | null
+    me: null as MeType | null,
+    session: undefined as Session | undefined | null
   },
 
   reducers: {
@@ -26,34 +28,12 @@ const slice = createSlice({
     },
     setUser: (state, action: PayloadAction<{ me: MeType }>) => {
       state.me = action.payload.me;
+    },
+    setSession: (state, action: PayloadAction<{ session: Session }>) => {
+      state.session = action.payload.session;
     }
   }
-
-  // extraReducers: (builder) => {
-  //   builder
-  //   .addCase(fetchUser.pending, (state, action) => {
-  //     state.isLoading = true
-  //     state.error = null
-  //   } )
-  //   .addCase(fetchUser.fulfilled, (state, action) => {
-  //     state.isLoading = false
-  //     state.user=action.payload.user
-  //     state.isAppInitialized = action.payload.isAppInitialized
-  //   } )
-  // }
 });
-
-// export const fetchUser = createAppAsyncThunk<{ user: MeType, isAppInitialized: boolean  }, void>(
-//   Path.LOGIN,
-
-//       () => {
-//         const {data: user} = useMeQuery();
-
-//         return { user: user, isAppInitialized: true };
-
-//       }
-
-// );
 
 export const appReducer = slice.reducer;
 export const appActions = slice.actions;

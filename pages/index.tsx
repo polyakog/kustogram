@@ -23,14 +23,16 @@ const Home: NextPageWithLayout = () => {
   /*   ________Инициализация_____________ */ //?
   const dispatch = useAppDispatch();
   const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery();
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
   useEffect(() => {
     getInitialize();
   }, []);
 
   useEffect(() => {
-    initializeApp(me, isLoading, error, dispatch);
-  }, [me, isLoading, error, dispatch]);
+    initializeApp(dispatch, me, isLoading, error, session);
+  }, [me, isLoading, error, dispatch, session]);
 
   /*   ________/Инициализация_____________ */
 
@@ -39,8 +41,6 @@ const Home: NextPageWithLayout = () => {
   // const isAppInitialized = useAppSelector(isAppInitializedSelector);
   // const me = useAppSelector(meSelector);
 
-  const { data: session, status } = useSession();
-  const loading = status === "loading";
   return (
     <>
       <Image src={kusto} alt="Logo" width={180} height={180} priority />

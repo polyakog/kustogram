@@ -4,7 +4,7 @@ import google from "../../public/img/icons/google-svgrepo-com.svg";
 import github from "../../public/img/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
 import { baseTheme } from "../../styles/styledComponents/theme";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 const AuthIcons = () => {
   return (

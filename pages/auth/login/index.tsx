@@ -37,8 +37,11 @@ import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { initializeApp } from "assets/store/initializeApp"; //?
-import { useAppDispatch } from "common/hooks"; //?
+import { useAppDispatch, useAppSelector } from "common/hooks"; //?
 import { LoginResponseType, LoginType } from "assets/store/api/auth/types";
+import { styled } from "styled-components";
+import { baseTheme } from "styles/styledComponents/theme";
+import { isAppInitializedSelector } from "assets/store/app.selector";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -62,6 +65,7 @@ const Login = () => {
 
   const { removeItem, setItem } = useLocalStorage();
   const { data: session, status } = useSession();
+  const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
   const initialAuthValues = {
     password: "",
@@ -94,10 +98,6 @@ const Login = () => {
     }
   };
 
-  if (session?.user) {
-    route.push(Path.PROFILE_SETTINGS);
-  }
-
   useEffect(() => {
     getInitialize();
   }, []);
@@ -107,67 +107,82 @@ const Login = () => {
     redirect(data, setItem, route);
   }, [me, isLoading, error, dispatch, data, session]);
 
+  if (session?.user) {
+    route.push(Path.PROFILE);
+  }
+  const style = {
+    display: "flex",
+    with: "maxContent",
+    justifyContent: "center",
+    textAlign: "center",
+    marginTop: "20px",
+    color: baseTheme.colors.success[500]
+  };
+
+  if (status === "authenticated")
+    return <div style={style as React.CSSProperties}>You are authenticated</div>;
+
+  if (status === "loading") return <div style={style as React.CSSProperties}>Loading...</div>;
+
   return (
     <>
-      {!session && (
-        <StyledContainerAuth>
-          <WrapperContainerAuth title={t("signIn_title")}>
-            <AuthIcons />
-            <Formik
-              initialValues={initialAuthValues}
-              validationSchema={validateLogin}
-              onSubmit={handleSubmit}
-            >
-              {({ errors, touched, values, setFieldValue }) => (
-                <StyledAuthForm>
-                  <FormikLabel
-                    name="loginOrEmail"
-                    onChange={(e) => setFieldValue("loginOrEmail", e)}
-                    value={values.loginOrEmail}
-                    type={"text"}
-                    title={t("email_label")}
-                    border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
-                    errors={errors}
-                    touched={touched}
-                    t={t}
+      <StyledContainerAuth>
+        <WrapperContainerAuth title={t("signIn_title")}>
+          <AuthIcons />
+          <Formik
+            initialValues={initialAuthValues}
+            validationSchema={validateLogin}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched, values, setFieldValue }) => (
+              <StyledAuthForm>
+                <FormikLabel
+                  name="loginOrEmail"
+                  onChange={(e) => setFieldValue("loginOrEmail", e)}
+                  value={values.loginOrEmail}
+                  type={"text"}
+                  title={t("email_label")}
+                  border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
+                  errors={errors}
+                  touched={touched}
+                  t={t}
+                />
+                <FormikLabel
+                  id="pass"
+                  name="password"
+                  onChange={(e) => setFieldValue("password", e)}
+                  value={values.password}
+                  type={passwordType}
+                  title={t("password_label")}
+                  border={errors.password?.length && touched.password ? "red" : "white"}
+                  errors={errors}
+                  touched={touched}
+                  margin="48px"
+                  t={t}
+                >
+                  <StyledShowPasswordBtn
+                    alt="show password"
+                    src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
+                    onClick={() => showPassword()}
                   />
-                  <FormikLabel
-                    id="pass"
-                    name="password"
-                    onChange={(e) => setFieldValue("password", e)}
-                    value={values.password}
-                    type={passwordType}
-                    title={t("password_label")}
-                    border={errors.password?.length && touched.password ? "red" : "white"}
-                    errors={errors}
-                    touched={touched}
-                    margin="48px"
-                    t={t}
-                  >
-                    <StyledShowPasswordBtn
-                      alt="show password"
-                      src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
-                      onClick={() => showPassword()}
-                    />
-                  </FormikLabel>
-                  <StyledLinkBlock>
-                    <StyledForgotLink href="/auth/recovery">
-                      {t("forgotPassword_link")}
-                    </StyledForgotLink>
-                  </StyledLinkBlock>
-                  <Button theme={ThemeButton.PRIMARY} type="submit">
-                    {t("signIn_title")}
-                  </Button>
-                </StyledAuthForm>
-              )}
-            </Formik>
-            <StyledSignInWrapper>
-              <StyledText>{t("notAccount_title")}</StyledText>
-              <StyledSignIn href={Path.REGISTRATION}>{t("signUp_link")}</StyledSignIn>
-            </StyledSignInWrapper>
-          </WrapperContainerAuth>
-        </StyledContainerAuth>
-      )}
+                </FormikLabel>
+                <StyledLinkBlock>
+                  <StyledForgotLink href="/auth/recovery">
+                    {t("forgotPassword_link")}
+                  </StyledForgotLink>
+                </StyledLinkBlock>
+                <Button theme={ThemeButton.PRIMARY} type="submit">
+                  {t("signIn_title")}
+                </Button>
+              </StyledAuthForm>
+            )}
+          </Formik>
+          <StyledSignInWrapper>
+            <StyledText>{t("notAccount_title")}</StyledText>
+            <StyledSignIn href={Path.REGISTRATION}>{t("signUp_link")}</StyledSignIn>
+          </StyledSignInWrapper>
+        </WrapperContainerAuth>
+      </StyledContainerAuth>
     </>
   );
 };

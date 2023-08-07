@@ -16,10 +16,12 @@ export const LogoutLink: FC = () => {
   const router = useRouter();
   const userEmail = getItem("userEmail");
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
     clearAll();
-    signOut({ redirect: true, callbackUrl: "/" });
-    router.push(Path.LOGIN);
+    const data = await signOut({ redirect: false, callbackUrl: Path.LOGIN });
+    console.log(data.url);
+
+    router.push(data.url || "/");
   };
   const onClose = () => {
     setIsOpenModalEdit(false);

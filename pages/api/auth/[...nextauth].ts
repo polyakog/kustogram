@@ -4,6 +4,9 @@ import GithubProvider from "next-auth/providers/github";
 import Credentials from "next-auth/providers/credentials";
 import { signIn } from "next-auth/react";
 import { Path } from "common/enums/path";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import clientPromise from "assets/database/connectDB";
+import { Adapter } from "next-auth/adapters";
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
@@ -41,8 +44,9 @@ export const authOptions: NextAuthOptions = {
   ],
 
   // pages: {
-  //   signIn: Path.LOGIN
+  //   signIn: //ссылка на кастомную страницу
   // },
+  adapter: MongoDBAdapter(clientPromise) as Adapter,
 
   callbacks: {
     async jwt({ token }) {

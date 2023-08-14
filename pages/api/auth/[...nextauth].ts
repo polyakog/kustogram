@@ -1,8 +1,6 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import clientPromise from "assets/database/connectDB";
 import { Adapter } from "next-auth/adapters";
 import { baseTheme } from "styles/styledComponents/theme";
 import { NextAuthOptions } from "next-auth";
@@ -20,26 +18,10 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!
     })
-    //     CredentialsProvider({
-    //       name:'Credentials',
-    //       authorize(credentials, req) {
-    //         connectMongo().catch(error=>{error:"Connection Failed...!"})
-    // // проверка сущевтования пользователя
-    //         const result = Users.findOne({email: credentials?.email})
-    //         if (!result) {
-    //           throw new Error('No user Found with Email Please Sign Up..!')
-    //         }
-
-    //         // сравнение
-
-    //       },
-    //     })
   ],
 
   // pages: {
   //   signIn: //ссылка на кастомную страницу
-  // },
-  // adapter: MongoDBAdapter(clientPromise) as Adapter, // если входить в github, то выходит ошибка
 
   callbacks: {
     async jwt({ token, isNewUser, account, profile, user, session, trigger }) {

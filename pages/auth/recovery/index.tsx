@@ -23,7 +23,7 @@ import config from "next-i18next.config.js";
 import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
-import { Modal } from "../../../common/components/Modal/Modal";
+import { Modal } from "../../../common/components/Modals/ModalPublic/Modal";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -114,7 +114,7 @@ export default function Recovery() {
         <StyledSignInWrapper margin={"24px 0"}>
           <StyledSignIn href={Path.LOGIN}>{t("back_singIn_btn")} </StyledSignIn>
         </StyledSignInWrapper>
-        <Image priority alt="Captcha" width={260} height={60} src="/captcha.png" />
+        <Image priority alt="Captcha" width={260} height={60} src="/img/captcha.png" />
       </WrapperContainerAuth>
       {isModalOpen && (
         <Modal

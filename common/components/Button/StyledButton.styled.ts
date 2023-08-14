@@ -8,9 +8,18 @@ export const StyledButton = styled.button.attrs((props) => ({
     width: ${(props) => (props.width ? props.width : "330px")};
     padding: 0 20px;
 
+
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+
     border: none;
     border-radius: 2px;
     cursor: pointer;
+    
+    
 
     ${(props) => (props.theme ? props.handler : "")};
 

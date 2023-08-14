@@ -4,14 +4,15 @@ import google from "../../public/img/icons/google-svgrepo-com.svg";
 import github from "../../public/img/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
 import { baseTheme } from "../../styles/styledComponents/theme";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
 
 const AuthIcons = () => {
   return (
     <StyledIconBlock>
       <Link
         href={`/api/auth/signin`}
-        onClick={(e) => {
+        onClick={async (e) => {
           e.preventDefault();
           signIn();
         }}

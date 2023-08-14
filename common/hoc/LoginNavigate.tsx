@@ -8,7 +8,6 @@ export const LoginNavigate: FC<PropsWithChildren<{}>> = ({ children }) => {
   const router = useRouter();
   const isAuthInitialized = useAppSelector(isAppInitializedSelector);
 
-  // const isAuth = true  // запрос авторизации
   useEffect(() => {
     if (!isAuthInitialized) router.push(Path.LOGIN);
   }, []);

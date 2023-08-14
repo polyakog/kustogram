@@ -31,6 +31,8 @@ import { useSession } from "next-auth/react";
 import { useAppSelector } from "common/hooks";
 import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
+import { useLazyGetPostQuery, useGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import Post from "common/components/Post/Post";
 
 const MyProfile = () => {
   /* _______ProtectedPage______________ */
@@ -38,47 +40,46 @@ const MyProfile = () => {
 
   /*   _____________________________________ */
 
-  const avatar = "/img/icons/avatar.svg";
+  // const avatar = "/img/icons/avatar.svg";
   const { data: me, isSuccess, isError } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
-  const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
+  // const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
+  const [getUserPosts, { data }] = useLazyGetUserPostQuery();
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
 
-  const posts = postsData?.items;
+  const [isPostActive, setIsPostActive] = useState(false);
+  const posts = data?.items || [];
 
-  const { width } = useWindowSize(); // хук для измерения размера экрана
+  // const posts = postsData?.items;
 
-  const [isVisible, setIsVisible] = useState(true);
-  const [isPaid, setIsPaid] = useState(false);
-  const router = useRouter();
-  // /*  ____________<переменные для мобильной версии>______________*/
+  // const { width } = useWindowSize(); // хук для измерения размера экрана
 
-  // const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
-  // const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
-  // const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
-
-  // /*  ____________</переменные для мобильной версии>_______________*/
+  // const router = useRouter();
 
   useEffect(() => {
-    getProfileInfo();
-    if (user?.userId) {
-      getPostsInfo(user?.userId);
-    }
+    getProfileInfo()
+      .unwrap()
+      .then(({ userId }) => {
+        if (userId) {
+          getUserPosts(userId);
+        }
+      });
   }, []);
 
-  useEffect(() => {
-    if (width) {
-      if (width < mediaSizes.buttonUnvisible) {
-        // для мобильной версии
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-    }
-  }, [width]);
+  // useEffect(() => {
+  //   if (width) {
+  //     if (width < mediaSizes.buttonUnvisible) {
+  //       // для мобильной версии
+  //       setIsVisible(false);
+  //     } else {
+  //       setIsVisible(true);
+  //     }
+  //   }
+  // }, [width]);
 
-  const handleClick = () => {
-    router.push(Path.PROFILE_SETTINGS);
-  };
+  // const handleClick = () => {
+  //   router.push(Path.PROFILE_SETTINGS);
+  // };
 
   const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
@@ -86,82 +87,17 @@ const MyProfile = () => {
     <>
       <LoginNavigate>
         {isAppInitialized && (
-          <ProfileElement user={user} posts={posts} session={session} />
+          <>
+            <ProfileElement
+              user={user}
+              posts={posts}
+              session={session}
+              setIsPostActive={setIsPostActive}
+              getCurrentPost={getCurrentPost}
+            />
 
-          // <ProfileWrapper>
-          //   <HeaderStyle>
-          //     {isVisible && (
-          //       <BlockButton>
-          //         <Button
-          //           theme={ThemeButton.SECONDARY}
-          //           type="button"
-          //           width={"auto"}
-          //           style={{ padding: "6px 24px" }}
-          //           onClick={handleClick}
-          //         >
-          //           Profile Settings
-          //         </Button>
-          //       </BlockButton>
-          //     )}
-          //     <StyledAvatarBlock>
-          //       <IconBlock>
-          //         <Image
-          //           src={user?.photo || avatar}
-          //           width={avatarSize}
-          //           height={avatarSize}
-          //           alt={"avatar"}
-          //           // style={{ maxWidth: "204px", maxHeight: "204px" }}
-          //         />
-          //       </IconBlock>
-          //     </StyledAvatarBlock>
-
-          //     <UserNameStyle>
-          //       {user?.firstName} {user?.lastName}
-          //       {isPaid && (
-          //         <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />
-          //       )}
-          //     </UserNameStyle>
-
-          //     <InfoBlock>
-          //       <FolowBlock>
-          //         <div>
-          //           <div>2 218</div>
-          //           <div>Following</div>
-          //         </div>
-          //         <div>
-          //           <div>2 358</div>
-          //           <div>Followers</div>
-          //         </div>
-          //         <div>
-          //           <div>2 358</div>
-          //           <div>Publications</div>
-          //         </div>
-          //       </FolowBlock>
-
-          //       <AboutMeBlock>
-          //         <AboutMeText>
-          //           {urlify(user?.userInfo || "about me")}
-
-          //           {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          //         incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
-          //         </AboutMeText>
-          //       </AboutMeBlock>
-          //     </InfoBlock>
-          //   </HeaderStyle>
-          //   {/* <PhotosBlock> */}
-          //   <PostPhotos posts={posts} postSize={postSize} />
-
-          //   {/* <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle>
-          //     <PhotoStyle>Photo</PhotoStyle> */}
-          //   {/* </PhotosBlock> */}
-          // </ProfileWrapper>
+            {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
+          </>
         )}
       </LoginNavigate>
     </>

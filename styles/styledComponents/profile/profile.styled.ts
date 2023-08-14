@@ -153,16 +153,15 @@ export const AboutMeText = styled.p`
 `;
 
 export const PhotosBlock = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   padding-top: 24px;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
   gap: 10px;
 `;
 
 export const PhotoStyle = styled.div`
-  width: 228px;
+  flex-basis: 32%;
   height: 228px;
   flex-shrink: 0;
   border-radius: 2px;

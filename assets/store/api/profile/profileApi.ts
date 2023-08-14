@@ -1,20 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AuthMeType, UserType } from "./types";
-import { getItem } from "../../../../common/hooks/useLocalStorage";
+import { contentTypeSetup } from "common/utils/contentTypeSetup";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
-    prepareHeaders: (headers, { endpoint }) => {
-      const UPLOAD_ENDPOINTS = ["saveAvatar"];
-      if (!UPLOAD_ENDPOINTS.includes(endpoint)) {
-        headers.set("Content-Type", `application/json`);
-      }
-      const token = getItem("accessToken");
-      headers.set("Authorization", `Bearer ${token}`);
-      return headers;
-    }
+    prepareHeaders: (headers, { endpoint }) =>
+      contentTypeSetup(headers, { endpoint }, ["saveAvatar"])
   }),
   tagTypes: ["UserInfo"],
   endpoints: (builder) => ({

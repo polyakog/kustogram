@@ -24,14 +24,38 @@ import { useWindowSize } from "common/hooks/useWindowSize";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
 import { UserType } from "assets/store/api/profile/types";
 import { CreatePostResponse } from "assets/store/api/posts/types";
+import { LazyQueryTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+  QueryDefinition
+} from "@reduxjs/toolkit/dist/query";
 
 type PropsType = {
   user?: UserType | undefined;
   posts?: CreatePostResponse[] | undefined;
   session?: Session | undefined | null;
+  setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
+  getCurrentPost: LazyQueryTrigger<
+    QueryDefinition<
+      string,
+      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
+      "createPost" | "editPost" | "deletePost",
+      CreatePostResponse,
+      "postsApi"
+    >
+  >;
 };
 
-const ProfileElement: React.FC<PropsType> = ({ user, posts, session }) => {
+const ProfileElement: React.FC<PropsType> = ({
+  user,
+  posts,
+  session,
+  setIsPostActive,
+  getCurrentPost
+}) => {
   const avatar = "/img/icons/avatar.svg";
 
   const { width } = useWindowSize(); // хук для измерения размера экрана
@@ -133,7 +157,12 @@ const ProfileElement: React.FC<PropsType> = ({ user, posts, session }) => {
           </InfoBlock>
         </HeaderStyle>
         {/* <PhotosBlock> */}
-        <PostPhotos posts={posts} postSize={postSize} />
+        <PostPhotos
+          posts={posts}
+          postSize={postSize}
+          setIsPostActive={setIsPostActive}
+          getCurrentPost={getCurrentPost}
+        />
 
         {/* </PhotosBlock> */}
       </ProfileWrapper>

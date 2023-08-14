@@ -81,13 +81,13 @@ const Login = () => {
     { resetForm, setFieldError }: ResetForm & SetFieldErrorType
   ) => {
     const data = {
-      loginOrEmail: values.loginOrEmail,
+      email: values.loginOrEmail,
       password: values.password
     };
     try {
       await loginHandler(data)
         .unwrap()
-        .then(() => {
+        .then((res) => {
           removeItem("email");
           resetForm();
           getInitialize();

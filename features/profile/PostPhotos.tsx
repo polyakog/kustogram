@@ -6,18 +6,31 @@ import { PhotoStyle, PhotosBlock } from "styles/styledComponents/profile/profile
 type PropsType = {
   posts: CreatePostResponse[] | undefined;
   postSize: number;
+  setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
+  getCurrentPost: any;
 };
 
-export const PostPhotos: React.FC<PropsType> = ({ posts, postSize }) => {
+export const PostPhotos: React.FC<PropsType> = ({
+  posts,
+  postSize,
+  setIsPostActive,
+  getCurrentPost
+}) => {
   return (
     <PhotosBlock>
       {posts?.map((p) => (
         <PhotoStyle key={p.id}>
           <Image
-            src={p.images[0].url}
+            src={p.images.length ? p.images[0].url : ""}
             width={postSize}
             height={postSize}
             alt={"post image"}
+            onClick={() =>
+              getCurrentPost(p.id)
+                .unwrap()
+                .then(() => setIsPostActive(true))
+            }
+
             // style={{ }}
           />
         </PhotoStyle>

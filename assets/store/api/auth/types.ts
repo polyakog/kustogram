@@ -4,7 +4,7 @@ export type RegistrationType = {
   password: string;
 };
 export type LoginType = {
-  loginOrEmail: string;
+  email: string;
   password: string;
 };
 export type SendLinkType = {

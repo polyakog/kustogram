@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "../assets/store/store";
 import { appWithTranslation } from "next-i18next";
 import { createGlobalStyle } from "styled-components";
+import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
 import { SessionProvider } from "next-auth/react";
 import type { Session } from "next-auth";
 
@@ -27,7 +28,9 @@ const App = ({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLa
     <SessionProvider session={session}>
       <Provider store={store}>
         <GlobalStyle />
+        {/* <PrivateRoute> */}
         <Component {...pageProps} />
+        {/* </PrivateRoute> */}
       </Provider>
     </SessionProvider>
   );
@@ -41,5 +44,11 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
   }
 `;

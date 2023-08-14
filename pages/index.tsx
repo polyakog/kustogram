@@ -104,6 +104,7 @@ const Home: NextPageWithLayout = () => {
                 <small>Signed in as</small>
                 <br />
                 <strong>{session.user.email ?? session.user.name}</strong>
+                {/* <p>{session.accessToken}</p> */}
               </span>
               <a
                 href={`/api/auth/signout`}

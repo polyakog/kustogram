@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Modal } from "../common/components/Modal/Modal";
+import { Modal } from "../common/components/Modals/ModalPublic/Modal";
 import { Button } from "../common/components/Button/Button";
 import { ThemeButton } from "../common/enums/themeButton";
 import React from "react";

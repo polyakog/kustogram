@@ -4,8 +4,6 @@ import google from "../../public/img/icons/google-svgrepo-com.svg";
 import github from "../../public/img/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
 import { baseTheme } from "../../styles/styledComponents/theme";
-import { getSession, signIn } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
 
 const AuthIcons = () => {
   return (
@@ -14,13 +12,12 @@ const AuthIcons = () => {
         href={`/api/auth/signin`}
         onClick={async (e) => {
           e.preventDefault();
-          signIn();
+          // signIn();
         }}
       >
         <Image width={36} height={36} src={google} alt={"google"} />
         <Image width={36} height={36} src={github} alt={"github"} />
       </Link>
-
       <Message>SignIn with Google or Github</Message>
     </StyledIconBlock>
   );

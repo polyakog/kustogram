@@ -27,7 +27,7 @@ import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
 import { PostPhotos } from "features/profile/PostPhotos";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useAppSelector } from "common/hooks";
 import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
@@ -36,7 +36,7 @@ import Post from "common/components/Post/Post";
 
 const MyProfile = () => {
   /* _______ProtectedPage______________ */
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   /*   _____________________________________ */
 
@@ -91,7 +91,7 @@ const MyProfile = () => {
             <ProfileElement
               user={user}
               posts={posts}
-              session={session}
+              // session={session}
               setIsPostActive={setIsPostActive}
               getCurrentPost={getCurrentPost}
             />

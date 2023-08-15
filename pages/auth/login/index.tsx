@@ -35,7 +35,7 @@ import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
-import { signIn, signOut, useSession } from "next-auth/react";
+// import { signIn, signOut, useSession } from "next-auth/react";
 import { initializeApp } from "assets/store/initializeApp"; //?
 import { useAppDispatch, useAppSelector } from "common/hooks"; //?
 import { LoginResponseType, LoginType } from "assets/store/api/auth/types";
@@ -64,7 +64,10 @@ const Login = () => {
   const { passwordType, showPassword } = useShowPassword();
 
   const { removeItem, setItem } = useLocalStorage();
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
+  const status = "unauthenticated";
+  const session = "";
+
   const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
   const initialAuthValues = {
@@ -103,13 +106,13 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    initializeApp(dispatch, me, isLoading, error, session);
+    initializeApp(dispatch, me, isLoading, error);
     redirect(data, setItem, route);
-  }, [me, isLoading, error, dispatch, data, session]);
+  }, [me, isLoading, error, dispatch, data]);
 
-  if (session?.user) {
-    route.push(Path.PROFILE);
-  }
+  // if (session?.user) {
+  //   route.push(Path.PROFILE);
+  // }
   const style = {
     display: "flex",
     with: "maxContent",
@@ -119,10 +122,10 @@ const Login = () => {
     color: baseTheme.colors.success[500]
   };
 
-  if (status === "authenticated")
-    return <div style={style as React.CSSProperties}>You are authenticated</div>;
+  // if (status === "authenticated")
+  //   return <div style={style as React.CSSProperties}>You are authenticated</div>;
 
-  if (status === "loading") return <div style={style as React.CSSProperties}>Loading...</div>;
+  // if (status === "loading") return <div style={style as React.CSSProperties}>Loading...</div>;
 
   return (
     <>

@@ -52,7 +52,7 @@ type PropsType = {
 const ProfileElement: React.FC<PropsType> = ({
   user,
   posts,
-  session,
+  // session,
   setIsPostActive,
   getCurrentPost
 }) => {
@@ -114,7 +114,7 @@ const ProfileElement: React.FC<PropsType> = ({
           <StyledAvatarBlock>
             <IconBlock>
               <Image
-                src={user?.photo || session?.user?.image || avatar}
+                src={user?.photo || avatar}
                 width={avatarSize}
                 height={avatarSize}
                 alt={"avatar"}
@@ -124,7 +124,7 @@ const ProfileElement: React.FC<PropsType> = ({
           </StyledAvatarBlock>
 
           <UserNameStyle>
-            {!!user ? `${user.firstName} ${user?.lastName}` : session?.user?.name}
+            {!!user ? `${user.firstName} ${user?.lastName}` : "User Name"}
             {isPaid && (
               <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />
             )}

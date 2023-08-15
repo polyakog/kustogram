@@ -10,16 +10,16 @@ export const initializeApp = (
   dispatch: AppDispatch,
   me?: MeType | undefined,
   isLoading?: boolean,
-  error?: FetchBaseQueryError | SerializedError | undefined,
-  session?: Session | undefined | null
+  error?: FetchBaseQueryError | SerializedError | undefined
+  // session?: Session | undefined | null
 ) => {
   switch (true) {
-    case !!session:
-      batch(() => {
-        dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
-        dispatch(appActions.setSession({ session: session! }));
-      });
-      break;
+    // case !!session:
+    //   batch(() => {
+    //     dispatch(appActions.setIsAppInitialized({ isAppInitialized: true }));
+    //     dispatch(appActions.setSession({ session: session! }));
+    //   });
+    //   break;
     case isLoading:
       batch(() => {
         dispatch(appActions.setIsLoading({ isLoading: true }));

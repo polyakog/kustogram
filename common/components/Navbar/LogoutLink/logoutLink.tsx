@@ -8,7 +8,6 @@ import { ThemeButton } from "../../../enums/themeButton";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { Path } from "../../../enums/path";
-import { signOut } from "next-auth/react";
 
 export const LogoutLink: FC = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
@@ -16,12 +15,9 @@ export const LogoutLink: FC = () => {
   const router = useRouter();
   const userEmail = getItem("userEmail");
 
-  const logoutHandler = async () => {
+  const logoutHandler = () => {
     clearAll();
-    const data = await signOut({ redirect: false, callbackUrl: Path.LOGIN });
-    console.log(data.url);
-
-    router.push(data.url || "/");
+    router.push(Path.LOGIN);
   };
   const onClose = () => {
     setIsOpenModalEdit(false);

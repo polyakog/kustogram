@@ -18,7 +18,7 @@ export const MainLink: FC<SidebarLinkProps> = ({ name, src, href, isactive }) =>
           <Image src={src} alt={"some icon"} width={24} height={24} />
         ) : (
           <div style={{ width: "24px", height: "24px" }}></div>
-        )}{" "}
+        )}
         <StyledText isactive={isactive}>{name}</StyledText>
       </StyledDiv>
     </AppLink>

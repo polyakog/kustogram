@@ -155,20 +155,41 @@ export const AboutMeText = styled.p`
 export const PhotosBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
-  padding-top: 24px;
+  /* padding-top: 24px; */
   justify-content: space-between;
   gap: 10px;
 `;
 
 export const PhotoStyle = styled.div`
-  flex-basis: 32%;
+  position: relative;
+  flex-basis: auto;
+  width: 228px;
   height: 228px;
   flex-shrink: 0;
   border-radius: 2px;
-  background: url(<path-to-image>), lightgray 50% / cover no-repeat;
+  background: lightgray 50% / cover no-repeat;
 
   @media (max-width: ${media}) {
     width: 108px;
     height: 108px;
+  }
+
+  & img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+  }
+`;
+
+export const ScrollStyle = styled.div`
+  height: 300px;
+  overflow-y: scroll;
+  padding: 5px 5px 5px 5px;
+  border-radius: 2px;
+  border: 1px solid ${baseTheme.colors.dark[100]};
+  @media (max-width: ${media}) {
+    height: 200px;
   }
 `;

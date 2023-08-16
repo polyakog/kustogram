@@ -14,7 +14,9 @@ import {
 import Image from "next/image";
 import google from "public/img/icons/google-svgrepo-com.svg";
 import github from "public/img/icons/github-svgrepo-com.svg";
-import { CSSProp } from "styled-components";
+import axios from "axios";
+import { AppDispatch } from "assets/store/store";
+import { useAppDispatch } from "common/hooks";
 
 export const getStaticProps = async () => {
   return {
@@ -37,29 +39,34 @@ export const getStaticProps = async () => {
   };
 };
 
-export type ProviderData = {
-  AUTH_URL: string;
-  SCOPE: string;
-  REDIRECT_URI: string;
-  ID: string;
-};
+// let instance = axios.create({
+//   headers: {
 
-export type ProvidersPropsType = {
-  providerParams: {
-    google: ProviderData;
-    github: ProviderData;
-  };
+//   }
+// })
+const getCode = async (url: string) => {
+  try {
+    // const response = await axios.interceptors.request .get(url)
+    const response = await axios.get(url);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.error((err as Error).message);
+  }
 };
 
 const Signin = (props: ProvidersPropsType) => {
   const route = useRouter();
+  const dispatch = useAppDispatch();
 
   const onGoogleClick = () => {
-    // route.push(Path.SIGNIN)
     const url = oauthRequest("google", props);
     console.log(url);
     // route.push(url)
+    getCode(url);
+    // console.log(res);
   };
+
   const onGitHubClick = () => {
     // route.push(Path.SIGNIN)
     const url = oauthRequest("github", props);
@@ -99,3 +106,17 @@ const Signin = (props: ProvidersPropsType) => {
 };
 Signin.getLayout = getLayout;
 export default Signin;
+
+export type ProviderData = {
+  AUTH_URL: string;
+  SCOPE: string;
+  REDIRECT_URI: string;
+  ID: string;
+};
+
+export type ProvidersPropsType = {
+  providerParams: {
+    google: ProviderData;
+    github: ProviderData;
+  };
+};

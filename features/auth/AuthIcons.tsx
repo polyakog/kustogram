@@ -4,15 +4,18 @@ import google from "../../public/img/icons/google-svgrepo-com.svg";
 import github from "../../public/img/icons/github-svgrepo-com.svg";
 import styled from "styled-components";
 import { baseTheme } from "../../styles/styledComponents/theme";
+import { useRouter } from "next/router";
+import { Path } from "common/enums/path";
 
 const AuthIcons = () => {
+  const { push } = useRouter();
   return (
     <StyledIconBlock>
       <Link
         href={`/api/auth/signin`}
         onClick={async (e) => {
           e.preventDefault();
-          // signIn();
+          push(Path.SIGNIN);
         }}
       >
         <Image width={36} height={36} src={google} alt={"google"} />

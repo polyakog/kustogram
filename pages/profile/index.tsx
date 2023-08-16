@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
-import Image from "next/image";
+// import Image from "next/image";
 import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
-import { Button } from "common/components/Button/Button";
-import { ThemeButton } from "common/enums/themeButton";
-import { useRouter } from "next/router";
-import { Path } from "common/enums/path";
-import { useWindowSize } from "common/hooks/useWindowSize";
-import Paid from "../../public/img/icons/paid.svg";
-import {
-  AboutMeBlock,
-  AboutMeText,
-  BlockButton,
-  FolowBlock,
-  HeaderStyle,
-  IconBlock,
-  InfoBlock,
-  // PhotoStyle,
-  // PhotosBlock,
-  ProfileWrapper,
-  StyledAvatarBlock,
-  UserNameStyle
-} from "styles/styledComponents/profile/profile.styled";
-import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
+// import { Button } from "common/components/Button/Button";
+// import { ThemeButton } from "common/enums/themeButton";
+// import { useRouter } from "next/router";
+// import { Path } from "common/enums/path";
+// import { useWindowSize } from "common/hooks/useWindowSize";
+// import Paid from "../../public/img/icons/paid.svg";
+// import {
+//   AboutMeBlock,
+//   AboutMeText,
+//   BlockButton,
+//   FolowBlock,
+//   HeaderStyle,
+//   IconBlock,
+//   InfoBlock,
+//   // PhotoStyle,
+//   // PhotosBlock,
+//   ProfileWrapper,
+//   StyledAvatarBlock,
+//   UserNameStyle
+// } from "styles/styledComponents/profile/profile.styled";
+// import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
-import { urlify } from "./../../common/utils/urlify";
+// import { urlify } from "./../../common/utils/urlify";
 import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
-import { PostPhotos } from "features/profile/PostPhotos";
+// import { PostPhotos } from "features/profile/PostPhotos";
 // import { useSession } from "next-auth/react";
 import { useAppSelector } from "common/hooks";
 import { isAppInitializedSelector } from "assets/store/app.selector";

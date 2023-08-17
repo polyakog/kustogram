@@ -38,6 +38,8 @@ type PropsType = {
   posts?: CreatePostResponse[] | undefined;
   session?: Session | undefined | null;
   setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  pageNumber: number;
   getCurrentPost: LazyQueryTrigger<
     QueryDefinition<
       string,
@@ -54,6 +56,8 @@ const ProfileElement: React.FC<PropsType> = ({
   posts,
   // session,
   setIsPostActive,
+  setPageNumber,
+  pageNumber,
   getCurrentPost
 }) => {
   const avatar = "/img/icons/avatar.svg";
@@ -70,13 +74,6 @@ const ProfileElement: React.FC<PropsType> = ({
   const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
 
   /*  ____________</переменные для мобильной версии>_______________*/
-
-  // useEffect(() => {
-  //   getProfileInfo();
-  //   if (user?.userId) {
-  //     getPostsInfo(user?.userId);
-  //   }
-  // }, []);
 
   useEffect(() => {
     if (width) {
@@ -147,23 +144,20 @@ const ProfileElement: React.FC<PropsType> = ({
             </FolowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>
-                {urlify(user?.userInfo || "about me")}
-
-                {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
-              </AboutMeText>
+              <AboutMeText>{urlify(user?.userInfo || "about me")}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
+
         {/* <PhotosBlock> */}
         <PostPhotos
           posts={posts}
           postSize={postSize}
           setIsPostActive={setIsPostActive}
+          setPageNumber={setPageNumber}
+          pageNumber={pageNumber}
           getCurrentPost={getCurrentPost}
         />
-
         {/* </PhotosBlock> */}
       </ProfileWrapper>
     </>

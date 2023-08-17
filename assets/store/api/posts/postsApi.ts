@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { CreatePostResponse, EditPostRequest, GetPostResponse, GetUserPostResponse } from "./types";
+import {
+  CreatePostResponse,
+  EditPostRequest,
+  GetPostResponse,
+  GetUserPostsRequest,
+  GetUserPostsResponse
+} from "./types";
 import { contentTypeSetup } from "common/utils/contentTypeSetup";
 
 export const postsApi = createApi({
@@ -40,9 +46,9 @@ export const postsApi = createApi({
       }),
       invalidatesTags: ["deletePost"]
     }),
-    getUserPost: builder.query<GetUserPostResponse, string>({
-      query: (userId) => ({
-        url: userId
+    getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
+      query: ({ userId, pageNumber, pageSize }) => ({
+        url: userId + `?pageNumber=${pageNumber}&pageSize=${pageSize}`
       }),
       providesTags: ["deletePost", "createPost"]
     })
@@ -54,6 +60,6 @@ export const {
   useUpdatePostMutation,
   useDeletePostMutation,
   useLazyGetPostQuery,
-  useLazyGetUserPostQuery,
-  useGetUserPostQuery
+  useLazyGetUserPostsQuery,
+  useGetUserPostsQuery
 } = postsApi;

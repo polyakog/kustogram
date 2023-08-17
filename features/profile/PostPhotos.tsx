@@ -1,4 +1,12 @@
-import { CreatePostResponse, GetUserPostResponse } from "assets/store/api/posts/types";
+import {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+  QueryDefinition
+} from "@reduxjs/toolkit/dist/query";
+import { LazyQueryTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
+import { CreatePostResponse } from "assets/store/api/posts/types";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import {
@@ -11,13 +19,25 @@ type PropsType = {
   posts: CreatePostResponse[] | undefined;
   postSize: number;
   setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
-  getCurrentPost: any;
+  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
+  pageNumber: number;
+  getCurrentPost: LazyQueryTrigger<
+    QueryDefinition<
+      string,
+      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
+      "createPost" | "editPost" | "deletePost",
+      CreatePostResponse,
+      "postsApi"
+    >
+  >;
 };
 
 export const PostPhotos: React.FC<PropsType> = ({
   posts,
   postSize,
   setIsPostActive,
+  setPageNumber,
+  pageNumber,
   getCurrentPost
 }) => {
   const [page, setPage] = useState(1);
@@ -31,13 +51,16 @@ export const PostPhotos: React.FC<PropsType> = ({
     // console.log('scrollTop', element.scrollTop)
     // console.log('clientHeight', element.clientHeight)
 
-    if (element.scrollTop >= 415) {
-      setPage(page + 1);
+    if (element.scrollTop >= 364) {
+      setPageNumber(pageNumber + 1);
+      element.scrollTop === 2;
+    } else if (element.scrollTop <= 1) {
+      if (pageNumber > 1) setPageNumber(pageNumber - 1);
     }
   };
 
   useEffect(() => {
-    console.log(page);
+    console.log(pageNumber);
   }, [page]);
   return (
     <ScrollStyle onScroll={scrollHandler}>

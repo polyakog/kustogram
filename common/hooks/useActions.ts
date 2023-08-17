@@ -2,14 +2,12 @@ import {
   ActionCreator,
   ActionCreatorsMapObject,
   AsyncThunk,
-  bindActionCreators,
+  bindActionCreators
 } from "@reduxjs/toolkit";
 import { useMemo } from "react";
 import { useAppDispatch } from "./useAppDispatch";
 
-export const useActions = <
-  Actions extends ActionCreatorsMapObject = ActionCreatorsMapObject
->(
+export const useActions = <Actions extends ActionCreatorsMapObject = ActionCreatorsMapObject>(
   actions: Actions
 ): BoundActions<Actions> => {
   const dispatch = useAppDispatch();

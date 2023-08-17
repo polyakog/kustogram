@@ -8,5 +8,8 @@ export enum Path {
   REGISTRATION_SUCCESS = "/auth/registration/success",
   REGISTRATION_ERROR = "/auth/registration/verificationError",
   NEW_PASSWORD_ERROR = "/auth/new_password/verificationError",
-  ERROR_404 = "*"
+  ERROR_404 = "*",
+  SIGNIN = "/auth/signinOAuth",
+  CALLBACK_GOOGLE = "/api/auth/callback/google",
+  CALLBACK_GITHUB = "/api/auth/callback/github"
 }

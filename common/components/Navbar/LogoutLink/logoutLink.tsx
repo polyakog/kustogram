@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import { AppLink } from "../AppLink/AppLink";
-import { Modal } from "../../Modal/Modal";
+import { Modal } from "../../Modals/ModalPublic/Modal";
 import { Button } from "../../Button/Button";
 import { ThemeButton } from "../../../enums/themeButton";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";

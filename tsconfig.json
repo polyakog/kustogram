@@ -19,6 +19,12 @@
       "@/types/*": ["./assets/types/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "assets/types/next-auth.d.ts",
+    "**/*.tsx",
+    "assets/model/Schema.js"
+  ],
   "exclude": ["node_modules"]
 }

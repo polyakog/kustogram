@@ -11,6 +11,7 @@ export const theme = createTheme({
     },
     action: {
       disabled: baseTheme.colors.dark[100]
+      // hover: baseTheme.colors.dark[100],
     }
   },
   components: {
@@ -85,13 +86,17 @@ export const theme = createTheme({
         root: {
           border: "1px solid",
           borderColor: baseTheme.colors.dark[100],
-          borderRadius: "4px",
+          borderRadius: "2px",
           backgroundColor: baseTheme.colors.dark[500]
         }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
+        // стили для поля отображения даты при активации календаря (hover, selected, focused...)
+        notchedOutline: {
+          border: "none"
+        },
         input: {
           paddingLeft: "8px",
           fontSize: "16px"

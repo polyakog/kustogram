@@ -38,16 +38,15 @@ const FilterModal = ({
   const handleNextButton = () => {
     handleNextToPublishButton(filterPhotoList);
   };
-  const handleCanvas = (canvasUrl: string) => {
+
+  const handleCanvas = (photoUrlFilter: string) => {
     const filterPhotoPost = photoPost.map((el) => {
       if (el.photoUrl == photo.photoUrl) {
-        el.photoUrlWithFilter = canvasUrl;
+        el.photoUrlWithFilter = photoUrlFilter;
       }
       return el;
     });
     setFilterPhotoList(filterPhotoPost);
-    console.log("canvas new");
-    console.log("filterPhotoList", filterPhotoPost[0].photoUrlWithFilter);
   };
 
   return (
@@ -77,10 +76,9 @@ const FilterModal = ({
         <Canvas
           photo={photo.photoUrl}
           filter={photo.filter}
-          width={"0"}
-          height={"0"}
+          width={"450px"}
+          height={"450px"}
           setImageUrl={handleCanvas}
-          isImgSizes={true}
         />
       </HiddenCanvas>
     </ImageToolModal>
@@ -104,6 +102,7 @@ const StyledFiltersContainer = styled.div<{ key: string }>`
 const HiddenCanvas = styled.div`
   width: fit-content;
   height: fit-content;
-  visibility: hidden;
+  // visibility: hidden;
+  z-index: -1;
   position: absolute;
 `;

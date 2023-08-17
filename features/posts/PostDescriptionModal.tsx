@@ -1,23 +1,19 @@
 import { ImageToolModal } from "common/hoc/ImageToolModal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import { PhotoType } from "./PostCreationModal";
 import { useCreatePostMutation } from "assets/store/api/posts/postsApi";
-import Canvas from "./Canvas";
 
 const PostDescriptionModal = ({
   handleBackToFilters,
   photoPost,
-  handleModalClose,
-  photoFile
+  handleModalClose
 }: {
   handleBackToFilters: (photoPost: PhotoType[]) => void;
   photoPost: PhotoType[];
   handleModalClose: () => void;
-  photoFile: any;
 }) => {
   const [photo, setPhoto] = useState(photoPost[0]);
-  const [canvasPhoto, setCanvasPhoto] = useState<string[]>([]);
   const [createPostHandler] = useCreatePostMutation();
   const [description, setDescription] = useState("");
 
@@ -25,16 +21,17 @@ const PostDescriptionModal = ({
     handleBackToFilters(photoPost);
   };
 
-  const handleCanvas = (photoUrl: string) => {
-    const newList = [...canvasPhoto, photoUrl];
-    setCanvasPhoto(newList);
-  };
-
-  const handlePublishButton = () => {
+  const handlePublishButton = async () => {
     const formData = new FormData();
+    for (const photo of photoPost) {
+      const result = await fetch(photo.photoUrlWithFilter);
+      const blob = await result.blob();
+      const file = new File([blob], "avatar", { type: "image/png" });
+
+      // преобразование file в FormData
+      formData.append("posts", file as File);
+    }
     formData.append("description", description);
-    formData.append("posts", photoFile);
-    console.log(photoFile);
 
     createPostHandler(formData);
   };
@@ -59,16 +56,6 @@ const PostDescriptionModal = ({
           <StyledDescriptionLimit>{description.length}/500</StyledDescriptionLimit>
         </StyledDescriptionContainer>
       </ImageToolModal>
-      {photoPost.map((el, index) => (
-        <Canvas
-          key={index}
-          photo={el.photoUrl}
-          filter={el.filter}
-          width={"0px"}
-          height={"0px"}
-          setImageUrl={handleCanvas}
-        />
-      ))}
     </>
   );
 };

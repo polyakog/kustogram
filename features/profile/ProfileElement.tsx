@@ -10,6 +10,8 @@ import {
   HeaderStyle,
   IconBlock,
   InfoBlock,
+  LoadingPostBackStyle,
+  LoadingPostStyle,
   ProfileWrapper,
   StyledAvatarBlock,
   UserNameStyle
@@ -30,16 +32,18 @@ import {
   FetchArgs,
   FetchBaseQueryError,
   FetchBaseQueryMeta,
-  QueryDefinition
+  QueryDefinition,
+  QueryStatus
 } from "@reduxjs/toolkit/dist/query";
+import { baseTheme } from "styles/styledComponents/theme";
 
 type PropsType = {
   user?: UserType | undefined;
   posts?: CreatePostResponse[] | undefined;
   session?: Session | undefined | null;
   setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
-  pageNumber: number;
+  setPageSize: React.Dispatch<React.SetStateAction<number>>;
+  pageSize: number;
   getCurrentPost: LazyQueryTrigger<
     QueryDefinition<
       string,
@@ -49,16 +53,21 @@ type PropsType = {
       "postsApi"
     >
   >;
+  totalCount: number;
+  isLoading: boolean;
+  status: QueryStatus;
 };
 
 const ProfileElement: React.FC<PropsType> = ({
   user,
   posts,
-  // session,
   setIsPostActive,
-  setPageNumber,
-  pageNumber,
-  getCurrentPost
+  setPageSize,
+  pageSize,
+  getCurrentPost,
+  totalCount,
+  isLoading,
+  status
 }) => {
   const avatar = "/img/icons/avatar.svg";
 
@@ -72,6 +81,7 @@ const ProfileElement: React.FC<PropsType> = ({
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
   const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
+  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 200 : 350) : 350;
 
   /*  ____________</переменные для мобильной версии>_______________*/
 
@@ -89,7 +99,7 @@ const ProfileElement: React.FC<PropsType> = ({
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS);
   };
-  // console.log(session?.user?.image)
+  if (isLoading) console.log("isLoading");
 
   return (
     <>
@@ -150,13 +160,22 @@ const ProfileElement: React.FC<PropsType> = ({
         </HeaderStyle>
 
         {/* <PhotosBlock> */}
+        {status !== "fulfilled" && (
+          <div style={LoadingPostBackStyle}>
+            <div style={LoadingPostStyle}>Loading...</div>
+          </div>
+        )}
         <PostPhotos
           posts={posts}
           postSize={postSize}
           setIsPostActive={setIsPostActive}
-          setPageNumber={setPageNumber}
-          pageNumber={pageNumber}
+          setPageSize={setPageSize}
+          pageSize={pageSize}
           getCurrentPost={getCurrentPost}
+          totalCount={totalCount}
+          scrollSize={scrollSize}
+          isLoading={isLoading}
+          status={status}
         />
         {/* </PhotosBlock> */}
       </ProfileWrapper>

@@ -6,6 +6,7 @@ const media = mediaSizes.media;
 
 export const ProfileWrapper = styled.div`
   position: relative;
+  max-width: 1310px;
 `;
 
 export const BlockButton = styled.div`
@@ -184,6 +185,7 @@ export const PhotoStyle = styled.div`
 `;
 
 export const ScrollStyle = styled.div`
+  position: relative;
   height: 350px;
   overflow-y: scroll;
   padding: 5px 5px 5px 5px;
@@ -193,3 +195,35 @@ export const ScrollStyle = styled.div`
     height: 200px;
   }
 `;
+
+export const LoadingStyle: React.CSSProperties = {
+  display: "flex",
+  width: "maxContent",
+  justifyContent: "center",
+  textAlign: "center",
+  marginTop: "20px",
+  color: baseTheme.colors.success[500]
+};
+export const LoadingPostStyle: React.CSSProperties = {
+  display: "flex",
+  position: "absolute",
+  zIndex: "7",
+  fontSize: "25px",
+  margin: "40px 30%",
+  color: baseTheme.colors.success[500],
+  flexWrap: "wrap"
+};
+
+export const LoadingPostBackStyle: React.CSSProperties = {
+  display: "flex",
+  position: "absolute",
+  zIndex: "6",
+  // fontSize: "25px",
+  background: baseTheme.colors.dark[500],
+  width: "80%",
+  height: "100px",
+  margin: "20px 10%",
+  opacity: "0.7",
+  color: baseTheme.colors.dark[500],
+  flexWrap: "wrap"
+};

@@ -3,13 +3,16 @@ import {
   FetchArgs,
   FetchBaseQueryError,
   FetchBaseQueryMeta,
-  QueryDefinition
+  QueryDefinition,
+  QueryStatus
 } from "@reduxjs/toolkit/dist/query";
 import { LazyQueryTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
 import { CreatePostResponse } from "assets/store/api/posts/types";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import {
+  LoadingPostStyle,
+  LoadingStyle,
   PhotoStyle,
   PhotosBlock,
   ScrollStyle
@@ -19,8 +22,8 @@ type PropsType = {
   posts: CreatePostResponse[] | undefined;
   postSize: number;
   setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setPageNumber: React.Dispatch<React.SetStateAction<number>>;
-  pageNumber: number;
+  setPageSize: React.Dispatch<React.SetStateAction<number>>;
+  pageSize: number;
   getCurrentPost: LazyQueryTrigger<
     QueryDefinition<
       string,
@@ -30,59 +33,68 @@ type PropsType = {
       "postsApi"
     >
   >;
+  totalCount: number;
+  scrollSize: number;
+  isLoading: boolean;
+  status: QueryStatus;
 };
 
 export const PostPhotos: React.FC<PropsType> = ({
   posts,
   postSize,
   setIsPostActive,
-  setPageNumber,
-  pageNumber,
-  getCurrentPost
+  setPageSize,
+  pageSize,
+  getCurrentPost,
+  totalCount,
+  scrollSize,
+  isLoading,
+  status
 }) => {
-  const [page, setPage] = useState(1);
-  // const [isAutoScroll, setIsAutoScroll] = useState(true)
+  const [portion, setPortion] = useState(1);
+  const totalPortion = Math.floor((totalCount - 1) / 9) + 1;
+  // console.log('totalCount, totalPortion, portion', totalCount, totalPortion, portion)
+
   const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     var element = e.currentTarget;
-    // if (Math.abs((element.scrollHeight-element.scrollTop) - element.clientHeight)<200){
-
-    // }
     // console.log('scrollHeight', element.scrollHeight)
     // console.log('scrollTop', element.scrollTop)
     // console.log('clientHeight', element.clientHeight)
+    if (element.scrollHeight - element.scrollTop < scrollSize) {
+      let newPageSize = pageSize + 9;
+      let newPortion = portion + 1;
 
-    if (element.scrollTop >= 364) {
-      setPageNumber(pageNumber + 1);
-      element.scrollTop === 2;
-    } else if (element.scrollTop <= 1) {
-      if (pageNumber > 1) setPageNumber(pageNumber - 1);
+      if (totalPortion >= newPortion) {
+        setPageSize(newPageSize);
+        setPortion(newPortion);
+      }
     }
   };
+  if (isLoading) console.log("working");
 
-  useEffect(() => {
-    console.log(pageNumber);
-  }, [page]);
   return (
-    <ScrollStyle onScroll={scrollHandler}>
-      <PhotosBlock>
-        {posts?.map((p) => (
-          <PhotoStyle key={p.id}>
-            <Image
-              src={p.images.length ? p.images[0].url : ""}
-              width={postSize}
-              height={postSize}
-              alt={"post image"}
-              onClick={() =>
-                getCurrentPost(p.id)
-                  .unwrap()
-                  .then(() => setIsPostActive(true))
-              }
+    <>
+      <ScrollStyle onScroll={status === "fulfilled" ? scrollHandler : () => {}}>
+        <PhotosBlock>
+          {posts?.map((p) => (
+            <PhotoStyle key={p.id}>
+              <Image
+                src={p.images.length ? p.images[0].url : ""}
+                width={postSize}
+                height={postSize}
+                alt={"post image"}
+                onClick={() =>
+                  getCurrentPost(p.id)
+                    .unwrap()
+                    .then(() => setIsPostActive(true))
+                }
 
-              // style={{ }}
-            />
-          </PhotoStyle>
-        ))}
-      </PhotosBlock>
-    </ScrollStyle>
+                // style={{ }}
+              />
+            </PhotoStyle>
+          ))}
+        </PhotosBlock>
+      </ScrollStyle>
+    </>
   );
 };

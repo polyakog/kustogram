@@ -8,27 +8,20 @@ import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
 import { useLazyGetPostQuery, useGetUserPostsQuery } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
-import { number } from "yup";
 
 const MyProfile = () => {
-  /* _______ProtectedPage______________ */
-  // const { data: session } = useSession();
-
-  /*   _____________________________________ */
-
-  // const avatar = "/img/icons/avatar.svg";
   const { data: me, isSuccess, isError } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
-  // const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
-  const [getUserPosts, { data }] = useLazyGetUserPostsQuery();
-  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
-
-  const [isPostActive, setIsPostActive] = useState(false);
+  const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery();
   const posts = data?.items || [];
+  const totalCount = data?.totalCount || 0;
+
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
+  const [isPostActive, setIsPostActive] = useState(false);
+
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(9);
   const [userId, setUserId] = useState("");
-  const page = 1;
 
   useEffect(() => {
     getProfileInfo()
@@ -59,10 +52,13 @@ const MyProfile = () => {
               posts={posts}
               setIsPostActive={setIsPostActive}
               getCurrentPost={getCurrentPost}
-              setPageNumber={setPageNumber}
-              pageNumber={pageNumber}
+              setPageSize={setPageSize}
+              pageSize={pageSize}
+              totalCount={totalCount}
+              status={status}
+              isLoading={isLoading}
             />
-            page: {pageNumber}
+            posts: {totalCount}
             {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
           </>
         )}

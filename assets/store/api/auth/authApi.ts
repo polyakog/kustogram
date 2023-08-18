@@ -6,7 +6,6 @@ import {
   MeType,
   NewPasswordResType,
   NewPasswordType,
-  ProfileType,
   RegistrationType,
   SendLinkType
 } from "./types";
@@ -19,7 +18,6 @@ export const authApi = createApi({
     fetchFn: async (url) => {
       const token = getItem("accessToken");
       const options = {
-        // method: 'POST',
         headers: new Headers({
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
@@ -92,8 +90,6 @@ export const {
   useLoginMutation,
   useSendRecoveryLinkMutation,
   useNewPasswordMutation,
-  useLogoutMutation,
-  useSetProfileMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
   useLazyMeQuery

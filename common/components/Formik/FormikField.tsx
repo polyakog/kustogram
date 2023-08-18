@@ -1,9 +1,7 @@
-import {Field} from "formik"
-import styled from "styled-components"
-import {baseTheme} from "../../../styles/styledComponents/theme";
-import {ChangeEvent} from "react";
-import {FiledProps} from "./types";
-
+import { ChangeEvent } from "react";
+import { FiledProps } from "./types";
+import { StyledField } from "./Formik.styled";
+import { FieldTextarea } from "./FieldTextarea";
 
 export const FormikField = (props: FiledProps) => {
   return props.type !== "textarea" ? (
@@ -21,9 +19,3 @@ export const FormikField = (props: FiledProps) => {
     />
   );
 };
-
-    @media (max-width: 390px) {
-      width: 80vw;
-      max-width: ${props => props.width ? '40vw' : '330px'};
-    }
-  `

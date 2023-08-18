@@ -18,4 +18,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Have fun! :)
 
-Gennadiy
+hi im Oleg

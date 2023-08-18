@@ -33,7 +33,8 @@ import { isElementAccessExpression } from "typescript";
 import { StyledErrorMsg, StyledField } from "common/components/Formik/Formik.styled";
 import ProfileCalendar from "features/settings/ProfileCalendar";
 
-const ProfileSettings = () => {
+// //// Отображение страницы редактирования профиля  //  ////
+//      с возможностью изменения аватарки                 //
 
 const GeneralInformation = () => {
   const [isModalOpen, setIsModalOpen] = useState({
@@ -59,16 +60,30 @@ const GeneralInformation = () => {
         setItem("name", res.login);
         setAuthMeLoading(true);
       });
-    getProfileInfo()
-      .unwrap()
-      .finally(() => {
-        setIsLoading(true);
-      });
-  }, [authMeHandler, getProfileInfo, setIsLoading]);
 
+    const isProfile = !router.asPath.includes("profile=false");
 
+    if (isProfile) {
+      getProfileInfo()
+        .unwrap()
+        .finally(() => {
+          setProfileLoading(true);
+        });
+    } else {
+      setProfileLoading(true);
+    }
+
+    if (authMeLoading && profileLoading) {
+      setIsLoading(true);
+    }
+  }, [authMeHandler, getProfileInfo, setIsLoading, authMeLoading, profileLoading]);
+
+  // аватарка, отображаемая при загрузке
+  const avatar = data?.photo || "/img/icons/avatar.svg";
+
+  // начальные значения для формы
   const initialAuthValues = {
-    username: usernameAuth?.login || data?.login || "",
+    username: data?.login || usernameAuth?.login || getItem("name") || "",
     firstname: data?.firstName || "",
     lastname: data?.lastName || "",
     birthday: data?.dateOfBirthday || "",
@@ -78,30 +93,34 @@ const GeneralInformation = () => {
   // обработчик нажатия кнопки сохранения данных в форме
   const handleSubmit = async (values: FormValueProfile) => {
     const data = {
-      username: values.username,
-      firstname: values.firstname,
-      lastname: values.lastname,
-      birthday: values.birthday,
+      login: values.username,
+      firstName: values.firstname,
+      lastName: values.lastname,
+      dateOfBirthday: values.birthday,
       city: values.city,
-      aboutMe: values.aboutMe
-    }
+      userInfo: values.aboutMe
+    };
     try {
       await saveProfileInfoHandler(data)
         .unwrap()
         .then(() => {
-          setIsModalOpen({ photoModal: false, saveProfileModal: true });
+          setIsModalOpen({ photoModal: false, saveProfileModal: true, filterModal: false });
           router.push(Path.PROFILE_SETTINGS);
         });
     } catch (error) {}
   };
   // обработчик нажатия кнопки для открытия окна смены аватарки
   const handleAddPhoto = () => {
-    setIsModalOpen({ photoModal: true, saveProfileModal: false });
+    setIsModalOpen({ photoModal: true, saveProfileModal: false, filterModal: false });
   };
 
   // обработчик нажатия кнопки для закрытия модального окна смены аватарки
   const handleModalClose = () => {
-    setIsModalOpen({ photoModal: false, saveProfileModal: false });
+    setIsModalOpen({ photoModal: false, saveProfileModal: false, filterModal: false });
+  };
+
+  const handleFilterModalOpen = () => {
+    setIsModalOpen({ photoModal: false, saveProfileModal: false, filterModal: true });
   };
 
   return (
@@ -169,7 +188,12 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                   />
-                  <Calendar setFieldValue={setFieldValue} date={data?.dateOfBirthday || ""} />
+                  <ProfileCalendar
+                    setFieldValue={setFieldValue}
+                    date={values.birthday || ""}
+                    errors={errors["birthday"]}
+                    touched={touched["birthday"]}
+                  />
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}
@@ -206,6 +230,9 @@ const GeneralInformation = () => {
               </Button>
             </Modal>
           )}
+          {/* {isModalOpen.filterModal && (
+            <FilterModal handleModalClose = {handleModalClose} photo={photo}/>
+          )} */}
         </SettingsPageWrapper>
       )}
     </>
@@ -214,8 +241,3 @@ const GeneralInformation = () => {
 
 GeneralInformation.getLayout = getLayout;
 export default GeneralInformation;
-
-const StyledProfileForm = styled(StyledAuthForm)
-  `
-    align-items: flex-end;
-  `

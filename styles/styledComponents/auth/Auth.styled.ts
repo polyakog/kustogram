@@ -3,43 +3,41 @@ import styled from "styled-components";
 import Link from "next/link";
 import {baseTheme} from "../theme";
 
-export const StyledContainerAuth = styled.div
-  `
-    width: 96vw;
-    min-height: 90vh;
+export const StyledContainerAuth = styled.div`
+  width: 96vw;
+  min-height: 90vh;
+  margin: 20px 0;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 //WrapperContainerAuth
-export const StyledFormAuth = styled.div<FormAuthPropsType>
-  `
-    max-width: ${props => props.width?props.width:'378px'};
-    width: 100%;
-    height: ${props => props.height?props.height:'auto'};
-    padding: 20px;
-    
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
-    
-    background: ${baseTheme.colors.dark["500"]};
-    border: 1px solid ${baseTheme.colors.dark["300"]};
+export const StyledFormAuth = styled.div<FormAuthPropsType>`
+  max-width: ${(props) => (props.width ? props.width : "378px")};
+  width: 100%;
+  height: ${(props) => (props.height ? props.height : "auto")};
+  padding: 20px;
 
-    @media (max-width: 390px){
-      max-width: ${props => props.width?props.width:'90vw'};
-    }
-  `
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
 
-export const StaledTitle = styled.h1
-  `
-    width: 100%;
-    text-align: center;
-    margin: 0;
+  background: ${baseTheme.colors.dark["500"]};
+  border: 1px solid ${baseTheme.colors.dark["300"]};
+
+  @media (max-width: 390px) {
+    max-width: ${(props) => (props.width ? props.width : "90vw")};
+  }
+`;
+
+export const StaledTitle = styled.h1<{ marginBottom?: string }>`
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  margin-bottom: ${(props) => (props.marginBottom ? props.marginBottom : "0")};
 
     font-size: 20px;
     font-family: Inter;
@@ -69,20 +67,16 @@ export const StyledLinkBlock = styled.div
     padding-bottom: 24px;
   `
 // Success
-export const StyledContainerButton = styled.div
-  `
-  margin-top: 38px;   
-  `
-export const StyledImage = styled.div
-  `
+export const StyledContainerButton = styled.div`
+  margin-top: 38px;
+`;
+export const StyledImage = styled.div`
   margin-top: 72px;
-  `
+`;
 // VerificationError
-export const StyledContainerButtonVer = styled.div
-  `
-  margin-top: 10px;   
-  `
-export const StyledImageVer = styled.div
-  `
-  margin-top: 25px; 
-  `
+export const StyledContainerButtonVer = styled.div`
+  margin-top: 30px;
+`;
+export const StyledImageVer = styled.div`
+  margin-top: 25px;
+`;

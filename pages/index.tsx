@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import {NextPageWithLayout} from './_app';
-import {getLayout} from '../common/components/Layout/BaseLayout/BaseLayout';
+import Image from "next/image";
+import { NextPageWithLayout } from "./_app";
+import { getLayout } from "../common/components/Layout/BaseLayout/BaseLayout";
 import Link from "next/link";
 import { Path } from "../common/enums/path";
 import kusto from "../public/img/kusto.png";
@@ -45,5 +45,16 @@ const Home: NextPageWithLayout = () => (
   </>
 );
 
-Home.getLayout = getLayout
+Home.getLayout = getLayout;
 export default Home;
+
+const StyledBlockMain = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  & a {
+    color: ${baseTheme.colors.light[100]};
+    text-decoration: none;
+  }
+`;

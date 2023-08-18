@@ -1,5 +1,5 @@
-import React from 'react';
-import {Formik} from "formik";
+import React, { useEffect } from "react";
+import { Formik } from "formik";
 import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
 import { NextRouter, useRouter } from "next/router";
@@ -14,7 +14,7 @@ import {
   StyledForgotLink,
   StyledLinkBlock
 } from "../../../styles/styledComponents/auth/Auth.styled";
-import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth";
+import { WrapperContainerAuth } from "../../../features/auth/WrapperContainerAuth";
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
@@ -44,12 +44,12 @@ import { isAppInitializedSelector } from "assets/store/app.selector";
 import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const {locale} = context as any
+  const { locale } = context;
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"], config)),
+      ...(await serverSideTranslations(locale as string, ["common"], config))
     }
-  }
+  };
 }
 
 const Login = () => {
@@ -73,7 +73,7 @@ const Login = () => {
   const initialAuthValues = {
     password: "",
     loginOrEmail: ""
-  }
+  };
 
   const [loginHandler, { data: loginRes }] = useLoginMutation();
 
@@ -81,7 +81,7 @@ const Login = () => {
 
   const handleSubmit = async (
     values: FormValueLogin,
-    {resetForm, setFieldError}: ResetForm & SetFieldErrorType
+    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
   ) => {
     const data = {
       email: values.loginOrEmail,
@@ -97,7 +97,7 @@ const Login = () => {
         })
         .catch(() => setFieldError("password", t("log_in_err")));
     } catch (error) {
-      console.log('LoginError:', error)
+      console.log("LoginError:", error);
     }
   };
 
@@ -192,7 +192,7 @@ const Login = () => {
   );
 };
 
-Login.getLayout = getLayout
+Login.getLayout = getLayout;
 export default Login;
 
 export const redirect = (

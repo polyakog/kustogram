@@ -187,6 +187,7 @@ export const PhotoStyle = styled.div`
 
 export const ScrollStyle = styled.div`
   position: relative;
+  margin-top: 40px;
   height: 350px;
   overflow-y: scroll;
   padding: 5px 5px 5px 5px;

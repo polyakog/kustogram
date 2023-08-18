@@ -2,45 +2,36 @@ import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
 import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
-import { urlify } from "./../../common/utils/urlify";
-import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
-import { PostPhotos } from "features/profile/PostPhotos";
-import { useSession } from "next-auth/react";
+import { useLazyGetUserPostsQuery } from "assets/store/api/posts/postsApi";
+import { useAppSelector } from "common/hooks";
+import { isAppInitializedSelector } from "assets/store/app.selector";
+import ProfileElement from "features/profile/ProfileElement";
+import { useLazyGetPostQuery, useGetUserPostsQuery } from "assets/store/api/posts/postsApi";
+import Post from "common/components/Post/Post";
+import { PostCountStyle } from "styles/styledComponents/profile/profile.styled";
 
 const MyProfile = () => {
-  /* _______ProtectedPage______________ */
-  const { data: session } = useSession();
-
-  /*   _____________________________________ */
-
-  const avatar = "/img/icons/avatar.svg";
-  const { isSuccess } = useAuthMeQuery();
+  const { data: me, isSuccess, isError } = useAuthMeQuery();
   const [getProfileInfo, { data: user }] = useLazyProfileQuery();
-  const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
+  const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery();
+  const posts = data?.items || [];
+  const totalCount = data?.totalCount || 0;
 
-  const posts = postsData?.items;
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
+  const [isPostActive, setIsPostActive] = useState(false);
 
-  const { width } = useWindowSize(); // хук для измерения размера экрана
-
-  const [isVisible, setIsVisible] = useState(true);
-  const [isPaid, setIsPaid] = useState(false);
-  const router = useRouter();
-  /*  ____________<переменные для мобильной версии>______________*/
-
-  const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
-  const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
-  const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
-
-  /*  ____________</переменные для мобильной версии>_______________*/
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(9);
+  const [userId, setUserId] = useState("");
 
   useEffect(() => {
-    getProfileInfo();
-  }, []);
-
-  useEffect(() => {
-    if (user?.userId) {
-      getPostsInfo(user?.userId);
-    }
+    getProfileInfo()
+      .unwrap()
+      .then(({ userId }) => {
+        if (userId) {
+          setUserId(userId);
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -54,86 +45,26 @@ const MyProfile = () => {
   return (
     <>
       <LoginNavigate>
-        {/* {isSuccess && ( */}
-        {(session || isSuccess) && (
-          <ProfileWrapper>
-            <HeaderStyle>
-              {isVisible && (
-                <BlockButton>
-                  <Button
-                    theme={ThemeButton.SECONDARY}
-                    type="button"
-                    width={"auto"}
-                    style={{ padding: "6px 24px" }}
-                    onClick={handleClick}
-                  >
-                    Profile Settings
-                  </Button>
-                </BlockButton>
-              )}
-              <StyledAvatarBlock>
-                <IconBlock>
-                  <Image
-                    src={user?.photo || avatar}
-                    width={avatarSize}
-                    height={avatarSize}
-                    alt={"avatar"}
-                    // style={{ maxWidth: "204px", maxHeight: "204px" }}
-                  />
-                </IconBlock>
-              </StyledAvatarBlock>
-
-              <UserNameStyle>
-                {user?.firstName} {user?.lastName}
-                {isPaid && (
-                  <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />
-                )}
-              </UserNameStyle>
-
-              <InfoBlock>
-                <FolowBlock>
-                  <div>
-                    <div>2 218</div>
-                    <div>Following</div>
-                  </div>
-                  <div>
-                    <div>2 358</div>
-                    <div>Followers</div>
-                  </div>
-                  <div>
-                    <div>2 358</div>
-                    <div>Publications</div>
-                  </div>
-                </FolowBlock>
-
-                <AboutMeBlock>
-                  <AboutMeText>
-                    {urlify(user?.userInfo || "about me")}
-
-                    {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt. laboris nisi ut aliquip ex ea commodo consequat. */}
-                  </AboutMeText>
-                </AboutMeBlock>
-              </InfoBlock>
-            </HeaderStyle>
-            {/* <PhotosBlock> */}
-            <PostPhotos posts={posts} postSize={postSize} />
-
-            {/* <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle> */}
-            {/* </PhotosBlock> */}
-          </ProfileWrapper>
+        {isAppInitialized && (
+          <>
+            <ProfileElement
+              user={user}
+              posts={posts}
+              setIsPostActive={setIsPostActive}
+              getCurrentPost={getCurrentPost}
+              setPageSize={setPageSize}
+              pageSize={pageSize}
+              totalCount={totalCount}
+              status={status}
+              isLoading={isLoading}
+            />
+            <PostCountStyle>posts: {totalCount}</PostCountStyle>
+            {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
+          </>
         )}
       </LoginNavigate>
     </>
   );
 };
-MyProfile.getLayout = getLayout
+MyProfile.getLayout = getLayout;
 export default MyProfile;

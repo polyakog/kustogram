@@ -21,8 +21,6 @@ const FilterElement = ({
     handleFilter(filter, newPhoto);
   };
 
-  console.log("newPhoto", newPhoto);
-
   return (
     <StyledModalBody onClick={handleFilterChose}>
       <Canvas

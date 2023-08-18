@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { baseTheme } from "../theme";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const media = mediaSizes.media;
 
 export const ProfileWrapper = styled.div`
   position: relative;
+  max-width: 1310px;
 `;
 
 export const BlockButton = styled.div`
@@ -184,6 +186,7 @@ export const PhotoStyle = styled.div`
 `;
 
 export const ScrollStyle = styled.div`
+  position: relative;
   height: 350px;
   overflow-y: scroll;
   padding: 5px 5px 5px 5px;
@@ -191,5 +194,48 @@ export const ScrollStyle = styled.div`
   border: 1px solid ${baseTheme.colors.dark[100]};
   @media (max-width: ${media}) {
     height: 200px;
+  }
+`;
+
+export const LoadingStyle: React.CSSProperties = {
+  display: "flex",
+  width: "maxContent",
+  justifyContent: "center",
+  textAlign: "center",
+  marginTop: "20px",
+  color: baseTheme.colors.success[500]
+};
+export const LoadingPostStyle: React.CSSProperties = {
+  display: "flex",
+  position: "absolute",
+  zIndex: "7",
+  fontSize: "25px",
+  margin: "85px 40%",
+  // opacity: "80%",
+  color: baseTheme.colors.success[500],
+  flexWrap: "wrap"
+};
+
+export const LoadingPostBackStyle = styled.div`
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  background: ${baseTheme.colors.dark[500]};
+  width: calc(100% - 26px);
+  height: 348.5px;
+  margin: 1px 5px;
+  opacity: 50%;
+  flex-wrap: wrap;
+  @media (max-width: ${media}) {
+    max-height: 198.5px;
+  }
+`;
+export const PostCountStyle = styled.div`
+  font-size: 14px;
+  color: ${baseTheme.colors.dark[100]};
+
+  @media (max-width: ${media}) {
+    max-height: 198.5px;
+    font-size: 12px;
   }
 `;

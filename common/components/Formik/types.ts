@@ -2,7 +2,7 @@ import { FormikErrors, FormikState, FormikTouched } from "formik";
 import { TFunction } from "next-i18next";
 import React, { ChangeEvent } from "react";
 
-type FormikAllValuesType = {
+export type FormikAllValuesType = {
   username?: string;
   password?: string;
   passwordConfirmation?: string;

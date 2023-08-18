@@ -5,8 +5,7 @@ const Canvas = ({
   filter,
   width,
   height,
-  setImageUrl,
-  isImgSizes
+  setImageUrl
 }: {
   key?: number;
   photo: string;
@@ -14,7 +13,6 @@ const Canvas = ({
   width: string;
   height: string;
   setImageUrl: (canvasUrl: string) => void;
-  isImgSizes?: boolean;
 }) => {
   const canvasRef = useRef(null);
 
@@ -30,10 +28,6 @@ const Canvas = ({
       let xOffset = 0;
       let yOffset = 0;
       if (canvas) {
-        if (isImgSizes) {
-          canvas.width = img.width;
-          canvas.height = img.height;
-        }
         const ratio = img.width / img.height;
         newWidth = canvas.width;
         newHeight = newWidth / ratio;
@@ -51,11 +45,7 @@ const Canvas = ({
         console.log("canvasUrl", canvasUrl);
       }
 
-      if (isImgSizes) {
-        context.drawImage(img, 0, 0);
-      } else {
-        context.drawImage(img, xOffset, yOffset, newWidth, newHeight);
-      }
+      context.drawImage(img, xOffset, yOffset, newWidth, newHeight);
     };
     img.src = photo;
   }, []);

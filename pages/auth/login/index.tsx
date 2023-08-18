@@ -36,12 +36,12 @@ import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
 // import { signIn, signOut, useSession } from "next-auth/react";
-import { initializeApp } from "assets/store/initializeApp"; //?
+import { initializeAppAuth } from "assets/store/initializeAppAuth"; //?
 import { useAppDispatch, useAppSelector } from "common/hooks"; //?
 import { LoginResponseType, LoginType } from "assets/store/api/auth/types";
-import { styled } from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import { isAppInitializedSelector } from "assets/store/app.selector";
+import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
@@ -55,7 +55,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 const Login = () => {
   /*   ________Инициализация_____________ */ //?
   const dispatch = useAppDispatch();
-  const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery();
+  const [getInitialize, { data: me, isLoading, error, status }] = useLazyMeQuery();
 
   /*   ________/Инициализация_____________ */ //?
 
@@ -65,8 +65,8 @@ const Login = () => {
 
   const { removeItem, setItem } = useLocalStorage();
   // const { data: session, status } = useSession();
-  const status = "unauthenticated";
-  const session = "";
+  // const status = "unauthenticated";
+  // const session = "";
 
   const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
@@ -75,9 +75,9 @@ const Login = () => {
     loginOrEmail: ""
   };
 
-  const [loginHandler, { data }] = useLoginMutation();
+  const [loginHandler, { data: loginRes }] = useLoginMutation();
 
-  redirect(data, setItem, route);
+  redirect(loginRes, setItem, route);
 
   const handleSubmit = async (
     values: FormValueLogin,
@@ -106,13 +106,10 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    initializeApp(dispatch, me, isLoading, error);
-    redirect(data, setItem, route);
-  }, [me, isLoading, error, dispatch, data]);
+    initializeAppAuth(dispatch, me, isLoading, error);
+    redirect(loginRes, setItem, route);
+  }, [me, isLoading, error, dispatch, loginRes]);
 
-  // if (session?.user) {
-  //   route.push(Path.PROFILE);
-  // }
   const style = {
     display: "flex",
     with: "maxContent",
@@ -122,10 +119,15 @@ const Login = () => {
     color: baseTheme.colors.success[500]
   };
 
-  // if (status === "authenticated")
-  //   return <div style={style as React.CSSProperties}>You are authenticated</div>;
+  // if (status)
+  //   return <div style={style as React.CSSProperties}>You are {status}</div>;
 
-  // if (status === "loading") return <div style={style as React.CSSProperties}>Loading...</div>;
+  if (isLoading) return <div style={LoadingStyle}>Loading...</div>;
+
+  if (isAppInitialized) {
+    redirect(loginRes, setItem, route);
+    console.log("You are initialialized");
+  }
 
   return (
     <>
@@ -194,14 +196,14 @@ Login.getLayout = getLayout;
 export default Login;
 
 export const redirect = (
-  data: LoginResponseType | undefined,
+  loginRes: LoginResponseType | undefined,
   setItem: (key: string, value: string) => void,
   route: NextRouter
 ) => {
-  if (data) {
-    setItem("accessToken", data.accessToken);
-    data.profile
+  if (loginRes) {
+    setItem("accessToken", loginRes.accessToken);
+    loginRes.profile
       ? route.push(Path.PROFILE)
-      : route.push(`${Path.PROFILE_SETTINGS}?profile=${data.profile}`);
+      : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`);
   }
 };

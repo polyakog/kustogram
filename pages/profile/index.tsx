@@ -1,37 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
-import Image from "next/image";
 import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
-import { Button } from "common/components/Button/Button";
-import { ThemeButton } from "common/enums/themeButton";
-import { useRouter } from "next/router";
-import { Path } from "common/enums/path";
-import { useWindowSize } from "common/hooks/useWindowSize";
-import Paid from "../../public/img/icons/paid.svg";
-import {
-  AboutMeBlock,
-  AboutMeText,
-  BlockButton,
-  FolowBlock,
-  HeaderStyle,
-  IconBlock,
-  InfoBlock,
-  PhotoStyle,
-  PhotosBlock,
-  ProfileWrapper,
-  StyledAvatarBlock,
-  UserNameStyle
-} from "styles/styledComponents/profile/profile.styled";
-import { mediaSizes } from "../../common/constants/Profile/mediaSizes";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
-import { redirect } from "next/navigation";
 import { urlify } from "./../../common/utils/urlify";
+import { useLazyGetUserPostQuery } from "assets/store/api/posts/postsApi";
+import { PostPhotos } from "features/profile/PostPhotos";
+import { useSession } from "next-auth/react";
 
 const MyProfile = () => {
-  const avatar = "/img/icons/avatar.svg";
-  const [getProfileInfo, { data: user }] = useLazyProfileQuery();
+  /* _______ProtectedPage______________ */
+  const { data: session } = useSession();
 
+  /*   _____________________________________ */
+
+  const avatar = "/img/icons/avatar.svg";
   const { isSuccess } = useAuthMeQuery();
+  const [getProfileInfo, { data: user }] = useLazyProfileQuery();
+  const [getPostsInfo, { data: postsData }] = useLazyGetUserPostQuery();
+
+  const posts = postsData?.items;
 
   const { width } = useWindowSize(); // хук для измерения размера экрана
 
@@ -42,6 +29,8 @@ const MyProfile = () => {
 
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
+  const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
+
   /*  ____________</переменные для мобильной версии>_______________*/
 
   useEffect(() => {
@@ -49,24 +38,24 @@ const MyProfile = () => {
   }, []);
 
   useEffect(() => {
-    if (width) {
-      if (width < mediaSizes.buttonUnvisible) {
-        // для мобильной версии
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
+    if (user?.userId) {
+      getPostsInfo(user?.userId);
     }
-  }, [width]);
+  }, []);
 
-  const handleClick = () => {
-    router.push(Path.PROFILE_SETTINGS);
-  };
+  useEffect(() => {
+    if (userId) {
+      getUserPosts({ userId, pageNumber, pageSize });
+    }
+  }, [userId, pageNumber, pageSize]);
+
+  const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
   return (
     <>
       <LoginNavigate>
-        {isSuccess && (
+        {/* {isSuccess && ( */}
+        {(session || isSuccess) && (
           <ProfileWrapper>
             <HeaderStyle>
               {isVisible && (
@@ -127,7 +116,10 @@ const MyProfile = () => {
                 </AboutMeBlock>
               </InfoBlock>
             </HeaderStyle>
-            <PhotosBlock>
+            {/* <PhotosBlock> */}
+            <PostPhotos posts={posts} postSize={postSize} />
+
+            {/* <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
@@ -135,9 +127,8 @@ const MyProfile = () => {
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
               <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-              <PhotoStyle>Photo</PhotoStyle>
-            </PhotosBlock>
+              <PhotoStyle>Photo</PhotoStyle> */}
+            {/* </PhotosBlock> */}
           </ProfileWrapper>
         )}
       </LoginNavigate>

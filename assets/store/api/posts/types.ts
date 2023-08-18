@@ -21,10 +21,16 @@ export type CreatePostResponse = {
 
 export type GetPostResponse = CreatePostResponse;
 
-export type GetUserPostResponse = {
+export type GetUserPostsResponse = {
   pagesCount: number;
   page: number;
   pageSize: number;
   totalCount: number;
   items: CreatePostResponse[];
+};
+
+export type GetUserPostsRequest = {
+  userId: string;
+  pageNumber: number;
+  pageSize: number;
 };

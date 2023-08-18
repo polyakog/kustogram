@@ -8,7 +8,7 @@ export const getItem = (key: string) => {
 };
 
 export const useLocalStorage = () => {
-  const setItem = (key: string, value: string) => {
+  const setItem = (key: string, value: unknown) => {
     localStorage.setItem(key, JSON.stringify(value));
   };
 

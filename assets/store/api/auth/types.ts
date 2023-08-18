@@ -7,9 +7,9 @@ export type RegistrationType = {
   password: string
 }
 export type LoginType = {
-  loginOrEmail: string
-  password: string
-}
+  email: string;
+  password: string;
+};
 export type SendLinkType = {
   email: string
 }
@@ -51,7 +51,7 @@ export type RegistrationResponseError = {
 };
 
 export type MeType = {
-  id: string
-  login: string
-  email: string
-}
+  id: string;
+  login: string;
+  email: string;
+};

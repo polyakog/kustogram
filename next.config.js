@@ -6,11 +6,29 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'rickandmortyapi.com',
-        port: '',
-        pathname: '/api/character/avatar/**',
+        protocol: "https",
+        hostname: "storage.yandexcloud.net",
+        port: "",
+        pathname: "/**"
       },
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        port: "",
+        pathname: "**"
+      },
+      {
+        protocol: "https",
+        hostname: "*.githubusercontent.com",
+        port: "",
+        pathname: "**"
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.dzeninfra.ru",
+        port: "",
+        pathname: "/**"
+      }
     ]
   },
   compiler: {

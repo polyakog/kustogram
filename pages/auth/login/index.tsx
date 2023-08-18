@@ -2,11 +2,13 @@ import React from 'react';
 import {Formik} from "formik";
 import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
 import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
-import {useRouter} from "next/router";
-import {useLoginMutation} from "../../../assets/store/api/auth/authApi";
-import {saveState} from "../../../common/components/localStorage/localStorage";
-import {LOCAL_STORAGE_ACCESS_TOKEN_KEY} from "../../../common/components/localStorage/types";
-import {FormValueLogin, ResetForm, SetFieldErrorType} from "../../../common/components/Formik/types";
+import { NextRouter, useRouter } from "next/router";
+import { useLazyMeQuery, useLoginMutation } from "../../../assets/store/api/auth/authApi"; //?
+import {
+  FormValueLogin,
+  ResetForm,
+  SetFieldErrorType
+} from "../../../common/components/Formik/types";
 import {
   StyledContainerAuth,
   StyledForgotLink,
@@ -33,7 +35,13 @@ import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
-import { signIn, signOut, useSession } from "next-auth/react";
+// import { signIn, signOut, useSession } from "next-auth/react";
+import { initializeAppAuth } from "assets/store/initializeAppAuth"; //?
+import { useAppDispatch, useAppSelector } from "common/hooks"; //?
+import { LoginResponseType, LoginType } from "assets/store/api/auth/types";
+import { baseTheme } from "styles/styledComponents/theme";
+import { isAppInitializedSelector } from "assets/store/app.selector";
+import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const {locale} = context as any
@@ -45,57 +53,85 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const Login = () => {
+  /*   ________Инициализация_____________ */ //?
+  const dispatch = useAppDispatch();
+  const [getInitialize, { data: me, isLoading, error, status }] = useLazyMeQuery();
+
+  /*   ________/Инициализация_____________ */ //?
+
   const { t } = useTranslation();
   const route = useRouter();
   const { passwordType, showPassword } = useShowPassword();
 
   const { removeItem, setItem } = useLocalStorage();
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
+  // const status = "unauthenticated";
+  // const session = "";
+
+  const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
   const initialAuthValues = {
     password: "",
     loginOrEmail: ""
   }
 
-  const [loginHandler, {data}] = useLoginMutation()
+  const [loginHandler, { data: loginRes }] = useLoginMutation();
 
-  if (data) {
-    saveState(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken)
-    data.profile ? route.push(Path.PROFILE) : route.push(`${Path.PROFILE_SETTINGS}?login=LOGIN`)
-  }
+  redirect(loginRes, setItem, route);
 
   const handleSubmit = async (
     values: FormValueLogin,
     {resetForm, setFieldError}: ResetForm & SetFieldErrorType
   ) => {
     const data = {
-      loginOrEmail: values.loginOrEmail,
-      password: values.password,
-    }
+      email: values.loginOrEmail,
+      password: values.password
+    };
     try {
       await loginHandler(data)
         .unwrap()
-        .then(() => resetForm())
-        .catch(() =>
-          setFieldError(
-            "password",
-            t("log_in_err")
-          )
-        )
+        .then((res) => {
+          removeItem("email");
+          resetForm();
+          getInitialize();
+        })
+        .catch(() => setFieldError("password", t("log_in_err")));
     } catch (error) {
       console.log('LoginError:', error)
     }
   };
 
-  if (session?.user) {
-    route.push(Path.PROFILE_SETTINGS)
+  useEffect(() => {
+    getInitialize();
+  }, []);
 
+  useEffect(() => {
+    initializeAppAuth(dispatch, me, isLoading, error);
+    redirect(loginRes, setItem, route);
+  }, [me, isLoading, error, dispatch, loginRes]);
+
+  const style = {
+    display: "flex",
+    with: "maxContent",
+    justifyContent: "center",
+    textAlign: "center",
+    marginTop: "20px",
+    color: baseTheme.colors.success[500]
+  };
+
+  // if (status)
+  //   return <div style={style as React.CSSProperties}>You are {status}</div>;
+
+  if (isLoading) return <div style={LoadingStyle}>Loading...</div>;
+
+  if (isAppInitialized) {
+    redirect(loginRes, setItem, route);
+    console.log("You are initialialized");
   }
 
   return (
     <>
-    {!session && (
-        <StyledContainerAuth>
+      <StyledContainerAuth>
         <WrapperContainerAuth title={t("signIn_title")}>
           <AuthIcons />
           <Formik
@@ -152,13 +188,22 @@ const Login = () => {
           </StyledSignInWrapper>
         </WrapperContainerAuth>
       </StyledContainerAuth>
-
-    )}
-    </>   
-  
+    </>
   );
 };
 
 Login.getLayout = getLayout
 export default Login;
 
+export const redirect = (
+  loginRes: LoginResponseType | undefined,
+  setItem: (key: string, value: string) => void,
+  route: NextRouter
+) => {
+  if (loginRes) {
+    setItem("accessToken", loginRes.accessToken);
+    loginRes.profile
+      ? route.push(Path.PROFILE)
+      : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`);
+  }
+};

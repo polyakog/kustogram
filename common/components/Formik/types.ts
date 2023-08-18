@@ -1,20 +1,20 @@
 import { FormikErrors, FormikState, FormikTouched } from "formik"
 import React from "react"
 
-type FormikAllValuesType = {
-  username?: string
-  password?: string
-  passwordConfirmation?: string
-  email?: string
-  loginOrEmail?: string
-  newPassword?: string
-  recoveryCode?: string
-  firstname?: string
-  lastname?: string
-  birthday?: string
-  city?: string
-  aboutMe?: string
-}
+export type FormikAllValuesType = {
+  username?: string;
+  password?: string;
+  passwordConfirmation?: string;
+  email?: string;
+  loginOrEmail?: string;
+  newPassword?: string;
+  recoveryCode?: string;
+  firstname?: string;
+  lastname?: string;
+  birthday?: string;
+  city?: string;
+  aboutMe?: string;
+};
 
 export type labelType = {
   children?: React.ReactNode;

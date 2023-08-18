@@ -8,6 +8,7 @@ import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
 import { useLazyGetPostQuery, useGetUserPostsQuery } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
+import { PostCountStyle } from "styles/styledComponents/profile/profile.styled";
 
 const MyProfile = () => {
   const { data: me, isSuccess, isError } = useAuthMeQuery();
@@ -36,7 +37,6 @@ const MyProfile = () => {
   useEffect(() => {
     if (userId) {
       getUserPosts({ userId, pageNumber, pageSize });
-      console.log("post Request", userId, pageNumber, pageSize);
     }
   }, [userId, pageNumber, pageSize]);
 
@@ -58,7 +58,7 @@ const MyProfile = () => {
               status={status}
               isLoading={isLoading}
             />
-            posts: {totalCount}
+            <PostCountStyle>posts: {totalCount}</PostCountStyle>
             {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
           </>
         )}

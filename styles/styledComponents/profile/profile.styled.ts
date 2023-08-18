@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { baseTheme } from "../theme";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const media = mediaSizes.media;
 
@@ -209,21 +210,32 @@ export const LoadingPostStyle: React.CSSProperties = {
   position: "absolute",
   zIndex: "7",
   fontSize: "25px",
-  margin: "40px 30%",
+  margin: "85px 40%",
+  // opacity: "80%",
   color: baseTheme.colors.success[500],
   flexWrap: "wrap"
 };
 
-export const LoadingPostBackStyle: React.CSSProperties = {
-  display: "flex",
-  position: "absolute",
-  zIndex: "6",
-  // fontSize: "25px",
-  background: baseTheme.colors.dark[500],
-  width: "80%",
-  height: "100px",
-  margin: "20px 10%",
-  opacity: "0.7",
-  color: baseTheme.colors.dark[500],
-  flexWrap: "wrap"
-};
+export const LoadingPostBackStyle = styled.div`
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  background: ${baseTheme.colors.dark[500]};
+  width: calc(100% - 26px);
+  height: 348.5px;
+  margin: 1px 5px;
+  opacity: 50%;
+  flex-wrap: wrap;
+  @media (max-width: ${media}) {
+    max-height: 198.5px;
+  }
+`;
+export const PostCountStyle = styled.div`
+  font-size: 14px;
+  color: ${baseTheme.colors.dark[100]};
+
+  @media (max-width: ${media}) {
+    max-height: 198.5px;
+    font-size: 12px;
+  }
+`;

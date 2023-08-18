@@ -51,10 +51,6 @@ export const PostPhotos: React.FC<PropsType> = ({
   isLoading,
   status
 }) => {
-  const [portion, setPortion] = useState(1);
-  const totalPortion = Math.floor((totalCount - 1) / 9) + 1;
-  // console.log('totalCount, totalPortion, portion', totalCount, totalPortion, portion)
-
   const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
     var element = e.currentTarget;
     // console.log('scrollHeight', element.scrollHeight)
@@ -62,15 +58,12 @@ export const PostPhotos: React.FC<PropsType> = ({
     // console.log('clientHeight', element.clientHeight)
     if (element.scrollHeight - element.scrollTop < scrollSize) {
       let newPageSize = pageSize + 9;
-      let newPortion = portion + 1;
-
-      if (totalPortion >= newPortion) {
+      if (totalCount + 9 >= newPageSize) {
         setPageSize(newPageSize);
-        setPortion(newPortion);
       }
     }
   };
-  if (isLoading) console.log("working");
+  if (isLoading) console.log("loading posts...");
 
   return (
     <>

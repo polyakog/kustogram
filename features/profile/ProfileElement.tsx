@@ -161,9 +161,10 @@ const ProfileElement: React.FC<PropsType> = ({
 
         {/* <PhotosBlock> */}
         {status !== "fulfilled" && (
-          <div style={LoadingPostBackStyle}>
+          <>
             <div style={LoadingPostStyle}>Loading...</div>
-          </div>
+            <LoadingPostBackStyle></LoadingPostBackStyle>
+          </>
         )}
         <PostPhotos
           posts={posts}
@@ -177,6 +178,7 @@ const ProfileElement: React.FC<PropsType> = ({
           isLoading={isLoading}
           status={status}
         />
+
         {/* </PhotosBlock> */}
       </ProfileWrapper>
     </>

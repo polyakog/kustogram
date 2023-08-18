@@ -211,7 +211,7 @@ export const LoadingPostStyle: React.CSSProperties = {
   position: "absolute",
   zIndex: "7",
   fontSize: "25px",
-  margin: "85px 40%",
+  margin: "125px 40%",
   // opacity: "80%",
   color: baseTheme.colors.success[500],
   flexWrap: "wrap"
@@ -224,7 +224,7 @@ export const LoadingPostBackStyle = styled.div`
   background: ${baseTheme.colors.dark[500]};
   width: calc(100% - 26px);
   height: 348.5px;
-  margin: 1px 5px;
+  margin: 41px 5px;
   opacity: 50%;
   flex-wrap: wrap;
   @media (max-width: ${media}) {

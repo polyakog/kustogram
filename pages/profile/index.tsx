@@ -58,7 +58,7 @@ const MyProfile = () => {
               status={status}
               isLoading={isLoading}
             />
-            <PostCountStyle>posts: {totalCount}</PostCountStyle>
+            {/* <PostCountStyle>posts: {totalCount}</PostCountStyle> */}
             {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
           </>
         )}

@@ -4,15 +4,26 @@ import { mediaSizes } from "common/constants/Profile/mediaSizes";
 import { DatePicker } from "@mui/x-date-pickers";
 
 const media = mediaSizes.media;
+const sidebarMedia = mediaSizes.sidebarMedia;
 
 export const ProfileWrapper = styled.div`
   position: relative;
-  max-width: 1310px;
+  max-width: 1000px;
+  min-width: 360px;
+  margin-left: 24px;
+  width: 100%;
+
+  @media (max-width: ${"2000px"}) {
+    margin-left: 24px;
+  }
+  @media (max-width: ${media}) {
+    margin-left: 78px;
+  }
 `;
 
 export const BlockButton = styled.div`
   position: absolute;
-  right: 64px;
+  right: 2cqmax;
   top: 0px;
 `;
 
@@ -21,6 +32,9 @@ export const HeaderStyle = styled.div`
   gap: 40px;
   align-content: center;
   width: auto;
+  @media (max-width: ${media}) {
+    margin-left: -68px;
+  }
 `;
 
 export const StyledAvatarBlock = styled.div`
@@ -38,6 +52,7 @@ export const IconBlock = styled.div`
   width: 204px;
   height: 204px;
   overflow: hidden;
+  margin: 0px 0px;
   background: ${baseTheme.colors.dark[100]};
   border-radius: 50%;
 
@@ -76,10 +91,11 @@ export const UserNameStyle = styled.div`
 
   @media (max-width: ${media}) {
     position: absolute;
-    left: 0px;
+    left: -68px;
     top: 82px;
     font-family: Inter;
     font-size: 16px;
+    font-weight: 700;
     line-height: 24px;
   }
 `;
@@ -101,23 +117,32 @@ export const InfoBlock = styled.div`
   }
 `;
 
-export const FolowBlock = styled.div`
+export const FollowBlock = styled.div`
   display: grid;
   margin-top: -90px;
   grid-template-columns: 1fr 1fr 1fr;
 
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
   line-height: 24px;
 
   @media (max-width: ${media}) {
     text-align: center;
+    line-height: 16px;
+    margin-left: -25px;
+  }
+`;
+
+export const FollowSpan = styled.span`
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+
+  @media (max-width: ${media}) {
     font-family: Inter;
     font-size: 12px;
     font-weight: 600;
     line-height: 16px;
+    font-style: normal;
   }
 `;
 
@@ -130,13 +155,14 @@ export const AboutMeBlock = styled.div`
   padding-right: 72px;
 
   @media (max-width: ${media}) {
-    margin-top: 80px;
-    margin-left: -110px;
+    margin-top: 50px;
+    margin-left: -114px;
     min-width: 300px;
+    height: 60px;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    adding-right: 20px;
+    padding-right: 20px;
   }
 `;
 
@@ -159,7 +185,7 @@ export const PhotosBlock = styled.div`
   flex-wrap: wrap;
   /* padding-top: 24px; */
   justify-content: space-between;
-  gap: 10px;
+  gap: 5px;
 `;
 
 export const PhotoStyle = styled.div`
@@ -187,14 +213,19 @@ export const PhotoStyle = styled.div`
 
 export const ScrollStyle = styled.div`
   position: relative;
-  margin-top: 40px;
-  height: 350px;
+  flex-grow: 0;
+  margin: 40px 0px -20px; // ссылка сюда
+  max-width: 850px;
+  width: calc(100% - 60px); // подправить
+  height: 360px;
   overflow-y: scroll;
   padding: 5px 5px 5px 5px;
   border-radius: 2px;
   border: 1px solid ${baseTheme.colors.dark[100]};
   @media (max-width: ${media}) {
-    height: 200px;
+    height: 340px;
+    margin: 29px -68px -20px; // ссылка сюда
+    width: calc(100vw - 50px); // подправить
   }
 `;
 
@@ -206,34 +237,41 @@ export const LoadingStyle: React.CSSProperties = {
   marginTop: "20px",
   color: baseTheme.colors.success[500]
 };
-export const LoadingPostStyle: React.CSSProperties = {
-  display: "flex",
-  position: "absolute",
-  zIndex: "7",
-  fontSize: "25px",
-  margin: "125px 40%",
+
+export const LoadingPostStyle = styled.div`
+  display: flex;
+  position: absolute;
+  z-index: 7;
+  font-size: 25px;
+  margin: 125px calc(45% - 60px);
   // opacity: "80%",
-  color: baseTheme.colors.success[500],
-  flexWrap: "wrap"
-};
+  color: ${baseTheme.colors.success[500]};
+  @media (max-width: ${media}) {
+    margin: 125px calc(30vw - 50px);
+  }
+`;
 
 export const LoadingPostBackStyle = styled.div`
   display: flex;
   position: absolute;
   z-index: 1;
   background: ${baseTheme.colors.dark[500]};
-  width: calc(100% - 26px);
-  height: 348.5px;
-  margin: 41px 5px;
+  width: calc(100% - 78px);
+  max-width: 831px;
+  height: 359px;
+  margin: 42px 0px;
   opacity: 50%;
   flex-wrap: wrap;
   @media (max-width: ${media}) {
-    max-height: 198.5px;
+    height: 339px;
+    width: calc(100vw - 70px);
+    margin: 30px -67px;
   }
 `;
 export const PostCountStyle = styled.div`
   font-size: 14px;
   color: ${baseTheme.colors.dark[100]};
+  margin-top: 20px;
 
   @media (max-width: ${media}) {
     max-height: 198.5px;

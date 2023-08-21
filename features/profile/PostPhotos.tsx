@@ -56,6 +56,8 @@ export const PostPhotos: React.FC<PropsType> = ({
     // console.log('scrollHeight', element.scrollHeight)
     // console.log('scrollTop', element.scrollTop)
     // console.log('clientHeight', element.clientHeight)
+    // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
+
     if (element.scrollHeight - element.scrollTop < scrollSize) {
       let newPageSize = pageSize + 9;
       if (totalCount + 9 >= newPageSize) {

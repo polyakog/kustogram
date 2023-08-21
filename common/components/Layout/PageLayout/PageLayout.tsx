@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { PropsWithChildren, ReactElement } from "react";
+import { PropsWithChildren, ReactElement, useState } from "react";
 import Header from "../../Header/Header";
 import { Navbar } from "../../Navbar/Navbar";
 import styled from "styled-components";
@@ -8,20 +8,30 @@ import { useRouter } from "next/router";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
+import { CreatePost } from "common/components/Navbar/CreatePost/CreatePost";
 
 const media = mediaSizes.media;
+const sidebar = mediaSizes.sidebarMedia;
 
 export const PageLayout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
   const router = useRouter();
   const { profile } = router.query;
+
+  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
+
+  const openModalHandler = () => {
+    setIsOpenModalEdit(true);
+  };
+
   return (
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Header />
         <Page>
+          <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>
-            <Navbar showNavbar={profile} />
+            <Navbar showNavbar={profile} openModalHandler={openModalHandler} />
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>
@@ -50,22 +60,26 @@ const Page = styled.div`
   display: flex;
   max-width: 1310px;
   width: 100%;
-  gap: 16px;
+  /* gap: 16px; */
 
-  padding: 0 10px;
+  padding: 0 0px;
   /* margin: auto; */
 `;
 
 export const Main = styled.div`
   padding-top: 36px;
-  padding-left: 26px;
+  padding-left: 0px;
   flex-grow: 1;
   max-width: 80vw;
+
+  @media (max-width: ${"1400px"}) {
+    padding-left: 0px;
+  }
 `;
 
 export const NavbarWrapper = styled.div`
   height: 660px;
-  width: 17vw;
+  width: 220px;
   min-width: 150px;
   max-width: 220px;
   align-items: start;

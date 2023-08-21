@@ -3,10 +3,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
 import PhotoEditorModal from "./PhotoEditorModal";
-import { Button } from "common/components/Button/Button";
-import { ThemeButton } from "common/enums/themeButton";
 import closeIcon from "/public/img/icons/close_white.svg";
-import FilterModal from "../posts/FilterModal";
+import { ThemeButton } from "common/enums/themeButton";
+import { Button } from "common/components/Button/Button";
 
 ////  //  Модальное окно загрузки новой аватарки  //  ////
 

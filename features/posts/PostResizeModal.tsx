@@ -66,10 +66,10 @@ const PostResizeModal = ({
 
   // Сохранение отредактированного изображения
   const handleSave = async () => {
-    // setPhotoPost([...photoPost, savedImageUrl]);
     setPhotoPost([...photoPost, { photoUrl: savedImageUrl, filter: "", photoUrlWithFilter: "" }]);
   };
 
+  // Удаление изображения из массива
   const removePhotoFromList = (index: number) => {
     const newPhotoList = [];
     for (let i = 0; i < photoPost.length; i++) {
@@ -82,6 +82,7 @@ const PostResizeModal = ({
     setPhotoPost(newPhotoList);
   };
 
+  // Обработчик нажатия кнопки Full Screen
   const handleClickFullScreen = () => {
     handleFullScreen(!full);
     setFullScreen(!full);

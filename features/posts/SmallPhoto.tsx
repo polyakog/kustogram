@@ -27,12 +27,14 @@ const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
 
 export default SmallPhoto;
 
+// Типы
 type SmallProtoProps = {
   photo: string;
   removePhotoFromList: (index: number) => void;
   index: number;
 };
 
+// Стили
 const StyleDeletePhoto = styled.button`
   position: relative;
   border: 0;

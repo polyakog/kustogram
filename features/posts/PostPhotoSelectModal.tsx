@@ -2,19 +2,15 @@ import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
-import { Button } from "common/components/Button/Button";
-import { ThemeButton } from "common/enums/themeButton";
 
 const PostPhotoSelectModal = ({
   handleModalClose,
-  handleFullScreen,
   avatar,
   setPhotoFile,
   handleNextToResize
 }: {
   handleModalClose: () => void;
   avatar?: string;
-  handleFullScreen: (full: boolean) => void;
   setPhotoFile: (photoFile: File) => void;
   handleNextToResize: () => void;
 }) => {
@@ -50,9 +46,7 @@ const PostPhotoSelectModal = ({
           )}
         </StyledModalImageContainer>
         <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
-        <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
-          <label htmlFor="file-upload">Select from Computer</label>
-        </Button>
+        <StyledLabel htmlFor="file-upload">Select from Computer</StyledLabel>
       </StyledModalBody>
     </>
   );
@@ -61,6 +55,16 @@ const PostPhotoSelectModal = ({
 export default PostPhotoSelectModal;
 
 // styles
+
+const StyledLabel = styled.label`
+  margin: 0 auto;
+  background: #397df6;
+  width: 228px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  padding: 6px 0;
+`;
 
 const StyledModalHeader = styled.div`
   display: flex;

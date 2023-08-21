@@ -40,13 +40,14 @@ const Canvas = ({
 
         context.filter = filter;
 
-        let canvasUrl = canvas.toDataURL();
+        let canvasUrl = canvas.toDataURL("image/jpeg");
         setImageUrl(canvasUrl);
         console.log("canvasUrl", canvasUrl);
       }
 
       context.drawImage(img, xOffset, yOffset, newWidth, newHeight);
     };
+    // загрузка изображения
     img.src = photo;
   }, []);
 

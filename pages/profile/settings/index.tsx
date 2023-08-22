@@ -194,6 +194,7 @@ const GeneralInformation = () => {
                     errors={errors["birthday"]}
                     touched={touched["birthday"]}
                   />
+
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}

@@ -1,6 +1,4 @@
-import React, { useRef, useState } from "react";
-import AvatarEditor from "react-avatar-editor";
-import { Slider } from "./Slider";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import fullScreen from "../../public/img/icons/expand-outline.svg";
 import fullScreenOn from "../../public/img/icons/expand.svg";
@@ -25,8 +23,11 @@ import {
 import { Button } from "../../common/components/Button/Button";
 import { ThemeButton } from "../../common/enums/themeButton";
 import SmallPhoto from "./SmallPhoto";
-import CanvasWithAspectRatio from "./CanvasWithAspectRatio";
 import { PhotoType } from "./PostCreationModal";
+import "cropperjs/dist/cropper.css";
+import EasyCropper, { CropArgType } from "./EasyCropper";
+import getCroppedImg, { getImageRatio } from "./cropImage";
+import { Slider } from "./Slider";
 
 const PostResizeModal = ({
   handleFullScreen,
@@ -43,13 +44,28 @@ const PostResizeModal = ({
   photoFile: File;
   handleAddPhotoButton: () => void;
 }) => {
-  const [value, setValue] = useState(50); // начальное значение для zoom
+  const [value, setValue] = useState(1); // начальное значение для zoom
   const [openZoom, setOpenZoom] = useState(false); // открытие окна zoom
   const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии
   const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
   const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
-  const [sizePhoto, setSizePhoto] = useState<SizePhotoType>({ width: 1, height: 1 }); //соотношение сторон кадра
-  const [savedImageUrl, setSavedImageUrl] = useState<string>(""); // сохранение измененное в canvas
+  const [initialRatio, setInitialRatio] = useState(1); //первоначальное соотношение сторон кадра
+  const [ratio, setRatio] = useState(1); //первоначальное соотношение сторон кадра
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null); // сохранение вырезанной области
+  const [isObjectFit, setIsObjectFit] = useState(false);
+  const [photoFileURL, setPhotoFileURL] = useState<string>();
+
+  useEffect(() => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const url = reader.result;
+      if (typeof url == "string") {
+        setPhotoFileURL(url);
+        imageRatio(url);
+      }
+    };
+    reader.readAsDataURL(photoFile);
+  }, []);
 
   // Сохранение значений в локальный state при перемещении бегунка
   const handleSlider =
@@ -59,14 +75,30 @@ const PostResizeModal = ({
       }
     };
 
-  // сохранение изменений в canvas
-  const saveImage = (canvasUrl: string) => {
-    setSavedImageUrl(canvasUrl);
-  };
-
   // Сохранение отредактированного изображения
   const handleSave = async () => {
-    setPhotoPost([...photoPost, { photoUrl: savedImageUrl, filter: "", photoUrlWithFilter: "" }]);
+    try {
+      if (croppedAreaPixels && photoFileURL) {
+        const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels);
+        if (croppedImage) {
+          setPhotoPost([
+            ...photoPost,
+            { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
+          ]);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const imageRatio = async (url: string) => {
+    try {
+      let ratio = await getImageRatio(url);
+      setInitialRatio(ratio);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // Удаление изображения из массива
@@ -99,22 +131,23 @@ const PostResizeModal = ({
           Next
         </Button>
       </StyledModalHeaderNext>
-      <StyledPhotoEditor full={full}>
-        <CanvasWithAspectRatio
-          photo={URL.createObjectURL(photoFile)}
-          width={2000}
-          height={2000}
-          frame={{ width: sizePhoto.width, height: sizePhoto.height }}
-          scale={value / 100}
-          saveImage={saveImage}
+      <StyledPhotoEditor>
+        <EasyCropper
+          photoFileURL={photoFileURL}
+          setCroppedAreaPixels={setCroppedAreaPixels}
+          zoomTo={value}
+          aspectRatio={ratio}
+          isObjectFit={isObjectFit}
+          setZoom={setValue}
+          // onCropComplete={onCropComplete}
         />
       </StyledPhotoEditor>
       {openZoom && (
         <StyledSliderContainer>
           <label htmlFor="zoom"></label>
           <Slider
-            min="0"
-            max="100"
+            min="1"
+            max="5"
             id="zoom"
             onInput={handleSlider(setValue)}
             onChange={handleSlider(setValue)}
@@ -122,8 +155,8 @@ const PostResizeModal = ({
             type="range"
             style={{
               width: "45%",
-              "--min": 0,
-              "--max": 100,
+              "--min": 1,
+              "--max": 5,
               "--val": value
             }}
           />
@@ -133,37 +166,38 @@ const PostResizeModal = ({
         <StyledResizeBlock>
           <StyleItemSize
             onClick={() => {
-              setSizePhoto({ width: 1, height: 1 });
-              setValue(50);
+              setRatio(initialRatio);
+              setIsObjectFit(true);
+              setValue(1);
             }}
           >
-            <StyledIconSize src={addPhoto} alt={fullScreen} /> <span>original</span>
+            <StyledIconSize src={addPhoto} alt={"original"} /> <span>original</span>
           </StyleItemSize>
           <StyleItemSize
             onClick={() => {
-              setSizePhoto({ width: 1, height: 1 });
-              setValue(50);
+              setRatio(1 / 1);
+              setIsObjectFit(false);
             }}
           >
-            <StyledIconSize src={resize11} alt={fullScreen} />
+            <StyledIconSize src={resize11} alt={"1:1"} />
             1:1
           </StyleItemSize>
           <StyleItemSize
             onClick={() => {
-              setSizePhoto({ width: 4, height: 5 });
-              setValue(50);
+              setRatio(4 / 5);
+              setIsObjectFit(false);
             }}
           >
-            <StyledIconSize src={resize45} alt={fullScreen} />
+            <StyledIconSize src={resize45} alt={"4:5"} />
             4:5
           </StyleItemSize>
           <StyleItemSize
             onClick={() => {
-              setSizePhoto({ width: 16, height: 9 });
-              setValue(50);
+              setRatio(16 / 9);
+              setIsObjectFit(false);
             }}
           >
-            <StyledIconSize src={resize169} alt={fullScreen} />
+            <StyledIconSize src={resize169} alt={"16:9"} />
             16:9
           </StyleItemSize>
         </StyledResizeBlock>
@@ -188,9 +222,9 @@ const PostResizeModal = ({
           </div>
         </StyledAddBlock>
       )}
-      <div onClick={handleClickFullScreen}>
-        <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen} />
-      </div>
+      {/* <div onClick={handleClickFullScreen}>
+        <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
+      </div> */}
       <div
         onClick={() => {
           setResize(!resize);
@@ -237,10 +271,10 @@ type IconAddPhotoType = {
   full?: boolean;
 };
 
-const StyledPhotoEditor = styled.div<PhotoEditorPropsType>`
+const StyledPhotoEditor = styled.div`
   position: absolute;
-  width: ${(props) => (props.full ? "100%" : "490px")};
-  height: ${(props) => (props.full ? "" : "490px")};
+  width: 490px;
+  height: 490px;
   top: 62px;
   display: flex;
   justify-content: center;

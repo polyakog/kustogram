@@ -395,6 +395,8 @@ const SingleCommentWrapper = styled.div`
 
 const StyledImageWrapper = styled.div`
   position: relative;
+  background: black;
+  max-height: 560px;
 `;
 
 const StyledUsername = styled.p``;
@@ -405,9 +407,8 @@ const StyledComment = styled.p`
 `;
 
 const StyledPostImage = styled(Image)`
-  margin-top: 6px; ///hz pochemy ona yezjaet
-  max-width: 500px;
-  height: 560px;
+  /* margin-top: 6px; hz pochemy ona yezjaet */
+  object-fit: cover;
 `;
 
 const StyledComents = styled.div`

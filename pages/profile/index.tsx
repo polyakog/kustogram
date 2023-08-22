@@ -8,11 +8,11 @@ import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
 import { useLazyGetPostQuery, useGetUserPostsQuery } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
-import { PostCountStyle } from "styles/styledComponents/profile/profile.styled";
+import { LoadingStyle, PostCountStyle } from "styles/styledComponents/profile/profile.styled";
 
 const MyProfile = () => {
   const { data: me, isSuccess, isError } = useAuthMeQuery();
-  const [getProfileInfo, { data: user }] = useLazyProfileQuery();
+  const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery();
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery();
   const posts = data?.items || [];
   const totalCount = data?.totalCount || 0;
@@ -41,6 +41,8 @@ const MyProfile = () => {
   }, [userId, pageNumber, pageSize]);
 
   const isAppInitialized = useAppSelector(isAppInitializedSelector);
+
+  if (userStatus !== "fulfilled") return <div style={LoadingStyle}>Loading...</div>;
 
   return (
     <>

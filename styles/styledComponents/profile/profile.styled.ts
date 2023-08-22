@@ -11,11 +11,15 @@ export const ProfileWrapper = styled.div`
   max-width: 1000px;
   min-width: 360px;
   margin-left: 24px;
-  width: 100%;
+  /* width: 100%; */
 
   @media (max-width: ${"2000px"}) {
     margin-left: 24px;
   }
+
+  /* @media (max-width: ${"1000px"}) {
+    margin-left: 78px;
+  } */
   @media (max-width: ${media}) {
     margin-left: 78px;
   }

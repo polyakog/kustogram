@@ -80,7 +80,7 @@ export const Main = styled.div`
 export const NavbarWrapper = styled.div`
   height: 660px;
   width: 220px;
-  min-width: 150px;
+  /* min-width: 150px; */
   max-width: 220px;
   align-items: start;
   font-family: Inter;

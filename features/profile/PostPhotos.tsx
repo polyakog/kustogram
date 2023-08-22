@@ -17,6 +17,7 @@ import {
   PhotosBlock,
   ScrollStyle
 } from "styles/styledComponents/profile/profile.styled";
+import { baseTheme } from "styles/styledComponents/theme";
 
 type PropsType = {
   posts: CreatePostResponse[] | undefined;
@@ -65,7 +66,7 @@ export const PostPhotos: React.FC<PropsType> = ({
       }
     }
   };
-  if (isLoading) console.log("loading posts...");
+  if (isLoading) console.log("%c loading posts...", consoleStyle);
 
   return (
     <>
@@ -93,3 +94,9 @@ export const PostPhotos: React.FC<PropsType> = ({
     </>
   );
 };
+
+const consoleStyle = `
+padding: 20px;
+background-color: ${baseTheme.colors.accent[100]};
+border-radius: 20px;
+color: white}`;

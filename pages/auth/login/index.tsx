@@ -126,7 +126,7 @@ const Login = () => {
 
   if (isAppInitialized) {
     redirect(loginRes, setItem, route);
-    console.log("You are initialialized");
+    console.log("%c You are initialialized", consoleStyle);
   }
 
   return (
@@ -207,3 +207,9 @@ export const redirect = (
       : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`);
   }
 };
+
+const consoleStyle = `
+padding: 20px;
+background-color: ${baseTheme.colors.success[300]};
+border-radius: 20px;
+color: white}`;

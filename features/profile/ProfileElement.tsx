@@ -100,7 +100,6 @@ const ProfileElement: React.FC<PropsType> = ({
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS);
   };
-  if (isLoading) console.log("isLoading");
 
   return (
     <>

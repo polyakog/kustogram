@@ -12,6 +12,8 @@ import bookMarkOutline from "../../../public/img/icons/bookmark.svg";
 import bookMark from "../../../public/img/icons/bookmark-select.svg";
 import edit from "../../../public/img/icons/edit-2-outline.svg";
 import trash from "../../../public/img/icons/trash-outline.svg";
+import prevBtn from "../../../public/img/icons/prev.svg";
+import nextBtn from "../../../public/img/icons/next.svg";
 import { useAuthMeQuery, useProfileQuery } from "assets/store/api/profile/profileApi";
 import { fakeData } from "./fakeData";
 import { Modal } from "../../components/Modals/ModalPublic/Modal";
@@ -37,16 +39,16 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
   const [description, setDescription] = useState(postInfo.description || "");
   const [isEditDescription, setIsEditDescription] = useState(false);
 
-  const switchFotoHandler = (direction: string) => {
+  const switchFotoHandler = (direction: string): void => {
     if (direction === "next") {
-      if (currentImage === images.length) {
+      if (currentImage + 1 === images.length) {
         setCurrentImage(0);
       } else {
         setCurrentImage((prev) => prev + 1);
       }
     } else {
       if (currentImage === 0) {
-        setCurrentImage(images.length);
+        setCurrentImage(images.length - 1);
       } else {
         setCurrentImage((prev) => prev - 1);
       }
@@ -114,8 +116,12 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
             width={490}
             height={560}
           />
-          {/* <PrevBtn/>
-        <NextBtn/> */}
+          {images.length > 1 ? (
+            <>
+              <PrevPhoto alt="prev" src={prevBtn} onClick={() => switchFotoHandler("prev")} />
+              <NextPhoto alt="next" src={nextBtn} onClick={() => switchFotoHandler("next")} />
+            </>
+          ) : null}
         </StyledImageWrapper>
         {!isEditDescription ? (
           <StyledComents>
@@ -156,6 +162,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
                 <SingleCommentWrapper key={index}>
                   <StyledAvatar alt="avatar" src={item.userImage} />
                   <StyledComment>{`${item.userName + index} ${item.comment}`}</StyledComment>
+
                   <StyledIcon
                     alt="like"
                     src={isLiked ? like : likeOutline}
@@ -296,11 +303,23 @@ const IconsWrapper = styled.div`
   gap: 24px;
 `;
 
-const PrevBtn = styled(Image)``;
+const NextPhoto = styled(Image)`
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  right: 10%;
+`;
 
-const NextBtn = styled(PrevBtn);
+const PrevPhoto = styled(Image)`
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  left: 10%;
+`;
 
-const EditPost = styled(Image)``;
+const EditPost = styled(Image)`
+  cursor: pointer;
+`;
 
 const StyledIcon = styled(Image)<{ size?: string }>`
   width: ${(props) => (props.size ? "16px" : "24px")};
@@ -326,6 +345,7 @@ const PostManagment = styled.div`
 const Operation = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const TypeOfOperation = styled.p`
@@ -373,7 +393,11 @@ const SingleCommentWrapper = styled.div`
   gap: 12px;
 `;
 
-const StyledImageWrapper = styled.div``;
+const StyledImageWrapper = styled.div`
+  position: relative;
+  background: black;
+  max-height: 560px;
+`;
 
 const StyledUsername = styled.p``;
 
@@ -383,9 +407,8 @@ const StyledComment = styled.p`
 `;
 
 const StyledPostImage = styled(Image)`
-  margin-top: 6px; ///hz pochemy ona yezjaet
-  max-width: 500px;
-  height: 560px;
+  /* margin-top: 6px; hz pochemy ona yezjaet */
+  object-fit: cover;
 `;
 
 const StyledComents = styled.div`

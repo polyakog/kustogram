@@ -102,6 +102,20 @@ export const theme = createTheme({
           fontSize: "16px"
         }
       }
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          background: baseTheme.colors.dark[500]
+        }
+      }
+    },
+    MuiPickersToolbar: {
+      styleOverrides: {
+        root: {
+          display: "none"
+        }
+      }
     }
   }
 });

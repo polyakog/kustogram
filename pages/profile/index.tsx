@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
-import { useAuthMeQuery, useLazyProfileQuery } from "assets/store/api/profile/profileApi";
+import { useLazyProfileQuery } from "assets/store/api/profile/profileApi";
 import { LoginNavigate } from "common/hoc/LoginNavigate";
 import { useLazyGetUserPostsQuery } from "assets/store/api/posts/postsApi";
-import { useAppSelector } from "common/hooks";
-import { isAppInitializedSelector } from "assets/store/app.selector";
 import ProfileElement from "features/profile/ProfileElement";
-import { useLazyGetPostQuery, useGetUserPostsQuery } from "assets/store/api/posts/postsApi";
+import { useLazyGetPostQuery } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
-import { PostCountStyle } from "styles/styledComponents/profile/profile.styled";
+import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
 
 const MyProfile = () => {
-  const { data: me, isSuccess, isError } = useAuthMeQuery();
-  const [getProfileInfo, { data: user }] = useLazyProfileQuery();
+  const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery();
   const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery();
   const posts = data?.items || [];
   const totalCount = data?.totalCount || 0;
@@ -40,29 +37,32 @@ const MyProfile = () => {
     }
   }, [userId, pageNumber, pageSize]);
 
-  const isAppInitialized = useAppSelector(isAppInitializedSelector);
+  // const isAppInitialized = useAppSelector(isAppInitializedSelector);
+
+  if (userStatus !== "fulfilled") {
+    return <div style={LoadingStyle}>Loading...</div>;
+  }
 
   return (
     <>
-      <LoginNavigate>
-        {isAppInitialized && (
-          <>
-            <ProfileElement
-              user={user}
-              posts={posts}
-              setIsPostActive={setIsPostActive}
-              getCurrentPost={getCurrentPost}
-              setPageSize={setPageSize}
-              pageSize={pageSize}
-              totalCount={totalCount}
-              status={status}
-              isLoading={isLoading}
-            />
-            <PostCountStyle>posts: {totalCount}</PostCountStyle>
-            {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
-          </>
-        )}
-      </LoginNavigate>
+      {/* <LoginNavigate> */}
+      {/* {isAppInitialized && ( */}
+      <>
+        <ProfileElement
+          user={user}
+          posts={posts}
+          setIsPostActive={setIsPostActive}
+          getCurrentPost={getCurrentPost}
+          setPageSize={setPageSize}
+          pageSize={pageSize}
+          totalCount={totalCount}
+          status={status}
+          isLoading={isLoading}
+        />
+        {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
+      </>
+      {/* )} */}
+      {/* </LoginNavigate> */}
     </>
   );
 };

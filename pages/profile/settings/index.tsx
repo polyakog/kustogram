@@ -16,7 +16,7 @@ import PhotoSelectModal from "features/profile/PhotoSelectModal";
 import Image from "next/image";
 import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
 import { Modal } from "../../../common/components/Modals/ModalPublic/Modal";
-import { getLayout } from "../../../common/components/Layout/SettingsLayout/SettingsLayout";
+import { getLayout } from "../../../common/components/Layout/PageLayout/PageLayout";
 import { useRouter } from "next/router";
 import { Path } from "../../../common/enums/path";
 import Calendar from "common/components/Calendar/Calendar";
@@ -194,6 +194,7 @@ const GeneralInformation = () => {
                     errors={errors["birthday"]}
                     touched={touched["birthday"]}
                   />
+
                   <FormikLabel
                     name="aboutMe"
                     onChange={(e) => setFieldValue("aboutMe", e)}

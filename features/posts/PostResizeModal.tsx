@@ -6,12 +6,16 @@ import zoom from "../../public/img/icons/maximize-outline.svg";
 import zoomOn from "../../public/img/icons/maximize.svg";
 import addPhoto from "../../public/img/icons/image-outline.svg";
 import addPhotoOn from "../../public/img/icons/image.svg";
+import addPhotoGrey from "../../public/img/icons/image-outline-grey.svg";
 import plusPhoto from "../../public/img/icons/plus-circle-outline.svg";
 import resizePhoto from "../../public/img/icons/photo-resize.svg";
 import resizePhotoOn from "../../public/img/icons/photo-resizeOn.svg";
 import resize11 from "../../public/img/icons/resize11.svg";
 import resize45 from "../../public/img/icons/resize45.svg";
 import resize169 from "../../public/img/icons/resize169.svg";
+import resize11a from "../../public/img/icons/resize11a.svg";
+import resize45a from "../../public/img/icons/resize45a.svg";
+import resize169a from "../../public/img/icons/resize169a.svg";
 import savePhoto from "../../public/img/icons/save-photos.svg";
 import Image from "next/image";
 import { baseTheme } from "../../styles/styledComponents/theme";
@@ -28,6 +32,45 @@ import "cropperjs/dist/cropper.css";
 import EasyCropper, { CropArgType } from "./EasyCropper";
 import getCroppedImg, { getImageRatio } from "./cropImage";
 import { Slider } from "./Slider";
+
+const sizeData = [
+  {
+    size: "original",
+    alt: "original size",
+    src: addPhotoGrey,
+    selected: true,
+    srcActive: addPhoto,
+    setRatio: 1,
+    setIsObjectFit: true
+  },
+  {
+    size: "1:1",
+    alt: "1:1",
+    src: resize11,
+    selected: false,
+    srcActive: resize11a,
+    setRatio: 1 / 1,
+    setIsObjectFit: false
+  },
+  {
+    size: "4:5",
+    alt: "4:5",
+    src: resize45,
+    selected: false,
+    srcActive: resize45a,
+    setRatio: 4 / 5,
+    setIsObjectFit: false
+  },
+  {
+    size: "16:9",
+    alt: "16:9",
+    src: resize169,
+    selected: false,
+    srcActive: resize169a,
+    setRatio: 16 / 9,
+    setIsObjectFit: false
+  }
+];
 
 const PostResizeModal = ({
   handleFullScreen,
@@ -54,6 +97,7 @@ const PostResizeModal = ({
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null); // сохранение вырезанной области
   const [isObjectFit, setIsObjectFit] = useState(false);
   const [photoFileURL, setPhotoFileURL] = useState<string>();
+  // const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     const reader = new FileReader();
@@ -77,18 +121,25 @@ const PostResizeModal = ({
 
   // Сохранение отредактированного изображения
   const handleSave = async () => {
-    try {
-      if (croppedAreaPixels && photoFileURL) {
-        const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels);
-        if (croppedImage) {
-          setPhotoPost([
-            ...photoPost,
-            { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
-          ]);
+    if (photoPost.length < 10) {
+      try {
+        if (croppedAreaPixels && photoFileURL) {
+          const croppedImage = await getCroppedImg(photoFileURL, croppedAreaPixels);
+          if (croppedImage) {
+            setPhotoPost([
+              ...photoPost,
+              { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
+            ]);
+            // if (disabled) {
+            //   setDisabled(false);
+            // }
+          }
         }
+      } catch (e) {
+        console.error(e);
       }
-    } catch (e) {
-      console.error(e);
+    } else {
+      return;
     }
   };
 
@@ -120,6 +171,16 @@ const PostResizeModal = ({
     setFullScreen(!full);
   };
 
+  const selectSize = (ind: number) => {
+    sizeData.map((item, index) => {
+      item.selected = false;
+      if (index === ind) {
+        item.selected = true;
+      }
+      return item;
+    });
+  };
+
   return (
     <>
       <StyledModalHeaderNext>
@@ -127,7 +188,11 @@ const PostResizeModal = ({
           <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close" />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
-        <Button theme={ThemeButton.CLEAR} onClick={handleNextToFilterButton}>
+        <Button
+          theme={ThemeButton.CLEAR}
+          onClick={handleNextToFilterButton}
+          disabled={photoPost.length == 0 ? true : false}
+        >
           Next
         </Button>
       </StyledModalHeaderNext>
@@ -164,42 +229,25 @@ const PostResizeModal = ({
       )}
       {resize && (
         <StyledResizeBlock>
-          <StyleItemSize
-            onClick={() => {
-              setRatio(initialRatio);
-              setIsObjectFit(true);
-              setValue(1);
-            }}
-          >
-            <StyledIconSize src={addPhoto} alt={"original"} /> <span>original</span>
-          </StyleItemSize>
-          <StyleItemSize
-            onClick={() => {
-              setRatio(1 / 1);
-              setIsObjectFit(false);
-            }}
-          >
-            <StyledIconSize src={resize11} alt={"1:1"} />
-            1:1
-          </StyleItemSize>
-          <StyleItemSize
-            onClick={() => {
-              setRatio(4 / 5);
-              setIsObjectFit(false);
-            }}
-          >
-            <StyledIconSize src={resize45} alt={"4:5"} />
-            4:5
-          </StyleItemSize>
-          <StyleItemSize
-            onClick={() => {
-              setRatio(16 / 9);
-              setIsObjectFit(false);
-            }}
-          >
-            <StyledIconSize src={resize169} alt={"16:9"} />
-            16:9
-          </StyleItemSize>
+          {sizeData.map((item, index) => {
+            return (
+              <StyleItemSize
+                key={index}
+                selected={item.selected ? "selected" : ""}
+                onClick={() => {
+                  if (index === 0) {
+                    setValue(1);
+                  }
+                  setRatio(item.setRatio);
+                  setIsObjectFit(item.setIsObjectFit);
+                  selectSize(index);
+                }}
+              >
+                <StyledIconSize alt={item.alt} src={item.selected ? item.srcActive : item.src} />
+                {item.size}
+              </StyleItemSize>
+            );
+          })}
         </StyledResizeBlock>
       )}
       {openAddPhoto && (
@@ -214,10 +262,13 @@ const PostResizeModal = ({
               />
             ))}
           </StyledPhotoPost>
-          <div onClick={handleAddPhotoButton}>
+          <div onClick={handleAddPhotoButton} style={{ cursor: "pointer" }}>
             <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen} />
           </div>
-          <div onClick={handleSave}>
+          <div
+            onClick={handleSave}
+            style={{ cursor: photoPost.length < 10 ? "pointer" : "default" }}
+          >
             <StyledIconSavePhoto src={savePhoto} alt={savePhoto} />
           </div>
         </StyledAddBlock>
@@ -310,7 +361,7 @@ const StyledSliderContainer = styled.div`
   }
 `;
 
-const StyleItemSize = styled.div`
+const StyleItemSize = styled.div<{ selected?: string }>`
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
@@ -320,17 +371,16 @@ const StyleItemSize = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 24px;
-  color: ${baseTheme.colors.light["900"]};
+  cursor: pointer;
 
-  & span {
-    color: ${baseTheme.colors.light["100"]};
-  }
+  color: ${(props) => (props.selected ? "white" : "grey")};
 `;
 
 const StyledIconSize = styled(Image)`
   width: 26px;
   height: 26px;
   background: ${baseTheme.colors.dark["100"]};
+  cursor: pointer;
 `;
 
 const StyledIconFullScreen = styled(Image)`
@@ -343,14 +393,15 @@ const StyledIconFullScreen = styled(Image)`
 `;
 
 const StyledIconZoom = styled(StyledIconFullScreen)`
-  left: 80px;
+  left: 20px;
 `;
 
 const StyledIconAddPhoto = styled(StyledIconFullScreen)<IconAddPhotoType>`
   left: ${(props) => (props.full ? "95%" : "430px")};
+  cursor: pointer;
 `;
 const StyledIconResize = styled(StyledIconZoom)`
-  left: 140px;
+  left: 80px;
 `;
 
 const StyledIconPlusPhoto = styled(Image)`

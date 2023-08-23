@@ -6,13 +6,11 @@ import Image from "next/image";
 /// //  Элемент, отображающий изображение с наложенным фильтром   /// //
 
 const FilterElement = ({
-  key,
   photoUrl,
   filterTitle,
   filter,
   handleFilter
 }: {
-  key: number;
   photoUrl: string;
   filterTitle: string;
   filter: string;

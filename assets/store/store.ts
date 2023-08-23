@@ -4,11 +4,9 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import { profileApi } from "./api/profile/profileApi";
 import { postsApi } from "./api/posts/postsApi";
 import { refreshApi } from "./api/refresh/refreshApi";
-import { appReducer } from "./app-reducer";
 
 export const store = configureStore({
   reducer: {
-    app: appReducer,
     [authApi.reducerPath]: authApi.reducer,
     [profileApi.reducerPath]: profileApi.reducer,
     [postsApi.reducerPath]: postsApi.reducer,

@@ -6,7 +6,8 @@ import {
   AboutMeBlock,
   AboutMeText,
   BlockButton,
-  FolowBlock,
+  FollowBlock,
+  FollowSpan,
   HeaderStyle,
   IconBlock,
   InfoBlock,
@@ -81,7 +82,7 @@ const ProfileElement: React.FC<PropsType> = ({
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
   const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
-  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 200 : 350) : 350;
+  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 340 : 360) : 360;
 
   /*  ____________</переменные для мобильной версии>_______________*/
 
@@ -99,7 +100,6 @@ const ProfileElement: React.FC<PropsType> = ({
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS);
   };
-  if (isLoading) console.log("isLoading");
 
   return (
     <>
@@ -138,20 +138,32 @@ const ProfileElement: React.FC<PropsType> = ({
           </UserNameStyle>
 
           <InfoBlock>
-            <FolowBlock>
+            <FollowBlock>
               <div>
-                <div>2 218</div>
-                <div>Following</div>
+                <div>
+                  <FollowSpan>2 218</FollowSpan>
+                </div>
+                <div>
+                  <FollowSpan>Following</FollowSpan>
+                </div>
               </div>
               <div>
-                <div>2 358</div>
-                <div>Followers</div>
+                <div>
+                  <FollowSpan>2 358</FollowSpan>
+                </div>
+                <div>
+                  <FollowSpan>Followers</FollowSpan>
+                </div>
               </div>
               <div>
-                <div>2 358</div>
-                <div>Publications</div>
+                <div>
+                  <FollowSpan>2 358</FollowSpan>
+                </div>
+                <div>
+                  <FollowSpan>Publications</FollowSpan>
+                </div>
               </div>
-            </FolowBlock>
+            </FollowBlock>
 
             <AboutMeBlock>
               <AboutMeText>{urlify(user?.userInfo || "about me")}</AboutMeText>
@@ -162,7 +174,7 @@ const ProfileElement: React.FC<PropsType> = ({
         {/* <PhotosBlock> */}
         {status !== "fulfilled" && (
           <>
-            <div style={LoadingPostStyle}>Loading...</div>
+            <LoadingPostStyle>Loading...</LoadingPostStyle>
             <LoadingPostBackStyle></LoadingPostBackStyle>
           </>
         )}

@@ -10,6 +10,8 @@ import {
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
 import { PhotoType } from "features/posts/PostCreationModal";
+import prev from "../../public/img/icons/prevOut.svg";
+import next from "../../public/img/icons/nextOut.svg";
 
 type Props = {
   handleModalClose?: () => void;
@@ -21,6 +23,7 @@ type Props = {
   nextStep: string;
   handleNextStepButton: () => void;
   addPOstHandler?: () => void;
+  disabled?: boolean;
 };
 export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
   children,
@@ -32,6 +35,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
   setPhoto,
   nextStep,
   handleNextStepButton,
+  disabled = false,
   ...otherProps
 }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -63,13 +67,13 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
           <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="back" />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{title}</StyledModalTitleNext>
-        <Button theme={ThemeButton.CLEAR} onClick={handleNextStepButton}>
+        <Button theme={ThemeButton.CLEAR} onClick={handleNextStepButton} disabled={disabled}>
           {nextStep}
         </Button>
       </StyledModalHeaderNext>
       <StyledModalBody>
-        <div onClick={handlePrevPhoto}> Prev </div>
         <StyledImageContainer>
+          <Prev alt="prev" src={prev} onClick={handlePrevPhoto} />
           <Image
             src={photo.photoUrl}
             width={0}
@@ -77,8 +81,8 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
             alt="nolmal"
             style={{ width: "100%", height: "100%", objectFit: "contain", filter: photo.filter }}
           />
+          <Next alt="next" src={next} onClick={handleNextPhoto} />
         </StyledImageContainer>
-        <div onClick={handleNextPhoto}> Next </div>
         {children}
       </StyledModalBody>
     </StyledModalContainer>
@@ -86,6 +90,21 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
 };
 
 // styles
+
+const Common = styled(Image)`
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  z-index: 10;
+`;
+
+const Prev = styled(Common)`
+  left: 5%;
+`;
+
+const Next = styled(Common)`
+  right: 5%;
+`;
 
 const StyledModalContainer = styled.div`
   position: fixed;
@@ -115,10 +134,13 @@ const StyledModalBody = styled.div`
 
 const StyledImageContainer = styled.div`
   flex-shrink: 2;
+  z-index: 1;
 
   min-width: 300px;
   width: 490px;
   height: 100%;
+
+  position: relative;
 `;
 
 const StyledFiltersContainer = styled.div`

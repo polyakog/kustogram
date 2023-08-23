@@ -35,12 +35,8 @@ import { useTranslation } from "next-i18next";
 import { ThemeButton } from "../../../common/enums/themeButton";
 import { Path } from "../../../common/enums/path";
 import { useLocalStorage } from "common/hooks/useLocalStorage";
-// import { signIn, signOut, useSession } from "next-auth/react";
-import { initializeAppAuth } from "assets/store/initializeAppAuth"; //?
-import { useAppDispatch, useAppSelector } from "common/hooks"; //?
 import { LoginResponseType, LoginType } from "assets/store/api/auth/types";
 import { baseTheme } from "styles/styledComponents/theme";
-import { isAppInitializedSelector } from "assets/store/app.selector";
 import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
@@ -54,7 +50,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
 const Login = () => {
   /*   ________Инициализация_____________ */ //?
-  const dispatch = useAppDispatch();
+
   const [getInitialize, { data: me, isLoading, error, status }] = useLazyMeQuery();
 
   /*   ________/Инициализация_____________ */ //?
@@ -67,8 +63,6 @@ const Login = () => {
   // const { data: session, status } = useSession();
   // const status = "unauthenticated";
   // const session = "";
-
-  const isAppInitialized = useAppSelector(isAppInitializedSelector);
 
   const initialAuthValues = {
     password: "",
@@ -106,9 +100,8 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    initializeAppAuth(dispatch, me, isLoading, error);
     redirect(loginRes, setItem, route);
-  }, [me, isLoading, error, dispatch, loginRes]);
+  }, [me, isLoading, error, loginRes]);
 
   const style = {
     display: "flex",
@@ -119,15 +112,12 @@ const Login = () => {
     color: baseTheme.colors.success[500]
   };
 
-  // if (status)
-  //   return <div style={style as React.CSSProperties}>You are {status}</div>;
-
   if (isLoading) return <div style={LoadingStyle}>Loading...</div>;
 
-  if (isAppInitialized) {
-    redirect(loginRes, setItem, route);
-    console.log("You are initialialized");
-  }
+  // if (isAppInitialized) {
+  //   redirect(loginRes, setItem, route);
+  //   console.log("%c You are initialialized", consoleStyle);
+  // }
 
   return (
     <>
@@ -207,3 +197,9 @@ export const redirect = (
       : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`);
   }
 };
+
+const consoleStyle = `
+padding: 20px;
+background-color: ${baseTheme.colors.success[300]};
+border-radius: 20px;
+color: white}`;

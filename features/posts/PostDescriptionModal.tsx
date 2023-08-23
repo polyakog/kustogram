@@ -4,6 +4,9 @@ import { styled } from "styled-components";
 import { PhotoType } from "./PostCreationModal";
 import { useCreatePostMutation } from "assets/store/api/posts/postsApi";
 
+///  //   Модальное окно с областью отображения отредактированных   //  ///
+//          изображений и добавлением описания к ним          //
+
 const PostDescriptionModal = ({
   handleBackToFilters,
   photoPost,
@@ -13,27 +16,38 @@ const PostDescriptionModal = ({
   photoPost: PhotoType[];
   handleModalClose: () => void;
 }) => {
-  const [photo, setPhoto] = useState(photoPost[0]);
-  const [createPostHandler] = useCreatePostMutation();
-  const [description, setDescription] = useState("");
+  const [photo, setPhoto] = useState(photoPost[0]); // изображение из массива, отображаемое в модальном окне
+  const [description, setDescription] = useState(""); // описание, добавляемое к изображениям
+  const [disabled, setDisabled] = useState(false);
 
+  const [createPostHandler] = useCreatePostMutation(); // сохрание поста на сервере
+  // Обработчик нажатия кнопки Back
   const handleBack = () => {
     handleBackToFilters(photoPost);
   };
-
+  console.log(photoPost);
+  // Обработчик нажатия кнопки Publish
   const handlePublishButton = async () => {
     const formData = new FormData();
+
+    // преобразование url всех изображений в file
     for (const photo of photoPost) {
       const result = await fetch(photo.photoUrlWithFilter);
       const blob = await result.blob();
-      const file = new File([blob], "avatar", { type: "image/png" });
+      const file = new File([blob], "avatar", { type: "image/jpeg" });
+      // console.log("FILE", photo.photoUrlWithFilter)
 
-      // преобразование file в FormData
+      // добавление file в FormData
       formData.append("posts", file as File);
     }
+    // добавление описания в FormData
     formData.append("description", description);
 
-    createPostHandler(formData);
+    setDisabled(true);
+    createPostHandler(formData)
+      .unwrap()
+      .then(() => handleModalClose())
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -47,6 +61,7 @@ const PostDescriptionModal = ({
         photo={photo}
         nextStep="Publish"
         handleNextStepButton={handlePublishButton}
+        disabled={disabled}
       >
         <StyledDescriptionContainer>
           <StyledTitle>Add publication descriptions</StyledTitle>
@@ -62,6 +77,7 @@ const PostDescriptionModal = ({
 
 export default PostDescriptionModal;
 
+// Стили
 const StyledDescriptionContainer = styled.div`
   height: 100%;
   padding: 10px;

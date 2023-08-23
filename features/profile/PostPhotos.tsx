@@ -17,6 +17,7 @@ import {
   PhotosBlock,
   ScrollStyle
 } from "styles/styledComponents/profile/profile.styled";
+import { baseTheme } from "styles/styledComponents/theme";
 
 type PropsType = {
   posts: CreatePostResponse[] | undefined;
@@ -56,6 +57,8 @@ export const PostPhotos: React.FC<PropsType> = ({
     // console.log('scrollHeight', element.scrollHeight)
     // console.log('scrollTop', element.scrollTop)
     // console.log('clientHeight', element.clientHeight)
+    // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
+
     if (element.scrollHeight - element.scrollTop < scrollSize) {
       let newPageSize = pageSize + 9;
       if (totalCount + 9 >= newPageSize) {
@@ -63,7 +66,7 @@ export const PostPhotos: React.FC<PropsType> = ({
       }
     }
   };
-  if (isLoading) console.log("loading posts...");
+  if (isLoading) console.log("%c loading posts...", consoleStyle);
 
   return (
     <>
@@ -91,3 +94,9 @@ export const PostPhotos: React.FC<PropsType> = ({
     </>
   );
 };
+
+const consoleStyle = `
+padding: 20px;
+background-color: ${baseTheme.colors.accent[100]};
+border-radius: 20px;
+color: white}`;

@@ -40,13 +40,15 @@ const Canvas = ({
 
         context.filter = filter;
 
-        let canvasUrl = canvas.toDataURL();
-        setImageUrl(canvasUrl);
-        console.log("canvasUrl", canvasUrl);
+        setTimeout(function () {
+          let canvasUrl = canvas.toDataURL("image/jpeg");
+          setImageUrl(canvasUrl);
+        }, 2000);
       }
 
       context.drawImage(img, xOffset, yOffset, newWidth, newHeight);
     };
+    // загрузка изображения
     img.src = photo;
   }, []);
 

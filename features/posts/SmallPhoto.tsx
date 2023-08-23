@@ -1,18 +1,15 @@
-import AvatarEditor from "react-avatar-editor";
 import { styled } from "styled-components";
 import Image from "next/image";
 
 const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
   return (
     <>
-      <AvatarEditor // width и height задается в styled component с учетом border
-        image={photo}
-        style={{
-          width: "90px",
-          height: "90px",
-          left: "30px",
-          top: "10px"
-        }}
+      <Image
+        src={photo}
+        width={90}
+        height={90}
+        alt="saved photo"
+        style={{ objectFit: "contain", left: "30px", top: "10px", padding: "5px 0" }}
       />
       <StyleDeletePhoto
         onClick={() => {
@@ -27,12 +24,14 @@ const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
 
 export default SmallPhoto;
 
+// Типы
 type SmallProtoProps = {
   photo: string;
   removePhotoFromList: (index: number) => void;
   index: number;
 };
 
+// Стили
 const StyleDeletePhoto = styled.button`
   position: relative;
   border: 0;
@@ -40,5 +39,6 @@ const StyleDeletePhoto = styled.button`
   padding: 0;
   background: transparent;
   right: 21px;
-  bottom: 32px;
+  bottom: 28px;
+  cursor: pointer;
 `;

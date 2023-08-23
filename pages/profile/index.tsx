@@ -7,6 +7,21 @@ import ProfileElement from "features/profile/ProfileElement";
 import { useLazyGetPostQuery } from "assets/store/api/posts/postsApi";
 import Post from "common/components/Post/Post";
 import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
+import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
+
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetStaticPropsContext } from "next";
+import config from "next-i18next.config.js";
+import { useTranslation } from "next-i18next";
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { locale } = context;
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ["common"], config))
+    }
+  };
+}
 
 const MyProfile = () => {
   const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery();
@@ -20,6 +35,8 @@ const MyProfile = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(9);
   const [userId, setUserId] = useState("");
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     getProfileInfo()
@@ -45,6 +62,7 @@ const MyProfile = () => {
 
   return (
     <>
+      {/* <PrivateRoute> */}
       {/* <LoginNavigate> */}
       {/* {isAppInitialized && ( */}
       <>
@@ -58,11 +76,13 @@ const MyProfile = () => {
           totalCount={totalCount}
           status={status}
           isLoading={isLoading}
+          t={t}
         />
         {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
       </>
       {/* )} */}
       {/* </LoginNavigate> */}
+      {/* </PrivateRoute> */}
     </>
   );
 };

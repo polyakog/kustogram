@@ -53,5 +53,14 @@
   "pas_match": "Please make sure your passwords match",
   "req_email": "Required email",
   "req_user": "Required Username",
-  "inv_user": "Invalid Username"
+  "inv_user": "Invalid Username",
+
+  "profile_settings": "Profile Settings",
+  "paid": "paid",
+  "user_name": "User Name",
+  "following": "Following",
+  "followers": "Followers",
+  "publications": "Publications",
+  "about_me": "about me",
+  "loading": "Loading"
 }

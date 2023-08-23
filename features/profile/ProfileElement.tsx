@@ -36,6 +36,7 @@ import {
   QueryDefinition,
   QueryStatus
 } from "@reduxjs/toolkit/dist/query";
+import { TFunction } from "next-i18next";
 import { baseTheme } from "styles/styledComponents/theme";
 
 type PropsType = {
@@ -57,6 +58,7 @@ type PropsType = {
   totalCount: number;
   isLoading: boolean;
   status: QueryStatus;
+  t: TFunction;
 };
 
 const ProfileElement: React.FC<PropsType> = ({
@@ -68,7 +70,8 @@ const ProfileElement: React.FC<PropsType> = ({
   getCurrentPost,
   totalCount,
   isLoading,
-  status
+  status,
+  t
 }) => {
   const avatar = "/img/icons/avatar.svg";
 
@@ -114,7 +117,7 @@ const ProfileElement: React.FC<PropsType> = ({
                 style={{ padding: "6px 24px" }}
                 onClick={handleClick}
               >
-                Profile Settings
+                {t("profile_settings")}
               </Button>
             </BlockButton>
           )}
@@ -131,9 +134,9 @@ const ProfileElement: React.FC<PropsType> = ({
           </StyledAvatarBlock>
 
           <UserNameStyle>
-            {!!user ? `${user.firstName} ${user?.lastName}` : "User Name"}
+            {!!user ? `${user.firstName} ${user?.lastName}` : t("user_name")}
             {isPaid && (
-              <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />
+              <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={t("paid")} />
             )}
           </UserNameStyle>
 
@@ -144,7 +147,7 @@ const ProfileElement: React.FC<PropsType> = ({
                   <FollowSpan>2 218</FollowSpan>
                 </div>
                 <div>
-                  <FollowSpan>Following</FollowSpan>
+                  <FollowSpan>{t("following")}</FollowSpan>
                 </div>
               </div>
               <div>
@@ -152,7 +155,7 @@ const ProfileElement: React.FC<PropsType> = ({
                   <FollowSpan>2 358</FollowSpan>
                 </div>
                 <div>
-                  <FollowSpan>Followers</FollowSpan>
+                  <FollowSpan>{t("followers")}</FollowSpan>
                 </div>
               </div>
               <div>
@@ -160,13 +163,13 @@ const ProfileElement: React.FC<PropsType> = ({
                   <FollowSpan>2 358</FollowSpan>
                 </div>
                 <div>
-                  <FollowSpan>Publications</FollowSpan>
+                  <FollowSpan>{t("publications")}</FollowSpan>
                 </div>
               </div>
             </FollowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>{urlify(user?.userInfo || "about me")}</AboutMeText>
+              <AboutMeText>{urlify(user?.userInfo || t("about_me"))}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
@@ -174,7 +177,7 @@ const ProfileElement: React.FC<PropsType> = ({
         {/* <PhotosBlock> */}
         {status !== "fulfilled" && (
           <>
-            <LoadingPostStyle>Loading...</LoadingPostStyle>
+            <LoadingPostStyle>{`${t("loading")}...`}</LoadingPostStyle>
             <LoadingPostBackStyle></LoadingPostBackStyle>
           </>
         )}

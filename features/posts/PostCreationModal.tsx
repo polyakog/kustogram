@@ -16,10 +16,11 @@ const PostCreationModal = ({
 }) => {
   const [openComp, setOpenComp] = useState(true); // открытие модального окна для выбора изображения
   const [photoPost, setPhotoPost] = useState<PhotoType[]>([]); // массив объектов с параметрами изображения
-  const [isFilterOpen, setIsFilterOpen] = useState(false); // открытие модального окна для наложения фильтров
-  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false); // открытие модального окна для описания поста
-  const [openResize, setOpenResize] = useState(false); // открытие модального окна изменения размеров изображения
+  const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
+  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
+  const [openResize, setOpenResize] = useState(false) // открытие модального окна изменения размеров изображения
   const [photoFile, setPhotoFile] = useState<File>(); // изображение, передаваемое в компоненту редактирования
+
 
   // Обработчик перехода из окна выбора изображения в окно изменения размеров
   const handleNextToResize = () => {

@@ -35,7 +35,7 @@ export const HeaderStyle = styled.div`
   display: inline-flex;
   gap: 40px;
   align-content: center;
-  width: auto;
+  width: 90%;
   @media (max-width: ${media}) {
     margin-left: -68px;
   }
@@ -115,6 +115,7 @@ export const Link = styled.a`
 `;
 export const InfoBlock = styled.div`
   margin-top: 151px;
+  width: 100%;
 
   @media (max-width: ${media}) {
     margin-top: 108px;
@@ -125,13 +126,16 @@ export const FollowBlock = styled.div`
   display: grid;
   margin-top: -90px;
   grid-template-columns: 1fr 1fr 1fr;
-
+  width: 100%;
+  min-width: 290px;
   line-height: 24px;
+  max-width: 350px;
 
   @media (max-width: ${media}) {
     text-align: center;
     line-height: 16px;
     margin-left: -25px;
+    min-width: 235px;
   }
 `;
 
@@ -153,7 +157,7 @@ export const FollowSpan = styled.span`
 export const AboutMeBlock = styled.div`
   display: flex;
   width: 100%;
-  flex-direction: column;
+  flex-direction: column-reverse;
   flex-shrink: 0;
   margin-top: 24px;
   padding-right: 72px;

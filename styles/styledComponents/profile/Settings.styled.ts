@@ -1,13 +1,17 @@
+import { mediaSizes } from "common/constants/Profile/mediaSizes";
 import { Form } from "formik";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
+
+const media = mediaSizes.media;
+const sidebarMedia = mediaSizes.sidebarMedia;
 
 export const StyledContent = styled.div`
   position: relative;
   display: flex;
   gap: 40px;
 
-  @media (max-width: 790px) {
+  @media (max-width: ${media}) {
     flex-direction: column;
     align-items: center;
   }

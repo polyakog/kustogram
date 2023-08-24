@@ -71,5 +71,11 @@
   "save_changes": "Save Changes",
   "date_of_birthday": "Date of birthday",
   "general_info": "General information",
-  "profile_changes_saved": "Profile changes saved"
+  "profile_changes_saved": "Profile changes saved",
+
+  "Required username": "Required username",
+  "Required firstname": "Required firstname",
+  "Required lastname": "Required lastname",
+  "Required city": "Required city",
+  "Too Short!": "Too Short!"
 }

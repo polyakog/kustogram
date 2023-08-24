@@ -170,6 +170,7 @@ const GeneralInformation = () => {
                     errors={errors}
                     touched={touched}
                     width={"100%"}
+                    t={t}
                   />
                   <FormikLabel
                     name="firstname"
@@ -181,6 +182,7 @@ const GeneralInformation = () => {
                     errors={errors}
                     touched={touched}
                     width={"100%"}
+                    t={t}
                   />
                   <FormikLabel
                     name="lastname"
@@ -192,6 +194,7 @@ const GeneralInformation = () => {
                     errors={errors}
                     touched={touched}
                     width={"100%"}
+                    t={t}
                   />
                   <FormikLabel
                     name="city"
@@ -203,6 +206,7 @@ const GeneralInformation = () => {
                     errors={errors}
                     touched={touched}
                     width={"100%"}
+                    t={t}
                   />
                   <ProfileCalendar
                     setFieldValue={setFieldValue}
@@ -223,6 +227,7 @@ const GeneralInformation = () => {
                     touched={touched}
                     width={"100%"}
                     textAreaData={values.aboutMe}
+                    t={t}
                   />
                   <BlockButton>
                     <StyledLine />

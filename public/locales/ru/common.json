@@ -70,5 +70,11 @@
   "save_changes": "Сохранить изменения",
   "date_of_birthday": "Дата рождения",
   "general_info": "Общая информация",
-  "profile_changes_saved": "Изменения профиля сохранены"
+  "profile_changes_saved": "Изменения профиля сохранены",
+
+  "Required username": "Необходимо указать имя пользователя",
+  "Required firstname": "Необходимо указать имя",
+  "Required lastname": "Необходимо указать фамилию",
+  "Required city": "Необходимо указать город",
+  "Too Short!": "Слишком мало символов!"
 }

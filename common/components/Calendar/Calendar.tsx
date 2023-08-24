@@ -15,9 +15,10 @@ export type CalendarProps = {
   setFieldValue: (field: string, value: unknown) => void;
   errors?: string | undefined;
   touched?: boolean | undefined;
+  t: TFunction;
 };
 
-const Calendar = ({ date, setFieldValue, errors, touched }: CalendarProps) => {
+const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) => {
   dayjs.extend(customParseFormat);
   let birthDate = dayjs();
   if (date) {
@@ -27,7 +28,7 @@ const Calendar = ({ date, setFieldValue, errors, touched }: CalendarProps) => {
   return (
     <>
       <StyledTitle>
-        <span>Date of birthday</span>
+        <span>{t("date_of_birthday")}</span>
       </StyledTitle>
       <ThemeProvider theme={errors && touched ? themeError : theme}>
         <DatePicker

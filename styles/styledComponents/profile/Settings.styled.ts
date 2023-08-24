@@ -14,7 +14,7 @@ export const StyledContent = styled.div`
 `;
 
 export const StyledAvatarBlock = styled.div`
-  max-width: 192px;
+  max-width: 300px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

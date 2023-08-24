@@ -62,5 +62,14 @@
   "followers": "Followers",
   "publications": "Publications",
   "about_me": "about me",
-  "loading": "Loading"
+  "loading": "Loading",
+
+  "add_prof_photo": "Add a Profile Photo",
+  "f_name": "First Name",
+  "l_name": "Last Name",
+  "city": "City",
+  "save_changes": "Save Changes",
+  "date_of_birthday": "Date of birthday",
+  "general_info": "General information",
+  "profile_changes_saved": "Profile changes saved"
 }

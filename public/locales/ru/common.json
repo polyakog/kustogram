@@ -60,6 +60,15 @@
   "following": "Подписки",
   "followers": "Подписчики",
   "publications": "Публикации",
-  "about_me": "обо мне",
-  "loading": "Загрузка"
+  "about_me": "Oбо мне",
+  "loading": "Загрузка",
+
+  "add_prof_photo": "Добавить фото профиля",
+  "f_name": "Имя",
+  "l_name": "Фамилия",
+  "city": "Город",
+  "save_changes": "Сохранить изменения",
+  "date_of_birthday": "Дата рождения",
+  "general_info": "Общая информация",
+  "profile_changes_saved": "Изменения профиля сохранены"
 }

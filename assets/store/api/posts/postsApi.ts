@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import {
   CreatePostResponse,
   EditPostRequest,
@@ -8,13 +8,20 @@ import {
 } from "./types";
 import { contentTypeSetup } from "common/utils/contentTypeSetup";
 
-export const postsApi = createApi({
-  reducerPath: "postsApi",
-  baseQuery: fetchBaseQuery({
+const staggeredBaseQuery = retry(
+  fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/posts/",
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ["createPost"])
   }),
+  {
+    maxRetries: 2
+  }
+);
+
+export const postsApi = createApi({
+  reducerPath: "postsApi",
+  baseQuery: staggeredBaseQuery,
   tagTypes: ["editPost", "deletePost", "createPost"],
   endpoints: (builder) => ({
     createPost: builder.mutation<CreatePostResponse, FormData>({
@@ -37,7 +44,8 @@ export const postsApi = createApi({
       query: (postId) => ({
         url: `post/${postId}`
       }),
-      providesTags: ["editPost"]
+      providesTags: ["editPost"],
+      extraOptions: { maxRetries: 3 }
     }),
     deletePost: builder.mutation<void, string>({
       query: (postId) => ({
@@ -50,7 +58,8 @@ export const postsApi = createApi({
       query: ({ userId, pageNumber, pageSize }) => ({
         url: userId + `?pageNumber=${pageNumber}&pageSize=${pageSize}`
       }),
-      providesTags: ["deletePost", "createPost"]
+      providesTags: ["deletePost", "createPost"],
+      extraOptions: { maxRetries: 3 }
     })
   })
 });

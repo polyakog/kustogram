@@ -8,27 +8,34 @@ const sidebarMedia = mediaSizes.sidebarMedia;
 
 export const ProfileWrapper = styled.div`
   position: relative;
-  max-width: 1000px;
+  max-width: 1065px;
   min-width: 360px;
+  padding-top: 36px;
   margin-left: 24px;
-  /* width: 100%; */
-
-  @media (max-width: ${"2000px"}) {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: calc(100vw - 260px);
+  /* &::-webkit-scrollbar {
+  /* display: none; */
+  /* width: 15px; */
+  /* border: 1px solid ${baseTheme.colors.light[100]}; */
+  /*} 
+/*   
+  @media (max-width: ${"4000px"}) {
     margin-left: 24px;
   }
-
-  /* @media (max-width: ${"1000px"}) {
-    margin-left: 78px;
-  } */
+   */
   @media (max-width: ${media}) {
-    margin-left: 78px;
+    padding-left: 78px;
+    width: 100vw;
+    margin-left: 0px;
   }
 `;
 
 export const BlockButton = styled.div`
   position: absolute;
   right: 2cqmax;
-  top: 0px;
+  top: 36px;
 `;
 
 export const HeaderStyle = styled.div`
@@ -37,12 +44,13 @@ export const HeaderStyle = styled.div`
   align-content: center;
   width: 90%;
   @media (max-width: ${media}) {
-    margin-left: -68px;
+    margin-left: -60px;
   }
 `;
 
 export const StyledAvatarBlock = styled.div`
   max-width: 204px;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -79,6 +87,7 @@ export const IconBlock = styled.div`
 
 export const UserNameStyle = styled.div`
   position: absolute;
+  margin-top: 36px;
   left: 242px;
   top: 0px;
 
@@ -95,8 +104,8 @@ export const UserNameStyle = styled.div`
 
   @media (max-width: ${media}) {
     position: absolute;
-    left: -68px;
-    top: 82px;
+    left: 14px;
+    top: 79px;
     font-family: Inter;
     font-size: 16px;
     font-weight: 700;
@@ -164,7 +173,7 @@ export const AboutMeBlock = styled.div`
 
   @media (max-width: ${media}) {
     margin-top: 50px;
-    margin-left: -114px;
+    margin-left: -115px;
     min-width: 300px;
     height: 60px;
     display: flex;
@@ -188,11 +197,28 @@ export const AboutMeText = styled.p`
   }
 `;
 
+export const PostWrapper = styled.div`
+  /* position: relative; */
+  flex-grow: 0;
+  margin: 40px 0px -20px; // ссылка сюда
+  /* max-width: 850px; */
+  width: calc(90vw - 250px); // подправить
+  height: 360px;
+  /* overflow-y: scroll; */
+  padding: 5px 5px 5px 5px;
+  border-radius: 2px;
+  /* border: 1px solid ${baseTheme.colors.dark[100]}; */
+  @media (max-width: ${media}) {
+    height: 340px;
+    margin: 29px -68px -20px; // ссылка сюда
+    width: calc(100% - 50px); // подправить
+  }
+`;
+
 export const PhotosBlock = styled.div`
   display: flex;
   flex-wrap: wrap;
-  /* padding-top: 24px; */
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 5px;
 `;
 
@@ -219,24 +245,6 @@ export const PhotoStyle = styled.div`
   }
 `;
 
-export const ScrollStyle = styled.div`
-  position: relative;
-  flex-grow: 0;
-  margin: 40px 0px -20px; // ссылка сюда
-  max-width: 850px;
-  width: calc(100% - 60px); // подправить
-  height: 360px;
-  overflow-y: scroll;
-  padding: 5px 5px 5px 5px;
-  border-radius: 2px;
-  border: 1px solid ${baseTheme.colors.dark[100]};
-  @media (max-width: ${media}) {
-    height: 340px;
-    margin: 29px -68px -20px; // ссылка сюда
-    width: calc(100vw - 50px); // подправить
-  }
-`;
-
 export const LoadingStyle: React.CSSProperties = {
   display: "flex",
   width: "maxContent",
@@ -251,7 +259,7 @@ export const LoadingPostStyle = styled.div`
   position: absolute;
   z-index: 7;
   font-size: 25px;
-  margin: 125px calc(45% - 60px);
+  margin: 420px calc(45% - 130px);
   // opacity: "80%",
   color: ${baseTheme.colors.success[500]};
   @media (max-width: ${media}) {
@@ -264,10 +272,10 @@ export const LoadingPostBackStyle = styled.div`
   position: absolute;
   z-index: 1;
   background: ${baseTheme.colors.dark[500]};
-  width: calc(100% - 78px);
-  max-width: 831px;
-  height: 359px;
-  margin: 42px 0px;
+  width: calc(100vw - 255px);
+  max-width: 1070px;
+  height: 360px;
+  margin: 292px 0px;
   opacity: 50%;
   flex-wrap: wrap;
   @media (max-width: ${media}) {

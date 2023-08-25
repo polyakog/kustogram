@@ -15,7 +15,7 @@ import {
   LoadingStyle,
   PhotoStyle,
   PhotosBlock,
-  ScrollStyle
+  PostWrapper
 } from "styles/styledComponents/profile/profile.styled";
 import { baseTheme } from "styles/styledComponents/theme";
 
@@ -52,25 +52,11 @@ export const PostPhotos: React.FC<PropsType> = ({
   isLoading,
   status
 }) => {
-  const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    var element = e.currentTarget;
-    // console.log('scrollHeight', element.scrollHeight)
-    // console.log('scrollTop', element.scrollTop)
-    // console.log('clientHeight', element.clientHeight)
-    // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
-
-    if (element.scrollHeight - element.scrollTop < scrollSize) {
-      let newPageSize = pageSize + 9;
-      if (totalCount + 9 >= newPageSize) {
-        setPageSize(newPageSize);
-      }
-    }
-  };
   if (isLoading) console.log("%c loading posts...", consoleStyle);
 
   return (
     <>
-      <ScrollStyle onScroll={status === "fulfilled" ? scrollHandler : () => {}}>
+      <PostWrapper>
         <PhotosBlock>
           {posts?.map((p) => (
             <PhotoStyle key={p.id}>
@@ -90,7 +76,7 @@ export const PostPhotos: React.FC<PropsType> = ({
             </PhotoStyle>
           ))}
         </PhotosBlock>
-      </ScrollStyle>
+      </PostWrapper>
     </>
   );
 };

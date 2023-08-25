@@ -21,7 +21,7 @@ const SettingsWrapper = styled.div`
   min-height: 90vh;
   display: flex;
   gap: 24px;
-  margin-left: 24px;
+  margin: 36px 0px;
 
   @media (max-width: 1000px) {
     justify-content: center;

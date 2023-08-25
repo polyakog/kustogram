@@ -10,9 +10,8 @@ import {
   StyledSidebar
 } from "./Navbar.styled";
 import { LogoutLink } from "./LogoutLink/logoutLink";
-import { CreatePost } from "./CreatePost/CreatePost";
-import { AppLink } from "./AppLink/AppLink";
 import Image from "next/image";
+import { useTranslation } from "next-i18next";
 
 export type NavbarPropsType = {
   showNavbar: string | string[] | undefined;
@@ -20,13 +19,16 @@ export type NavbarPropsType = {
 };
 export const Navbar = ({ showNavbar, openModalHandler }: NavbarPropsType) => {
   const location = usePathname();
+
+  const { t } = useTranslation("nav_bar");
+
   const isActive = (name: string) => (location === name ? "active" : "");
 
   const items = ITEM_LINK.map((item) => (
     <MainLink
       key={item.name}
       src={isActive(item.href) ? item.selectIcon : item.icon}
-      name={item.name}
+      name={t(item.name)}
       href={item.href}
       isactive={isActive(item.href)}
     />
@@ -38,7 +40,7 @@ export const Navbar = ({ showNavbar, openModalHandler }: NavbarPropsType) => {
         <StyledCreate onClick={openModalHandler}>
           <StyledDiv style={{ cursor: "pointer" }}>
             <Image src={"/img/icons/plus-square.svg"} alt={"CreatePost"} width={24} height={24} />
-            <p>Create</p>
+            <p>{t("create")}</p>
           </StyledDiv>
         </StyledCreate>
         <StyledItemBlock>{items}</StyledItemBlock>

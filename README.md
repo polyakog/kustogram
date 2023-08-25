@@ -2,7 +2,7 @@
 
 <p align="center">
 <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/polyakog/kustogram">
-<img alt="Code Climate issues" src="https://img.shields.io/codeclimate/issues/polyakog/kustogram">
+<img alt="Swagger Validator" src="https://img.shields.io/swagger/valid/3.0">
 
 </p>
 

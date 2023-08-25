@@ -2,7 +2,7 @@
 
 <p align="center">
 <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/polyakog/kustogram">
-<img alt="Swagger Validator" src="https://img.shields.io/swagger/valid/3.0">
+<img alt="GitHub commits difference between two branches/tags/commits" src="https://img.shields.io/github/commits-difference/polyakog/kustogram">
 
 </p>
 

@@ -6,16 +6,9 @@ import zoom from "../../public/img/icons/maximize-outline.svg";
 import zoomOn from "../../public/img/icons/maximize.svg";
 import addPhoto from "../../public/img/icons/image-outline.svg";
 import addPhotoOn from "../../public/img/icons/image.svg";
-import addPhotoGrey from "../../public/img/icons/image-outline-grey.svg";
 import plusPhoto from "../../public/img/icons/plus-circle-outline.svg";
 import resizePhoto from "../../public/img/icons/photo-resize.svg";
 import resizePhotoOn from "../../public/img/icons/photo-resizeOn.svg";
-import resize11 from "../../public/img/icons/resize11.svg";
-import resize45 from "../../public/img/icons/resize45.svg";
-import resize169 from "../../public/img/icons/resize169.svg";
-import resize11a from "../../public/img/icons/resize11a.svg";
-import resize45a from "../../public/img/icons/resize45a.svg";
-import resize169a from "../../public/img/icons/resize169a.svg";
 import savePhoto from "../../public/img/icons/save-photos.svg";
 import Image from "next/image";
 import { baseTheme } from "../../styles/styledComponents/theme";
@@ -32,45 +25,10 @@ import "cropperjs/dist/cropper.css";
 import EasyCropper, { CropArgType } from "./EasyCropper";
 import getCroppedImg, { getImageRatio } from "./cropImage";
 import { Slider } from "./Slider";
-
-const sizeData = [
-  {
-    size: "original",
-    alt: "original size",
-    src: addPhotoGrey,
-    selected: true,
-    srcActive: addPhoto,
-    setRatio: 1,
-    setIsObjectFit: true
-  },
-  {
-    size: "1:1",
-    alt: "1:1",
-    src: resize11,
-    selected: false,
-    srcActive: resize11a,
-    setRatio: 1 / 1,
-    setIsObjectFit: false
-  },
-  {
-    size: "4:5",
-    alt: "4:5",
-    src: resize45,
-    selected: false,
-    srcActive: resize45a,
-    setRatio: 4 / 5,
-    setIsObjectFit: false
-  },
-  {
-    size: "16:9",
-    alt: "16:9",
-    src: resize169,
-    selected: false,
-    srcActive: resize169a,
-    setRatio: 16 / 9,
-    setIsObjectFit: false
-  }
-];
+import { useTranslation } from "next-i18next";
+import { initSizeData } from "common/constants/Post/initialSizeData";
+import ResizeElement from "./ResizeElement";
+import AddPhotoElement from "./AddPhotoElement";
 
 const PostResizeModal = ({
   handleFullScreen,
@@ -92,12 +50,13 @@ const PostResizeModal = ({
   const [openAddPhoto, setOpenAddPhoto] = useState(false); // открытие окна добавления новой фотографии
   const [full, setFullScreen] = useState(false); // переход в режим отображения на весь экран
   const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
-  const [initialRatio, setInitialRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [ratio, setRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null); // сохранение вырезанной области
-  const [isObjectFit, setIsObjectFit] = useState(false);
-  const [photoFileURL, setPhotoFileURL] = useState<string>();
-  // const [disabled, setDisabled] = useState(true);
+  const [isObjectFit, setIsObjectFit] = useState(false); // параметр вписывания изображения для easy-crop
+  const [sizeData, setSizeData] = useState(initSizeData); // массив параметров для модального окна изменения размеров
+  const [photoFileURL, setPhotoFileURL] = useState<string>(); //url изображени, загруженного из компьютера
+
+  const { t } = useTranslation("post_cr");
 
   useEffect(() => {
     const reader = new FileReader();
@@ -130,9 +89,6 @@ const PostResizeModal = ({
               ...photoPost,
               { photoUrl: croppedImage, filter: "", photoUrlWithFilter: croppedImage }
             ]);
-            // if (disabled) {
-            //   setDisabled(false);
-            // }
           }
         }
       } catch (e) {
@@ -143,26 +99,16 @@ const PostResizeModal = ({
     }
   };
 
-  const imageRatio = async (url: string) => {
-    try {
-      let ratio = await getImageRatio(url);
-      setInitialRatio(ratio);
-    } catch (e) {
-      console.error(e);
-    }
+  // Обработчик нажатия кнопки zoom
+  const handleZoomOpen = () => {
+    setOpenZoom(!openZoom);
+    if (resize === true) setResize(!resize);
   };
 
-  // Удаление изображения из массива
-  const removePhotoFromList = (index: number) => {
-    const newPhotoList = [];
-    for (let i = 0; i < photoPost.length; i++) {
-      if (index === i) {
-        continue;
-      } else {
-        newPhotoList.push(photoPost[i]);
-      }
-    }
-    setPhotoPost(newPhotoList);
+  // Обработчик нажатия кнопки resize
+  const handleResizeOpen = () => {
+    setResize(!resize);
+    if (openZoom === true) setOpenZoom(!openZoom);
   };
 
   // Обработчик нажатия кнопки Full Screen
@@ -171,15 +117,44 @@ const PostResizeModal = ({
     setFullScreen(!full);
   };
 
-  const selectSize = (ind: number) => {
-    sizeData.map((item, index) => {
-      item.selected = false;
-      if (index === ind) {
-        item.selected = true;
-      }
-      return item;
-    });
+  // Определение соотношения сторон загруженного изображения
+  const imageRatio = async (url: string) => {
+    try {
+      let ratio = await getImageRatio(url);
+      let sizeDataWithRatio = sizeData.map((item) => {
+        if (item.size == "original") item.setRatio = ratio;
+        return item;
+      });
+      setSizeData(sizeDataWithRatio);
+    } catch (e) {
+      console.error(e);
+    }
   };
+
+  // // Удаление изображения из массива
+  // const removePhotoFromList = (index: number) => {
+  //   const newPhotoList = [];
+  //   for (let i = 0; i < photoPost.length; i++) {
+  //     if (index === i) {
+  //       continue;
+  //     } else {
+  //       newPhotoList.push(photoPost[i]);
+  //     }
+  //   }
+  //   setPhotoPost(newPhotoList);
+  // };
+
+  // // Изменение стиля иконки при выборе данного размера изображения
+  // const selectSize = (ind: number) => {
+  //   const sizeDataSelected = sizeData.map((item, index) => {
+  //     item.selected = false;
+  //     if (index === ind) {
+  //       item.selected = true;
+  //     }
+  //     return item;
+  //   });
+  //   setSizeData(sizeDataSelected)
+  // };
 
   return (
     <>
@@ -187,13 +162,13 @@ const PostResizeModal = ({
         <StyledCloseNextButton onClick={handleAddPhotoButton}>
           <Image priority src="/img/icons/arrow-ios-back.svg" height={24} width={24} alt="close" />
         </StyledCloseNextButton>
-        <StyledModalTitleNext>{"Cropping"}</StyledModalTitleNext>
+        <StyledModalTitleNext>{t("cropping")}</StyledModalTitleNext>
         <Button
           theme={ThemeButton.CLEAR}
           onClick={handleNextToFilterButton}
           disabled={photoPost.length == 0 ? true : false}
         >
-          Next
+          {t("next")}
         </Button>
       </StyledModalHeaderNext>
       <StyledPhotoEditor>
@@ -204,9 +179,9 @@ const PostResizeModal = ({
           aspectRatio={ratio}
           isObjectFit={isObjectFit}
           setZoom={setValue}
-          // onCropComplete={onCropComplete}
         />
       </StyledPhotoEditor>
+
       {openZoom && (
         <StyledSliderContainer>
           <label htmlFor="zoom"></label>
@@ -227,76 +202,78 @@ const PostResizeModal = ({
           />
         </StyledSliderContainer>
       )}
+
       {resize && (
-        <StyledResizeBlock>
-          {sizeData.map((item, index) => {
-            return (
-              <StyleItemSize
-                key={index}
-                selected={item.selected ? "selected" : ""}
-                onClick={() => {
-                  if (index === 0) {
-                    setValue(1);
-                  }
-                  setRatio(item.setRatio);
-                  setIsObjectFit(item.setIsObjectFit);
-                  selectSize(index);
-                }}
-              >
-                <StyledIconSize alt={item.alt} src={item.selected ? item.srcActive : item.src} />
-                {item.size}
-              </StyleItemSize>
-            );
-          })}
-        </StyledResizeBlock>
+        <ResizeElement
+          sizeData={sizeData}
+          setValue={setValue}
+          setRatio={setRatio}
+          setIsObjectFit={setIsObjectFit}
+          setSizeData={setSizeData}
+        />
+        // <StyledResizeBlock>
+        //   {sizeData.map((item, index) => {
+        //     return (
+        //       <StyleItemSize
+        //         key={index}
+        //         selected={item.selected ? "selected" : ""}
+        //         onClick={() => {
+        //           if (index === 0) {
+        //             setValue(1);
+        //           }
+        //           setRatio(item.setRatio);
+        //           setIsObjectFit(item.setIsObjectFit);
+        //           selectSize(index);
+        //         }}
+        //       >
+        //         <StyledIconSize alt={item.alt} src={item.selected ? item.srcActive : item.src} />
+        //         {t(item.size)}
+        //       </StyleItemSize>
+        //     );
+        //   })}
+        // </StyledResizeBlock>
       )}
+
       {openAddPhoto && (
-        <StyledAddBlock>
-          <StyledPhotoPost id={"scrollable-container"}>
-            {photoPost.map((photo, index) => (
-              <SmallPhoto
-                photo={photo.photoUrl}
-                key={index}
-                index={index}
-                removePhotoFromList={removePhotoFromList}
-              />
-            ))}
-          </StyledPhotoPost>
-          <div onClick={handleAddPhotoButton} style={{ cursor: "pointer" }}>
-            <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen} />
-          </div>
-          <div
-            onClick={handleSave}
-            style={{ cursor: photoPost.length < 10 ? "pointer" : "default" }}
-          >
-            <StyledIconSavePhoto src={savePhoto} alt={savePhoto} />
-          </div>
-        </StyledAddBlock>
+        <AddPhotoElement
+          photoPost={photoPost}
+          handleAddPhotoButton={handleAddPhotoButton}
+          setPhotoPost={setPhotoPost}
+          handleSave={handleSave}
+        />
+        // <StyledAddBlock>
+        //   <StyledPhotoPost id={"scrollable-container"}>
+        //     {photoPost.map((photo, index) => (
+        //       <SmallPhoto
+        //         photo={photo.photoUrl}
+        //         key={index}
+        //         index={index}
+        //         removePhotoFromList={removePhotoFromList}
+        //       />
+        //     ))}
+        //   </StyledPhotoPost>
+        //   <div onClick={handleAddPhotoButton} style={{ cursor: "pointer" }}>
+        //     <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen} />
+        //   </div>
+        //   <div
+        //     onClick={handleSave}
+        //     style={{ cursor: photoPost.length < 10 ? "pointer" : "default" }}
+        //   >
+        //     <StyledIconSavePhoto src={savePhoto} alt={savePhoto} />
+        //   </div>
+        // </StyledAddBlock>
       )}
+
       {/* <div onClick={handleClickFullScreen}>
         <StyledIconFullScreen src={full ? fullScreenOn : fullScreen} alt={fullScreen}/>
       </div> */}
-      <div
-        onClick={() => {
-          setResize(!resize);
-          if (openZoom === true) setOpenZoom(!openZoom);
-        }}
-      >
+      <div onClick={() => handleResizeOpen()}>
         <StyledIconResize src={resize ? resizePhotoOn : resizePhoto} alt={fullScreen} />
       </div>
-      <div
-        onClick={() => {
-          setOpenZoom(!openZoom);
-          if (resize === true) setResize(!resize);
-        }}
-      >
+      <div onClick={() => handleZoomOpen()}>
         <StyledIconZoom src={!openZoom ? zoom : zoomOn} alt={zoom} />
       </div>
-      <div
-        onClick={() => {
-          setOpenAddPhoto(!openAddPhoto);
-        }}
-      >
+      <div onClick={() => setOpenAddPhoto(!openAddPhoto)}>
         <StyledIconAddPhoto
           src={!openAddPhoto ? addPhoto : addPhotoOn}
           alt={addPhoto}
@@ -310,14 +287,14 @@ const PostResizeModal = ({
 // Стили
 export default PostResizeModal;
 
-type SizePhotoType = {
-  width: number;
-  height: number;
-};
+// type SizePhotoType = {
+//   width: number;
+//   height: number;
+// };
 
-type PhotoEditorPropsType = {
-  full: boolean;
-};
+// type PhotoEditorPropsType = {
+//   full: boolean;
+// };
 type IconAddPhotoType = {
   full?: boolean;
 };
@@ -338,15 +315,15 @@ const StyledPhotoEditor = styled.div`
   }
 `;
 
-const StyledPhotoPost = styled.div`
-  position: absolute;
-  width: 152px;
-  height: 106px;
-  background: ${baseTheme.colors.dark["300"]};
-  display: flex;
-  overflow-x: scroll;
-  z-index: 100;
-`;
+// const StyledPhotoPost = styled.div`
+//   position: absolute;
+//   width: 152px;
+//   height: 106px;
+//   background: ${baseTheme.colors.dark["300"]};
+//   display: flex;
+//   overflow-x: scroll;
+//   z-index: 100;
+// `;
 
 const StyledSliderContainer = styled.div`
   display: flex;
@@ -361,27 +338,27 @@ const StyledSliderContainer = styled.div`
   }
 `;
 
-const StyleItemSize = styled.div<{ selected?: string }>`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 5px;
+// const StyleItemSize = styled.div<{ selected?: string }>`
+//   display: flex;
+//   justify-content: space-between;
+//   margin-bottom: 5px;
 
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-  cursor: pointer;
+//   font-family: Inter;
+//   font-size: 16px;
+//   font-style: normal;
+//   font-weight: 400;
+//   line-height: 24px;
+//   cursor: pointer;
 
-  color: ${(props) => (props.selected ? "white" : "grey")};
-`;
+//   color: ${(props) => (props.selected ? "white" : "grey")};
+// `;
 
-const StyledIconSize = styled(Image)`
-  width: 26px;
-  height: 26px;
-  background: ${baseTheme.colors.dark["100"]};
-  cursor: pointer;
-`;
+// const StyledIconSize = styled(Image)`
+//   width: 26px;
+//   height: 26px;
+//   background: ${baseTheme.colors.dark["100"]};
+//   cursor: pointer;
+// `;
 
 const StyledIconFullScreen = styled(Image)`
   position: absolute;
@@ -404,41 +381,41 @@ const StyledIconResize = styled(StyledIconZoom)`
   left: 80px;
 `;
 
-const StyledIconPlusPhoto = styled(Image)`
-  position: absolute;
-  width: 40px;
-  background: none;
-  margin: 5px 5px;
-  right: 0;
-`;
+// const StyledIconPlusPhoto = styled(Image)`
+//   position: absolute;
+//   width: 40px;
+//   background: none;
+//   margin: 5px 5px;
+//   right: 0;
+// `;
 
-const StyledIconSavePhoto = styled(StyledIconPlusPhoto)`
-  top: 43px;
+// const StyledIconSavePhoto = styled(StyledIconPlusPhoto)`
+//   top: 43px;
 
-  &:hover {
-    fill: red;
-  }
-`;
+//   &:hover {
+//     fill: red;
+//   }
+// `;
 
-const StyledAddBlock = styled.div`
-  position: absolute;
-  width: 200px;
-  height: 106px;
-  background: ${baseTheme.colors.dark["300"]};
-  bottom: 60px;
-  right: 18px;
-  z-index: 2;
-  opacity: 0.7;
-`;
+// const StyledAddBlock = styled.div`
+//   position: absolute;
+//   width: 200px;
+//   height: 106px;
+//   background: ${baseTheme.colors.dark["300"]};
+//   bottom: 60px;
+//   right: 18px;
+//   z-index: 2;
+//   opacity: 0.7;
+// `;
 
-const StyledResizeBlock = styled(StyledAddBlock)`
-  position: absolute;
-  padding: 5px;
-  width: 100px;
-  height: 140px;
-  background: ${baseTheme.colors.dark["100"]};
-  bottom: 60px;
-  left: 80px;
-  z-index: 2;
-  opacity: 1;
-`;
+// const StyledResizeBlock = styled(StyledAddBlock)`
+//   position: absolute;
+//   padding: 5px;
+//   width: 100px;
+//   height: 140px;
+//   background: ${baseTheme.colors.dark["100"]};
+//   bottom: 60px;
+//   left: 80px;
+//   z-index: 2;
+//   opacity: 1;
+// `;

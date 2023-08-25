@@ -1,21 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# _Kustogram_ Social Network
 
-## Getting Started
+---
 
-First, run the development server:
+#### Backup:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+_social_
+**social**
+**_social_ network**
+~~social network~~
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-### @stacy_imladris
-
-### Have fun! :)
-
-hi im Oleg
+![logo] (https://github.com/polyakog/kustogram/blob/master/public/img/kusto.png)

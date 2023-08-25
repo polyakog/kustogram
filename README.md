@@ -1,6 +1,9 @@
 # **Kustogram** _Social Network_
 
+<p align="center">
 <img alt="GitHub watchers" src="https://img.shields.io/github/watchers/polyakog/kustogram">
+<img alt="Code Climate issues" src="https://img.shields.io/codeclimate/issues/polyakog/kustrogram">
+</p>
 
 <p align="center">
 <img src="https://github.com/polyakog/kustogram/blob/master/public/img/kusto.png" width="10%" alt ="logo"></p>

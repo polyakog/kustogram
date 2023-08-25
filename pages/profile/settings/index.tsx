@@ -44,7 +44,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context;
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ["common"], config))
+      ...(await serverSideTranslations(locale as string, ["common", "nav_bar", "post_cr"], config))
     }
   };
 }

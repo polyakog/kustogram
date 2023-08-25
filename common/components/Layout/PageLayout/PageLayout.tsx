@@ -9,12 +9,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
 import { CreatePost } from "common/components/Navbar/CreatePost/CreatePost";
+import { useTranslation } from "next-i18next";
 
 const media = mediaSizes.media;
 const sidebar = mediaSizes.sidebarMedia;
 
 export const PageLayout: NextPage<PropsWithChildren> = (props) => {
   const { children } = props;
+
   const router = useRouter();
   const { profile } = router.query;
 

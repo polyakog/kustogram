@@ -1,10 +1,20 @@
-# _Kustogram_ Social Network
+# **Kustogram** _Social Network_
+
+<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/polyakog/kustogram">
 
 <p align="center">
-<img src="https://github.com/polyakog/kustogram/blob/master/public/img/kusto.png" width="20%" alt ="logo"></p>
+<img src="https://github.com/polyakog/kustogram/blob/master/public/img/kusto.png" width="10%" alt ="logo"></p>
 ---
 
----
+## Description
+
+**Kustogram** _Social Network_ implemented by scratch on Next.JS.
+
+<p>
+
+This application was created for user communication: sharing posts, photos, comments, chat, etc. The application has various administrative and user settings, paid services, statistics.
+
+## </p>
 
 #### Backup:
 

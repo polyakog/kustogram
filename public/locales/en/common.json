@@ -77,5 +77,6 @@
   "Required firstname": "Required firstname",
   "Required lastname": "Required lastname",
   "Required city": "Required city",
-  "Too Short!": "Too Short!"
+  "Too Short!": "Too Short!",
+  "Required birthday": "Required birthday"
 }

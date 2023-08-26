@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { baseTheme } from "../../styles/styledComponents/theme";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 export const TabBar = () => {
+  const { t } = useTranslation();
   const location = usePathname();
   const isActive = (name: string) => (location.includes(name) ? "active" : "");
   return (
@@ -13,16 +15,16 @@ export const TabBar = () => {
         href={"/profile/settings"}
         active={location === "/profile/settings" ? "active" : ""}
       >
-        General information
+        {t("general_info")}
       </StyledItem>
       <StyledItem href={"/profile/settings/devices"} active={isActive("devices")}>
-        Devices
+        {t("devices")}
       </StyledItem>
       <StyledItem href={"/profile/settings/acc_management"} active={isActive("acc_management")}>
-        Account Management
+        {t("acc_management")}
       </StyledItem>
       <StyledItem href={"/profile/settings/payments"} active={isActive("payments")}>
-        My payments
+        {t("my_payments")}
       </StyledItem>
     </StyledNavigation>
   );

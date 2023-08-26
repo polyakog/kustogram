@@ -12,7 +12,7 @@
 
 ## Description
 
-**Kustogram** is a _Social Network_ implemented from scratch on Next.JS.
+**Kustogram** is a _Social Network_ implemented from scratch with Next.JS.
 
 <p>
 

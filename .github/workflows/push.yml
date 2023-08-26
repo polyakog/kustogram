@@ -1,0 +1,23 @@
+name: Deploy App
+on: push
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get repository code
+        uses: actions/checkout@v3
+      - name: Install Node JS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Cache deps
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: node-modules-${{ hashFiles('**/package.json')}}
+      - name: Install dependencies
+        run: yarn install
+      - name: Lint application
+        run: yarn run lint
+      - name: Build application
+        run: yarn run build

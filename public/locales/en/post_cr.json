@@ -1,0 +1,21 @@
+{
+  "add_photo": "Add Photo",
+  "select_from_comp": "Select from Computer",
+  "open_draft": "Open draft",
+
+  "cropping": "Cropping",
+  "next": "Next",
+  "original": "Original",
+
+  "filters": "Filters",
+
+  "close": "Close",
+  "close_creation_info": "Do you really want to close the creation of a publication? If you close everything will be deleted",
+  "discard": "Discard",
+  "save_draft": "Save draft",
+
+  "publication": "Publication",
+  "publish": "Publish",
+  "add_descr": "Add publication descriptions",
+  "add_location": "Add location"
+}

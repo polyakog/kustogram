@@ -1,10 +1,4 @@
-import Document, {
-  DocumentContext,
-  Head,
-  Html,
-  Main,
-  NextScript,
-} from "next/document";
+import Document, { DocumentContext, Head, Html, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
 class MyDocument extends Document {
@@ -13,7 +7,7 @@ class MyDocument extends Document {
 
     try {
       ctx.renderPage({
-        enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+        enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />)
       });
 
       const initialProps = await Document.getInitialProps(ctx);
@@ -24,7 +18,7 @@ class MyDocument extends Document {
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>
-        ),
+        )
       };
     } finally {
       sheet.seal();
@@ -40,10 +34,13 @@ class MyDocument extends Document {
             this.props.styleTags
           } */}
 
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
           />
+
           <link
             href="https://fonts.googleapis.com/css2?family=Russo+One&display=optional"
             rel="stylesheet"

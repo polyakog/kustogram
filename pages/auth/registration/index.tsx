@@ -1,18 +1,21 @@
-import React, {useState} from "react"
-import {Formik} from "formik"
-import showPasswordBtn from "../../../public/img/icons/eye-outline.svg"
-import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg"
-import {getLayout} from "../../../common/components/Layout/BaseLayout/BaseLayout"
-import {useShowPassword} from "../../../common/hooks/useShowPassword"
-import {validateRegistrationEn, validateRegistrationRu} from "../../../common/utils/validateRegistraition"
-import AuthIcons from "../../../features/auth/AuthIcons"
-import {WrapperContainerAuth} from "../../../features/auth/WrapperContainerAuth"
-import {Button} from "../../../common/components/Button/Button"
-import {FormikLabel} from "../../../common/components/Formik/FormikLabel"
-import {useRegistrationMutation} from "../../../assets/store/api/auth/authApi";
-import {FormValueRegistration, ResetForm, SetFieldErrorType} from "../../../common/components/Formik/types";
-import {RegistrationResponseError} from "../../../assets/store/api/auth/types";
-import {StyledContainerAuth} from "../../../styles/styledComponents/auth/Auth.styled";
+import React, { useState } from "react";
+import { Formik } from "formik";
+import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
+import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
+import { getLayout } from "../../../common/components/Layout/BaseLayout/BaseLayout";
+import { useShowPassword } from "../../../common/hooks/useShowPassword";
+import { validateRegistration } from "../../../common/utils/validateRegistraition";
+import AuthIcons from "../../../features/auth/AuthIcons";
+import { WrapperContainerAuth } from "../../../features/auth/WrapperContainerAuth";
+import { Button } from "../../../common/components/Button/Button";
+import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
+import { useRegistrationMutation } from "../../../assets/store/api/auth/authApi";
+import {
+  FormValueRegistration,
+  ResetForm,
+  SetFieldErrorType
+} from "../../../common/components/Formik/types";
+import { StyledContainerAuth } from "../../../styles/styledComponents/auth/Auth.styled";
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
@@ -20,108 +23,93 @@ import {
   StyledSignInWrapper,
   StyledText
 } from "../../../styles/styledComponents/auth/FormikAuth.styled";
-import {serverSideTranslations} from 'next-i18next/serverSideTranslations'
-import {GetStaticPropsContext} from "next"
-import config from '../../../next-i18next.config.js'
-import {useTranslation} from 'next-i18next'
-import {Modal} from "common/components/Modal"
-import {useRouter} from "next/router"
-import {Path} from "../../../common/enums/path";
-import {ThemeButton} from "../../../common/enums/themeButton";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { GetStaticPropsContext } from "next";
+import config from "../../../next-i18next.config.js";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import { Path } from "../../../common/enums/path";
+import { ThemeButton } from "../../../common/enums/themeButton";
+import { useLocalStorage } from "../../../common/hooks/useLocalStorage";
+import styled from "styled-components";
+import { registrationErrorHandler } from "common/utils/registrationErrorHandler";
+import { Modal } from "../../../common/components/Modals/ModalPublic/Modal";
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const {locale} = context as any
+  const { locale } = context;
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"], config)),
+      ...(await serverSideTranslations(locale as string, ["common"], config))
     }
-  }
+  };
 }
 
 export default function Registration() {
-  const {
-    passwordType,
-    passwordConfirmationType,
-    showPassword,
-    showPasswordConfirmation
-  } =
-    useShowPassword()
+  const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
+    useShowPassword();
 
   const initialAuthValues = {
     username: "",
     password: "",
     passwordConfirmation: "",
-    email: "",
-    loginOrEmail: ""
-  }
+    email: ""
+  };
 
-  const [registrationHandler] = useRegistrationMutation()
-  const [email, setEmail] = useState("")
-  const [isModalActive, setIsModalActive] = useState(false)
-  const router = useRouter()
-  const {t, i18n} = useTranslation()
+  const [registrationHandler] = useRegistrationMutation();
+  const [isModalActive, setIsModalActive] = useState(false);
+  const router = useRouter();
+  const { t, i18n } = useTranslation();
+  const { setItem, getItem } = useLocalStorage();
 
   const handleModalClose = () => {
-    setIsModalActive(false)
-    router.push(Path.LOGIN)
-  }
+    setIsModalActive(false);
+    router.push(Path.LOGIN);
+  };
 
   const handleSubmit = async (
     values: FormValueRegistration,
-    {resetForm, setFieldError}: ResetForm & SetFieldErrorType
+    { resetForm, setFieldError }: ResetForm & SetFieldErrorType
   ) => {
     const data = {
       email: values.email,
       password: values.password,
       login: values.username
-    }
+    };
     try {
       await registrationHandler(data)
         .unwrap()
         .then(() => {
-          setEmail(data.email)
-          localStorage.setItem('email', data.email)
-          resetForm()
-          setIsModalActive(true)
-        })
-    } catch (error) {
-      const err = error as RegistrationResponseError
-      if ("data" in err) {
-        const messages = err.data
-        if (messages.errorsMessages.length > 1) {
-          setFieldError("username", t("user_err"))
-          setFieldError("email", t("email_err"))
-        } else {
-          if (messages.errorsMessages[0].field === "email") {
-            setFieldError("username", "")
-            setFieldError("email", t("email_err"))
-          } else {
-            setFieldError("username", t("user_err"))
-            setFieldError("email", "")
-          }
-        }
-      }
+          setItem("email", data.email);
+          resetForm();
+          setIsModalActive(true);
+        });
+    } catch (error: any) {
+      registrationErrorHandler(error, t, { setFieldError });
     }
-  }
+  };
 
   return (
     <>
       {isModalActive && (
         <Modal
           title="Email sent"
-          bodyText={`We have sent a link to confirm your email to ${email}`}
+          bodyText={`We have sent a link to confirm your email to ${getItem("email")}`}
           handleModalClose={handleModalClose}
-        />
+        >
+          <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"96px"}>
+            OK
+          </Button>
+        </Modal>
       )}
-      <StyledContainerAuth style={{filter: isModalActive ? "blur(4px)" : ""}}>
+      <StyledContainerAuth style={{ filter: isModalActive ? "blur(4px)" : "blur(0px)" }}>
         <WrapperContainerAuth title={t("sign_up")}>
-          <AuthIcons/>
+          <AuthIcons />
           <Formik
             initialValues={initialAuthValues}
-            validationSchema={i18n.language == 'en' ? validateRegistrationEn : validateRegistrationRu}
+            validationSchema={validateRegistration}
             onSubmit={handleSubmit}
           >
-            {({errors, touched, values, setFieldValue}) => (
+            {({ errors, touched, values, setFieldValue }) => (
               <StyledAuthForm>
                 <FormikLabel
                   name="username"
@@ -132,6 +120,7 @@ export default function Registration() {
                   border={errors.username?.length && touched.username ? "red" : "white"}
                   errors={errors}
                   touched={touched}
+                  t={t}
                 />
                 <FormikLabel
                   name="email"
@@ -142,6 +131,7 @@ export default function Registration() {
                   border={errors.email?.length && touched.email ? "red" : "white"}
                   errors={errors}
                   touched={touched}
+                  t={t}
                 />
                 <FormikLabel
                   id="pass"
@@ -153,6 +143,7 @@ export default function Registration() {
                   border={errors.password?.length && touched.password ? "red" : "white"}
                   errors={errors}
                   touched={touched}
+                  t={t}
                 >
                   <StyledShowPasswordBtn
                     alt="show password"
@@ -174,16 +165,19 @@ export default function Registration() {
                   }
                   errors={errors}
                   touched={touched}
+                  t={t}
                 >
                   <StyledShowPasswordBtn
                     alt="show password"
-                    src={passwordConfirmationType === "password" ? showPasswordBtn : hidePasswordBtn}
+                    src={
+                      passwordConfirmationType === "password" ? showPasswordBtn : hidePasswordBtn
+                    }
                     onClick={() => showPasswordConfirmation()}
                   />
                 </FormikLabel>
-                <Button theme={ThemeButton.PRIMARY} type="submit">
+                <StyledButton theme={ThemeButton.PRIMARY} type="submit">
                   {t("sign_up")}
-                </Button>
+                </StyledButton>
               </StyledAuthForm>
             )}
           </Formik>
@@ -194,7 +188,11 @@ export default function Registration() {
         </WrapperContainerAuth>
       </StyledContainerAuth>
     </>
-  )
+  );
 }
 
-Registration.getLayout = getLayout
+const StyledButton = styled(Button)`
+  margin-top: 20px;
+`;
+
+Registration.getLayout = getLayout;

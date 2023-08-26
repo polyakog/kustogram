@@ -1,14 +1,18 @@
+import { FC, PropsWithChildren, useEffect } from "react";
+import { useRouter } from "next/router";
+import { Path } from "common/enums/path";
 
-import {FC, PropsWithChildren} from "react";
-import {useRouter} from "next/router";
+export const LoginNavigate: FC<PropsWithChildren<{}>> = ({ children }) => {
+  const router = useRouter();
+  // const isAuthInitialized = useAppSelector(isAppInitializedSelector);
 
-export const LoginNavigate: FC<PropsWithChildren<{}>> = ({children}) => {
-  const router = useRouter()
+  // useEffect(() => {
+  //         if (!isAuthInitialized) {
+  //       router.push(Path.LOGIN);
+  //       console.log("REDIRECT, isAuthInitialized =", isAuthInitialized);
+  //     }
 
-  const isAuth = true  // запрос авторизации
+  // }, []);
 
-  if (!isAuth) router.push('/login')
-
-  return <>{children}</>
+  return <>{children}</>;
 };
-

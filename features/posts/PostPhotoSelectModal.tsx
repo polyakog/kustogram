@@ -1,7 +1,9 @@
+import { TFunction } from "next-i18next";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 import { baseTheme } from "styles/styledComponents/theme";
+import { useTranslation } from "next-i18next";
 
 const PostPhotoSelectModal = ({
   handleModalClose,
@@ -14,6 +16,8 @@ const PostPhotoSelectModal = ({
   setPhotoFile: (photoFile: File) => void;
   handleNextToResize: () => void;
 }) => {
+  const { t } = useTranslation("post_cr");
+
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {
       const file = e.target.files[0];
@@ -27,7 +31,7 @@ const PostPhotoSelectModal = ({
     <>
       <StyledModalBody>
         <StyledModalHeader>
-          <StyledModalTitle>{"Add Photo"}</StyledModalTitle>
+          <StyledModalTitle>{t("add_photo")}</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
             <Image priority src="/img/icons/close_white.svg" height={24} width={24} alt="close" />
           </StyledCloseButton>
@@ -46,7 +50,7 @@ const PostPhotoSelectModal = ({
           )}
         </StyledModalImageContainer>
         <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
-        <StyledLabel htmlFor="file-upload">Select from Computer</StyledLabel>
+        <StyledLabel htmlFor="file-upload">{t("select_from_comp")}</StyledLabel>
       </StyledModalBody>
     </>
   );

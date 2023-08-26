@@ -8,6 +8,7 @@ export type ModalPropsType = {
   width?: string;
   height?: string;
   children?: React.ReactElement;
+  bg?: string;
 };
 
 export type ModalSizePropsType = {

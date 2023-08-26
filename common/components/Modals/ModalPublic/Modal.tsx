@@ -18,7 +18,8 @@ export const Modal = ({
   bodyText,
   children,
   width,
-  height
+  height,
+  bg
 }: ModalPropsType) => {
   const onCloseButtonClick = () => {
     if (handleModalClose) {
@@ -30,7 +31,7 @@ export const Modal = ({
   };
 
   return (
-    <StyledModalOverlay>
+    <StyledModalOverlay bg={bg}>
       <StyledModalContainer width={width} height={height}>
         <StyledModalHeader>
           <StyledModalTitle>{title}</StyledModalTitle>

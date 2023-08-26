@@ -14,7 +14,7 @@ export const validateRegistration = Yup.object().shape({
   email: Yup.string().email("invalid_email").required("req_email"),
   passwordConfirmation: Yup.string()
     .matches(/^\S*$/, "spaces cannot be used")
-    .required("Reqrequired")
+    .required("req_pas")
     .oneOf([Yup.ref("password")], "pas_match")
     .min(6, "short_pas")
     .max(20, "long_pas")

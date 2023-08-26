@@ -41,6 +41,15 @@ export const authApi = createApi({
         body
       })
     }),
+
+    loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({
+      query: (body) => ({
+        url: "auth/google",
+        method: "POST",
+        body
+      })
+    }),
+
     sendRecoveryLink: builder.mutation<any, SendLinkType>({
       query: (body) => ({
         method: "POST",
@@ -92,5 +101,6 @@ export const {
   useNewPasswordMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
-  useLazyMeQuery
+  useLazyMeQuery,
+  useLoginWithGoogleMutation
 } = authApi;

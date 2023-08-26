@@ -15,8 +15,6 @@ import Image from "next/image";
 import google from "public/img/icons/google-svgrepo-com.svg";
 import github from "public/img/icons/github-svgrepo-com.svg";
 import axios from "axios";
-import { AppDispatch } from "assets/store/store";
-import { useAppDispatch } from "common/hooks";
 
 export const getStaticProps = async () => {
   return {
@@ -57,7 +55,6 @@ const getCode = async (url: string) => {
 
 const Signin = (props: ProvidersPropsType) => {
   const route = useRouter();
-  const dispatch = useAppDispatch();
 
   const onGoogleClick = () => {
     const url = oauthRequest("google", props);

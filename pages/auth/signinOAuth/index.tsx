@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Button } from "common/components/Button/Button";
 import { ThemeButton } from "common/enums/themeButton";
 import { useRouter } from "next/router";
-import { Path } from "common/enums/path";
 import { getLayout } from "common/components/Layout/BaseLayout/BaseLayout";
 import { oauthRequest } from "features/auth/oauth2Request";
 import {
@@ -14,7 +13,6 @@ import {
 import Image from "next/image";
 import google from "public/img/icons/google-svgrepo-com.svg";
 import github from "public/img/icons/github-svgrepo-com.svg";
-import axios from "axios";
 
 export const getStaticProps = async () => {
   return {
@@ -37,38 +35,13 @@ export const getStaticProps = async () => {
   };
 };
 
-// let instance = axios.create({
-//   headers: {
-
-//   }
-// })
-const getCode = async (url: string) => {
-  try {
-    // const response = await axios.interceptors.request .get(url)
-    const response = await axios.get(url);
-    console.log(response.data);
-    return response.data;
-  } catch (err) {
-    console.error((err as Error).message);
-  }
-};
-
 const Signin = (props: ProvidersPropsType) => {
   const route = useRouter();
 
-  const onGoogleClick = () => {
-    const url = oauthRequest("google", props);
+  const handle = (provider: string) => {
+    const url = oauthRequest(provider, props);
     console.log(url);
-    // route.push(url)
-    getCode(url);
-    // console.log(res);
-  };
-
-  const onGitHubClick = () => {
-    // route.push(Path.SIGNIN)
-    const url = oauthRequest("github", props);
-    console.log(url);
-    // route.push(url)
+    window.location.assign(url);
   };
 
   return (
@@ -80,7 +53,9 @@ const Signin = (props: ProvidersPropsType) => {
             type="button"
             width={"300"}
             style={buttonStyle}
-            onClick={onGoogleClick}
+            onClick={() => {
+              handle("google");
+            }}
           >
             <Image width={24} height={24} src={google} alt={"google"} />
             <span style={spanStyle}>Sign in with Google</span>
@@ -91,7 +66,9 @@ const Signin = (props: ProvidersPropsType) => {
             type="button"
             width={"300"}
             style={buttonStyle}
-            onClick={onGitHubClick}
+            onClick={() => {
+              handle("github");
+            }}
           >
             <Image width={24} height={24} src={github} alt={"github"} />
             <span style={spanStyle}>Sign in with GitHub</span>

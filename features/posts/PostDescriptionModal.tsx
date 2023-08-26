@@ -3,6 +3,7 @@ import { useState } from "react";
 import { styled } from "styled-components";
 import { PhotoType } from "./PostCreationModal";
 import { useCreatePostMutation } from "assets/store/api/posts/postsApi";
+import { useTranslation } from "next-i18next";
 
 ///  //   Модальное окно с областью отображения отредактированных   //  ///
 //          изображений и добавлением описания к ним          //
@@ -21,11 +22,14 @@ const PostDescriptionModal = ({
   const [disabled, setDisabled] = useState(false);
 
   const [createPostHandler] = useCreatePostMutation(); // сохрание поста на сервере
+
+  const { t } = useTranslation("post_cr");
+
   // Обработчик нажатия кнопки Back
   const handleBack = () => {
     handleBackToFilters(photoPost);
   };
-  console.log(photoPost);
+
   // Обработчик нажатия кнопки Publish
   const handlePublishButton = async () => {
     const formData = new FormData();
@@ -56,15 +60,15 @@ const PostDescriptionModal = ({
         handleModalClose={handleModalClose}
         photoPost={photoPost}
         handleBack={handleBack}
-        title="Publication"
+        title={t("publication")}
         setPhoto={setPhoto}
         photo={photo}
-        nextStep="Publish"
+        nextStep={t("publish")}
         handleNextStepButton={handlePublishButton}
         disabled={disabled}
       >
         <StyledDescriptionContainer>
-          <StyledTitle>Add publication descriptions</StyledTitle>
+          <StyledTitle>{t("add_descr")}</StyledTitle>
           <StyledDescription onChange={(e) => setDescription(e.target.value)}>
             {description}
           </StyledDescription>

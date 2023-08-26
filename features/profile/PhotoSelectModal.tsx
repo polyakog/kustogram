@@ -6,6 +6,7 @@ import PhotoEditorModal from "./PhotoEditorModal";
 import closeIcon from "/public/img/icons/close_white.svg";
 import { ThemeButton } from "common/enums/themeButton";
 import { Button } from "common/components/Button/Button";
+import { useTranslation } from "next-i18next";
 
 ////  //  Модальное окно загрузки новой аватарки  //  ////
 
@@ -18,6 +19,7 @@ const PhotoSelectModal = ({
 }) => {
   const [photo, setPhoto] = useState<File>(); // изображение, передаваемое в компоненту редактирования
   const [isEditorOpen, setIsEditorOpen] = useState(false); // открытие модального окна для редактирования
+  const { t } = useTranslation(); // переводчик
 
   // const image = avatar || "/img/icons/image-outline.svg"
 
@@ -40,7 +42,7 @@ const PhotoSelectModal = ({
     <StyledModalOverlay>
       <StyledModalContainer>
         <StyledModalHeader>
-          <StyledModalTitle>Add a Profile Photo</StyledModalTitle>
+          <StyledModalTitle>{t("add_prof_photo")}</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
             <Image priority src={closeIcon} height={24} width={24} alt="close" />
           </StyledCloseButton>
@@ -66,7 +68,7 @@ const PhotoSelectModal = ({
               <input id="file-upload" type="file" accept="image/*" onChange={handleSelectPhoto} />
               <Button theme={ThemeButton.PRIMARY} width="222px" id="upload-btn">
                 <StyledLabel htmlFor="file-upload">
-                  <StyledText>Select from Computer</StyledText>
+                  <StyledText>{t("select_from_comp")}</StyledText>
                 </StyledLabel>
               </Button>
             </>

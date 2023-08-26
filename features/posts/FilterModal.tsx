@@ -5,6 +5,7 @@ import { ImageToolModal } from "common/hoc/ImageToolModal";
 import { styled } from "styled-components";
 import { PhotoType } from "./PostCreationModal";
 import Canvas from "./Canvas";
+import { useTranslation } from "next-i18next";
 
 const FilterModal = ({
   handleModalClose,
@@ -19,6 +20,8 @@ const FilterModal = ({
 }) => {
   const [photo, setPhoto] = useState(photoPost[0]); // изображение из массива, отображаемое в модальном окне
   const [filterPhotoList, setFilterPhotoList] = useState<PhotoType[]>(photoPost); // массив изображений с выбранными фильтрами
+
+  const { t } = useTranslation("post_cr");
 
   // Обработчик выбора фильтра
   const handleFilter = (filter: string) => {
@@ -57,10 +60,10 @@ const FilterModal = ({
       handleModalClose={handleModalClose}
       photoPost={photoPost}
       handleBack={handleBack}
-      title="Filters"
+      title={t("filters")}
       setPhoto={setPhoto}
       photo={photo}
-      nextStep="Next"
+      nextStep={t("next")}
       handleNextStepButton={handleNextButton}
     >
       <StyledFiltersContainer key={photo.photoUrl}>

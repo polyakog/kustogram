@@ -4,7 +4,6 @@
   "password_conf_label": "Password confirmation",
   "info": "Your password must be between 6 and 20 characters",
   "n_password_btn": "Create New Password",
-
   "rec_password_title": "Forgot Password",
   "enter_email_text": "Enter your email address and we will send you further instructions",
   "send_link_btn": "Send Link",
@@ -14,7 +13,6 @@
   "send_again_btn": "Send Link Again",
   "email_modal_title": "Email sent",
   "email_modal_text": "We have sent a link to confirm your email to",
-
   "sign_up": "Sign Up",
   "username": "Username",
   "password": "Password",
@@ -22,18 +20,14 @@
   "sign_in": "Sign In",
   "user_err": "User with this username is already registered",
   "email_err": "User with this email is already registered",
-
   "congrat": "Congratulations!",
   "email_confirm": "Your email has been confirmed",
-
   "link_exp_title": "Email verification link expired",
   "link_exp_text": "Looks like the verification link has expired. Not to worry, we can send the link again",
   "resend_btn": "Resend verification link",
   "link_exp_title_recov": "Email verification link invalid",
   "resend_btn_recov": "Resend link",
-
   "log_in_err": "The password or email you entered is incorrect. Please try again",
-
   "signIn_title": "Sign In",
   "signUp_link": "Sign Up",
   "email_label": "Email",
@@ -42,7 +36,6 @@
   "notAccount_title": "Don’t have an account?",
   "error_login": "Password or email - incorrect. Try again",
   "invalid_email": "Invalid email",
-
   "too_short": "Too Short!",
   "too_long": "Too Long!",
   "req_login": "Required login or email",
@@ -53,5 +46,45 @@
   "pas_match": "Please make sure your passwords match",
   "req_email": "Required email",
   "req_user": "Required Username",
-  "inv_user": "Invalid Username"
+  "inv_user": "Invalid Username",
+  "profile_settings": "Profile Settings",
+  "paid": "paid",
+  "user_name": "User Name",
+  "following": "Following",
+  "followers": "Followers",
+  "publications": "Publications",
+  "about_me": "about me",
+  "loading": "Loading",
+  "add_prof_photo": "Add a Profile Photo",
+  "f_name": "First Name",
+  "l_name": "Last Name",
+  "city": "City",
+  "save_changes": "Save Changes",
+  "date_of_birthday": "Date of birthday",
+  "general_info": "General information",
+  "profile_changes_saved": "Profile changes saved",
+  "Required username": "Required username",
+  "Required firstname": "Required firstname",
+  "Required lastname": "Required lastname",
+  "Required city": "Required city",
+  "Too Short!": "Too Short!",
+  "Required birthday": "Required birthday",
+  "select_from_comp": "Select from Computer",
+
+  "devices": "Devices",
+  "acc_management": "Account Management",
+  "my_payments": "My payments",
+
+  "this_devices": "This device",
+  "terminate_session": "Terminate all other session",
+  "active_sessions": "Active sessions",
+
+  "account_type": "Account type:",
+  "your_subscription_costs": "Your subscription costs:",
+  "or": "Or",
+  "personal": "Personal",
+  "business": "Business",
+  "10_1_Day": "$10 per 1 Day",
+  "50_7_Day": "$50 per 7 Day",
+  "100_month": "$100 per month"
 }

@@ -36,6 +36,7 @@ import {
   QueryDefinition,
   QueryStatus
 } from "@reduxjs/toolkit/dist/query";
+import { TFunction } from "next-i18next";
 import { baseTheme } from "styles/styledComponents/theme";
 
 type PropsType = {
@@ -57,6 +58,7 @@ type PropsType = {
   totalCount: number;
   isLoading: boolean;
   status: QueryStatus;
+  t: TFunction;
 };
 
 const ProfileElement: React.FC<PropsType> = ({
@@ -68,7 +70,8 @@ const ProfileElement: React.FC<PropsType> = ({
   getCurrentPost,
   totalCount,
   isLoading,
-  status
+  status,
+  t
 }) => {
   const avatar = "/img/icons/avatar.svg";
 
@@ -82,9 +85,24 @@ const ProfileElement: React.FC<PropsType> = ({
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
   const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
-  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 340 : 360) : 360;
+  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 562 : 628) : 628;
 
   /*  ____________</переменные для мобильной версии>_______________*/
+
+  const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    let element = e.currentTarget;
+    // console.log('scrollHeight', element.scrollHeight)
+    // console.log('scrollTop', element.scrollTop)
+    // console.log('clientHeight', element.clientHeight)
+    // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
+
+    if (element.scrollHeight - element.scrollTop < scrollSize) {
+      let newPageSize = pageSize + 9;
+      if (totalCount + 9 >= newPageSize) {
+        setPageSize(newPageSize);
+      }
+    }
+  };
 
   useEffect(() => {
     if (width) {
@@ -103,7 +121,14 @@ const ProfileElement: React.FC<PropsType> = ({
 
   return (
     <>
-      <ProfileWrapper>
+      {status !== "fulfilled" && (
+        <>
+          <LoadingPostStyle>{`${t("loading")}...`}</LoadingPostStyle>
+          <LoadingPostBackStyle></LoadingPostBackStyle>
+        </>
+      )}
+
+      <ProfileWrapper onScroll={status === "fulfilled" ? scrollHandler : () => {}}>
         <HeaderStyle>
           {isVisible && (
             <BlockButton>
@@ -114,7 +139,7 @@ const ProfileElement: React.FC<PropsType> = ({
                 style={{ padding: "6px 24px" }}
                 onClick={handleClick}
               >
-                Profile Settings
+                {t("profile_settings")}
               </Button>
             </BlockButton>
           )}
@@ -131,9 +156,9 @@ const ProfileElement: React.FC<PropsType> = ({
           </StyledAvatarBlock>
 
           <UserNameStyle>
-            {!!user ? `${user.firstName} ${user?.lastName}` : "User Name"}
+            {!!user ? `${user.firstName} ${user?.lastName}` : t("user_name")}
             {isPaid && (
-              <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={"paid"} />
+              <Image src={Paid} width={paidImageSize} height={paidImageSize} alt={t("paid")} />
             )}
           </UserNameStyle>
 
@@ -144,7 +169,7 @@ const ProfileElement: React.FC<PropsType> = ({
                   <FollowSpan>2 218</FollowSpan>
                 </div>
                 <div>
-                  <FollowSpan>Following</FollowSpan>
+                  <FollowSpan>{t("following")}</FollowSpan>
                 </div>
               </div>
               <div>
@@ -152,7 +177,7 @@ const ProfileElement: React.FC<PropsType> = ({
                   <FollowSpan>2 358</FollowSpan>
                 </div>
                 <div>
-                  <FollowSpan>Followers</FollowSpan>
+                  <FollowSpan>{t("followers")}</FollowSpan>
                 </div>
               </div>
               <div>
@@ -160,24 +185,19 @@ const ProfileElement: React.FC<PropsType> = ({
                   <FollowSpan>2 358</FollowSpan>
                 </div>
                 <div>
-                  <FollowSpan>Publications</FollowSpan>
+                  <FollowSpan>{t("publications")}</FollowSpan>
                 </div>
               </div>
             </FollowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>{urlify(user?.userInfo || "about me")}</AboutMeText>
+              <AboutMeText>{urlify(user?.userInfo || t("about_me"))}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
 
         {/* <PhotosBlock> */}
-        {status !== "fulfilled" && (
-          <>
-            <LoadingPostStyle>Loading...</LoadingPostStyle>
-            <LoadingPostBackStyle></LoadingPostBackStyle>
-          </>
-        )}
+
         <PostPhotos
           posts={posts}
           postSize={postSize}

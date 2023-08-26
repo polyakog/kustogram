@@ -1,6 +1,6 @@
 export const ITEM_LINK = [
   {
-    name: "Home",
+    name: "home",
     href: "/home",
     icon: "/img/icons/home.svg",
     selectIcon: "/img/icons/homeSelect.svg"
@@ -12,25 +12,25 @@ export const ITEM_LINK = [
     selectIcon: ""
   },
   {
-    name: "My Profile",
+    name: "my_profile",
     href: "/profile",
     icon: "/img/icons/person.svg",
     selectIcon: "/img/icons/person-select.svg"
   },
   {
-    name: "Messenger",
+    name: "messenger",
     href: "/messenger",
     icon: "/img/icons/message.svg",
     selectIcon: "/img/icons/message-select.svg"
   },
   {
-    name: "Search",
+    name: "search",
     href: "/search",
     icon: "/img/icons/search.svg",
     selectIcon: "/img/icons/search-select.svg"
   },
   {
-    name: "Favorites",
+    name: "favorites",
     href: "/favorites",
     icon: "/img/icons/bookmark.svg",
     selectIcon: "/img/icons/bookmark-select.svg"

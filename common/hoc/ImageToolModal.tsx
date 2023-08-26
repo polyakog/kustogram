@@ -23,7 +23,7 @@ type Props = {
   nextStep: string;
   handleNextStepButton: () => void;
   addPOstHandler?: () => void;
-  disabled?: boolean;
+  disabled?: boolean
 };
 export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
   children,

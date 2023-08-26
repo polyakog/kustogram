@@ -1,21 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# **Kustogram** _Social Network_
 
-## Getting Started
+<p align="center">
+<img alt="GitHub watchers" src="https://img.shields.io/github/watchers/polyakog/kustogram">
+<img alt="GitHub last commit (by committer)" src="https://img.shields.io/github/last-commit/polyakog/kustogram">
 
-First, run the development server:
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+<p align="center">
+<img src="https://github.com/polyakog/kustogram/blob/master/public/img/kusto.png" width="10%" alt ="logo"></p>
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Description
 
-### @stacy_imladris
+**Kustogram** _Social Network_ implemented by scratch on Next.JS.
 
-### Have fun! :)
+<p>
 
-hi im Oleg
+This application was created for user communication: sharing posts, photos, comments, chat, etc. The application has various administrative and user settings, paid services, statistics.
+
+## </p>
+
+#### Backup:
+
+_social_
+**social**
+**_social_ network**
+~~social network~~
+
+---

@@ -1,14 +1,21 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { AuthMeType, UserType } from "./types";
 import { contentTypeSetup } from "common/utils/contentTypeSetup";
 
-export const profileApi = createApi({
-  reducerPath: "profileApi",
-  baseQuery: fetchBaseQuery({
+const staggeredBaseQuery = retry(
+  fetchBaseQuery({
     baseUrl: "https://calypso-one.vercel.app/",
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ["saveAvatar"])
   }),
+  {
+    maxRetries: 2
+  }
+);
+
+export const profileApi = createApi({
+  reducerPath: "profileApi",
+  baseQuery: staggeredBaseQuery,
   tagTypes: ["UserInfo"],
   endpoints: (builder) => ({
     profile: builder.query<UserType, void>({

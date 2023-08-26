@@ -18,7 +18,7 @@ const EasyCroppe = ({
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
 
-  let objectFit: "contain" | "cover" | "horizontal-cover" | "vertical-cover" = "vertical-cover";
+  let objectFit: "contain" | "cover" | "horizontal-cover" | "vertical-cover" = "cover";
   if (isObjectFit) {
     objectFit = "contain";
   }

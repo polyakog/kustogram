@@ -8,11 +8,15 @@ import { ThemeButton } from "../../../enums/themeButton";
 import { useLocalStorage } from "../../../hooks/useLocalStorage";
 import { useRouter } from "next/router";
 import { Path } from "../../../enums/path";
+import { useTranslation } from "next-i18next";
 
 export const LogoutLink: FC = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
+
   const { clearAll, getItem } = useLocalStorage();
+  const { t } = useTranslation("nav_bar");
   const router = useRouter();
+
   const userEmail = getItem("userEmail");
 
   const logoutHandler = () => {
@@ -37,7 +41,7 @@ export const LogoutLink: FC = () => {
       <AppLink onClick={() => setIsOpenModalEdit(true)} href={""}>
         <StyledDiv>
           <Image src={"/img/icons/log-out.svg"} alt={"logOut"} width={24} height={24} />
-          <p>Log Out</p>
+          <p>{t("log_out")}</p>
         </StyledDiv>
       </AppLink>
       {isOpenModalEdit && (

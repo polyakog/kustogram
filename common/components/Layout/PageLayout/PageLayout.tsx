@@ -10,6 +10,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { mediaSizes } from "common/constants/Profile/mediaSizes";
 import { CreatePost } from "common/components/Navbar/CreatePost/CreatePost";
 import { useTranslation } from "next-i18next";
+import { Menubar } from "common/components/Menu/Menubar";
 
 const media = mediaSizes.media;
 const sidebar = mediaSizes.sidebarMedia;
@@ -37,6 +38,10 @@ export const PageLayout: NextPage<PropsWithChildren> = (props) => {
           </NavbarWrapper>
           <Main>{children}</Main>
         </Page>
+
+        <MenuWrapper>
+          <Menubar showMenuBar={profile} openModalHandler={openModalHandler} />
+        </MenuWrapper>
       </LocalizationProvider>
     </StyledWrapper>
   );
@@ -89,5 +94,21 @@ export const NavbarWrapper = styled.div`
 
   @media (max-width: ${media}) {
     display: none;
+  }
+`;
+export const MenuWrapper = styled.div`
+  display: none;
+
+  @media (max-width: ${media}) {
+    display: flex;
+    height: 60px;
+    width: 100%;
+    flex-shrink: 0;
+    min-width: 360px;
+    /* max-width: 220px; */
+    align-items: center;
+    font-family: Inter;
+    justify-content: center;
+    border-top: 1px solid ${baseTheme.colors.dark[300]};
   }
 `;

@@ -14,13 +14,23 @@ export const ProfileWrapper = styled.div`
   margin-left: 24px;
   overflow-y: auto;
   overflow-x: hidden;
-  width: calc(100vw - 260px);
-  /* &::-webkit-scrollbar {
-  /* display: none; */
-  /* width: 15px; */
-  /* border: 1px solid ${baseTheme.colors.light[100]}; */
-  /*} 
-/*   
+  width: calc(100vw - 245px);
+  scrollbar-width: 5px;
+
+  &::-webkit-scrollbar {
+    /* display: none; */
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: ${baseTheme.colors.light[900]};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${baseTheme.colors.dark[300]};
+    /* border-radius: 20%;     */
+  }
+  /*   
   @media (max-width: ${"4000px"}) {
     margin-left: 24px;
   }
@@ -198,16 +208,15 @@ export const AboutMeText = styled.p`
 `;
 
 export const PostWrapper = styled.div`
-  /* position: relative; */
   flex-grow: 0;
   margin: 40px 0px -20px; // ссылка сюда
-  /* max-width: 850px; */
   width: calc(90vw - 250px); // подправить
-  height: 360px;
-  /* overflow-y: scroll; */
+  max-width: 1065px;
+  height: 390px;
+
   padding: 5px 5px 5px 5px;
   border-radius: 2px;
-  /* border: 1px solid ${baseTheme.colors.dark[100]}; */
+
   @media (max-width: ${media}) {
     height: 340px;
     margin: 29px -68px -20px; // ссылка сюда

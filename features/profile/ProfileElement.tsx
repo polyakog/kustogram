@@ -85,7 +85,7 @@ const ProfileElement: React.FC<PropsType> = ({
   const avatarSize = width ? (width < mediaSizes.mobileScreenSize ? 72 : 204) : 204;
   const paidImageSize = width ? (width < mediaSizes.mobileScreenSize ? 16 : 24) : 24;
   const postSize = width ? (width < mediaSizes.mobileScreenSize ? 108 : 228) : 228;
-  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 562 : 628) : 628;
+  const scrollSize = width ? (width < mediaSizes.mobileScreenSize ? 562 : 660) : 660;
 
   /*  ____________</переменные для мобильной версии>_______________*/
 

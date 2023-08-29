@@ -14,7 +14,8 @@ import { getItem } from "../../../../common/hooks/useLocalStorage";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://calypso-one.vercel.app/",
+    baseUrl: "https://kustogram.site/api/v1/",
+    // baseUrl: process.env.BASE_URL,
     fetchFn: async (url) => {
       const token = getItem("accessToken");
       const options = {
@@ -45,6 +46,13 @@ export const authApi = createApi({
     loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({
       query: (body) => ({
         url: "auth/google",
+        method: "POST",
+        body
+      })
+    }),
+    loginWithGithub: builder.mutation<LoginResponseType, { code: string }>({
+      query: (body) => ({
+        url: "auth/github",
         method: "POST",
         body
       })
@@ -102,5 +110,6 @@ export const {
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
   useLazyMeQuery,
-  useLoginWithGoogleMutation
+  useLoginWithGoogleMutation,
+  useLoginWithGithubMutation
 } = authApi;

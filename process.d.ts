@@ -12,5 +12,6 @@ declare namespace NodeJS {
     GOOGLE_AUTH_URL: string | null;
     GOOGLE_SCOPE: string | null;
     GOOGLE_REDIRECT_URI: string | null;
+    BASE_URL: string;
   }
 }

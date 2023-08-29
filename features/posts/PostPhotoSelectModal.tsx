@@ -9,14 +9,14 @@ const PostPhotoSelectModal = ({
   handleModalClose,
   avatar,
   setPhotoFile,
-  handleNextToResize
+  handleNextToResize,
 }: {
   handleModalClose: () => void;
   avatar?: string;
   setPhotoFile: (photoFile: File) => void;
   handleNextToResize: () => void;
 }) => {
-  const { t } = useTranslation("post_cr");
+const { t } = useTranslation("post_cr")
 
   const handleSelectPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.length) {

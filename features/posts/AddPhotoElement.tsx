@@ -8,52 +8,55 @@ import { PhotoType } from "./PostCreationModal";
 import Image from "next/image";
 
 type AddPhotoElementType = {
-  photoPost: PhotoType[];
-  handleAddPhotoButton: () => void;
-  setPhotoPost: (photoPost: PhotoType[]) => void;
-  handleSave: () => Promise<void>;
-};
+    photoPost: PhotoType[]
+    handleAddPhotoButton: () => void
+    setPhotoPost: (photoPost: PhotoType[]) => void 
+    handleSave: () => Promise<void>
+}
 const AddPhotoElement = ({
-  photoPost,
-  handleAddPhotoButton,
-  setPhotoPost,
-  handleSave
-}: AddPhotoElementType) => {
-  // Удаление изображения из массива
-  const removePhotoFromList = (index: number) => {
-    const newPhotoList = [];
-    for (let i = 0; i < photoPost.length; i++) {
-      if (index === i) {
-        continue;
-      } else {
-        newPhotoList.push(photoPost[i]);
-      }
-    }
-    setPhotoPost(newPhotoList);
-  };
-  return (
-    <StyledAddBlock>
-      <StyledPhotoPost id={"scrollable-container"}>
-        {photoPost.map((photo, index) => (
-          <SmallPhoto
-            photo={photo.photoUrl}
-            key={index}
-            index={index}
-            removePhotoFromList={removePhotoFromList}
-          />
-        ))}
-      </StyledPhotoPost>
-      <div onClick={handleAddPhotoButton} style={{ cursor: "pointer" }}>
-        <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen} />
-      </div>
-      <div onClick={handleSave} style={{ cursor: photoPost.length < 10 ? "pointer" : "default" }}>
-        <StyledIconSavePhoto src={savePhoto} alt={savePhoto} />
-      </div>
-    </StyledAddBlock>
-  );
-};
+    photoPost, 
+    handleAddPhotoButton, 
+    setPhotoPost, 
+    handleSave} : AddPhotoElementType) => {
+    
+    // Удаление изображения из массива
+    const removePhotoFromList = (index: number) => {
+        const newPhotoList = [];
+        for (let i = 0; i < photoPost.length; i++) {
+            if (index === i) {
+                continue;
+            } else {
+                newPhotoList.push(photoPost[i]);
+            }
+        }
+        setPhotoPost(newPhotoList);
+    };
+    return (
+        <StyledAddBlock>
+          <StyledPhotoPost id={"scrollable-container"}>
+            {photoPost.map((photo, index) => (
+              <SmallPhoto
+                photo={photo.photoUrl}
+                key={index}
+                index={index}
+                removePhotoFromList={removePhotoFromList}
+              />
+            ))}
+          </StyledPhotoPost>
+          <div onClick={handleAddPhotoButton} style={{ cursor: "pointer" }}>
+            <StyledIconPlusPhoto src={plusPhoto} alt={fullScreen} />
+          </div>
+          <div
+            onClick={handleSave}
+            style={{ cursor: photoPost.length < 10 ? "pointer" : "default" }}
+          >
+            <StyledIconSavePhoto src={savePhoto} alt={savePhoto} />
+          </div>
+        </StyledAddBlock>
+    )
+}
 
-export default AddPhotoElement;
+export default AddPhotoElement
 
 export const StyledAddBlock = styled.div`
   position: absolute;

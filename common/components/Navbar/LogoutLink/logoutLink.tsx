@@ -14,7 +14,7 @@ export const LogoutLink: FC = () => {
   const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false);
 
   const { clearAll, getItem } = useLocalStorage();
-  const { t } = useTranslation("nav_bar");
+  const { t } = useTranslation("nav_bar")
   const router = useRouter();
 
   const userEmail = getItem("userEmail");

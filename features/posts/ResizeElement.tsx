@@ -6,62 +6,62 @@ import { SizeDataType } from "common/constants/Post/initialSizeData";
 import { StyledAddBlock } from "./AddPhotoElement";
 
 type ResizeElementType = {
-  sizeData: SizeDataType[];
-  setValue: (value: number) => void;
-  setRatio: (ratio: number) => void;
-  setIsObjectFit: (isObjectFit: boolean) => void;
-  setSizeData: (sizeData: SizeDataType[]) => void;
-};
+    sizeData: SizeDataType[]
+    setValue: (value: number) => void
+    setRatio: (ratio: number) => void 
+    setIsObjectFit: (isObjectFit: boolean) => void 
+    setSizeData: (sizeData: SizeDataType[]) => void
+}
 
 const ResizeElement = ({
-  sizeData,
-  setValue,
-  setRatio,
-  setIsObjectFit,
-  setSizeData
-}: ResizeElementType) => {
-  const { t } = useTranslation("post_cr");
+    sizeData, 
+    setValue, 
+    setRatio, 
+    setIsObjectFit, 
+    setSizeData} : ResizeElementType) => {
+    
+    const { t } = useTranslation("post_cr")
 
-  // Изменение стиля иконки при выборе данного размера изображения
-  const selectSize = (ind: number) => {
-    const sizeDataSelected = sizeData.map((item, index) => {
-      item.selected = false;
-      if (index === ind) {
-        item.selected = true;
+    // Изменение стиля иконки при выборе данного размера изображения
+    const selectSize = (ind: number) => {
+        const sizeDataSelected = sizeData.map((item, index) => {
+          item.selected = false;
+          if (index === ind) {
+            item.selected = true;
+          }
+          return item;
+        });
+        setSizeData(sizeDataSelected)
+      };
+
+    const handleResizeClick = (item: SizeDataType, index: number) => {
+        if (index === 0) {
+          setValue(1);
+        }
+        setRatio(item.setRatio);
+        setIsObjectFit(item.setIsObjectFit);
+        selectSize(index);
       }
-      return item;
-    });
-    setSizeData(sizeDataSelected);
-  };
 
-  const handleResizeClick = (item: SizeDataType, index: number) => {
-    if (index === 0) {
-      setValue(1);
-    }
-    setRatio(item.setRatio);
-    setIsObjectFit(item.setIsObjectFit);
-    selectSize(index);
-  };
+    return (
+        <StyledResizeBlock>
+          {sizeData.map((item, index) => {
+            return (
+              <StyleItemSize
+                key={index}
+                selected={item.selected ? "selected" : ""}
+                onClick={() => handleResizeClick(item, index)}
+              >
+                <StyledIconSize alt={item.alt} src={item.selected ? item.srcActive : item.src} />
+                {t(item.size)}
+              </StyleItemSize>
+            );
+          })}
+        </StyledResizeBlock>
+    )
+}
 
-  return (
-    <StyledResizeBlock>
-      {sizeData.map((item, index) => {
-        return (
-          <StyleItemSize
-            key={index}
-            selected={item.selected ? "selected" : ""}
-            onClick={() => handleResizeClick(item, index)}
-          >
-            <StyledIconSize alt={item.alt} src={item.selected ? item.srcActive : item.src} />
-            {t(item.size)}
-          </StyleItemSize>
-        );
-      })}
-    </StyledResizeBlock>
-  );
-};
-
-export default ResizeElement;
+export default ResizeElement
 
 const StyleItemSize = styled.div<{ selected?: string }>`
   display: flex;

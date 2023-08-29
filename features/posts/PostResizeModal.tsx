@@ -52,11 +52,11 @@ const PostResizeModal = ({
   const [resize, setResize] = useState(false); // открытие окна изменения соотношения сторон изображения
   const [ratio, setRatio] = useState(1); //первоначальное соотношение сторон кадра
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null); // сохранение вырезанной области
-  const [isObjectFit, setIsObjectFit] = useState(false); // параметр вписывания изображения для easy-crop
+  const [isObjectFit, setIsObjectFit] = useState(false);  // параметр вписывания изображения для easy-crop
   const [sizeData, setSizeData] = useState(initSizeData); // массив параметров для модального окна изменения размеров
   const [photoFileURL, setPhotoFileURL] = useState<string>(); //url изображени, загруженного из компьютера
 
-  const { t } = useTranslation("post_cr");
+  const { t } = useTranslation("post_cr")
 
   useEffect(() => {
     const reader = new FileReader();
@@ -71,8 +71,7 @@ const PostResizeModal = ({
   }, []);
 
   // Сохранение значений в локальный state при перемещении бегунка
-  const handleSlider =
-    (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSlider = (setState: (arg: number) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target) {
         setState(parseInt(e.target.value));
       }
@@ -103,13 +102,13 @@ const PostResizeModal = ({
   const handleZoomOpen = () => {
     setOpenZoom(!openZoom);
     if (resize === true) setResize(!resize);
-  };
+  }
 
   // Обработчик нажатия кнопки resize
   const handleResizeOpen = () => {
     setResize(!resize);
     if (openZoom === true) setOpenZoom(!openZoom);
-  };
+  }
 
   // Обработчик нажатия кнопки Full Screen
   const handleClickFullScreen = () => {
@@ -122,10 +121,10 @@ const PostResizeModal = ({
     try {
       let ratio = await getImageRatio(url);
       let sizeDataWithRatio = sizeData.map((item) => {
-        if (item.size == "original") item.setRatio = ratio;
-        return item;
-      });
-      setSizeData(sizeDataWithRatio);
+        if(item.size == "original") item.setRatio = ratio
+        return item
+      })
+      setSizeData(sizeDataWithRatio)
     } catch (e) {
       console.error(e);
     }
@@ -143,6 +142,8 @@ const PostResizeModal = ({
   //   }
   //   setPhotoPost(newPhotoList);
   // };
+
+
 
   // // Изменение стиля иконки при выборе данного размера изображения
   // const selectSize = (ind: number) => {
@@ -208,7 +209,7 @@ const PostResizeModal = ({
           sizeData={sizeData}
           setValue={setValue}
           setRatio={setRatio}
-          setIsObjectFit={setIsObjectFit}
+          setIsObjectFit={setIsObjectFit} 
           setSizeData={setSizeData}
         />
         // <StyledResizeBlock>

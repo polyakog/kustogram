@@ -8,57 +8,76 @@ import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { redirect } from 'pages/auth/login'
+import { ErrorType } from 'pages/auth/callback/google'
 
-type PropsType = {
+type ProviderType = {
   isGithub?: boolean
   isGoogle?: boolean
 }
 
-export const useOAuthCode = (provider: PropsType) =>
-  // provider: PropsType
-  {
-    const route = useRouter()
-    const [loginGoogleHandler, { data: GoogleData }] = useLoginWithGoogleMutation()
-    const [loginGithubHandler, { data: GithubData }] = useLoginWithGithubMutation()
-    const { removeItem, setItem } = useLocalStorage()
+type CodeType = {
+  provider: ProviderType
+  setConnectionError: (conError: ErrorType) => void
+  setAccountError: (accError: string) => void
+  setStatus: (status: string) => void
+}
 
-    const searchParams = useSearchParams()
-    const code = searchParams.get('code')
+export const useOAuthCode = ({
+  provider,
+  setConnectionError,
+  setAccountError,
+  setStatus,
+}: CodeType) => {
+  const route = useRouter()
+  const [loginGoogleHandler, { data: GoogleData, status: GoogleStatus }] =
+    useLoginWithGoogleMutation()
+  const [loginGithubHandler, { data: GithubData, status: GithubStatus }] =
+    useLoginWithGithubMutation()
+  const { removeItem, setItem } = useLocalStorage()
 
-    const handle = async (code: { code: string }, provider: PropsType) => {
-      const getProfile = provider.isGoogle ? loginGoogleHandler : loginGithubHandler
+  const searchParams = useSearchParams()
+  const code = searchParams.get('code')
+  const accError = searchParams.get('error')
 
-      try {
-        await getProfile(code)
-          .unwrap()
-          .then(res => {
-            console.log(`SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`, res)
+  const handle = async (code: { code: string }, provider: ProviderType) => {
+    const getProfile = provider.isGoogle ? loginGoogleHandler : loginGithubHandler
 
-            redirect(res, setItem, route)
-          })
-          .catch(err => console.log('ошибка входа:', err))
-      } catch (error) {
-        console.log('Login Error With Google/Github:', error)
-      }
+    try {
+      await getProfile(code)
+        .unwrap()
+        .then(res => {
+          console.log(`SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`, res)
+
+          redirect(res, setItem, route)
+        })
+        .catch(err => {
+          console.log('ошибка входа:', err)
+          setConnectionError(err)
+        })
+    } catch (error) {
+      console.log('Login Error With Google/Github:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (code) {
+      console.log(code)
+      handle({ code }, provider)
     }
 
-    useEffect(() => {
-      if (code) {
-        console.log(code)
-        if (provider.isGoogle) {
-          handle({ code }, { isGoogle: true, isGithub: false })
-          console.log('isGoogle request')
-        }
+    if (accError) {
+      console.log(accError)
+      setAccountError(accError)
+    }
+  }, [code, accError])
 
-        if (provider.isGithub) {
-          handle({ code }, { isGoogle: false, isGithub: true })
-          console.log('isGithub request')
-        }
-      }
-    }, [code])
+  useEffect(() => {
+    if (GoogleStatus) setStatus(GoogleStatus)
+    if (GithubStatus) setStatus(GithubStatus)
+  }, [GoogleStatus, GithubStatus])
 
-    useEffect(() => {
-      if (GoogleData) console.log('GoogleData:', GoogleData)
-      if (GithubData) console.log('GithubData:', GithubData)
-    }, [])
-  }
+  useEffect(() => {
+    if (GoogleData) console.log('GoogleData:', GoogleData)
+    if (GithubData) console.log('GithubData:', GithubData)
+  }, [])
+}

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { baseTheme } from '../theme'
 
 export const SigninWrapper = styled.div`
   /* position: relative; */
@@ -32,98 +33,55 @@ export const spanStyle: React.CSSProperties = {
   margin: '0 0 0 1.75rem',
 }
 
-// export const UserNameStyle = styled.div`
-//   position: absolute;
-//   left: 242px;
-//   top: 0px;
+export const SigninOauthWrapper = styled.div`
+  /* position: relative; */
+  display: inline-flex;
+  position: fixed;
+  flex-wrap: wrap;
+  /* align-items: center;
+  justify-content: center; */
+  height: 228px;
+  width: 578px;
+  background: ${baseTheme.colors.dark[300]};
+  border-radius: 2px;
+  border: 1px solid ${baseTheme.colors.dark[100]};
+  top: 40%;
+  left: calc(50% - 289px);
+`
 
-//   color: ${baseTheme.colors.light[100]};
-//   font-family: Inter;
-//   font-size: 20px;
-//   font-style: normal;
-//   font-weight: 700;
-//   line-height: 36px;
+export const StyledOauthHeader = styled.div`
+  display: flex;
+  padding: 12px 24px;
+  border-bottom: 1px solid ${baseTheme.colors.dark[100]};
+  width: 100%;
+  height: 59px;
+`
+export const StyledOauthTitle = styled.span`
+  color: ${baseTheme.colors.light[100]};
+  font-size: 20px;
+  font-family: Inter;
+  font-weight: 700;
+  line-height: 36px;
+`
 
-//   display: inline-flex;
-//   align-items: center;
-//   gap: 12px;
+export const StyledOauthErrorBody = styled.div`
+  display: flex;
+  flex-direction: column;
 
-//   @media (max-width: ${media}) {
-//     position: absolute;
-//     left: 0px;
-//     top: 82px;
-//     font-family: Inter;
-//     font-size: 16px;
-//     line-height: 24px;
-//   }
-// `;
+  color: ${baseTheme.colors.danger[300]};
+  padding: 30px 24px;
+`
+export const StyledOauthBody = styled.div`
+  display: flex;
+  flex-direction: column;
 
-// export const Link = styled.a`
-//   color: ${baseTheme.colors.accent[500]};
-//   font-family: Inter;
-//   font-size: 14px;
-//   font-style: normal;
-//   font-weight: 400;
-//   line-height: 24px;
-//   text-decoration-line: underline;
-// `;
-// export const InfoBlock = styled.div`
-//   margin-top: 151px;
+  color: ${baseTheme.colors.success[300]};
+  padding: 30px 24px;
+`
 
-//   @media (max-width: ${media}) {
-//     margin-top: 108px;
-//   }
-// `;
-
-// export const FolowBlock = styled.div`
-//   display: grid;
-//   margin-top: -90px;
-//   grid-template-columns: 1fr 1fr 1fr;
-
-//   font-family: Inter;
-//   font-size: 14px;
-//   font-style: normal;
-//   font-weight: 700;
-//   line-height: 24px;
-
-//   @media (max-width: ${media}) {
-//     text-align: center;
-//     font-family: Inter;
-//     font-size: 12px;
-//     font-weight: 600;
-//     line-height: 16px;
-//   }
-// `;
-
-// export const AboutMeBlock = styled.div`
-//   display: flex;
-//   width: 100%;
-//   flex-direction: column;
-//   flex-shrink: 0;
-//   margin-top: 24px;
-//   padding-right: 72px;
-
-//   @media (max-width: ${media}) {
-//     margin-top: 80px;
-//     margin-left: -110px;
-//     min-width: 300px;
-//     display: flex;
-//     flex-direction: column;
-//     flex-shrink: 0;
-//     adding-right: 20px;
-//   }
-// `;
-
-// export const AboutMeText = styled.p`
-//   font-family: Inter;
-//   font-size: 16px;
-//   font-style: normal;
-//   font-weight: 400;
-//   line-height: 24px;
-//   color: ${baseTheme.colors.light[100]};
-
-//   @media (max-width: ${media}) {
-//     font-size: 14px;
-//     width: 120%;
-//   }
-// `;
+export const StyledOauthText = styled.span`
+  font-size: 16px;
+  font-family: Inter;
+  font-weight: 500;
+  line-height: 36px;
+`

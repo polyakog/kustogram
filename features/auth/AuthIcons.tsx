@@ -1,32 +1,33 @@
-import React from "react";
-import Image from "next/image";
-import google from "../../public/img/icons/google-svgrepo-com.svg";
-import github from "../../public/img/icons/github-svgrepo-com.svg";
-import styled from "styled-components";
-import { baseTheme } from "../../styles/styledComponents/theme";
-import { useRouter } from "next/router";
-import { Path } from "common/enums/path";
+import { Path } from 'common/enums/path'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
+
+import github from '../../public/img/icons/github-svgrepo-com.svg'
+import google from '../../public/img/icons/google-svgrepo-com.svg'
+import { baseTheme } from '../../styles/styledComponents/theme'
 
 const AuthIcons = () => {
-  const { push } = useRouter();
+  const { push } = useRouter()
+
   return (
     <StyledIconBlock>
       <Link
-        href={`/api/auth/signin`}
-        onClick={async (e) => {
-          e.preventDefault();
-          push(Path.SIGNIN);
+        href="/api/auth/signin"
+        onClick={async e => {
+          e.preventDefault()
+          push(Path.SIGNIN)
         }}
       >
-        <Image width={36} height={36} src={google} alt={"google"} />
-        <Image width={36} height={36} src={github} alt={"github"} />
+        <Image alt="google" height={36} src={google} width={36} />
+        <Image alt="github" height={36} src={github} width={36} />
       </Link>
       <Message>SignIn with Google or Github</Message>
     </StyledIconBlock>
-  );
-};
+  )
+}
 
-export default AuthIcons;
+export default AuthIcons
 
 const StyledIconBlock = styled.div`
   position: relative;
@@ -44,13 +45,13 @@ const StyledIconBlock = styled.div`
     display: block;
     text-align: center;
   }
-`;
+`
 
 const Link = styled.a`
   width: 100%;
   display: flex;
   justify-content: space-between;
-`;
+`
 
 const Message = styled.div`
   position: absolute;
@@ -63,4 +64,4 @@ const Message = styled.div`
   padding: 10px;
   border-radius: 2px;
   font-family: Inter;
-`;
+`

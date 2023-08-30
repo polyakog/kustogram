@@ -1,119 +1,120 @@
-import { FormikErrors, FormikState, FormikTouched } from "formik";
-import { TFunction } from "next-i18next";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent } from 'react'
+
+import { FormikErrors, FormikState, FormikTouched } from 'formik'
+import { TFunction } from 'next-i18next'
 
 export type FormikAllValuesType = {
-  username?: string;
-  password?: string;
-  passwordConfirmation?: string;
-  email?: string;
-  loginOrEmail?: string;
-  newPassword?: string;
-  recoveryCode?: string;
-  firstname?: string;
-  lastname?: string;
-  birthday?: string;
-  city?: string;
-  aboutMe?: string;
-};
+  aboutMe?: string
+  birthday?: string
+  city?: string
+  email?: string
+  firstname?: string
+  lastname?: string
+  loginOrEmail?: string
+  newPassword?: string
+  password?: string
+  passwordConfirmation?: string
+  recoveryCode?: string
+  username?: string
+}
 
 export type labelType = {
-  children?: React.ReactNode;
-  id?: string;
-  type?: string;
-  title: string;
-  name: keyof FormikAllValuesType;
-  border?: string;
-  errors: FormikErrors<FormikAllValuesType>;
-  touched: FormikTouched<FormikAllValuesType>;
-  value: string;
-  onChange: (e: string) => void;
-  width?: string;
-  errorShow?: boolean;
-  textAreaData?: string;
-  margin?: string;
-  t?: TFunction;
-};
+  border?: string
+  children?: React.ReactNode
+  errorShow?: boolean
+  errors: FormikErrors<FormikAllValuesType>
+  id?: string
+  margin?: string
+  name: keyof FormikAllValuesType
+  onChange: (e: string) => void
+  t?: TFunction
+  textAreaData?: string
+  title: string
+  touched: FormikTouched<FormikAllValuesType>
+  type?: string
+  value: string
+  width?: string
+}
 
 export type FormValueRegistration = {
-  username: string;
-  password: string;
-  passwordConfirmation: string;
-  email: string;
-};
+  email: string
+  password: string
+  passwordConfirmation: string
+  username: string
+}
 export type FormValueLogin = {
-  loginOrEmail: string;
-  password: string;
-};
+  loginOrEmail: string
+  password: string
+}
 
 export type FormValueProfile = {
-  username: string;
-  firstname: string;
-  lastname: string;
-  birthday: string;
-  city: string;
-  aboutMe: string;
-};
+  aboutMe: string
+  birthday: string
+  city: string
+  firstname: string
+  lastname: string
+  username: string
+}
 
 export type FormValueRecovery = {
-  email: string;
-};
+  email: string
+}
 
 export type FormNewPasswordType = {
-  newPassword: string;
-  recoveryCode: string;
-};
+  newPassword: string
+  recoveryCode: string
+}
 
 export type ResetForm = {
   resetForm: (
     nextState?:
       | Partial<
           FormikState<{
-            username: string;
-            password: string;
-            passwordConfirmation: string;
-            email: string;
-            loginOrEmail: string;
-            newPassword: string;
-            recoveryCode: string;
-            firstname: string;
-            lastname: string;
-            birthday: string;
-            city: string;
-            aboutMe: string;
+            aboutMe: string
+            birthday: string
+            city: string
+            email: string
+            firstname: string
+            lastname: string
+            loginOrEmail: string
+            newPassword: string
+            password: string
+            passwordConfirmation: string
+            recoveryCode: string
+            username: string
           }>
         >
       | undefined
-  ) => void;
-};
+  ) => void
+}
 
 export type FiledProps = {
-  id?: string;
-  type?: string;
-  border?: string;
-  name?: string;
-  value: string;
-  onChange: (value: string) => void;
+  border?: string
+  id?: string
+  name?: string
+  onChange: (value: string) => void
+  textAreaData?: string
+  type?: string
+  value: string
   // onChange: ChangeEvent<HTMLTextAreaElement> | ((value: string) => void);
-  width?: string;
-  textAreaData?: string;
-};
+  width?: string
+}
 
 export type SetFieldErrorType = {
-  setFieldError: (field: string, message: string | undefined) => void;
-};
+  setFieldError: (field: string, message: string | undefined) => void
+}
 
 export type TextAreaPropsType = {
-  id?: string;
-  type?: string;
-  border?: string;
-  name?: string;
-  value?: string;
-  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  width?: string;
-  textAreaData?: string;
-};
+  border?: string
+  id?: string
+  name?: string
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
+  textAreaData?: string
+  type?: string
+  value?: string
+  width?: string
+}
 
 export type StyledErrorMsgPropsType = {
-  errorShow?: boolean;
-};
+  errorShow?: boolean
+}

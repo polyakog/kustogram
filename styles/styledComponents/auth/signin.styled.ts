@@ -1,8 +1,4 @@
-import styled from "styled-components";
-import { baseTheme } from "../theme";
-import { mediaSizes } from "common/constants/Profile/mediaSizes";
-
-const media = mediaSizes.media;
+import styled from 'styled-components'
 
 export const SigninWrapper = styled.div`
   /* position: relative; */
@@ -11,30 +7,30 @@ export const SigninWrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: calc(100vh - 60px);
-`;
+`
 
 export const BlockButton = styled.div`
   display: block;
   text-align: center;
-`;
+`
 
 export const buttonStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "0.75rem 1rem",
-  minHeight: "0.62px",
-  position: "relative",
-  margin: "20px 0",
-  transform: "all .1s ease-in-out"
-};
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0.75rem 1rem',
+  minHeight: '0.62px',
+  position: 'relative',
+  margin: '20px 0',
+  transform: 'all .1s ease-in-out',
+}
 export const spanStyle: React.CSSProperties = {
-  flexGrow: "1",
-  display: "flex",
-  fontSize: "1.1rem",
-  fontWeight: "500",
-  margin: "0 0 0 1.75rem"
-};
+  flexGrow: '1',
+  display: 'flex',
+  fontSize: '1.1rem',
+  fontWeight: '500',
+  margin: '0 0 0 1.75rem',
+}
 
 // export const UserNameStyle = styled.div`
 //   position: absolute;

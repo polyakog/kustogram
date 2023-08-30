@@ -1,36 +1,36 @@
 type Images = {
-  url: string;
-};
+  url: string
+}
 
 export type CreatePostRequest = {
-  description: string;
-};
+  description: string
+}
 
 export type EditPostRequest = {
-  body: CreatePostRequest;
-  postId: string;
-};
+  body: CreatePostRequest
+  postId: string
+}
 
 export type CreatePostResponse = {
-  id: string;
-  userId: string;
-  description: string;
-  createdAt: string;
-  images: Images[];
-};
+  createdAt: string
+  description: string
+  id: string
+  images: Images[]
+  userId: string
+}
 
-export type GetPostResponse = CreatePostResponse;
+export type GetPostResponse = CreatePostResponse
 
 export type GetUserPostsResponse = {
-  pagesCount: number;
-  page: number;
-  pageSize: number;
-  totalCount: number;
-  items: CreatePostResponse[];
-};
+  items: CreatePostResponse[]
+  page: number
+  pageSize: number
+  pagesCount: number
+  totalCount: number
+}
 
 export type GetUserPostsRequest = {
-  userId: string;
-  pageNumber: number;
-  pageSize: number;
-};
+  pageNumber: number
+  pageSize: number
+  userId: string
+}

@@ -1,36 +1,49 @@
-import React from "react";
-import Image from "next/image";
-import styled from "styled-components";
-import { useWindowSize } from "../hooks/useWindowSize";
+import React from 'react'
+
+import Image from 'next/image'
+import styled from 'styled-components'
+
+import { useWindowSize } from '../hooks/useWindowSize'
 
 type PropsType = {
-  image: string;
-  screenWidth: number;
-  imageWidth: number;
-  imageHeight?: number;
-  alt?: string;
-};
+  alt?: string
+  image: string
+  imageHeight?: number
+  imageWidth: number
+  screenWidth: number
+}
 
 export const VectorImage: React.FC<PropsType> = ({
   image,
   screenWidth,
   imageWidth,
   imageHeight,
-  alt = "vector-image"
+  alt = 'vector-image',
 }) => {
-  const { width, height } = useWindowSize();
-  const imageSize = width
-    ? width > screenWidth
-      ? imageWidth
-      : width - screenWidth + imageWidth
-    : imageWidth;
+  const { width } = useWindowSize()
+  let imageSize
+
+  if (width) {
+    if (width > screenWidth) {
+      imageSize = imageWidth
+    } else {
+      imageSize = width - screenWidth + imageWidth
+    }
+  } else {
+    imageSize = imageWidth
+  }
+  // const imageSize = width
+  //   ? width > screenWidth
+  //     ? imageWidth
+  //     : width - screenWidth + imageWidth
+  //   : imageWidth
 
   return (
     <StyledVectorImage>
-      <Image width={imageSize} height={imageHeight} src={image} alt={alt} />
+      <Image alt={alt} height={imageHeight} src={image} width={imageSize} />
     </StyledVectorImage>
-  );
-};
+  )
+}
 
 const StyledVectorImage = styled.div`
   position: relative;
@@ -39,6 +52,6 @@ const StyledVectorImage = styled.div`
   align-items: center;
   //   width:100%;
   //   max-width: 473px;
-`;
+`
 
-export default VectorImage;
+export default VectorImage

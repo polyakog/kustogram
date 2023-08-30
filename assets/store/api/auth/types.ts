@@ -1,49 +1,69 @@
 export type RegistrationType = {
-  login: string;
-  email: string;
-  password: string;
-};
+  email: string
+  login: string
+  password: string
+}
 export type LoginType = {
-  email: string;
-  password: string;
-};
+  email: string
+  password: string
+}
 export type SendLinkType = {
-  email: string;
-};
+  email: string
+  recaptchaValue: string | null | undefined
+}
 export type NewPasswordType = {
-  newPassword: string;
-  recoveryCode: string | string[] | undefined;
-};
-export type CheckLinkType = string | string[] | undefined;
+  newPassword: string
+  recoveryCode: string[] | string | undefined
+}
+export type CheckLinkType = string[] | string | undefined
 
 export type NewPasswordResType = {
-  status: number;
   data: {
     errorsMessages: {
-      message: string;
-      field: string;
-    }[];
-  };
-};
+      field: string
+      message: string
+    }[]
+  }
+  status: number
+}
 export type LoginResponseType = {
-  accessToken: string;
-  profile: boolean;
-};
+  accessToken: string
+  profile: boolean
+}
 
 type ErrorMessagesType = {
-  field: string;
-  message: string;
-};
+  field: string
+  message: string
+}
 
 export type RegistrationResponseError = {
-  status: number;
   data: {
-    errorsMessages: ErrorMessagesType[];
-  };
-};
+    errorsMessages: ErrorMessagesType[]
+  }
+  status: number
+}
 
 export type MeType = {
-  id: string;
-  login: string;
-  email: string;
-};
+  email: string
+  id: string
+  login: string
+}
+
+export type RefreshLinkType = {
+  email: string
+}
+
+export type NotAuthorization = {
+  error: {
+    data: string
+    error: string
+    originalStatus: number
+    status: string
+  }
+}
+
+export type RefreshTokenResponse = {
+  data: {
+    accessToken: string
+  }
+}

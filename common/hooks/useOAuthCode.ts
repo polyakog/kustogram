@@ -9,8 +9,9 @@ import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { redirect } from 'pages/auth/login'
 import { ErrorType } from 'pages/auth/callback/google'
+import { baseTheme } from 'styles/styledComponents/theme'
 
-type ProviderType = {
+export type ProviderType = {
   isGithub?: boolean
   isGoogle?: boolean
 }
@@ -46,12 +47,15 @@ export const useOAuthCode = ({
       await getProfile(code)
         .unwrap()
         .then(res => {
-          console.log(`SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`, res)
+          console.log(
+            `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
+            consoleStyle
+          )
 
           redirect(res, setItem, route)
         })
         .catch(err => {
-          console.log('ошибка входа:', err)
+          // console.log('ошибка входа:', err)
           setConnectionError(err)
         })
     } catch (error) {
@@ -81,3 +85,9 @@ export const useOAuthCode = ({
     if (GithubData) console.log('GithubData:', GithubData)
   }, [])
 }
+
+const consoleStyle = `
+padding: 20px;
+background-color: ${baseTheme.colors.success[100]};
+border-radius: 20px;
+color: white}`

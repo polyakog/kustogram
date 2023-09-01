@@ -1,76 +1,45 @@
 import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
 import { useOAuthCode } from 'common/hooks/useOAuthCode'
-import { useEffect, useState } from 'react'
-import {
-  SigninOauthWrapper,
-  StyledOauthBody,
-  StyledOauthErrorBody,
-  StyledOauthHeader,
-  StyledOauthText,
-  StyledOauthTitle,
-} from 'styles/styledComponents/auth/signin.styled'
-import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
-import { baseTheme } from 'styles/styledComponents/theme'
+import { useState } from 'react'
+import { Oauth } from 'common/components/Oauth/Oauth'
+import { GetStaticPropsContext } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 
 export type ErrorType = {
   data: { errorsMessages: Array<{ message: string }> }
+  status: number | null
+}
+
+export async function getStaticProps(context: GetStaticPropsContext) {
+  const { locale } = context
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
+    },
+  }
 }
 
 const GoogleRedirect = () => {
-  const [connectionError, setConnectionError] = useState<ErrorType>()
-  const [accountError, setAccountError] = useState<string>('')
+  const [connectionError, setConnectionError] = useState<ErrorType | undefined>()
+  const [accountError, setAccountError] = useState<string | undefined>('')
   const [status, setStatus] = useState<string>('')
   const provider = { isGoogle: true, isGithub: false }
-  const [errors, setErrors] = useState(false)
 
   useOAuthCode({ provider, setConnectionError, setAccountError, setStatus })
 
-  useEffect(() => {
-    if (connectionError)
-      console.log(
-        `%c Connection Error: ${connectionError.data.errorsMessages[0].message}`,
-        consoleStyle
-      )
-    if (accountError) console.log(`%c Account Error: ${accountError}`, consoleStyle)
-
-    if (connectionError || accountError) {
-      setErrors(true)
-    }
-  }, [connectionError, accountError])
-
-  if (!!connectionError || !!accountError) {
-    const error = true
-  }
-
   return (
     <div>
-      {status !== 'rejected' && status !== 'fulfilled' && (
-        <div style={LoadingStyle}>Loading...</div>
-      )}
-      {status === 'rejected' && <div style={LoadingStyle}>Sorry! Connection is rejected</div>}
-      <SigninOauthWrapper>
-        <StyledOauthHeader>
-          <StyledOauthTitle>Connecting to your Google account</StyledOauthTitle>
-        </StyledOauthHeader>
-        <StyledOauthErrorBody>
-          {connectionError && <StyledOauthText>Server connection error</StyledOauthText>}
-          {accountError && <StyledOauthText>Google account connection error</StyledOauthText>}
-        </StyledOauthErrorBody>
-        {!errors && (
-          <StyledOauthBody>
-            <StyledOauthText>Success: connecting ... </StyledOauthText>
-          </StyledOauthBody>
-        )}
-      </SigninOauthWrapper>
+      <Oauth
+        connectionError={connectionError}
+        accountError={accountError}
+        status={status}
+        provider={provider}
+      />
     </div>
   )
 }
 
 GoogleRedirect.getLayout = getLayout
 export default GoogleRedirect
-
-const consoleStyle = `
-padding: 20px;
-background-color: ${baseTheme.colors.danger[100]};
-border-radius: 20px;
-color: white}`

@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 import { baseTheme } from '../theme'
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+
+const media = mediaSizes.media
 
 export const SigninWrapper = styled.div`
   /* position: relative; */
@@ -34,19 +37,24 @@ export const spanStyle: React.CSSProperties = {
 }
 
 export const SigninOauthWrapper = styled.div`
-  /* position: relative; */
   display: inline-flex;
   position: fixed;
   flex-wrap: wrap;
-  /* align-items: center;
-  justify-content: center; */
-  height: 228px;
+
+  height: 250px;
   width: 578px;
   background: ${baseTheme.colors.dark[300]};
   border-radius: 2px;
   border: 1px solid ${baseTheme.colors.dark[100]};
   top: 40%;
   left: calc(50% - 289px);
+
+  @media (max-width: ${media}) {
+    top: 30%;
+    height: 350px;
+    width: 300px;
+    left: calc(50% - 150px);
+  }
 `
 
 export const StyledOauthHeader = styled.div`
@@ -55,28 +63,40 @@ export const StyledOauthHeader = styled.div`
   border-bottom: 1px solid ${baseTheme.colors.dark[100]};
   width: 100%;
   height: 59px;
+  @media (max-width: ${media}) {
+    height: 90px;
+  }
 `
 export const StyledOauthTitle = styled.span`
   color: ${baseTheme.colors.light[100]};
   font-size: 20px;
   font-family: Inter;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 36px;
+  @media (max-width: ${media}) {
+    font-size: 16px;
+  }
 `
 
 export const StyledOauthErrorBody = styled.div`
   display: flex;
   flex-direction: column;
-
   color: ${baseTheme.colors.danger[300]};
+  padding: 0px 24px;
+`
+export const StyledOautSuccessBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: ${baseTheme.colors.success[300]};
   padding: 30px 24px;
 `
 export const StyledOauthBody = styled.div`
   display: flex;
   flex-direction: column;
-
-  color: ${baseTheme.colors.success[300]};
-  padding: 30px 24px;
+  color: ${baseTheme.colors.light[100]};
+  padding: 10px 24px;
+  width: 100%;
+  text-align: center;
 `
 
 export const StyledOauthText = styled.span`
@@ -84,4 +104,15 @@ export const StyledOauthText = styled.span`
   font-family: Inter;
   font-weight: 500;
   line-height: 36px;
+  @media (max-width: ${media}) {
+    font-size: 14px;
+    font-weight: 400;
+  }
+`
+
+export const StyledOAuthBlockButton = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
 `

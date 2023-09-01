@@ -106,6 +106,11 @@ const ProfileElement: React.FC<PropsType> = ({
     router.push(Path.PROFILE_SETTINGS)
   }
 
+  const userFirstName = user?.firstName !== null ? user?.firstName : ''
+  const userLastName = user?.lastName !== null ? user?.lastName : ''
+  let name = `${userFirstName} ${userLastName}`
+  if (!userFirstName || !userLastName) name = user?.login!
+
   return (
     <>
       {status !== 'fulfilled' && (
@@ -142,7 +147,8 @@ const ProfileElement: React.FC<PropsType> = ({
           </StyledAvatarBlock>
 
           <UserNameStyle>
-            {user ? `${user.firstName} ${user?.lastName}` : t('user_name')}
+            {/* {user ? `${user.firstName} ${user.lastName}` : t('user_name')} */}
+            {name}
             {isPaid && (
               <Image alt={t('paid')} height={paidImageSize} src={Paid} width={paidImageSize} />
             )}

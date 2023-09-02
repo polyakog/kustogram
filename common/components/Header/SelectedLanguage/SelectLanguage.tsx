@@ -63,6 +63,12 @@ export const SelectLanguage = () => {
     setShowLongBarOption(false)
   }
 
+  const mouseLeave = () => {
+    if (showLongBarOption) {
+      setShowLongBarOption(false)
+    }
+  }
+
   const currentLanguage = i18n.language == 'ru' ? 'ru' : 'en'
 
   let option: LaguageType
@@ -77,21 +83,14 @@ export const SelectLanguage = () => {
     //   <option value="en">&#127468;&#127463; English</option>
     //   <option value="ru">&#127479;&#127482; Русский</option>
     // </StyledSelectLanguage>
-    <SelectionLanguage onMouseLeave={handleLangeSelect}>
+    <SelectionLanguage onMouseLeave={mouseLeave} onClick={handleLangeSelect}>
       {showLongBar && (
         <LangBox>
-          <SelectLangBlock onClick={handleLangeSelect}>
+          <SelectLangBlock>
             <Image priority alt={option.alt} height={flagSize} src={option.srs} width={flagSize} />
             <LangName> {option.text}</LangName>
             <ArrBlock>
-              <Image
-                priority
-                alt={'arrow'}
-                height={24}
-                src={arrow}
-                // style={{marginTop: "6px"}}
-                width={24}
-              />
+              <Image priority alt={'arrow'} height={24} src={arrow} width={24} />
             </ArrBlock>
           </SelectLangBlock>
         </LangBox>
@@ -183,8 +182,8 @@ const OptionBox = styled.div`
   color: ${baseTheme.colors.dark[900]};
   box-sizing: border-box;
   cursor: pointer;
-  -webkit-transition: all 1s 10s linear(-0.39 1.18%, 1.29 -3.53%);
-  transition: all 1s 100s linear(-0.39 1.18%, 1.29 -3.53%);
+  /* -webkit-transition: all 1s 1s linear(-0.39 1.18%, 1.29 -3.53%);
+  transition: all 1s 1s linear(-0.39 1.18%, 1.29 -3.53%); */
 `
 
 const OptionRow = styled.div`

@@ -37,7 +37,7 @@ export const SelectLanguage = () => {
 
   const flagSize = width ? (width < mediaSizes.mobileScreenSize ? 24 : 20) : 20
   const [showLongBar, setShowLongBar] = useState(true)
-  const [showLongBarOption, setShowLongBarOption] = useState(true)
+  const [showLongBarOption, setShowLongBarOption] = useState(false)
 
   useEffect(() => {
     if (width! < mediaSizes.mobileScreenSize) {
@@ -96,9 +96,8 @@ export const SelectLanguage = () => {
           </SelectLangBlock>
         </LangBox>
       )}
-
       {showLongBarOption && (
-        <LongBarOptionBox>
+        <OptionBox>
           <OptionRow onClick={() => handleLangChange('en')}>
             <Image
               priority
@@ -119,7 +118,7 @@ export const SelectLanguage = () => {
             />
             <LangName>{laguageOptions.ru.text}</LangName>
           </OptionRow>
-        </LongBarOptionBox>
+        </OptionBox>
       )}
     </SelectionLanguage>
   )
@@ -174,7 +173,7 @@ const ArrBlock = styled.div`
   right: 12px;
 `
 
-const LongBarOptionBox = styled.div`
+const OptionBox = styled.div`
   position: relative;
 
   width: 163px;
@@ -184,6 +183,8 @@ const LongBarOptionBox = styled.div`
   color: ${baseTheme.colors.dark[900]};
   box-sizing: border-box;
   cursor: pointer;
+  -webkit-transition: all 1s 10s linear(-0.39 1.18%, 1.29 -3.53%);
+  transition: all 1s 100s linear(-0.39 1.18%, 1.29 -3.53%);
 `
 
 const OptionRow = styled.div`

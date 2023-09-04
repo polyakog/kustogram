@@ -6,9 +6,27 @@ import bell from '../../../public/img/icons/initialBell.svg'
 import { baseTheme } from '../../../styles/styledComponents/theme'
 
 import { SelectLanguage } from './SelectedLanguage/SelectLanguage'
+import { useEffect, useState } from 'react'
+import { MenuHeader } from '../Menu/MenuHeader'
+import { useWindowSize } from 'common/hooks/useWindowSize'
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 
 const Header = () => {
   const router = useRouter()
+  const [isMenuHeader, setIsMenuHeader] = useState(true)
+  const [isBell, setIsBell] = useState(false)
+
+  const { width } = useWindowSize() // хук для измерения размера экрана
+
+  useEffect(() => {
+    if (width! < mediaSizes.mobileScreenSize) {
+      setIsBell(false)
+      setIsMenuHeader(true)
+    } else {
+      setIsBell(true)
+      setIsMenuHeader(false)
+    }
+  }, [width])
 
   const handleClick = () => {
     router.push('/')
@@ -17,8 +35,9 @@ const Header = () => {
   return (
     <StyledHeader>
       <LogoStyle onClick={handleClick}>KustoSocialNet</LogoStyle>
-      <Image alt="bell" height={24} src={bell} width={24} />
+      {isBell && <Image alt="bell" height={24} src={bell} width={24} />}
       <SelectLanguage />
+      {isMenuHeader && <MenuHeader />}
     </StyledHeader>
   )
 }

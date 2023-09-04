@@ -10,6 +10,7 @@ import UK from 'public/img/icons/Flag-United_Kingdom.svg'
 import arrow from 'public/img/icons/arrow-ios-Down-outline-white.svg'
 import { useState, useEffect } from 'react'
 
+const media = mediaSizes.media
 // Компонента выбора языка (русский и английский)
 
 const laguageOptions = {
@@ -84,7 +85,7 @@ export const SelectLanguage = () => {
     //   <option value="ru">&#127479;&#127482; Русский</option>
     // </StyledSelectLanguage>
     <SelectionLanguage onMouseLeave={mouseLeave} onClick={handleLangeSelect}>
-      {showLongBar && (
+      {
         <LangBox>
           <SelectLangBlock>
             <Image priority alt={option.alt} height={flagSize} src={option.srs} width={flagSize} />
@@ -94,7 +95,8 @@ export const SelectLanguage = () => {
             </ArrBlock>
           </SelectLangBlock>
         </LangBox>
-      )}
+      }
+
       {showLongBarOption && (
         <OptionBox>
           <OptionRow onClick={() => handleLangChange('en')}>
@@ -105,7 +107,7 @@ export const SelectLanguage = () => {
               src={laguageOptions.en.srs}
               width={flagSize}
             />
-            <LangName>{laguageOptions.en.text}</LangName>
+            <OptionLangName>{laguageOptions.en.text}</OptionLangName>
           </OptionRow>
           <OptionRow onClick={() => handleLangChange('ru')}>
             <Image
@@ -115,7 +117,7 @@ export const SelectLanguage = () => {
               src={laguageOptions.ru.srs}
               width={flagSize}
             />
-            <LangName>{laguageOptions.ru.text}</LangName>
+            <OptionLangName>{laguageOptions.ru.text}</OptionLangName>
           </OptionRow>
         </OptionBox>
       )}
@@ -147,6 +149,14 @@ const LangBox = styled.div`
 
   cursor: pointer;
   padding-left: 12px;
+
+  @media (max-width: ${media}) {
+    position: absolute;
+    border: none;
+    width: 40px;
+    top: 12px;
+    right: 83px;
+  }
 `
 
 const SelectLangBlock = styled.div`
@@ -164,26 +174,49 @@ const LangName = styled.span`
   font-weight: 400;
   font-style: normal;
   font-family: Inter;
+  @media (max-width: ${media}) {
+    display: none;
+  }
+`
+
+const OptionLangName = styled.span`
+  margin-left: 12px;
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  font-family: Inter;
 `
 
 const ArrBlock = styled.div`
   position: absolute;
   top: 6px;
   right: 12px;
+
+  @media (max-width: ${media}) {
+    left: 36px;
+  }
 `
 
 const OptionBox = styled.div`
-  position: relative;
+  position: absolute;
 
   width: 163px;
   height: 72px;
-  margin-left: 0px;
+  top: 48px;
+  right: 10px;
+
+  /* margin-left: 0px; */
 
   color: ${baseTheme.colors.dark[900]};
   box-sizing: border-box;
   cursor: pointer;
   /* -webkit-transition: all 1s 1s linear(-0.39 1.18%, 1.29 -3.53%);
   transition: all 1s 1s linear(-0.39 1.18%, 1.29 -3.53%); */
+
+  @media (max-width: ${media}) {
+    margin-left: 0px;
+  }
 `
 
 const OptionRow = styled.div`

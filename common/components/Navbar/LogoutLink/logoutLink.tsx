@@ -13,10 +13,85 @@ import Modal from '../../Modals/ModalPublic/Modal'
 import { AppLink } from '../AppLink/AppLink'
 
 export const LogoutLink: FC = () => {
-  const [isOpenModalEdit, setIsOpenModalEdit] = useState<boolean>(false)
+  const [isOpenModalLogout, setIsOpenModalLogout] = useState<boolean>(false)
+
+  // const { clearAll, getItem } = useLocalStorage()
+  const { t } = useTranslation('nav_bar')
+  // const router = useRouter()
+
+  // const userEmail = getItem('userEmail')
+
+  // const logoutHandler = () => {
+  //   clearAll()
+  //   router.push(Path.LOGIN)
+  // }
+  // const onClose = () => {
+  //   setIsOpenModalLogout(false)
+  // }
+  // const [hovered, setHovered] = useState(true)
+
+  // const handleMouseEnter = () => {
+  //   setHovered(false)
+  // }
+
+  // const handleMouseLeave = () => {
+  //   setHovered(true)
+  // }
+
+  return (
+    <>
+      <AppLink href="" onClick={() => setIsOpenModalLogout(true)}>
+        <StyledDiv>
+          <Image alt="logOut" height={24} src="/img/icons/log-out.svg" width={24} />
+          <p>{t('log_out')}</p>
+        </StyledDiv>
+      </AppLink>
+      {isOpenModalLogout && (
+        // <Modal
+        //   bodyText={`Are you really want to log out of your account "${userEmail}"`}
+        //   handleModalClose={onClose}
+        //   title="Log Out"
+        //   width="440px"
+        // >
+        //   <>
+        //     <Button
+        //       theme={hovered ? ThemeButton.PRIMARY : ThemeButton.OUTLINED}
+        //       width="96px"
+        //       onClick={logoutHandler}
+        //       onMouseEnter={handleMouseLeave}
+        //       onMouseLeave={handleMouseEnter}
+        //     >
+        //       Yes
+        //     </Button>
+        //     <Button
+        //       theme={hovered ? ThemeButton.OUTLINED : ThemeButton.PRIMARY}
+        //       width="96px"
+        //       onClick={onClose}
+        //       onMouseEnter={handleMouseEnter}
+        //       onMouseLeave={handleMouseLeave}
+        //     >
+        //       No
+        //     </Button>
+        //   </>
+        // </Modal>
+        <LogoutModal
+          isOpenModalLogout={isOpenModalLogout}
+          setIsOpenModalLogout={setIsOpenModalLogout}
+        />
+      )}
+    </>
+  )
+}
+
+type PropsType = {
+  isOpenModalLogout: boolean
+  setIsOpenModalLogout: (isOpenModalLogout: boolean) => void
+}
+
+export const LogoutModal: React.FC<PropsType> = ({ isOpenModalLogout, setIsOpenModalLogout }) => {
+  // const [isOpenModalLogout, setIsOpenModalLogout] = useState(false)
 
   const { clearAll, getItem } = useLocalStorage()
-  const { t } = useTranslation('nav_bar')
   const router = useRouter()
 
   const userEmail = getItem('userEmail')
@@ -26,7 +101,7 @@ export const LogoutLink: FC = () => {
     router.push(Path.LOGIN)
   }
   const onClose = () => {
-    setIsOpenModalEdit(false)
+    setIsOpenModalLogout(false)
   }
   const [hovered, setHovered] = useState(true)
 
@@ -40,13 +115,7 @@ export const LogoutLink: FC = () => {
 
   return (
     <>
-      <AppLink href="" onClick={() => setIsOpenModalEdit(true)}>
-        <StyledDiv>
-          <Image alt="logOut" height={24} src="/img/icons/log-out.svg" width={24} />
-          <p>{t('log_out')}</p>
-        </StyledDiv>
-      </AppLink>
-      {isOpenModalEdit && (
+      {isOpenModalLogout ? (
         <Modal
           bodyText={`Are you really want to log out of your account "${userEmail}"`}
           handleModalClose={onClose}
@@ -74,7 +143,7 @@ export const LogoutLink: FC = () => {
             </Button>
           </>
         </Modal>
-      )}
+      ) : null}
     </>
   )
 }

@@ -1,77 +1,74 @@
-import React, { useEffect } from "react";
-import { Formik } from "formik";
-import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
-import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
-import { NextRouter, useRouter } from "next/router";
-import { useLazyMeQuery, useLoginMutation } from "../../../assets/store/api/auth/authApi"; //?
-import {
-  FormValueLogin,
-  ResetForm,
-  SetFieldErrorType
-} from "../../../common/components/Formik/types";
+import { useEffect } from 'react'
+
+import { useLazyMeQuery, useLoginMutation } from 'assets/store/api/auth/authApi' // ?
+import { LoginResponseType } from 'assets/store/api/auth/types'
+import { Button } from 'common/components/Button/Button'
+import { FormikLabel } from 'common/components/Formik/FormikLabel'
+import { FormValueLogin, ResetForm, SetFieldErrorType } from 'common/components/Formik/types'
+import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
+import { Path } from 'common/enums/path'
+import { ThemeButton } from 'common/enums/themeButton'
+import { useLocalStorage } from 'common/hooks/useLocalStorage'
+import { useShowPassword } from 'common/hooks/useShowPassword'
+import { validateLogin } from 'common/utils/validateLogin'
+import AuthIcons from 'features/auth/AuthIcons'
+import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
+import { Formik } from 'formik'
+import { GetStaticPropsContext } from 'next'
+import { NextRouter, useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
+import hidePasswordBtn from 'public/img/icons/eye-off-outline.svg'
+import showPasswordBtn from 'public/img/icons/eye-outline.svg'
 import {
   StyledContainerAuth,
   StyledForgotLink,
-  StyledLinkBlock
-} from "../../../styles/styledComponents/auth/Auth.styled";
-import { WrapperContainerAuth } from "../../../features/auth/WrapperContainerAuth";
+  StyledLinkBlock,
+} from 'styles/styledComponents/auth/Auth.styled'
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
   StyledSignIn,
   StyledSignInWrapper,
-  StyledText
-} from "../../../styles/styledComponents/auth/FormikAuth.styled";
-import AuthIcons from "../../../features/auth/AuthIcons";
-import { useShowPassword } from "../../../common/hooks/useShowPassword";
-import { validateLogin } from "../../../common/utils/validateLogin";
-import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
-import { Button } from "../../../common/components/Button/Button";
-import { getLayout } from "../../../common/components/Layout/BaseLayout/BaseLayout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { GetStaticPropsContext } from "next";
-import config from "../../../next-i18next.config.js";
-import { useTranslation } from "next-i18next";
-import { ThemeButton } from "../../../common/enums/themeButton";
-import { Path } from "../../../common/enums/path";
-import { useLocalStorage } from "common/hooks/useLocalStorage";
-import { LoginResponseType, LoginType } from "assets/store/api/auth/types";
-import { baseTheme } from "styles/styledComponents/theme";
-import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
+  StyledText,
+} from 'styles/styledComponents/auth/FormikAuth.styled'
+import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context;
+  const { locale } = context
+
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ["common"], config))
-    }
-  };
+      ...(await serverSideTranslations(locale as string, ['common'], config)),
+    },
+  }
 }
 
 const Login = () => {
-  /*   ________Инициализация_____________ */ //?
+  /*   ________Инициализация_____________ */ // ?
 
-  const [getInitialize, { data: me, isLoading, error, status }] = useLazyMeQuery();
+  const [getInitialize, { data: me, isLoading, error }] = useLazyMeQuery()
 
-  /*   ________/Инициализация_____________ */ //?
+  /*   ________/Инициализация_____________ */ // ?
 
-  const { t } = useTranslation();
-  const route = useRouter();
-  const { passwordType, showPassword } = useShowPassword();
+  const { t } = useTranslation()
+  const route = useRouter()
+  const { passwordType, showPassword } = useShowPassword()
 
-  const { removeItem, setItem } = useLocalStorage();
+  const { removeItem, setItem } = useLocalStorage()
   // const { data: session, status } = useSession();
   // const status = "unauthenticated";
   // const session = "";
 
   const initialAuthValues = {
-    password: "",
-    loginOrEmail: ""
-  };
+    password: '',
+    loginOrEmail: '',
+  }
 
-  const [loginHandler, { data: loginRes }] = useLoginMutation();
+  const [loginHandler, { data: loginRes }] = useLoginMutation()
 
-  redirect(loginRes, setItem, route);
+  redirect(loginRes, setItem, route)
 
   const handleSubmit = async (
     values: FormValueLogin,
@@ -79,40 +76,43 @@ const Login = () => {
   ) => {
     const data = {
       email: values.loginOrEmail,
-      password: values.password
-    };
+      password: values.password,
+    }
+
     try {
       await loginHandler(data)
         .unwrap()
-        .then((res) => {
-          removeItem("email");
-          resetForm();
-          getInitialize();
+        //// eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .then(res => {
+          removeItem('email')
+          setItem('userEmail', data.email)
+          resetForm()
+          getInitialize()
         })
-        .catch(() => setFieldError("password", t("log_in_err")));
-    } catch (error) {
-      console.log("LoginError:", error);
+        .catch(() => setFieldError('password', t('log_in_err')))
+    } catch (err) {
+      console.log('LoginError:', err)
     }
-  };
+  }
 
   useEffect(() => {
-    getInitialize();
-  }, []);
+    getInitialize()
+  }, [])
 
   useEffect(() => {
-    redirect(loginRes, setItem, route);
-  }, [me, isLoading, error, loginRes]);
+    redirect(loginRes, setItem, route)
+  }, [me, isLoading, error, loginRes])
 
-  const style = {
-    display: "flex",
-    with: "maxContent",
-    justifyContent: "center",
-    textAlign: "center",
-    marginTop: "20px",
-    color: baseTheme.colors.success[500]
-  };
+  // const style = {
+  //   display: 'flex',
+  //   with: 'maxContent',
+  //   justifyContent: 'center',
+  //   textAlign: 'center',
+  //   marginTop: '20px',
+  //   color: baseTheme.colors.success[500],
+  // }
 
-  if (isLoading) return <div style={LoadingStyle}>Loading...</div>;
+  if (isLoading) return <div style={LoadingStyle}>Loading...</div>
 
   // if (isAppInitialized) {
   //   redirect(loginRes, setItem, route);
@@ -120,70 +120,68 @@ const Login = () => {
   // }
 
   return (
-    <>
-      <StyledContainerAuth>
-        <WrapperContainerAuth title={t("signIn_title")}>
-          <AuthIcons />
-          <Formik
-            initialValues={initialAuthValues}
-            validationSchema={validateLogin}
-            onSubmit={handleSubmit}
-          >
-            {({ errors, touched, values, setFieldValue }) => (
-              <StyledAuthForm>
-                <FormikLabel
-                  name="loginOrEmail"
-                  onChange={(e) => setFieldValue("loginOrEmail", e)}
-                  value={values.loginOrEmail}
-                  type={"text"}
-                  title={t("email_label")}
-                  border={errors.loginOrEmail?.length && touched.loginOrEmail ? "red" : "white"}
-                  errors={errors}
-                  touched={touched}
-                  t={t}
+    <StyledContainerAuth>
+      <WrapperContainerAuth title={t('signIn_title')}>
+        <AuthIcons />
+        <Formik
+          initialValues={initialAuthValues}
+          validationSchema={validateLogin}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched, values, setFieldValue }) => (
+            <StyledAuthForm>
+              <FormikLabel
+                border={errors.loginOrEmail?.length && touched.loginOrEmail ? 'red' : 'white'}
+                errors={errors}
+                name="loginOrEmail"
+                t={t}
+                title={t('email_label')}
+                touched={touched}
+                type="text"
+                value={values.loginOrEmail}
+                onChange={e => setFieldValue('loginOrEmail', e)}
+              />
+              <FormikLabel
+                border={errors.password?.length && touched.password ? 'red' : 'white'}
+                errors={errors}
+                id="pass"
+                margin="48px"
+                name="password"
+                t={t}
+                title={t('password_label')}
+                touched={touched}
+                type={passwordType}
+                value={values.password}
+                onChange={e => setFieldValue('password', e)}
+              >
+                <StyledShowPasswordBtn
+                  alt="show password"
+                  src={passwordType === 'password' ? showPasswordBtn : hidePasswordBtn}
+                  onClick={() => showPassword()}
                 />
-                <FormikLabel
-                  id="pass"
-                  name="password"
-                  onChange={(e) => setFieldValue("password", e)}
-                  value={values.password}
-                  type={passwordType}
-                  title={t("password_label")}
-                  border={errors.password?.length && touched.password ? "red" : "white"}
-                  errors={errors}
-                  touched={touched}
-                  margin="48px"
-                  t={t}
-                >
-                  <StyledShowPasswordBtn
-                    alt="show password"
-                    src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
-                    onClick={() => showPassword()}
-                  />
-                </FormikLabel>
-                <StyledLinkBlock>
-                  <StyledForgotLink href="/auth/recovery">
-                    {t("forgotPassword_link")}
-                  </StyledForgotLink>
-                </StyledLinkBlock>
-                <Button theme={ThemeButton.PRIMARY} type="submit">
-                  {t("signIn_title")}
-                </Button>
-              </StyledAuthForm>
-            )}
-          </Formik>
-          <StyledSignInWrapper>
-            <StyledText>{t("notAccount_title")}</StyledText>
-            <StyledSignIn href={Path.REGISTRATION}>{t("signUp_link")}</StyledSignIn>
-          </StyledSignInWrapper>
-        </WrapperContainerAuth>
-      </StyledContainerAuth>
-    </>
-  );
-};
+              </FormikLabel>
+              <StyledLinkBlock>
+                <StyledForgotLink href="/auth/recovery">
+                  {t('forgotPassword_link')}
+                </StyledForgotLink>
+              </StyledLinkBlock>
+              <Button theme={ThemeButton.PRIMARY} type="submit">
+                {t('signIn_title')}
+              </Button>
+            </StyledAuthForm>
+          )}
+        </Formik>
+        <StyledSignInWrapper>
+          <StyledText>{t('notAccount_title')}</StyledText>
+          <StyledSignIn href={Path.REGISTRATION}>{t('signUp_link')}</StyledSignIn>
+        </StyledSignInWrapper>
+      </WrapperContainerAuth>
+    </StyledContainerAuth>
+  )
+}
 
-Login.getLayout = getLayout;
-export default Login;
+Login.getLayout = getLayout
+export default Login
 
 export const redirect = (
   loginRes: LoginResponseType | undefined,
@@ -191,15 +189,15 @@ export const redirect = (
   route: NextRouter
 ) => {
   if (loginRes) {
-    setItem("accessToken", loginRes.accessToken);
+    setItem('accessToken', loginRes.accessToken)
     loginRes.profile
       ? route.push(Path.PROFILE)
-      : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`);
+      : route.push(`${Path.PROFILE_SETTINGS}?profile=${loginRes.profile}`)
   }
-};
+}
 
-const consoleStyle = `
-padding: 20px;
-background-color: ${baseTheme.colors.success[300]};
-border-radius: 20px;
-color: white}`;
+// const consoleStyle = `
+// padding: 20px;
+// background-color: ${baseTheme.colors.success[300]};
+// border-radius: 20px;
+// color: white}`

@@ -1,80 +1,83 @@
-import React from "react";
-import { Formik } from "formik";
-import showPasswordBtn from "../../../public/img/icons/eye-outline.svg";
-import hidePasswordBtn from "../../../public/img/icons/eye-off-outline.svg";
-import { getLayout } from "../../../common/components/Layout/BaseLayout/BaseLayout";
-import { useShowPassword } from "../../../common/hooks/useShowPassword";
-import { WrapperContainerAuth } from "../../../features/auth/WrapperContainerAuth";
-import { useNewPasswordMutation } from "../../../assets/store/api/auth/authApi";
-import { FormNewPasswordType, ResetForm } from "../../../common/components/Formik/types";
+import { RegistrationResponseError } from 'assets/store/api/auth/types'
+import { Formik } from 'formik'
+import { GetStaticPropsContext } from 'next'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
+import { baseTheme } from 'styles/styledComponents/theme'
+
+import { useNewPasswordMutation } from '../../../assets/store/api/auth/authApi'
+import { Button } from '../../../common/components/Button/Button'
+import { FormikLabel } from '../../../common/components/Formik/FormikLabel'
+import { FormNewPasswordType, ResetForm } from '../../../common/components/Formik/types'
+import { getLayout } from '../../../common/components/Layout/BaseLayout/BaseLayout'
+import { Path } from '../../../common/enums/path'
+import { ThemeButton } from '../../../common/enums/themeButton'
+import { useShowPassword } from '../../../common/hooks/useShowPassword'
+import { validateNewPassword } from '../../../common/utils/validateNewPassword'
+import { WrapperContainerAuth } from '../../../features/auth/WrapperContainerAuth'
+import hidePasswordBtn from '../../../public/img/icons/eye-off-outline.svg'
+import showPasswordBtn from '../../../public/img/icons/eye-outline.svg'
+import { StyledContainerAuth } from '../../../styles/styledComponents/auth/Auth.styled'
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
   StyledSignInWrapper,
-  StyledText
-} from "../../../styles/styledComponents/auth/FormikAuth.styled";
-import { FormikLabel } from "../../../common/components/Formik/FormikLabel";
-import { Button } from "../../../common/components/Button/Button";
-import { validateNewPassword } from "../../../common/utils/validateNewPassword";
-import { useRouter } from "next/router";
-import { StyledContainerAuth } from "../../../styles/styledComponents/auth/Auth.styled";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { GetStaticPropsContext } from "next";
-import config from "next-i18next.config.js";
-import { useTranslation } from "next-i18next";
-import { RegistrationResponseError } from "assets/store/api/auth/types";
-import { Path } from "../../../common/enums/path";
-import { ThemeButton } from "../../../common/enums/themeButton";
-import { baseTheme } from "styles/styledComponents/theme";
+  StyledText,
+} from '../../../styles/styledComponents/auth/FormikAuth.styled'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context;
+  const { locale } = context
+
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ["common"], config))
-    }
-  };
+      ...(await serverSideTranslations(locale as string, ['common'], config)),
+    },
+  }
 }
 
-export default function NewPassword() {
+const NewPassword = () => {
   const initialAuthValues = {
-    passwordConfirmation: "",
-    newPassword: "",
-    recoveryCode: ""
-  };
+    passwordConfirmation: '',
+    newPassword: '',
+    recoveryCode: '',
+  }
 
-  const [newPasswordHandler] = useNewPasswordMutation();
+  const [newPasswordHandler] = useNewPasswordMutation()
 
-  const { t } = useTranslation();
-  const router = useRouter();
-  const { code } = router.query;
+  const { t } = useTranslation()
+  const router = useRouter()
+  const { code } = router.query
 
   const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
-    useShowPassword();
+    useShowPassword()
 
   const handleSubmit = async (values: FormNewPasswordType, { resetForm }: ResetForm) => {
     const data = {
       newPassword: values.newPassword,
-      recoveryCode: code
-    };
+      recoveryCode: code,
+    }
+
     try {
       await newPasswordHandler(data)
         .unwrap()
         .then(() => {
-          resetForm();
-          router.push(Path.LOGIN);
-        });
+          resetForm()
+          router.push(Path.LOGIN)
+        })
     } catch (error) {
-      const err = error as RegistrationResponseError;
-      if ("data" in err) {
-        await router.push(Path.NEW_PASSWORD_ERROR);
+      const err = error as RegistrationResponseError
+
+      if ('data' in err) {
+        await router.push(Path.NEW_PASSWORD_ERROR)
       }
     }
-  };
+  }
 
   return (
     <StyledContainerAuth>
-      <WrapperContainerAuth title={t("n_password_title")}>
+      <WrapperContainerAuth title={t('n_password_title')}>
         <Formik
           initialValues={initialAuthValues}
           validationSchema={validateNewPassword}
@@ -83,64 +86,66 @@ export default function NewPassword() {
           {({ errors, touched, values, setFieldValue }) => (
             <StyledAuthForm>
               <FormikLabel
+                border={errors.newPassword?.length && touched.newPassword ? 'red' : 'white'}
+                errors={errors}
                 id="pass"
                 name="newPassword"
-                onChange={(e) => setFieldValue("newPassword", e)}
-                value={values.newPassword}
-                type={passwordType}
-                title={t("n_password_label")}
-                border={errors.newPassword?.length && touched.newPassword ? "red" : "white"}
-                errors={errors}
-                touched={touched}
                 t={t}
+                title={t('n_password_label')}
+                touched={touched}
+                type={passwordType}
+                value={values.newPassword}
+                onChange={e => setFieldValue('newPassword', e)}
               >
                 <StyledShowPasswordBtn
                   alt="show password"
-                  src={passwordType === "password" ? showPasswordBtn : hidePasswordBtn}
+                  src={passwordType === 'password' ? showPasswordBtn : hidePasswordBtn}
                   onClick={() => showPassword()}
                 />
               </FormikLabel>
               <FormikLabel
+                errors={errors}
                 id="pass"
                 name="passwordConfirmation"
-                onChange={(e) => setFieldValue("passwordConfirmation", e)}
-                value={values.passwordConfirmation}
+                t={t}
+                title={t('password_conf_label')}
+                touched={touched}
                 type={passwordConfirmationType}
-                title={t("password_conf_label")}
+                value={values.passwordConfirmation}
                 border={
                   errors.passwordConfirmation?.length && touched.passwordConfirmation
-                    ? "red"
-                    : "white"
+                    ? 'red'
+                    : 'white'
                 }
-                errors={errors}
-                touched={touched}
-                t={t}
+                onChange={e => setFieldValue('passwordConfirmation', e)}
               >
                 <StyledShowPasswordBtn
                   alt="show password"
-                  src={passwordConfirmationType === "password" ? showPasswordBtn : hidePasswordBtn}
+                  src={passwordConfirmationType === 'password' ? showPasswordBtn : hidePasswordBtn}
                   onClick={() => showPasswordConfirmation()}
                 />
               </FormikLabel>
-              <StyledSignInWrapper margin={"0 0 29px 0"}>
+              <StyledSignInWrapper margin="0 0 29px 0">
                 <StyledText
                   color={baseTheme.colors.light[900]}
-                  textAlign={"left"}
-                  width={"auto"}
-                  fontSize={"14px"}
+                  fontSize="14px"
+                  textAlign="left"
+                  width="auto"
                 >
-                  {t("info")}
+                  {t('info')}
                 </StyledText>
               </StyledSignInWrapper>
               <Button theme={ThemeButton.PRIMARY} type="submit">
-                {t("n_password_btn")}
+                {t('n_password_btn')}
               </Button>
             </StyledAuthForm>
           )}
         </Formik>
       </WrapperContainerAuth>
     </StyledContainerAuth>
-  );
+  )
 }
 
-NewPassword.getLayout = getLayout;
+export default NewPassword
+
+NewPassword.getLayout = getLayout

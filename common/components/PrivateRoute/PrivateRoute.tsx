@@ -1,19 +1,20 @@
-import { Path } from "common/enums/path";
-import React, { useEffect, ReactNode } from "react";
-import { useRouter } from "next/router";
-import { useAuth } from "common/hooks/useAuth";
+import { useEffect, ReactNode } from 'react'
+
+import { Path } from 'common/enums/path'
+import { useAuth } from 'common/hooks/useAuth'
+import { useRouter } from 'next/router'
 
 const PrivateRoute = ({ children }: { children: ReactNode }) => {
-  const canActivate = useAuth();
-  const router = useRouter();
+  const canActivate = useAuth()
+  const router = useRouter()
 
   useEffect(() => {
     if (!canActivate) {
-      router.push(Path.LOGIN);
+      router.push(Path.LOGIN)
     }
-  }, [canActivate]);
+  }, [canActivate])
 
-  return <div>{children}</div>;
-};
+  return <div>{children}</div>
+}
 
-export default PrivateRoute;
+export default PrivateRoute

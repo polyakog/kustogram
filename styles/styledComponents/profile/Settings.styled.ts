@@ -1,10 +1,9 @@
-import { mediaSizes } from "common/constants/Profile/mediaSizes";
-import { Form } from "formik";
-import styled from "styled-components";
-import { baseTheme } from "styles/styledComponents/theme";
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+import { Form } from 'formik'
+import styled from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
 
-const media = mediaSizes.media;
-const sidebarMedia = mediaSizes.sidebarMedia;
+const { media } = mediaSizes
 
 export const StyledContent = styled.div`
   position: relative;
@@ -15,7 +14,7 @@ export const StyledContent = styled.div`
     flex-direction: column;
     align-items: center;
   }
-`;
+`
 
 export const StyledAvatarBlock = styled.div`
   max-width: 300px;
@@ -27,7 +26,7 @@ export const StyledAvatarBlock = styled.div`
 
   background: ${baseTheme.colors.dark[700]};
   color: ${baseTheme.colors.dark[100]};
-`;
+`
 
 export const IconBlock = styled.div`
   position: relative;
@@ -47,12 +46,12 @@ export const IconBlock = styled.div`
     height: 192px;
     object-fit: cover;
   }
-`;
+`
 
 export const StyledProfileForm = styled(Form)`
   align-items: flex-end;
   width: 100%;
-`;
+`
 
 export const StyledLine = styled.div`
   position: absolute;
@@ -62,9 +61,9 @@ export const StyledLine = styled.div`
   max-width: 726px;
   height: 1px;
   background: ${baseTheme.colors.dark[300]};
-`;
+`
 
 export const BlockButton = styled.div`
   text-align: right;
   padding-top: 24px;
-`;
+`

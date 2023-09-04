@@ -1,7 +1,6 @@
-import { FormikField } from "./FormikField";
-import React from "react";
-import { labelType } from "./types";
-import { StyledErrorMsg, StyledInputContainer, StyledLabel, StyledTitle } from "./Formik.styled";
+import { StyledErrorMsg, StyledInputContainer, StyledLabel, StyledTitle } from './Formik.styled'
+import { FormikField } from './FormikField'
+import { labelType } from './types'
 
 export const FormikLabel = ({
   title,
@@ -18,22 +17,22 @@ export const FormikLabel = ({
   errorShow,
   textAreaData,
   margin,
-  t
+  t,
 }: labelType) => {
   return (
-    <StyledLabel id={id} witherror={!!errors[name] && !!touched[name] ? "err" : ""} margin={margin}>
+    <StyledLabel id={id} margin={margin} witherror={!!errors[name] && !!touched[name] ? 'err' : ''}>
       <StyledTitle>
         <span>{title}</span>
       </StyledTitle>
       <StyledInputContainer>
         <FormikField
-          name={name}
           border={border}
+          name={name}
+          textAreaData={textAreaData}
           type={type}
           value={value}
-          onChange={(e) => onChange(e)}
           width={width}
-          textAreaData={textAreaData}
+          onChange={e => onChange(e)}
         />
         {children}
       </StyledInputContainer>
@@ -43,5 +42,5 @@ export const FormikLabel = ({
         </StyledErrorMsg>
       )}
     </StyledLabel>
-  );
-};
+  )
+}

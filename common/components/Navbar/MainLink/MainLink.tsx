@@ -1,13 +1,15 @@
-import { FC } from "react";
-import Image from "next/image";
-import { AppLink } from "../AppLink/AppLink";
-import { StyledDiv, StyledText } from "../Navbar.styled";
+import { FC } from 'react'
+
+import Image from 'next/image'
+
+import { AppLink } from '../AppLink/AppLink'
+import { StyledDiv, StyledText } from '../Navbar.styled'
 
 interface SidebarLinkProps {
-  src: string;
-  name: string;
-  href: string;
-  isactive: string;
+  href: string
+  isactive: string
+  name: string
+  src: string
 }
 
 export const MainLink: FC<SidebarLinkProps> = ({ name, src, href, isactive }) => {
@@ -15,12 +17,12 @@ export const MainLink: FC<SidebarLinkProps> = ({ name, src, href, isactive }) =>
     <AppLink href={href}>
       <StyledDiv>
         {src ? (
-          <Image src={src} alt={"some icon"} width={24} height={24} />
+          <Image alt="some icon" height={24} src={src} width={24} />
         ) : (
-          <div style={{ width: "24px", height: "24px" }}></div>
+          <div style={{ width: '24px', height: '24px' }} />
         )}
         <StyledText isactive={isactive}>{name}</StyledText>
       </StyledDiv>
     </AppLink>
-  );
-};
+  )
+}

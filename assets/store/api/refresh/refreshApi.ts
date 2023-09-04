@@ -1,23 +1,24 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AccessToken } from "./types";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+import { AccessToken } from './types'
 
 export const refreshApi = createApi({
-  reducerPath: "refreshApi",
+  reducerPath: 'refreshApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://calypso-one.vercel.app/auth/",
-    credentials: "include",
-    prepareHeaders: (headers) => {
-      return headers;
-    }
+    baseUrl: 'https://kustogram.site/api/v1/auth/',
+    credentials: 'include',
+    prepareHeaders: headers => {
+      return headers
+    },
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     refreshToken: builder.mutation<AccessToken, void>({
       query: () => ({
-        url: "refresh-token",
-        method: "POST"
-      })
-    })
-  })
-});
+        url: 'refresh-token',
+        method: 'POST',
+      }),
+    }),
+  }),
+})
 
-export const { useRefreshTokenMutation } = refreshApi;
+export const { useRefreshTokenMutation } = refreshApi

@@ -1,5 +1,5 @@
-import adapter from "webrtc-adapter";
+import adapter from 'webrtc-adapter'
 
 export const getUserBrowser = () => {
-  return adapter.browserDetails.browser;
-};
+  return adapter.browserDetails.browser
+}

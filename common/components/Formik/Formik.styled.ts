@@ -1,11 +1,13 @@
-import styled from "styled-components";
-import { Field } from "formik";
-import { baseTheme } from "../../../styles/styledComponents/theme";
-import { StyledErrorMsgPropsType, TextAreaPropsType } from "./types";
+import { Field } from 'formik'
+import styled from 'styled-components'
 
-//FormikField
+import { baseTheme } from '../../../styles/styledComponents/theme'
+
+import { StyledErrorMsgPropsType, TextAreaPropsType } from './types'
+
+// FormikField
 export const StyledField = styled(Field)`
-  max-width: ${(props) => (props.width ? props.width : "330px")};
+  max-width: ${props => (props.width ? props.width : '330px')};
   width: 100%;
   height: 36px;
   padding-left: 8px;
@@ -15,8 +17,8 @@ export const StyledField = styled(Field)`
 
   outline: none;
   border-radius: 2px;
-  border: ${(props) =>
-    props.border === "red"
+  border: ${props =>
+    props.border === 'red'
       ? `1px solid ${baseTheme.colors.danger[500]}`
       : `1px solid ${baseTheme.colors.dark[100]}`};
   background: ${baseTheme.colors.dark[500]};
@@ -32,12 +34,12 @@ export const StyledField = styled(Field)`
 
   @media (max-width: 390px) {
     width: 90vw;
-    max-width: ${(props) => (props.width ? "100vw" : "330px")};
+    max-width: ${props => (props.width ? '100vw' : '330px')};
   }
-`;
+`
 
 export const StyledTextArea = styled.textarea<TextAreaPropsType>`
-  max-width: ${(props) => (props.width ? props.width : "330px")};
+  max-width: ${props => (props.width ? props.width : '330px')};
   width: 100%;
   height: 84px;
   padding-left: 8px;
@@ -47,8 +49,8 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
 
   outline: none;
   border-radius: 2px;
-  border: ${(props) =>
-    props.border === "red"
+  border: ${props =>
+    props.border === 'red'
       ? `1px solid ${baseTheme.colors.danger[500]}`
       : `1px solid ${baseTheme.colors.dark[100]}`};
   background: ${baseTheme.colors.dark[500]};
@@ -64,16 +66,16 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
 
   @media (max-width: 390px) {
     width: 90vw;
-    max-width: ${(props) => (props.width ? "100vw" : "330px")};
+    max-width: ${props => (props.width ? '100vw' : '330px')};
   }
-`;
+`
 
-//FormikLabel
+// FormikLabel
 export const StyledInputContainer = styled.div`
   position: relative;
-`;
+`
 
-export const StyledLabel = styled.label<{ witherror: string; margin?: string }>`
+export const StyledLabel = styled.label<{ margin?: string; witherror: string }>`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -81,8 +83,8 @@ export const StyledLabel = styled.label<{ witherror: string; margin?: string }>`
   font-family: Inter;
   font-size: 16px;
 
-  margin-bottom: ${(props) => (props.witherror === "err" ? 0 : props.margin || "24px")};
-`;
+  margin-bottom: ${props => (props.witherror === 'err' ? 0 : props.margin || '24px')};
+`
 
 export const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>`
   width: 100%;
@@ -96,13 +98,13 @@ export const StyledErrorMsg = styled.div<StyledErrorMsgPropsType>`
   justify-content: flex-start;
   align-items: center;
 
-  color: ${baseTheme.colors.danger["500"]};
-`;
+  color: ${baseTheme.colors.danger['500']};
+`
 
 export const StyledTitle = styled(StyledErrorMsg)`
-  color: ${baseTheme.colors.light["900"]};
+  color: ${baseTheme.colors.light['900']};
 
   & span::first-letter {
     text-transform: uppercase;
   }
-`;
+`

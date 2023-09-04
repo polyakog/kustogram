@@ -1,21 +1,30 @@
 export type UserType = {
-  userId?: string;
-  login: string;
-  firstName: string;
-  lastName: string;
-  dateOfBirthday: string;
-  city: string;
-  userInfo?: string;
-  photo?: string;
-};
+  city: string
+  dateOfBirthday: string
+  firstName: string
+  lastName: string
+  login: string
+  photo?: string
+  userId?: string
+  userInfo?: string
+}
 
 export type AvatarType = {
-  formData: FormData;
-  avatar: string;
-};
+  avatar: string
+  formData: FormData
+}
 
 export type AuthMeType = {
-  email: string;
-  id: string;
-  login: string;
-};
+  email: string
+  id: string
+  login: string
+}
+
+export type SaveProfileInfoType = {
+  city: string
+  dateOfBirthday: string
+  firstName: string
+  lastName: string
+  login: string
+  userInfo: string
+}

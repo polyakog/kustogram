@@ -1,13 +1,14 @@
-import { TextAreaPropsType } from "./types";
-import { ChangeEvent } from "react";
-import { StyledTextArea } from "./Formik.styled";
+import { ChangeEvent } from 'react'
 
-export const FieldTextarea = (props: TextAreaPropsType) => {
+import { StyledTextArea } from './Formik.styled'
+import { TextAreaPropsType } from './types'
+
+export const FieldTextarea = ({ value, width, onChange }: TextAreaPropsType) => {
   return (
     <StyledTextArea
-      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => props.onChange(e)}
-      width={props.width}
-      value={props.value}
+      value={value}
+      width={width}
+      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => onChange(e)}
     />
-  );
-};
+  )
+}

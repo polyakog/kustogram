@@ -1,21 +1,22 @@
-import { ChangeEvent } from "react";
-import { FiledProps } from "./types";
-import { StyledField } from "./Formik.styled";
-import { FieldTextarea } from "./FieldTextarea";
+import { ChangeEvent } from 'react'
 
-export const FormikField = (props: FiledProps) => {
-  return props.type !== "textarea" ? (
+import { FieldTextarea } from './FieldTextarea'
+import { StyledField } from './Formik.styled'
+import { FiledProps } from './types'
+
+export const FormikField = ({ width, onChange, value, ...props }: FiledProps) => {
+  return props.type !== 'textarea' ? (
     <StyledField
       {...props}
-      onChange={(e: ChangeEvent<HTMLInputElement>) => props.onChange(e.target.value)}
-      width={props.width}
+      width={width}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
     />
   ) : (
     <FieldTextarea
       {...props}
-      onChange={(e) => props.onChange(e.target.value)}
-      width={props.width}
-      value={props.value}
+      value={value}
+      width={width}
+      onChange={e => onChange(e.target.value)}
     />
-  );
-};
+  )
+}

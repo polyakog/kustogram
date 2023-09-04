@@ -1,26 +1,30 @@
-import type { AppProps } from "next/app";
-import React, { ReactElement, ReactNode } from "react";
-import { NextPage } from "next";
-import { useLoader } from "../common/hooks/useLoader";
-import "styles/nprogress.css";
-import { Provider } from "react-redux";
-import { store } from "../assets/store/store";
-import { appWithTranslation } from "next-i18next";
-import { createGlobalStyle } from "styled-components";
-import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
+import React, { ReactElement, ReactNode } from 'react'
 
-export type NextPageWithLayout<P = {}> = NextPage<P> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
+import { NextPage } from 'next'
+import type { AppProps } from 'next/app'
+import { appWithTranslation } from 'next-i18next'
+import { Provider } from 'react-redux'
+import { createGlobalStyle } from 'styled-components'
+
+import { store } from '../assets/store/store'
+import { useLoader } from '../common/hooks/useLoader'
+
+import 'styles/nprogress.css'
+
+// import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
+
+export type NextPageWithLayout<P = object> = NextPage<P> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
+  Component: NextPageWithLayout
+}
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  useLoader();
+  useLoader()
 
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? (page => page)
 
   return getLayout(
     <Provider store={store}>
@@ -29,10 +33,10 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <Component {...pageProps} />
       {/* </PrivateRoute> */}
     </Provider>
-  );
-};
+  )
+}
 
-export default appWithTranslation(App as React.FC);
+export default appWithTranslation(App as React.FC)
 
 const GlobalStyle = createGlobalStyle`
   *{
@@ -46,4 +50,4 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     line-height: 24px;
   }
-`;
+`

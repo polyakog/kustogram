@@ -1,28 +1,59 @@
-import { Path } from 'common/enums/path'
+import { ProvidersPropsType } from 'features/auth/types'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 
 import github from '../../public/img/icons/github-svgrepo-com.svg'
 import google from '../../public/img/icons/google-svgrepo-com.svg'
 import { baseTheme } from '../../styles/styledComponents/theme'
 
-const AuthIcons = () => {
-  const { push } = useRouter()
+import { oauthRequest } from './oauth2Request'
+
+const AuthIcons = (providerParams: ProvidersPropsType) => {
+  const { t } = useTranslation()
+
+  const handle = (providerName: string) => {
+    const url = oauthRequest(providerName, providerParams)
+
+    console.log(url)
+    window.location.assign(url)
+  }
 
   return (
     <StyledIconBlock>
-      <Link
+      {/* <Link
         href="/api/auth/signin"
         onClick={async e => {
           e.preventDefault()
           push(Path.SIGNIN)
         }}
-      >
-        <Image alt="google" height={36} src={google} width={36} />
-        <Image alt="github" height={36} src={github} width={36} />
-      </Link>
-      <Message>SignIn with Google or Github</Message>
+      > */}
+      <SigninStyle>
+        <Image
+          alt="google"
+          height={36}
+          src={google}
+          width={36}
+          onClick={() => {
+            handle('google')
+          }}
+        />
+      </SigninStyle>
+
+      <SigninStyle>
+        <Image
+          alt="github"
+          height={36}
+          src={github}
+          width={36}
+          onClick={() => {
+            handle('github')
+          }}
+        />
+      </SigninStyle>
+
+      {/* </Link> */}
     </StyledIconBlock>
   )
 }
@@ -45,6 +76,9 @@ const StyledIconBlock = styled.div`
     display: block;
     text-align: center;
   }
+`
+const SigninStyle = styled.div`
+  cursor: pointer;
 `
 
 const Link = styled.a`

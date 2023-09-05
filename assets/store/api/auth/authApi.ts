@@ -46,7 +46,6 @@ export const authApi = createApi({
         body,
       }),
     }),
-
     loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({
       query: body => ({
         url: 'auth/google',
@@ -102,6 +101,14 @@ export const authApi = createApi({
         }
       },
     }),
+    logout: builder.mutation<void, void>({
+      query: () => {
+        return {
+          method: 'POST',
+          url: `/auth/logout`,
+        }
+      },
+    }),
   }),
 })
 
@@ -113,6 +120,7 @@ export const {
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
   useLazyMeQuery,
+  useLogoutMutation,
   useLoginWithGoogleMutation,
   useLoginWithGithubMutation,
 } = authApi

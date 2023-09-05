@@ -1,10 +1,11 @@
-import styled from 'styled-components'
-import { baseTheme } from '../theme'
-import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { DatePicker } from '@mui/x-date-pickers'
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+import styled from 'styled-components'
 
-const media = mediaSizes.media
-const sidebarMedia = mediaSizes.sidebarMedia
+import { baseTheme } from '../theme'
+
+const { media } = mediaSizes
+// const sidebarMedia = mediaSizes.sidebarMedia
 
 export const ProfileWrapper = styled.div`
   position: relative;

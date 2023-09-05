@@ -40,7 +40,7 @@ export const ModalPost = ({
           <StyledModalHeader>
             <StyledModalTitle>{title}</StyledModalTitle>
             <StyledCloseButton onClick={handleClickModalClose}>
-              <Image priority alt="close" height={24} src="/img/icons/close_white.svg" width={24} />
+              <Image alt="close" height={24} src="/img/icons/close_white.svg" width={24} priority />
             </StyledCloseButton>
           </StyledModalHeader>
         )}
@@ -48,11 +48,11 @@ export const ModalPost = ({
           <StyledModalHeaderNext>
             <StyledCloseNextButton onClick={handleModalBack}>
               <Image
-                priority
                 alt="close"
                 height={24}
                 src="/img/icons/arrow-ios-back.svg"
                 width={24}
+                priority
               />
             </StyledCloseNextButton>
             <StyledModalTitleNext>{nextTitle}</StyledModalTitleNext>

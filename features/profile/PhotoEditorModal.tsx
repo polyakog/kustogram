@@ -14,9 +14,11 @@ import { Slider } from './Slider'
 const PhotoEditorModal = ({
   photo,
   handleEditorClose,
+  setAvatar,
 }: {
   handleEditorClose: () => void
   photo: File
+  setAvatar: (newAvatar: string) => void
 }) => {
   const [value, setValue] = useState(12) // начальное значение для zoom
   const [rotateAngle, setRotateAngle] = useState(0) // начальное значение для rotate
@@ -59,6 +61,7 @@ const PhotoEditorModal = ({
           .unwrap()
           .then(() => {
             handleEditorClose()
+            setAvatar(avatar)
           })
       } catch (error) {
         console.log(error)

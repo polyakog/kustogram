@@ -33,11 +33,11 @@ export const IconBlock = styled.div`
 
   width: 192px;
   height: 192px;
-  overflow: hidden;
+  // overflow: hidden;
   background: ${baseTheme.colors.dark[100]};
   border-radius: 50%;
 
-  & img {
+  & > img {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -45,6 +45,7 @@ export const IconBlock = styled.div`
     width: 192px;
     height: 192px;
     object-fit: cover;
+    border-radius: 50%;
   }
 `
 
@@ -66,4 +67,19 @@ export const StyledLine = styled.div`
 export const BlockButton = styled.div`
   text-align: right;
   padding-top: 24px;
+`
+
+export const StyledCloseIcon = styled.div`
+  background: red;
+  border: 2px ${baseTheme.colors.dark[700]} solid;
+  border-radius: 11px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 18px;
+  left: calc(192px - 18px - 16px);
+  z-index: 99;
 `

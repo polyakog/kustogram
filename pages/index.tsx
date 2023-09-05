@@ -11,7 +11,7 @@ import { NextPageWithLayout } from './_app'
 
 const Home: NextPageWithLayout = () => (
   <>
-    <Image priority alt="Logo" height={180} src={kusto} width={180} />
+    <Image alt="Logo" height={180} src={kusto} width={180} priority />
     <StyledBlockMain>
       <p>
         <Link href={Path.LOGIN}>Login</Link>

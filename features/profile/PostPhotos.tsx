@@ -56,7 +56,7 @@ export const PostPhotos: React.FC<PropsType> = ({
 }) => {
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
 
-  if (isLoading) console.log('%c loading posts...', consoleStyle)
+  // if (isLoading) console.log('%c loading posts...', consoleStyle)
 
   return (
     <PostWrapper>

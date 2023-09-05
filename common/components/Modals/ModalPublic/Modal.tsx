@@ -37,12 +37,12 @@ const Modal = ({
           <StyledModalTitle>{title}</StyledModalTitle>
           <StyledCloseButton onClick={onCloseButtonClick}>
             <Image
-              priority
               alt="close"
               height={24}
               src="/img/icons/close_white.svg"
               style={{ cursor: 'pointer' }}
               width={24}
+              priority
             />
           </StyledCloseButton>
         </StyledModalHeader>

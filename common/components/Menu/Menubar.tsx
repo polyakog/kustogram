@@ -1,42 +1,41 @@
-import React from "react";
-import { ITEM_LINK } from "../Navbar/constant";
-import { usePathname } from "next/navigation";
-import { MainLink } from "./MainLink/MainLink";
-import { StyledCreate, StyledDiv, StyledItemBlock, StyledMenuBar } from "./Menubar.styled";
-import Image from "next/image";
-import { useTranslation } from "next-i18next";
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { useTranslation } from 'next-i18next'
+
+import { ITEM_LINK } from '../Navbar/constant'
+
+import { MainLink } from './MainLink/MainLink'
+import { StyledCreate, StyledDiv, StyledItemBlock, StyledMenuBar } from './Menubar.styled'
 
 export type MenuBarPropsType = {
-  showMenuBar: string | string[] | undefined;
-  openModalHandler: () => void;
-};
+  openModalHandler: () => void
+  showMenuBar: string[] | string | undefined
+}
 export const Menubar = ({ showMenuBar, openModalHandler }: MenuBarPropsType) => {
-  const location = usePathname();
+  const location = usePathname()
 
-  const { t } = useTranslation("nav_bar");
+  const { t } = useTranslation('nav_bar')
 
-  const isActive = (name: string) => (location === name ? "active" : "");
+  const isActive = (name: string) => (location === name ? 'active' : '')
 
-  const items = ITEM_LINK.map((item) => (
+  const items = ITEM_LINK.map(item => (
     <MainLink
       key={item.name}
-      src={isActive(item.href) ? item.selectIcon : item.icon}
-      name={t(item.name)}
       href={item.href}
       isactive={isActive(item.href)}
+      name={t(item.name)}
+      src={isActive(item.href) ? item.selectIcon : item.icon}
     />
-  ));
+  ))
 
   return (
-    <>
-      <StyledMenuBar showMenuBar={showMenuBar}>
-        <StyledCreate onClick={openModalHandler}>
-          <StyledDiv style={{ cursor: "pointer" }}>
-            <Image src={"/img/icons/plus-square.svg"} alt={"CreatePost"} width={24} height={24} />
-          </StyledDiv>
-        </StyledCreate>
-        <StyledItemBlock>{items}</StyledItemBlock>
-      </StyledMenuBar>
-    </>
-  );
-};
+    <StyledMenuBar showMenuBar={showMenuBar}>
+      <StyledCreate onClick={openModalHandler}>
+        <StyledDiv style={{ cursor: 'pointer' }}>
+          <Image alt="CreatePost" height={24} src="/img/icons/plus-square.svg" width={24} />
+        </StyledDiv>
+      </StyledCreate>
+      <StyledItemBlock>{items}</StyledItemBlock>
+    </StyledMenuBar>
+  )
+}

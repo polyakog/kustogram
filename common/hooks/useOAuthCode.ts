@@ -7,8 +7,8 @@ import {
 import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import { redirect } from 'pages/auth/login'
 import { ErrorType } from 'pages/auth/callback/google'
+import { redirect } from 'pages/auth/login'
 import { baseTheme } from 'styles/styledComponents/theme'
 
 export type ProviderType = {
@@ -18,8 +18,8 @@ export type ProviderType = {
 
 type CodeType = {
   provider: ProviderType
-  setConnectionError: (conError: ErrorType) => void
   setAccountError: (accError: string) => void
+  setConnectionError: (conError: ErrorType) => void
   setStatus: (status: string) => void
 }
 
@@ -47,10 +47,10 @@ export const useOAuthCode = ({
       await getProfile(code)
         .unwrap()
         .then(res => {
-          console.log(
-            `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
-            consoleStyle
-          )
+          // console.log(
+          //   `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
+          //   consoleStyle
+          // )
 
           redirect(res, setItem, route)
         })
@@ -65,7 +65,7 @@ export const useOAuthCode = ({
 
   useEffect(() => {
     if (code) {
-      console.log(code)
+      // console.log(code)
       handle({ code }, provider)
     }
 

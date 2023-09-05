@@ -10,6 +10,7 @@ import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useWindowSize } from 'common/hooks/useWindowSize'
+// import { urlify } from 'common/utils/urlify'
 import { PostPhotos } from 'features/profile/PostPhotos'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -31,7 +32,6 @@ import {
 } from 'styles/styledComponents/profile/profile.styled'
 
 import Paid from '../../public/img/icons/paid.svg'
-import { urlify } from 'common/utils/urlify'
 
 type PropsType = {
   isLoading: boolean
@@ -109,7 +109,10 @@ const ProfileElement: React.FC<PropsType> = ({
   const userFirstName = user?.firstName !== null ? user?.firstName : ''
   const userLastName = user?.lastName !== null ? user?.lastName : ''
   let name = `${userFirstName} ${userLastName}`
-  if (!userFirstName || !userLastName) name = user?.login!
+
+  if (!userFirstName || !userLastName) {
+    if (user?.login) name = user?.login
+  }
 
   return (
     <>
@@ -183,7 +186,8 @@ const ProfileElement: React.FC<PropsType> = ({
             </FollowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>{urlify(user?.userInfo || t('about_me'))}</AboutMeText>
+              {/* <AboutMeText>{urlify(user?.userInfo || t('about_me'))}</AboutMeText> */}
+              <AboutMeText>{user?.userInfo || t('about_me')}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
@@ -192,8 +196,8 @@ const ProfileElement: React.FC<PropsType> = ({
 
         <PostPhotos
           isLoading={isLoading}
-          postSize={postSize}
           posts={posts}
+          postSize={postSize}
           setIsPostActive={setIsPostActive}
           setPostInfo={setPostInfo}
         />

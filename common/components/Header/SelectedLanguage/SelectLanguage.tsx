@@ -1,16 +1,18 @@
-import { baseTheme } from '../../../../styles/styledComponents/theme'
-import styled from 'styled-components'
-import { useRouter } from 'next/router'
-import { useTranslation } from 'next-i18next'
-import { useWindowSize } from 'common/hooks/useWindowSize'
-import { mediaSizes } from 'common/constants/Profile/mediaSizes'
-import Image from 'next/image'
-import Russia from 'public/img/icons/Flag-Russia.svg'
-import UK from 'public/img/icons/Flag-United_Kingdom.svg'
-import arrow from 'public/img/icons/arrow-ios-Down-outline-white.svg'
 import { useState, useEffect } from 'react'
 
-const media = mediaSizes.media
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+import { useWindowSize } from 'common/hooks/useWindowSize'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import arrow from 'public/img/icons/arrow-ios-Down-outline-white.svg'
+import Russia from 'public/img/icons/Flag-Russia.svg'
+import UK from 'public/img/icons/Flag-United_Kingdom.svg'
+import styled from 'styled-components'
+
+import { baseTheme } from '../../../../styles/styledComponents/theme'
+
+const { media } = mediaSizes
 // Компонента выбора языка (русский и английский)
 
 const laguageOptions = {
@@ -34,9 +36,18 @@ export const SelectLanguage = () => {
   const { i18n } = useTranslation()
 
   const { width } = useWindowSize() // хук для измерения размера экрана
-  /*  ____________<переменные для мобильной версии>______________*/
 
-  const flagSize = width ? (width < mediaSizes.mobileScreenSize ? 24 : 20) : 20
+  /* ____________<переменные для мобильной версии>______________ */
+  const mobSize = 24
+  const screenSize = 20
+  let flagSize = screenSize
+
+  if (width) {
+    if (width < mediaSizes.mobileScreenSize) {
+      flagSize = mobSize
+    } else flagSize = screenSize
+  }
+
   const [showLongBar, setShowLongBar] = useState(true)
   const [showLongBarOption, setShowLongBarOption] = useState(false)
 
@@ -46,7 +57,7 @@ export const SelectLanguage = () => {
     } else setShowLongBar(true)
   }, [width])
 
-  /*  ____________</переменные для мобильной версии>_______________*/
+  /*  ____________</переменные для мобильной версии>_______________ */
 
   // Обработчик селектора языка, который перенаправляет на тот же url,
   // с теми же query параметрами, но со сменой языка
@@ -70,10 +81,11 @@ export const SelectLanguage = () => {
     }
   }
 
-  const currentLanguage = i18n.language == 'ru' ? 'ru' : 'en'
+  const currentLanguage = i18n.language === 'ru' ? 'ru' : 'en'
 
   let option: LaguageType
-  if (currentLanguage == 'ru') {
+
+  if (currentLanguage === 'ru') {
     option = laguageOptions.ru
   } else {
     option = laguageOptions.en
@@ -84,38 +96,36 @@ export const SelectLanguage = () => {
     //   <option value="en">&#127468;&#127463; English</option>
     //   <option value="ru">&#127479;&#127482; Русский</option>
     // </StyledSelectLanguage>
-    <SelectionLanguage onMouseLeave={mouseLeave} onClick={handleLangeSelect}>
-      {
-        <LangBox>
-          <SelectLangBlock>
-            <Image priority alt={option.alt} height={flagSize} src={option.srs} width={flagSize} />
-            <LangName> {option.text}</LangName>
-            <ArrBlock>
-              <Image priority alt={'arrow'} height={24} src={arrow} width={24} />
-            </ArrBlock>
-          </SelectLangBlock>
-        </LangBox>
-      }
+    <SelectionLanguage onClick={handleLangeSelect}>
+      <LangBox>
+        <SelectLangBlock>
+          <Image alt={option.alt} height={flagSize} src={option.srs} width={flagSize} priority />
+          <LangName> {option.text}</LangName>
+          <ArrBlock>
+            <Image alt="arrow" height={24} src={arrow} width={24} priority />
+          </ArrBlock>
+        </SelectLangBlock>
+      </LangBox>
 
       {showLongBarOption && (
-        <OptionBox>
+        <OptionBox onMouseLeave={mouseLeave}>
           <OptionRow onClick={() => handleLangChange('en')}>
             <Image
-              priority
               alt={option.alt}
               height={flagSize}
               src={laguageOptions.en.srs}
               width={flagSize}
+              priority
             />
             <OptionLangName>{laguageOptions.en.text}</OptionLangName>
           </OptionRow>
           <OptionRow onClick={() => handleLangChange('ru')}>
             <Image
-              priority
               alt={option.alt}
               height={flagSize}
               src={laguageOptions.ru.srs}
               width={flagSize}
+              priority
             />
             <OptionLangName>{laguageOptions.ru.text}</OptionLangName>
           </OptionRow>
@@ -199,15 +209,10 @@ const ArrBlock = styled.div`
 `
 
 const OptionBox = styled.div`
-  position: absolute;
-
   width: 163px;
   height: 72px;
   top: 48px;
-  right: 10px;
-
   /* margin-left: 0px; */
-
   color: ${baseTheme.colors.dark[900]};
   box-sizing: border-box;
   cursor: pointer;
@@ -215,6 +220,8 @@ const OptionBox = styled.div`
   transition: all 1s 1s linear(-0.39 1.18%, 1.29 -3.53%); */
 
   @media (max-width: ${media}) {
+    right: 60px;
+    position: absolute;
     margin-left: 0px;
   }
 `

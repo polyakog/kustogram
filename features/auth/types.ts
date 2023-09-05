@@ -12,14 +12,14 @@ export type VerificationWindowType = {
 
 export type ProviderData = {
   AUTH_URL: string
-  SCOPE: string
-  REDIRECT_URI: string
   ID: string
+  REDIRECT_URI: string
+  SCOPE: string
 }
 
 export type ProvidersPropsType = {
   provider: {
-    google: ProviderData
     github: ProviderData
+    google: ProviderData
   }
 }

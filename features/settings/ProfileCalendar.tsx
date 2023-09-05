@@ -14,7 +14,7 @@ const ProfileCalendar = ({ setFieldValue, date, errors, touched, t }: CalendarPr
         t={t}
         touched={touched}
       />
-      {!!errors && touched && <StyledErrorMsg>{errors}</StyledErrorMsg>}
+      {!!errors && touched && <StyledErrorMsg>{t ? t(`${errors}`) : errors}</StyledErrorMsg>}
     </>
   )
 }

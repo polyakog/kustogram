@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { baseTheme } from '../../../styles/styledComponents/theme'
-import { MenuBarPropsType } from './Menubar'
 
-export const StyledMenuBar = styled.div<{ showMenuBar: string | string[] | undefined }>`
+import { baseTheme } from '../../../styles/styledComponents/theme'
+
+export const StyledMenuBar = styled.div<{ showMenuBar: string[] | string | undefined }>`
   position: relative;
   display: flex;
   justify-content: center;
@@ -50,7 +50,7 @@ export const StyledCreate = styled.div`
   left: 108px;
 `
 
-//MainLink
+// MainLink
 
 export const MenuRow = styled.div`
   cursor: pointer;

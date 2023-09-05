@@ -16,7 +16,7 @@ const SmallPhoto = ({ photo, removePhotoFromList, index }: SmallProtoProps) => {
           removePhotoFromList(index)
         }}
       >
-        <Image priority alt="close" height={24} src="/img/icons/close_white.svg" width={24} />
+        <Image alt="close" height={24} src="/img/icons/close_white.svg" width={24} priority />
       </StyleDeletePhoto>
     </>
   )

@@ -1,3 +1,11 @@
+import { useState, useEffect } from 'react'
+
+import { Button } from 'common/components/Button/Button'
+import { Path } from 'common/enums/path'
+import { ThemeButton } from 'common/enums/themeButton'
+import { ProviderType } from 'common/hooks/useOAuthCode'
+import { useTranslation } from 'next-i18next'
+import { ErrorType } from 'pages/auth/callback/google'
 import {
   SigninOauthWrapper,
   StyledOAuthBlockButton,
@@ -10,21 +18,12 @@ import {
 } from 'styles/styledComponents/auth/signin.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 import { baseTheme } from 'styles/styledComponents/theme'
-import { Button } from 'common/components/Button/Button'
-
-import { useTranslation } from 'next-i18next'
-
-import { ThemeButton } from 'common/enums/themeButton'
-import { Path } from 'common/enums/path'
-import { useState, useEffect } from 'react'
-import { ErrorType } from 'pages/auth/callback/google'
-import { ProviderType } from 'common/hooks/useOAuthCode'
 
 type PropsType = {
-  connectionError: ErrorType | undefined
   accountError: string | undefined
-  status: string
+  connectionError: ErrorType | undefined
   provider: ProviderType
+  status: string
 }
 
 export const Oauth = ({ connectionError, accountError, status, provider }: PropsType) => {

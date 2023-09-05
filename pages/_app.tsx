@@ -26,12 +26,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const getLayout = Component.getLayout ?? (page => page)
 
-  return getLayout(
+  return (
     <Provider store={store}>
-      <GlobalStyle />
-      {/* <PrivateRoute> */}
-      <Component {...pageProps} />
-      {/* </PrivateRoute> */}
+      {getLayout(
+        <>
+          <GlobalStyle />
+          <Component {...pageProps} />
+        </>
+      )}
     </Provider>
   )
 }

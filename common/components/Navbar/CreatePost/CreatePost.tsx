@@ -1,8 +1,7 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { FC, useState } from 'react'
 
-import { store } from 'assets/store/store'
 import PostCreationModal from 'features/posts/PostCreationModal'
-import { Provider } from 'react-redux'
 
 import { StyledModalContainer, StyledModalOverlay } from '../../Modals/Modal.styled'
 
@@ -24,7 +23,7 @@ export const CreatePost: FC<CreatePostProps> = ({ isOpenModalEdit, setIsOpenModa
   }
 
   return (
-    <Provider store={store}>
+    <>
       {isOpenModalEdit && (
         <StyledModalOverlay>
           <StyledModalContainer
@@ -39,6 +38,6 @@ export const CreatePost: FC<CreatePostProps> = ({ isOpenModalEdit, setIsOpenModa
           </StyledModalContainer>
         </StyledModalOverlay>
       )}
-    </Provider>
+    </>
   )
 }

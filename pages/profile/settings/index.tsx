@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { useEffect, useState } from 'react'
 
 import {
@@ -29,10 +30,12 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
+import closeIcon from 'public/img/icons/close-outline.svg'
 import {
   BlockButton,
   IconBlock,
   StyledAvatarBlock,
+  StyledCloseIcon,
   StyledContent,
   StyledLine,
   StyledProfileForm,
@@ -60,6 +63,7 @@ const GeneralInformation = () => {
   const [authMeLoading, setAuthMeLoading] = useState(false)
   const [profileLoading, setProfileLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [avatar, setAvatar] = useState('/img/icons/avatar.svg') // аватарка, отображаемая при загрузке
   // const [photo, setPhoto] = useState<File>();
   const { setItem, getItem } = useLocalStorage()
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation()
@@ -83,8 +87,9 @@ const GeneralInformation = () => {
     if (isProfile) {
       getProfileInfo()
         .unwrap()
-        .finally(() => {
+        .then(res => {
           setProfileLoading(true)
+          if (res.photo) setAvatar(res.photo)
         })
     } else {
       setProfileLoading(true)
@@ -96,7 +101,7 @@ const GeneralInformation = () => {
   }, [authMeHandler, getProfileInfo, setIsLoading, authMeLoading, profileLoading])
 
   // аватарка, отображаемая при загрузке
-  const avatar = data?.photo || '/img/icons/avatar.svg'
+  // let avatar = data?.photo || '/img/icons/avatar.svg'
 
   // начальные значения для формы
   const initialAuthValues = {
@@ -139,8 +144,9 @@ const GeneralInformation = () => {
     setIsModalOpen({ photoModal: false, saveProfileModal: false, filterModal: false })
   }
 
-  const handleFilterModalOpen = () => {
-    setIsModalOpen({ photoModal: false, saveProfileModal: false, filterModal: true })
+  // Обработчик удаления аватарки
+  const handleDeleteAvatar = () => {
+    setAvatar('/img/icons/avatar.svg')
   }
 
   return (
@@ -150,6 +156,9 @@ const GeneralInformation = () => {
           <StyledContent>
             <StyledAvatarBlock>
               <IconBlock>
+                <StyledCloseIcon onClick={handleDeleteAvatar}>
+                  <Image alt="Close" height={16} src={closeIcon} width={16} />
+                </StyledCloseIcon>
                 <Image alt="Avatar" height={192} src={avatar} width={192} />
               </IconBlock>
               <div style={{}}>
@@ -245,7 +254,11 @@ const GeneralInformation = () => {
             </Formik>
           </StyledContent>
           {isModalOpen.photoModal && (
-            <PhotoSelectModal avatar={data?.photo} handleModalClose={handleModalClose} />
+            <PhotoSelectModal
+              avatar={avatar}
+              handleModalClose={handleModalClose}
+              setAvatar={setAvatar}
+            />
           )}
           {isModalOpen.saveProfileModal && (
             <Modal

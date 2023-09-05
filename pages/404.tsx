@@ -14,7 +14,7 @@ const NotFound = () => {
 
   return (
     <div>
-      <Image priority alt="Next.js Logo" height={720} src="/img/404.svg" width={1280} />
+      <Image alt="Next.js Logo" height={720} src="/img/404.svg" width={1280} priority />
       <Modal
         bodyText="Page not found. Click the button or close the modal to go back."
         handleModalClose={handleModalClose}

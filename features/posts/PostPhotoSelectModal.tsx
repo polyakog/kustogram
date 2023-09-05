@@ -33,7 +33,7 @@ const PostPhotoSelectModal = ({
       <StyledModalHeader>
         <StyledModalTitle>{t('add_photo')}</StyledModalTitle>
         <StyledCloseButton onClick={handleModalClose}>
-          <Image priority alt="close" height={24} src="/img/icons/close_white.svg" width={24} />
+          <Image alt="close" height={24} src="/img/icons/close_white.svg" width={24} priority />
         </StyledCloseButton>
       </StyledModalHeader>
       <StyledModalImageContainer>
@@ -41,11 +41,11 @@ const PostPhotoSelectModal = ({
           <Image alt="Avatar" id="avatar" src={avatar} />
         ) : (
           <StyledModalImage
-            priority
             alt="avatar"
             height={48}
             src="/img/icons/image-outline.svg"
             width={48}
+            priority
           />
         )}
       </StyledModalImageContainer>

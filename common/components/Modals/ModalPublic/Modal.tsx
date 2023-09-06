@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import {
+  Bold,
   StyledBlockButton,
   StyledCloseButton,
   StyledModalBody,
@@ -20,6 +21,7 @@ const Modal = ({
   width,
   height,
   bg,
+  email,
 }: ModalPropsType) => {
   const onCloseButtonClick = () => {
     if (handleModalClose) {
@@ -48,6 +50,7 @@ const Modal = ({
         </StyledModalHeader>
         <StyledModalBody>
           <p>{bodyText}</p>
+          {email && <Bold>{email}</Bold>}
           <StyledBlockButton>{children}</StyledBlockButton>
         </StyledModalBody>
       </StyledModalContainer>

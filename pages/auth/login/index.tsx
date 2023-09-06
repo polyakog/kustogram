@@ -36,7 +36,7 @@ import {
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
 
   return {
@@ -55,7 +55,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
           ID: process.env.GITHUB_ID,
         },
       },
-      ...(await serverSideTranslations(locale as string, ['common'], config)),
+      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
     },
   }
 }
@@ -98,7 +98,7 @@ const Login = (props: ProvidersPropsType) => {
     try {
       await loginHandler(data)
         .unwrap()
-
+        /// / eslint-disable-next-line @typescript-eslint/no-unused-vars
         .then(res => {
           removeItem('email')
           setItem('userEmail', data.email)

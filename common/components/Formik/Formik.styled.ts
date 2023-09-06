@@ -24,7 +24,12 @@ export const StyledField = styled(Field)`
   background: ${baseTheme.colors.dark[500]};
   color: ${baseTheme.colors.light[100]};
   box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
-  -webkit-text-fill-color: ${baseTheme.colors.light[100]};
+  /* -webkit-text-fill-color: ${baseTheme.colors.light[100]}; */
+
+  &:-webkit-autofill {
+    -webkit-text-fill-color: ${baseTheme.colors.light[100]};
+    caret-color: ${baseTheme.colors.light[100]};
+  }
 
   &::-webkit-calendar-picker-indicator {
     filter: invert(100%);

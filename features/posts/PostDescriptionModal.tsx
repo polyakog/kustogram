@@ -89,8 +89,6 @@ const StyledDescriptionContainer = styled.div`
   width: calc(100% - 490px);
   min-width: 180px;
 
-  overflow: scroll;
-
   display: flex;
   flex-direction: column;
 `
@@ -103,7 +101,7 @@ const StyledTitle = styled.p`
 const StyledDescription = styled.textarea.attrs({
   maxLength: 500,
 })`
-  width: 95%;
+  width: 100%;
   background: #171717;
   border: 1px solid #4c4c4c;
   color: #8d9094;

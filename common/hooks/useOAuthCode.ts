@@ -43,24 +43,24 @@ export const useOAuthCode = ({
   const handle = async (code: { code: string }, provider: ProviderType) => {
     const getProfile = provider.isGoogle ? loginGoogleHandler : loginGithubHandler
 
-    try {
-      await getProfile(code)
-        .unwrap()
-        .then(res => {
-          // console.log(
-          //   `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
-          //   consoleStyle
-          // )
+    // try {
+    await getProfile(code)
+      .unwrap()
+      .then(res => {
+        // console.log(
+        //   `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
+        //   consoleStyle
+        // )
 
-          redirect(res, setItem, route)
-        })
-        .catch(err => {
-          // console.log('ошибка входа:', err)
-          setConnectionError(err)
-        })
-    } catch (error) {
-      console.log('Login Error With Google/Github:', error)
-    }
+        redirect(res, setItem, route)
+      })
+      .catch(err => {
+        // console.log('ошибка входа:', err)
+        setConnectionError(err)
+      })
+    // } catch (error) {
+    //   console.log('Login Error With Google/Github:', error)
+    // }
   }
 
   useEffect(() => {
@@ -86,8 +86,8 @@ export const useOAuthCode = ({
   }, [])
 }
 
-const consoleStyle = `
-padding: 20px;
-background-color: ${baseTheme.colors.success[100]};
-border-radius: 20px;
-color: white}`
+// const consoleStyle = `
+// padding: 20px;
+// background-color: ${baseTheme.colors.success[100]};
+// border-radius: 20px;
+// color: white}`

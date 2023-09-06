@@ -34,29 +34,39 @@ import {
 import Paid from '../../public/img/icons/paid.svg'
 
 type PropsType = {
-  isLoading: boolean
-  pageSize: number
+  // getCurrentPost: LazyQueryTrigger<
+  //   QueryDefinition<
+  //     string,
+  //     BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
+  //     'createPost' | 'deletePost' | 'editPost',
+  //     CreatePostResponse,
+  //     'postsApi'
+  //   >
+  // >
+  // isLoading: boolean
+  // pageSize: number
   posts?: CreatePostResponse[] | undefined
-  setIsPostActive: (isPostActive: boolean) => void
-  setPageSize: (pageSize: number) => void
-  setPostInfo: (postInfo: GetPostResponse | undefined) => void
-  status: QueryStatus
+  // // session?: Session | null | undefined
+  // setIsPostActive: (isPostActive: boolean) => void
+  // setPageSize: (pageSize: number) => void
+  // setPostInfo: (postInfo: GetPostResponse | undefined) => void
+  // status: QueryStatus
   t: TFunction
-  totalCount: number
+  // totalCount: number
   user?: UserType | undefined
 }
 
 const ProfileElement: React.FC<PropsType> = ({
   user,
   posts,
-  setIsPostActive,
-  setPageSize,
-  pageSize,
-  setPostInfo,
-  // getCurrentPost,
-  totalCount,
-  isLoading,
-  status,
+  // setIsPostActive,
+  // setPageSize,
+  // pageSize,
+  // setPostInfo,
+  // // getCurrentPost,
+  // totalCount,
+  // isLoading,
+  // status,
   t,
 }) => {
   const avatar = '/img/icons/avatar.svg'
@@ -75,21 +85,21 @@ const ProfileElement: React.FC<PropsType> = ({
 
   /*  ____________</переменные для мобильной версии>_______________ */
 
-  const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    const element = e.currentTarget
-    // console.log('scrollHeight', element.scrollHeight)
-    // console.log('scrollTop', element.scrollTop)
-    // console.log('clientHeight', element.clientHeight)
-    // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
+  // const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+  //   const element = e.currentTarget
+  //   // console.log('scrollHeight', element.scrollHeight)
+  //   // console.log('scrollTop', element.scrollTop)
+  //   // console.log('clientHeight', element.clientHeight)
+  //   // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
 
-    if (element.scrollHeight - element.scrollTop < scrollSize) {
-      const newPageSize = pageSize + 9
+  //   if (element.scrollHeight - element.scrollTop < scrollSize) {
+  //     const newPageSize = pageSize + 9
 
-      if (totalCount + 9 >= newPageSize) {
-        setPageSize(newPageSize)
-      }
-    }
-  }
+  //     if (totalCount + 9 >= newPageSize) {
+  //       setPageSize(newPageSize)
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     if (width) {
@@ -110,20 +120,18 @@ const ProfileElement: React.FC<PropsType> = ({
   const userLastName = user?.lastName !== null ? user?.lastName : ''
   let name = `${userFirstName} ${userLastName}`
 
-  if (!userFirstName || !userLastName) {
-    if (user?.login) name = user?.login
-  }
+  if (!userFirstName || !userLastName) name = 'New User'
 
   return (
     <>
-      {status !== 'fulfilled' && (
+      {/* {status !== 'fulfilled' && (
         <>
           <LoadingPostStyle>{`${t('loading')}...`}</LoadingPostStyle>
           <LoadingPostBackStyle />
         </>
-      )}
+      )} */}
 
-      <ProfileWrapper onScroll={status === 'fulfilled' ? scrollHandler : () => {}}>
+      <ProfileWrapper>
         <HeaderStyle>
           {isVisible && (
             <BlockButton>
@@ -145,6 +153,7 @@ const ProfileElement: React.FC<PropsType> = ({
                 height={avatarSize}
                 src={user?.photo || avatar}
                 width={avatarSize}
+                // style={{ maxWidth: "204px", maxHeight: "204px" }}
               />
             </IconBlock>
           </StyledAvatarBlock>
@@ -186,13 +195,12 @@ const ProfileElement: React.FC<PropsType> = ({
             </FollowBlock>
 
             <AboutMeBlock>
-              {/* <AboutMeText>{urlify(user?.userInfo || t('about_me'))}</AboutMeText> */}
               <AboutMeText>{user?.userInfo || t('about_me')}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
 
-        {/* <PhotosBlock> */}
+        {/* <PhotosBlock> 
 
         <PostPhotos
           isLoading={isLoading}
@@ -202,7 +210,7 @@ const ProfileElement: React.FC<PropsType> = ({
           setPostInfo={setPostInfo}
         />
 
-        {/* </PhotosBlock> */}
+         </PhotosBlock> */}
       </ProfileWrapper>
     </>
   )

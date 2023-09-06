@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { FC, useState } from 'react'
 
 import { useLogoutMutation } from 'assets/store/api/auth/authApi'
@@ -126,7 +127,8 @@ export const LogoutModal = ({ isOpenModalLogout, setIsOpenModalLogout }: PropsTy
     <>
       {isOpenModalLogout ? (
         <Modal
-          bodyText={`Are you really want to log out of your account "${userEmail}"`}
+          bodyText="Are you really want to log out of your account "
+          email={userEmail}
           handleModalClose={onClose}
           title="Log Out"
           width="440px"

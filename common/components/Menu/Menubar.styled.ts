@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 import { baseTheme } from '../../../styles/styledComponents/theme'
 
+import { MenuBarPropsType } from './Menubar'
+
 export const StyledMenuBar = styled.div<{ showMenuBar: string[] | string | undefined }>`
   position: relative;
   display: flex;
@@ -61,6 +63,7 @@ export const MenuRow = styled.div`
   }
 `
 
+// MainLink
 export const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;

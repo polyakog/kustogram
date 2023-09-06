@@ -89,3 +89,6 @@ export const StyledBlockButton = styled.div`
   margin-top: 20px;
   gap: 20px;
 `
+export const Bold = styled.span`
+  font-weight: 700;
+`

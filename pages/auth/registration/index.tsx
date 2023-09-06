@@ -34,7 +34,7 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
 
   return {

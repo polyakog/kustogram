@@ -2,8 +2,7 @@
 
 // import { Link } from '../../styles/styledComponents/profile/profile.styled'
 
-// //   return text.split(urlRegex).map((part, i, a) => {
-// //     let url
+// /*   __________<Нахождение ссылки в тексте (НЕ УДАЛЯТЬ!!!)>______ */
 
 // export const urlify = (text: string) => {
 //   const urlRegex =

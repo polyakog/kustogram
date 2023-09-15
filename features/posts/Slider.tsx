@@ -1,10 +1,10 @@
-import styled, { css } from "styled-components";
-import { baseTheme } from "styles/styledComponents/theme";
+import styled, { css } from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
 
-const trackH = "0.4em";
-const thumbD = "15px";
-const trackC = baseTheme.colors.light["700"];
-const filllC = baseTheme.colors.accent["500"];
+const trackH = '0.4em'
+const thumbD = '15px'
+const trackC = baseTheme.colors.light['700']
+const filllC = baseTheme.colors.accent['500']
 
 const track = css`
   box-sizing: border-box;
@@ -12,7 +12,7 @@ const track = css`
   height: 4px;
   background: ${trackC};
   border-radius: 8px;
-`;
+`
 
 const trackFill = css`
   ${track};
@@ -22,13 +22,13 @@ const trackFill = css`
   background-size: var(--sx) 6px, calc(100% - var(--sx)) 4px;
   background-position: left center, right center;
   background-repeat: no-repeat;
-`;
+`
 
 const fill = css`
   height: ${trackH};
   background: ${filllC};
   border-radius: 4px;
-`;
+`
 
 const thumb = css`
   box-sizing: border-box;
@@ -38,20 +38,20 @@ const thumb = css`
   border-radius: 50%;
   background: white;
   box-shadow: 0px 0px 5px rgba(66, 97, 255, 0.5);
-`;
+`
 
 type SliderPropsType = {
-  onInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onInput: (e: React.ChangeEvent<HTMLInputElement>) => void
 
-  type: string;
   style: {
-    width: string;
-    "--min": number;
-    "--max": number;
-    "--val": number;
-  };
-};
+    '--max': number
+    '--min': number
+    '--val': number
+    width: string
+  }
+  type: string
+}
 export const Slider = styled.input<SliderPropsType>`
   position: absolute;
 
@@ -83,7 +83,7 @@ export const Slider = styled.input<SliderPropsType>`
   margin: 0;
   padding: 0;
   height: calc(3 * ${thumbD});
-  background: ${baseTheme.colors.dark["100"]};
+  background: ${baseTheme.colors.dark['100']};
   font: 1em/1 arial, sans-serif;
 
   &::-webkit-slider-runnable-track {
@@ -127,4 +127,4 @@ export const Slider = styled.input<SliderPropsType>`
   &::-moz-focus-outer {
     border: 0;
   }
-`;
+`

@@ -1,21 +1,23 @@
-import { PropsWithChildren } from "react";
-import styled from "styled-components";
-import {HeadMeta} from '../HeadMeta/HeadMeta';
+import { PropsWithChildren } from 'react'
+
+import styled from 'styled-components'
+
+import { HeadMeta } from '../HeadMeta/HeadMeta'
 
 type PropsType = {
-  title?: string;
-};
+  title?: string
+}
 
 export const PageWrapper = (props: PropsWithChildren<PropsType>) => {
-  const { children, title } = props;
+  const { children, title } = props
 
   return (
     <>
       <HeadMeta title={title} />
       <MainBlock>{children}</MainBlock>
     </>
-  );
-};
+  )
+}
 
 const MainBlock = styled.div`
   display: flex;
@@ -31,4 +33,4 @@ const MainBlock = styled.div`
   @media (max-width: 700px) {
     padding: 8rem 0 6rem;
   }
-`;
+`

@@ -1,91 +1,136 @@
-import React, { useState, useEffect } from "react";
-import { getLayout } from "../../common/components/Layout/PageLayout/PageLayout";
-import { useLazyProfileQuery } from "assets/store/api/profile/profileApi";
-import { LoginNavigate } from "common/hoc/LoginNavigate";
-import { useLazyGetUserPostsQuery } from "assets/store/api/posts/postsApi";
-import ProfileElement from "features/profile/ProfileElement";
-import { useLazyGetPostQuery } from "assets/store/api/posts/postsApi";
-import Post from "common/components/Post/Post";
-import { LoadingStyle } from "styles/styledComponents/profile/profile.styled";
+import { useState, useEffect } from 'react'
 
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { GetStaticPropsContext } from "next";
-import config from "next-i18next.config.js";
+import { useLazyGetUserPostsQuery, useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
+import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
+import { useLazyProfileQuery } from 'assets/store/api/profile/profileApi'
+import Post from 'common/components/Post/Post'
+import ProfileElement from 'features/profile/ProfileElement'
+import { GetStaticPropsContext } from 'next'
+import Image from 'next/image'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
+import postWithoutImage from 'public/img/404.svg'
+import { styled } from 'styled-components'
 
-import PrivateRoute from "common/components/PrivateRoute/PrivateRoute";
+import { getLayout } from '../../common/components/Layout/PageLayout/PageLayout'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context;
+  const { locale } = context
+
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ["common", "nav_bar", "post_cr"], config))
-    }
-  };
+      ...(await serverSideTranslations(locale as string, ['common', 'nav_bar', 'post_cr'], config)),
+    },
+  }
 }
+
+const postsAmount = 9
+
 const MyProfile = () => {
-  const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery();
-  const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery();
+  const [getProfileInfo, { data: user, status: userStatus }] = useLazyProfileQuery()
+  const [getUserPosts, { data, isLoading, status }] = useLazyGetUserPostsQuery()
 
-  const posts = data?.items || [];
-  const totalCount = data?.totalCount || 0;
+  // const [posts, setPosts] = useState<CreatePostResponse[]>([])
+  // const totalCount = data?.totalCount || 0
 
-  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery();
-  const [isPostActive, setIsPostActive] = useState(false);
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
+  const [isPostActive, setIsPostActive] = useState(false)
 
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(9);
-  const [userId, setUserId] = useState("");
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pageSize, setPageSize] = useState(postsAmount)
+  const [pageCount, setPageCount] = useState(1)
+  const [userId, setUserId] = useState('')
+  // const [postInfo, setPostInfo] = useState<GetPostResponse | undefined>()
+  const [totalCount, setTotalCount] = useState(postsAmount)
 
-  const { t } = useTranslation();
+  const [isFetching, setIsFetching] = useState(true)
+
+  const posts = data?.items || []
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     getProfileInfo()
       .unwrap()
-      .then(({ userId }) => {
-        if (userId) {
-          setUserId(userId);
+      .then(res => {
+        if (res.userId) {
+          setUserId(res.userId)
         }
-      });
-  }, []);
+      })
+  }, [])
 
   useEffect(() => {
-    if (userId) {
-      getUserPosts({ userId, pageNumber, pageSize });
+    if (userId && isFetching && posts.length < totalCount) {
+      getUserPosts({ userId, pageNumber, pageSize })
+        .unwrap()
+        .then(res => {
+          setPageCount(res.pagesCount)
+          setPageSize(prev => prev + postsAmount)
+          setIsFetching(false)
+          setTotalCount(res.totalCount)
+        })
     }
-  }, [userId, pageNumber, pageSize]);
+  }, [isFetching, userId])
 
-  // const isAppInitialized = useAppSelector(isAppInitializedSelector);
+  const scrollHandler = () => {
+    const { scrollHeight } = document.documentElement
+    const { scrollTop } = document.documentElement
+    const { innerHeight } = window
 
-  if (userStatus !== "fulfilled") {
-    return <div style={LoadingStyle}>Loading...</div>;
+    if (scrollHeight - (scrollTop + innerHeight) < 100 && posts.length < totalCount) {
+      setIsFetching(true)
+    }
   }
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler)
+
+    return () => document.removeEventListener('scroll', scrollHandler)
+  }, [totalCount])
 
   return (
     <>
-      {/* <PrivateRoute> */}
-      {/* <LoginNavigate> */}
-      {/* {isAppInitialized && ( */}
-      <>
-        <ProfileElement
-          user={user}
-          posts={posts}
-          setIsPostActive={setIsPostActive}
-          getCurrentPost={getCurrentPost}
-          setPageSize={setPageSize}
-          pageSize={pageSize}
-          totalCount={totalCount}
-          status={status}
-          isLoading={isLoading}
-          t={t}
-        />
-        {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
-      </>
-      {/* )} */}
-      {/* </LoginNavigate> */}
-      {/* </PrivateRoute> */}
+      {}
+      <ProfileElement t={t} user={user} />
+      <PostsWrapper>
+        {posts.map(post => {
+          return (
+            <PostPreview
+              key={post.id}
+              alt="post image"
+              height={350}
+              src={post?.images[0]?.url || postWithoutImage}
+              width={350}
+              onClick={() =>
+                getCurrentPost(post.id)
+                  .unwrap()
+                  .then(() => setIsPostActive(true))
+              }
+            />
+          )
+        })}
+      </PostsWrapper>
+
+      {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
     </>
-  );
-};
-MyProfile.getLayout = getLayout;
-export default MyProfile;
+  )
+}
+
+MyProfile.getLayout = getLayout
+export default MyProfile
+
+const PostsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  padding: 53px 20px 20px;
+`
+
+const PostPreview = styled(Image)`
+  width: 32%;
+  object-fit: cover;
+  cursor: pointer;
+`

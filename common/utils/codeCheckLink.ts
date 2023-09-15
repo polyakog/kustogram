@@ -1,5 +1,5 @@
+/* eslint-disable no-restricted-globals */
 export const codeCheckLink = () => {
-
   let code: string | undefined = ''
 
   if (typeof window !== 'undefined') {
@@ -7,8 +7,5 @@ export const codeCheckLink = () => {
     code = location?.href.split('=').pop()
   }
 
-  return {code}
-};
-
-
-
+  return { code }
+}

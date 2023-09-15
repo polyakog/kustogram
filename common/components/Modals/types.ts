@@ -1,23 +1,25 @@
-import React from "react";
+import React from 'react'
 
 export type ModalPropsType = {
-  handleModalClose?: () => void;
-  handleCrossClick?: () => void;
-  title?: string;
-  bodyText?: string;
-  width?: string;
-  height?: string;
-  children?: React.ReactElement;
-  bg?: string;
-};
+  bg?: string
+  bodyText?: string
+  children?: React.ReactElement
+  email?: string
+  fz?: string
+  handleCrossClick?: () => void
+  handleModalClose?: () => void
+  height?: string
+  title?: string
+  width?: string
+}
 
 export type ModalSizePropsType = {
-  width?: string;
-  height?: string;
-};
+  height?: string
+  width?: string
+}
 export type ModalPostPropsType = ModalPropsType & {
-  nextTitle?: string;
-  handleModalNext?: () => void;
-  handleModalBack?: () => void;
-  handleModalClose: () => void;
-};
+  handleModalBack?: () => void
+  handleModalClose: () => void
+  handleModalNext?: () => void
+  nextTitle?: string
+}

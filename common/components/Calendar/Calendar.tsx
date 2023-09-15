@@ -1,48 +1,49 @@
-import { ThemeProvider } from "@emotion/react";
-import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
-import React from "react";
-import { theme } from "common/components/Calendar/theme";
-import { StyledErrorMsg, StyledTitle } from "../Formik/Formik.styled";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Field, FormikErrors } from "formik";
-import { FormikAllValuesType } from "../Formik/types";
-import { TFunction } from "next-i18next";
-import { themeError } from "./themeError";
+import { ThemeProvider } from '@emotion/react'
+import { DatePicker } from '@mui/x-date-pickers'
+import { theme } from 'common/components/Calendar/theme'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { TFunction } from 'next-i18next'
+
+import { StyledTitle } from '../Formik/Formik.styled'
+
+import { themeError } from './themeError'
 
 export type CalendarProps = {
-  date: string;
-  setFieldValue: (field: string, value: unknown) => void;
-  errors?: string | undefined;
-  touched?: boolean | undefined;
-  t: TFunction;
-};
+  date: string
+  errors?: string | undefined
+  setFieldValue: (field: string, value: unknown) => void
+  t: TFunction
+  touched?: boolean | undefined
+}
 
 const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) => {
-  dayjs.extend(customParseFormat);
-  let birthDate = dayjs();
+  dayjs.extend(customParseFormat)
+  let birthDate = dayjs()
+
   if (date) {
-    birthDate = dayjs(date, "DD-MM-YYYY");
+    birthDate = dayjs(date, 'DD-MM-YYYY')
   }
 
   return (
     <>
       <StyledTitle>
-        <span>{t("date_of_birthday")}</span>
+        <span>{t('date_of_birthday')}</span>
       </StyledTitle>
       <ThemeProvider theme={errors && touched ? themeError : theme}>
         <DatePicker
+          format="DD/MM/YYYY"
           value={birthDate}
-          format={"DD/MM/YYYY"}
-          disableFuture={true}
-          onChange={(newValue) => {
-            const date = newValue?.format("DD/MM/YYYY");
-            setFieldValue("birthday", date);
+          disableFuture
+          onChange={newValue => {
+            const newDate = newValue?.format('DD/MM/YYYY')
+
+            setFieldValue('birthday', newDate)
           }}
         />
       </ThemeProvider>
     </>
-  );
-};
+  )
+}
 
-export default Calendar;
+export default Calendar

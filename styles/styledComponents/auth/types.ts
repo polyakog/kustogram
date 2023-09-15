@@ -1,4 +1,4 @@
 export type AuthFormPropsType = {
-  width?:string
-  errorShow?:boolean
+  errorShow?: boolean
+  width?: string
 }

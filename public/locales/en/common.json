@@ -69,6 +69,8 @@
   "Required city": "Required city",
   "Too Short!": "Too Short!",
   "Required birthday": "Required birthday",
+
+  "some_err": "There is some error. Please, try again.",
   "select_from_comp": "Select from Computer",
 
   "devices": "Devices",
@@ -84,7 +86,36 @@
   "or": "Or",
   "personal": "Personal",
   "business": "Business",
-  "10_1_Day": "$10 per 1 Day",
-  "50_7_Day": "$50 per 7 Day",
-  "100_month": "$100 per month"
+  "2_1_Day": "$2 per 1 Day",
+  "5_3_Day": "$5.5 per 3 Day",
+  "10_7_Day": "$10 per 7 Day",
+  "30_month": "$30 per month",
+  "current_subscription": "Current Subscription:",
+  "auto_renewal": "Auto-Renewal",
+  "expire_at": "Expire at",
+  "next_payment": "Next payment",
+
+  "transaction_error": "Transaction failed, please try again",
+  "transaction_success": "Payment was successful!",
+  "error_modal": "Error",
+  "success_modal": "Success",
+  "error_btn": "Back to payment",
+  "success_btn": "OK",
+
+  "date_of_payment": "Date of Payment",
+  "end_of_subscription": "End date of subscription",
+  "price": "Price",
+  "subscription_type": "Subscription Type",
+  "payment_type": "Payment Type",
+
+  "signin": "Sign in with",
+  "con_rejected": "Sorry! Connection is rejected",
+  "google_con": "Connecting to your Google account",
+  "github_con": "Connecting to your GitHub account",
+  "server_err": "Server connection error",
+  "google_err": "Google account connection error",
+  "github_err": "GitHub account connection error",
+  "not_success": "Not successful connection",
+  "try_again": "Please try again",
+  "success": "Success: connecting"
 }

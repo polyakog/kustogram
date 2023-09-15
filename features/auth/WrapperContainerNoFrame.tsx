@@ -1,9 +1,11 @@
-import React, {FC, PropsWithChildren} from 'react';
-import styled from "styled-components";
-import { StaledTitle, StyledFormAuth } from 'styles/styledComponents/auth/Auth.styled';
+import { FC, PropsWithChildren } from 'react'
 
-export const WrapperContainerNoFrame: FC<PropsWithChildren&{title:string}>=  (props)=> {
-  const {children, title} = props
+import styled from 'styled-components'
+import { StaledTitle, StyledFormAuth } from 'styles/styledComponents/auth/Auth.styled'
+
+export const WrapperContainerNoFrame: FC<PropsWithChildren & { title: string }> = props => {
+  const { children, title } = props
+
   return (
     <StyledFormAuthNoFrame>
       <StaledTitle>{title}</StaledTitle>
@@ -12,8 +14,7 @@ export const WrapperContainerNoFrame: FC<PropsWithChildren&{title:string}>=  (pr
   )
 }
 
-const StyledFormAuthNoFrame= styled(StyledFormAuth)
-  `
-    background: transparent;
-    border: none;    
-  `
+const StyledFormAuthNoFrame = styled(StyledFormAuth)`
+  background: transparent;
+  border: none;
+`

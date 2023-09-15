@@ -1,88 +1,93 @@
+import React from 'react'
+
+import { useLazyGetPostQuery } from 'assets/store/api/posts/postsApi'
+// import {
+//   BaseQueryFn,
+//   FetchArgs,
+//   FetchBaseQueryError,
+//   FetchBaseQueryMeta,
+//   QueryDefinition,
+//   QueryStatus,
+// } from '@reduxjs/toolkit/dist/query'
+// import { LazyQueryTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks'
+import { CreatePostResponse, GetPostResponse } from 'assets/store/api/posts/types'
+import Image from 'next/image'
 import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  QueryDefinition,
-  QueryStatus
-} from "@reduxjs/toolkit/dist/query";
-import { LazyQueryTrigger } from "@reduxjs/toolkit/dist/query/react/buildHooks";
-import { CreatePostResponse } from "assets/store/api/posts/types";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import {
-  LoadingPostStyle,
-  LoadingStyle,
   PhotoStyle,
   PhotosBlock,
-  PostWrapper
-} from "styles/styledComponents/profile/profile.styled";
-import { baseTheme } from "styles/styledComponents/theme";
+  PostWrapper,
+} from 'styles/styledComponents/profile/profile.styled'
+import { baseTheme } from 'styles/styledComponents/theme'
 
 type PropsType = {
-  posts: CreatePostResponse[] | undefined;
-  postSize: number;
-  setIsPostActive: React.Dispatch<React.SetStateAction<boolean>>;
-  setPageSize: React.Dispatch<React.SetStateAction<number>>;
-  pageSize: number;
-  getCurrentPost: LazyQueryTrigger<
-    QueryDefinition<
-      string,
-      BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
-      "createPost" | "editPost" | "deletePost",
-      CreatePostResponse,
-      "postsApi"
-    >
-  >;
-  totalCount: number;
-  scrollSize: number;
-  isLoading: boolean;
-  status: QueryStatus;
-};
+  // getCurrentPost: LazyQueryTrigger<
+  //   QueryDefinition<
+  //     string,
+  //     BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
+  //     'createPost' | 'deletePost' | 'editPost',
+  //     CreatePostResponse,
+  //     'postsApi'
+  //   >
+  // >
+  isLoading: boolean
+  // pageSize: number
+  postSize: number
+  posts: CreatePostResponse[] | undefined
+  // scrollSize: number
+  setIsPostActive: (isPostActive: boolean) => void
+  // setPageSize: (pageSize: number) => void
+  setPostInfo: (postInfo: GetPostResponse | undefined) => void
+  // status: QueryStatus
+  // totalCount: number
+}
 
 export const PostPhotos: React.FC<PropsType> = ({
   posts,
   postSize,
   setIsPostActive,
-  setPageSize,
-  pageSize,
-  getCurrentPost,
-  totalCount,
-  scrollSize,
+  // setPageSize,
+  setPostInfo,
+  // pageSize,
+  // getCurrentPost,
+  // totalCount,
+  // scrollSize,
   isLoading,
-  status
+  // status,
 }) => {
-  if (isLoading) console.log("%c loading posts...", consoleStyle);
+  const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
+
+  // if (isLoading) console.log('%c loading posts...', consoleStyle)
 
   return (
-    <>
-      <PostWrapper>
-        <PhotosBlock>
-          {posts?.map((p) => (
-            <PhotoStyle key={p.id}>
-              <Image
-                src={p.images.length ? p.images[0].url : ""}
-                width={postSize}
-                height={postSize}
-                alt={"post image"}
-                onClick={() =>
-                  getCurrentPost(p.id)
-                    .unwrap()
-                    .then(() => setIsPostActive(true))
-                }
+    <PostWrapper>
+      <PhotosBlock>
+        {posts?.map(p => (
+          <PhotoStyle key={p.id}>
+            <Image
+              alt="post image"
+              height={postSize}
+              src={p.images.length ? p.images[0].url : ''}
+              width={postSize}
+              onClick={() =>
+                getCurrentPost(p.id)
+                  .unwrap()
+                  .then(() => {
+                    setIsPostActive(true)
+                    setPostInfo(postInfo)
+                  })
+              }
 
-                // style={{ }}
-              />
-            </PhotoStyle>
-          ))}
-        </PhotosBlock>
-      </PostWrapper>
-    </>
-  );
-};
+              // style={{ }}
+            />
+          </PhotoStyle>
+        ))}
+      </PhotosBlock>
+    </PostWrapper>
+  )
+}
 
-const consoleStyle = `
-padding: 20px;
-background-color: ${baseTheme.colors.accent[100]};
-border-radius: 20px;
-color: white}`;
+// const consoleStyle = `
+// padding: 20px;
+// background-color: ${baseTheme.colors.accent[100]};
+// border-radius: 20px;
+// color: white}`

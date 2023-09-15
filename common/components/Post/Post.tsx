@@ -1,106 +1,113 @@
-import { useDeletePostMutation, useUpdatePostMutation } from "assets/store/api/posts/postsApi";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import { styled } from "styled-components";
-import more from "../../../public/img/icons/more-horizontal-outline.svg";
-import close from "../../../public/img/icons/close_white.svg";
-import likeOutline from "../../../public/img/icons/heart-outline.svg";
-import like from "../../../public/img/icons/heart.svg";
-import planeOutline from "../../../public/img/icons/paper-plane-outline.svg";
-import plane from "../../../public/img/icons/paper-plane.svg";
-import bookMarkOutline from "../../../public/img/icons/bookmark.svg";
-import bookMark from "../../../public/img/icons/bookmark-select.svg";
-import edit from "../../../public/img/icons/edit-2-outline.svg";
-import trash from "../../../public/img/icons/trash-outline.svg";
-import prevBtn from "../../../public/img/icons/prev.svg";
-import nextBtn from "../../../public/img/icons/next.svg";
-import { useAuthMeQuery, useProfileQuery } from "assets/store/api/profile/profileApi";
-import { fakeData } from "./fakeData";
-import { Modal } from "../../components/Modals/ModalPublic/Modal";
+import { useEffect, useState } from 'react'
+
+import { useDeletePostMutation, useUpdatePostMutation } from 'assets/store/api/posts/postsApi'
+import { CreatePostResponse } from 'assets/store/api/posts/types'
+import { useAuthMeQuery, useProfileQuery } from 'assets/store/api/profile/profileApi'
+import Modal from 'common/components/Modals/ModalPublic/Modal'
+import Image from 'next/image'
+import bookMarkOutline from 'public/img/icons/bookmark.svg'
+import close from 'public/img/icons/close_white.svg'
+import edit from 'public/img/icons/edit-2-outline.svg'
+import likeOutline from 'public/img/icons/heart-outline.svg'
+import like from 'public/img/icons/heart.svg'
+import more from 'public/img/icons/more-horizontal-outline.svg'
+import nextBtn from 'public/img/icons/next.svg'
+import planeOutline from 'public/img/icons/paper-plane-outline.svg'
+import prevBtn from 'public/img/icons/prev.svg'
+import trash from 'public/img/icons/trash-outline.svg'
+import { styled } from 'styled-components'
+
+import { fakeData } from './fakeData'
 
 type PostProps = {
-  postInfo: any;
-  setIsPostActive: (state: boolean) => void;
-};
+  postInfo: CreatePostResponse | undefined
+  setIsPostActive: (state: boolean) => void
+}
 
 const Post = ({ postInfo, setIsPostActive }: PostProps) => {
-  const { data: profile } = useProfileQuery();
+  const { data: profile } = useProfileQuery()
 
-  const [isLiked, setIsLiked] = useState(false);
-  const [images, _] = useState(postInfo?.images);
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isDeleteModal, setIsDeleteModal] = useState(false);
+  const [isLiked, setIsLiked] = useState(false)
+  const [images, _] = useState(postInfo?.images)
+  const [currentImage, setCurrentImage] = useState(0)
+  const [isDeleteModal, setIsDeleteModal] = useState(false)
 
-  const [deletePost] = useDeletePostMutation();
-  const [updatePost] = useUpdatePostMutation();
-  const { data: user } = useAuthMeQuery();
-  const [isPostManagmentsActive, setIsPostManagmentActive] = useState(false);
-  const [comment, setComment] = useState("");
-  const [description, setDescription] = useState(postInfo.description || "");
-  const [isEditDescription, setIsEditDescription] = useState(false);
+  const [deletePost] = useDeletePostMutation()
+  const [updatePost] = useUpdatePostMutation()
+  const { data: user } = useAuthMeQuery()
+  const [isPostManagmentsActive, setIsPostManagmentActive] = useState(false)
+  const [comment, setComment] = useState('')
+  const [description, setDescription] = useState(postInfo?.description || '')
+  const [isEditDescription, setIsEditDescription] = useState(false)
 
+  let imageSrc = ''
+
+  if (images && images.length) {
+    imageSrc = images[currentImage].url
+  }
   const switchFotoHandler = (direction: string): void => {
-    if (direction === "next") {
+    if (images && direction === 'next') {
       if (currentImage + 1 === images.length) {
-        setCurrentImage(0);
+        setCurrentImage(0)
       } else {
-        setCurrentImage((prev) => prev + 1);
+        setCurrentImage(prev => prev + 1)
       }
+    } else if (images && currentImage === 0) {
+      setCurrentImage(images.length - 1)
     } else {
-      if (currentImage === 0) {
-        setCurrentImage(images.length - 1);
-      } else {
-        setCurrentImage((prev) => prev - 1);
-      }
+      setCurrentImage(prev => prev - 1)
     }
-  };
+  }
 
   const deleteOperationHandler = () => {
-    setIsDeleteModal(true);
-    setIsPostManagmentActive((prev) => !prev);
-  };
+    setIsDeleteModal(true)
+    setIsPostManagmentActive(prev => !prev)
+  }
 
   const editPostOperation = () => {
-    setIsPostManagmentActive(false);
-    setIsEditDescription(true);
-  };
+    setIsPostManagmentActive(false)
+    setIsEditDescription(true)
+  }
 
   const deletePostHandler = () => {
-    deletePost(postInfo.id)
-      .unwrap()
-      .then(() => setIsPostActive(false));
-  };
+    if (postInfo) {
+      deletePost(postInfo.id)
+        .unwrap()
+        .then(() => setIsPostActive(false))
+    }
+  }
 
   const closeDescriptionModal = () => {
-    setDescription(postInfo?.description || "");
-    setIsEditDescription(false);
-  };
+    setDescription(postInfo?.description || '')
+    setIsEditDescription(false)
+  }
 
   const newDescriptionHandler = () => {
-    if (description !== postInfo.descrption) {
+    if (postInfo && description !== postInfo.description) {
       const data = {
         postId: postInfo.id,
         body: {
-          description: description
-        }
-      };
+          description,
+        },
+      }
+
       updatePost(data)
         .unwrap()
-        .then(() => setIsEditDescription(false));
+        .then(() => setIsEditDescription(false))
     }
-  };
+  }
 
   const handleCrossClick = () => {
-    setIsDeleteModal(false);
-  };
+    setIsDeleteModal(false)
+  }
 
   return (
     <StyledPostOverlay>
       {isDeleteModal && (
         <Modal
-          title="Delete Post"
-          bodyText={`Are you sure you want to delete this post?`}
+          bodyText="Are you sure you want to delete this post?"
           handleCrossClick={handleCrossClick}
+          title="Delete Post"
         >
           <>
             <ModalButton onClick={deletePostHandler}>Yes</ModalButton>
@@ -110,16 +117,11 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
       )}
       <StyledModalContainer>
         <StyledImageWrapper>
-          <StyledPostImage
-            alt="post image"
-            src={images.length ? images[currentImage].url : ""}
-            width={490}
-            height={560}
-          />
-          {images.length > 1 ? (
+          <StyledPostImage alt="post image" height={560} src={imageSrc} width={490} />
+          {images && images.length > 1 ? (
             <>
-              <PrevPhoto alt="prev" src={prevBtn} onClick={() => switchFotoHandler("prev")} />
-              <NextPhoto alt="next" src={nextBtn} onClick={() => switchFotoHandler("next")} />
+              <PrevPhoto alt="prev" src={prevBtn} onClick={() => switchFotoHandler('prev')} />
+              <NextPhoto alt="next" src={nextBtn} onClick={() => switchFotoHandler('next')} />
             </>
           ) : null}
         </StyledImageWrapper>
@@ -128,22 +130,22 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
             <StyledCommentsHeading>
               <CloseModal alt="close" src={close} onClick={() => setIsPostActive(false)} />
               <User>
-                <StyledAvatar alt="avatar" src={profile?.photo || ""} width={48} height={48} />
-                <StyledUsername>{user?.login}</StyledUsername>
+                <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
+                <StyledUsername>{profile?.login}</StyledUsername>
               </User>
               <EditPost
                 alt="more"
                 src={more}
-                onClick={() => setIsPostManagmentActive((prev) => !prev)}
+                onClick={() => setIsPostManagmentActive(prev => !prev)}
               />
               {isPostManagmentsActive && (
                 <PostManagment>
                   <Operation onClick={editPostOperation}>
-                    <StyledIcon src={edit} alt="edit" />
+                    <StyledIcon alt="edit" src={edit} />
                     <TypeOfOperation>Edit Post</TypeOfOperation>
                   </Operation>
                   <Operation onClick={deleteOperationHandler}>
-                    <StyledIcon src={trash} alt="delete" />
+                    <StyledIcon alt="delete" src={trash} />
                     <TypeOfOperation>Delete Post</TypeOfOperation>
                   </Operation>
                 </PostManagment>
@@ -152,22 +154,22 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
             <CommentsWrapper>
               {postInfo?.description && (
                 <SingleCommentWrapper>
-                  <StyledAvatar alt="avatar" src={profile?.photo || ""} width={36} height={36} />
+                  <StyledAvatar alt="avatar" height={36} src={profile?.photo || ''} width={36} />
                   <PostDescription>
                     {profile?.login} {postInfo?.description}
                   </PostDescription>
                 </SingleCommentWrapper>
               )}
               {fakeData.map((item, index) => (
-                <SingleCommentWrapper key={index}>
+                <SingleCommentWrapper key={item.id}>
                   <StyledAvatar alt="avatar" src={item.userImage} />
                   <StyledComment>{`${item.userName + index} ${item.comment}`}</StyledComment>
 
                   <StyledIcon
                     alt="like"
-                    src={isLiked ? like : likeOutline}
-                    onClick={() => setIsLiked((prev) => !prev)}
                     size="small"
+                    src={isLiked ? like : likeOutline}
+                    onClick={() => setIsLiked(prev => !prev)}
                   />
                 </SingleCommentWrapper>
               ))}
@@ -182,7 +184,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
               </Wrapper>
             </LikesSection>
             <AddCommentWrapper>
-              <CommentField value={comment} onChange={(e) => setComment(e.target.value)} />
+              <CommentField value={comment} onChange={e => setComment(e.target.value)} />
               <PublishBtn>Publish</PublishBtn>
             </AddCommentWrapper>
           </StyledComents>
@@ -193,12 +195,12 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
               <StyledIcon alt="close" src={close} onClick={closeDescriptionModal} />
             </EditPostHeader>
             <User>
-              <StyledAvatar alt="avatar" src={profile?.photo || ""} width={48} height={48} />
+              <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
               <StyledUsername>{user?.login}</StyledUsername>
             </User>
             <NewDescriptionWrapper>
               <Text>Add publication descriptions</Text>
-              <NewDescription onChange={(e) => setDescription(e.target.value)}>
+              <NewDescription onChange={e => setDescription(e.target.value)}>
                 {description}
               </NewDescription>
               <AmountOfChars>{description.length}/500</AmountOfChars>
@@ -208,39 +210,39 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
         )}
       </StyledModalContainer>
     </StyledPostOverlay>
-  );
-};
+  )
+}
 
-export default Post;
+export default Post
 
 const NewDescriptionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px 0 200px;
-`;
+`
 
 const Text = styled.p`
   color: #8d9094;
   align-self: flex-start;
-`;
+`
 const AmountOfChars = styled.p`
   color: #8d9094;
   align-self: flex-end;
-`;
+`
 
 const NewDescription = styled.textarea.attrs({
-  maxLength: 500
+  maxLength: 500,
 })`
   background: #171717;
   color: #fff;
   padding: 0 12px;
-  border: none;
-  outline: none;
   height: 120px;
+  resize: none;
   &::-webkit-scrollbar {
     width: 0;
   }
-`;
+  border: 1px solid #4c4c4c;
+`
 
 const SaveChanges = styled.button`
   border-radius: 2px;
@@ -251,22 +253,22 @@ const SaveChanges = styled.button`
   background: #397df6;
   align-self: flex-end;
   cursor: pointer;
-`;
+`
 
 const EditPostContainer = styled.div`
-  background: #4c4c4c;
+  background: #333;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
   padding: 12px 24px;
-`;
+`
 
 const EditPostHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: 24px;
-`;
+`
 
 const ModalButton = styled.button`
   border: 1px solid #397df6;
@@ -279,14 +281,14 @@ const ModalButton = styled.button`
     color: white;
     background: #397df6;
   }
-`;
+`
 
 const CloseModal = styled(Image)`
   position: absolute;
   right: -30px;
   top: -30px;
   cursor: pointer;
-`;
+`
 
 const LikesSection = styled.div`
   padding: 0 24px;
@@ -296,36 +298,36 @@ const LikesSection = styled.div`
   height: 107px;
   border-bottom: 1px solid #8d9094;
   border-top: 1px solid #8d9094;
-`;
+`
 
 const IconsWrapper = styled.div`
   display: flex;
   gap: 24px;
-`;
+`
 
 const NextPhoto = styled(Image)`
   cursor: pointer;
   position: absolute;
   top: 45%;
   right: 10%;
-`;
+`
 
 const PrevPhoto = styled(Image)`
   cursor: pointer;
   position: absolute;
   top: 45%;
   left: 10%;
-`;
+`
 
 const EditPost = styled(Image)`
   cursor: pointer;
-`;
+`
 
 const StyledIcon = styled(Image)<{ size?: string }>`
-  width: ${(props) => (props.size ? "16px" : "24px")};
-`;
+  width: ${props => (props.size ? '16px' : '24px')};
+`
 
-const PostDescription = styled.div``;
+const PostDescription = styled.div``
 
 const PostManagment = styled.div`
   color: #fff;
@@ -340,21 +342,21 @@ const PostManagment = styled.div`
   position: absolute;
   right: 24px;
   top: 40px;
-`;
+`
 
 const Operation = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-`;
+`
 
 const TypeOfOperation = styled.p`
   padding-left: 12px;
   font-size: 14px;
-`;
+`
 
 const StyledPostOverlay = styled.div`
-  z-index: 10;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;
@@ -364,16 +366,21 @@ const StyledPostOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const StyledModalContainer = styled.div`
+  margin: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 560px;
   max-width: 1000px;
   width: 80vw;
-`;
+  @media (max-height: 630px) {
+    position: absolute;
+    top: 20px;
+  }
+`
 
 const CommentsWrapper = styled.div`
   height: 336px;
@@ -385,39 +392,39 @@ const CommentsWrapper = styled.div`
   &::-webkit-scrollbar {
     width: 0;
   }
-`;
+`
 
 const SingleCommentWrapper = styled.div`
   display: flex;
   padding: 0 24px;
   gap: 12px;
-`;
+`
 
 const StyledImageWrapper = styled.div`
   position: relative;
   background: black;
   max-height: 560px;
-`;
+`
 
-const StyledUsername = styled.p``;
+const StyledUsername = styled.p``
 
 const StyledComment = styled.p`
   text-align: justify;
   word-break: break-all;
-`;
+`
 
 const StyledPostImage = styled(Image)`
   /* margin-top: 6px; hz pochemy ona yezjaet */
   object-fit: cover;
-`;
+`
 
 const StyledComents = styled.div`
   display: flex;
   flex-direction: column;
-  background: #4c4c4c;
+  background: #333;
   height: 100%;
   width: 100%;
-`;
+`
 
 const StyledCommentsHeading = styled.div`
   display: flex;
@@ -426,42 +433,45 @@ const StyledCommentsHeading = styled.div`
   position: relative;
   padding: 12px 24px;
   border-bottom: 1px solid #8d9094;
-`;
+`
 
 const StyledAvatar = styled(Image)`
   width: 36px;
   height: 36px;
   border-radius: 50%;
-`;
+`
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 12px 0;
-`;
+`
 
 const AddCommentWrapper = styled(Wrapper)`
   padding: 17px 24px;
-`;
+  gap: 24px;
+`
 
 const CommentField = styled.input.attrs({
-  placeholder: "Add a Comment..."
+  placeholder: 'Add a Comment...',
 })`
   background: #4c4c4c;
   border: none;
   outline: none;
   color: #fff;
   font-size: 14px;
-`;
+  background: #333;
+  flex-grow: 2;
+`
 
 const PublishBtn = styled.button`
   border: none;
   color: #397df6;
   background: #4c4c4c;
-`;
+`
 
 const User = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
-`;
+`

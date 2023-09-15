@@ -1,4 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { getItem } from 'common/hooks/useLocalStorage'
+
 import {
   CheckLinkType,
   LoginResponseType,
@@ -6,84 +8,109 @@ import {
   MeType,
   NewPasswordResType,
   NewPasswordType,
+  RefreshLinkType,
   RegistrationType,
-  SendLinkType
-} from "./types";
-import { getItem } from "../../../../common/hooks/useLocalStorage";
+  SendLinkType,
+} from './types'
 
 export const authApi = createApi({
-  reducerPath: "authApi",
+  reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://calypso-one.vercel.app/",
-    fetchFn: async (url) => {
-      const token = getItem("accessToken");
+    baseUrl: 'https://kustogram.site/api/v1',
+    credentials: 'include',
+    fetchFn: async url => {
+      const token = getItem('accessToken')
       const options = {
         headers: new Headers({
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        })
-      };
-      return await fetch(url, options);
-    }
+          'Content-Type': 'application/json',
+        }),
+      }
+
+      // return await fetch(url, options)
+      return fetch(url, options)
+    },
   }),
-  endpoints: (builder) => ({
-    registration: builder.mutation<any, RegistrationType>({
-      query: (body) => ({
-        url: "auth/registration",
-        method: "POST",
-        body
-      })
+  endpoints: builder => ({
+    registration: builder.mutation<unknown, RegistrationType>({
+      query: body => ({
+        url: 'auth/registration',
+        method: 'POST',
+        body,
+      }),
     }),
     login: builder.mutation<LoginResponseType, LoginType>({
-      query: (body) => ({
-        url: "auth/login",
-        method: "POST",
-        body
-      })
+      query: body => ({
+        url: 'auth/login',
+        method: 'POST',
+        body,
+      }),
     }),
-    sendRecoveryLink: builder.mutation<any, SendLinkType>({
-      query: (body) => ({
-        method: "POST",
+    loginWithGoogle: builder.mutation<LoginResponseType, { code: string }>({
+      query: body => ({
+        url: 'auth/google',
+        method: 'POST',
+        body,
+      }),
+    }),
+    loginWithGithub: builder.mutation<LoginResponseType, { code: string }>({
+      query: body => ({
+        url: 'auth/github',
+        method: 'POST',
+        body,
+      }),
+    }),
+    sendRecoveryLink: builder.mutation<unknown, SendLinkType>({
+      query: body => ({
+        method: 'POST',
         url: `/auth/password-recovery`,
-        body
-      })
+        body,
+      }),
     }),
     newPassword: builder.mutation<NewPasswordResType, NewPasswordType>({
-      query: (body) => {
+      query: body => {
         return {
-          method: "POST",
+          method: 'POST',
           url: `/auth/new-password`,
-          body
-        };
-      }
+          body,
+        }
+      },
     }),
-    checkLinkHandler: builder.query<any, CheckLinkType>({
-      query: (code) => {
+    checkLinkHandler: builder.query<unknown, CheckLinkType>({
+      query: code => {
         return {
-          method: "GET",
-          url: `/auth/email-confirmation/${code}`
-        };
-      }
+          method: 'GET',
+          url: `/auth/email-confirmation/${code}`,
+        }
+      },
     }),
-    refreshLink: builder.mutation<any, any>({
-      query: (body) => {
+    refreshLink: builder.mutation<unknown, RefreshLinkType>({
+      query: body => {
         return {
-          method: "POST",
+          method: 'POST',
           url: `/auth/refresh-link`,
-          body
-        };
-      }
+          body,
+        }
+      },
     }),
     me: builder.query<MeType, void>({
       query: () => {
         return {
-          method: "GET",
-          url: `/auth/me`
-        };
-      }
-    })
-  })
-});
+          method: 'GET',
+          url: `/auth/me`,
+        }
+      },
+    }),
+    logout: builder.mutation<void, void>({
+      query: () => {
+        return {
+          method: 'POST',
+          url: `/auth/logout`,
+        }
+      },
+    }),
+  }),
+})
 
 export const {
   useRegistrationMutation,
@@ -92,5 +119,8 @@ export const {
   useNewPasswordMutation,
   useLazyCheckLinkHandlerQuery,
   useRefreshLinkMutation,
-  useLazyMeQuery
-} = authApi;
+  useLazyMeQuery,
+  useLogoutMutation,
+  useLoginWithGoogleMutation,
+  useLoginWithGithubMutation,
+} = authApi

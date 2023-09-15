@@ -1,65 +1,67 @@
-import React, { useState } from "react";
-import { getLayout } from "../../../../common/components/Layout/BaseLayout/BaseLayout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { GetStaticPropsContext } from "next";
-import config from "next-i18next.config.js";
-import { useTranslation } from "next-i18next";
-import { useRefreshLinkMutation } from "../../../../assets/store/api/auth/authApi";
-import { Modal } from "../../../../common/components/Modals/ModalPublic/Modal";
-import VerificationWindow from "../../../../features/auth/VerificationWindow";
-import { useLocalStorage } from "common/hooks/useLocalStorage";
+import { useState } from 'react'
+
+import { useRefreshLinkMutation } from 'assets/store/api/auth/authApi'
+import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
+import Modal from 'common/components/Modals/ModalPublic/Modal'
+import { useLocalStorage } from 'common/hooks/useLocalStorage'
+import VerificationWindow from 'features/auth/VerificationWindow'
+import { GetStaticPropsContext } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import config from 'next-i18next.config.js'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context;
+  const { locale } = context
+
   return {
     props: {
-      ...(await serverSideTranslations(locale as string, ["common"], config))
-    }
-  };
+      ...(await serverSideTranslations(locale as string, ['common'], config)),
+    },
+  }
 }
 
 const Verification = () => {
-  const [isModalActive, setIsModalActive] = useState(false);
-  const { getItem } = useLocalStorage();
+  const [isModalActive, setIsModalActive] = useState(false)
+  const { getItem } = useLocalStorage()
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const data = { email: getItem("email") };
+  const data = { email: getItem('email') }
 
-  const [refreshLinkHandler] = useRefreshLinkMutation();
+  const [refreshLinkHandler] = useRefreshLinkMutation()
 
   const handleClick = () => {
     refreshLinkHandler(data)
       .unwrap()
       .then(() => {
-        setIsModalActive(true);
-      });
-  };
+        setIsModalActive(true)
+      })
+  }
 
   const handleModalClose = () => {
-    setIsModalActive(false);
-  };
+    setIsModalActive(false)
+  }
 
   return (
     <>
-      {" "}
+      {' '}
       {isModalActive && (
         <Modal
-          title="Refresh link"
-          bodyText={`We have sent a refresh link your email to ${getItem("email")}`}
+          bodyText={`We have sent a refresh link your email to ${getItem('email')}`}
           handleModalClose={handleModalClose}
+          title="Refresh link"
         />
       )}
       <VerificationWindow
+        btnTitle={t('resend_btn')}
         handleClick={handleClick}
-        title={t("link_exp_title")}
-        text={t("link_exp_text")}
-        btnTitle={t("resend_btn")}
+        text={t('link_exp_text')}
+        title={t('link_exp_title')}
       />
     </>
-  );
-};
+  )
+}
 
-Verification.getLayout = getLayout;
+Verification.getLayout = getLayout
 
-export default Verification;
+export default Verification

@@ -1,22 +1,22 @@
-import Calendar, { CalendarProps } from "common/components/Calendar/Calendar";
-import { StyledErrorMsg } from "common/components/Formik/Formik.styled";
-import { Field } from "formik";
+import Calendar, { CalendarProps } from 'common/components/Calendar/Calendar'
+import { StyledErrorMsg } from 'common/components/Formik/Formik.styled'
+import { Field } from 'formik'
 
 const ProfileCalendar = ({ setFieldValue, date, errors, touched, t }: CalendarProps) => {
   return (
     <>
       <Field
-        name="birthday"
         component={Calendar}
-        setFieldValue={setFieldValue}
         date={date}
         errors={errors}
-        touched={touched}
+        name="birthday"
+        setFieldValue={setFieldValue}
         t={t}
+        touched={touched}
       />
-      {!!errors && touched && <StyledErrorMsg>{errors}</StyledErrorMsg>}
+      {!!errors && touched && <StyledErrorMsg>{t ? t(`${errors}`) : errors}</StyledErrorMsg>}
     </>
-  );
-};
+  )
+}
 
-export default ProfileCalendar;
+export default ProfileCalendar

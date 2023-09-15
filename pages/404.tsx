@@ -1,31 +1,32 @@
-import Image from "next/image";
-import { Modal } from "../common/components/Modals/ModalPublic/Modal";
-import { Button } from "../common/components/Button/Button";
-import { ThemeButton } from "../common/enums/themeButton";
-import React from "react";
-import { useRouter } from "next/router";
-import { getLayout } from "../common/components/Layout/BaseLayout/BaseLayout";
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+
+import { Button } from '../common/components/Button/Button'
+import { getLayout } from '../common/components/Layout/BaseLayout/BaseLayout'
+import Modal from '../common/components/Modals/ModalPublic/Modal'
+import { ThemeButton } from '../common/enums/themeButton'
 
 const NotFound = () => {
-  const router = useRouter();
+  const router = useRouter()
   const handleModalClose = () => {
-    router.back();
-  };
+    router.back()
+  }
 
   return (
     <div>
-      <Image src="/img/404.svg" alt="Next.js Logo" width={1280} height={720} priority />
+      <Image alt="Next.js Logo" height={720} src="/img/404.svg" width={1280} priority />
       <Modal
-        title="ERROR_404_"
-        bodyText={`Page not found. Click the button or close the modal to go back.`}
+        bodyText="Page not found. Click the button or close the modal to go back."
         handleModalClose={handleModalClose}
+        title="ERROR_404_"
       >
-        <Button theme={ThemeButton.PRIMARY} onClick={handleModalClose} width={"196px"}>
+        <Button theme={ThemeButton.PRIMARY} width="196px" onClick={handleModalClose}>
           Go to Back
         </Button>
       </Modal>
     </div>
-  );
-};
-NotFound.getLayout = getLayout;
-export default NotFound;
+  )
+}
+
+NotFound.getLayout = getLayout
+export default NotFound

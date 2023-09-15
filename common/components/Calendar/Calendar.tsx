@@ -32,9 +32,9 @@ const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) =>
       </StyledTitle>
       <ThemeProvider theme={errors && touched ? themeError : theme}>
         <DatePicker
-          disableFuture
           format="DD/MM/YYYY"
           value={birthDate}
+          disableFuture
           onChange={newValue => {
             const newDate = newValue?.format('DD/MM/YYYY')
 

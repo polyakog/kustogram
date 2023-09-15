@@ -7,8 +7,8 @@ import {
 import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import { redirect } from 'pages/auth/login'
 import { ErrorType } from 'pages/auth/callback/google'
+import { redirect } from 'pages/auth/login'
 import { baseTheme } from 'styles/styledComponents/theme'
 
 export type ProviderType = {
@@ -18,8 +18,8 @@ export type ProviderType = {
 
 type CodeType = {
   provider: ProviderType
-  setConnectionError: (conError: ErrorType) => void
   setAccountError: (accError: string) => void
+  setConnectionError: (conError: ErrorType) => void
   setStatus: (status: string) => void
 }
 
@@ -43,29 +43,29 @@ export const useOAuthCode = ({
   const handle = async (code: { code: string }, provider: ProviderType) => {
     const getProfile = provider.isGoogle ? loginGoogleHandler : loginGithubHandler
 
-    try {
-      await getProfile(code)
-        .unwrap()
-        .then(res => {
-          console.log(
-            `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
-            consoleStyle
-          )
+    // try {
+    await getProfile(code)
+      .unwrap()
+      .then(res => {
+        // console.log(
+        //   `%c SUCCESSFULL LOGIN WITH ${provider.isGoogle ? 'GOOGLE' : 'GITHUB'}`,
+        //   consoleStyle
+        // )
 
-          redirect(res, setItem, route)
-        })
-        .catch(err => {
-          // console.log('ошибка входа:', err)
-          setConnectionError(err)
-        })
-    } catch (error) {
-      console.log('Login Error With Google/Github:', error)
-    }
+        redirect(res, setItem, route)
+      })
+      .catch(err => {
+        // console.log('ошибка входа:', err)
+        setConnectionError(err)
+      })
+    // } catch (error) {
+    //   console.log('Login Error With Google/Github:', error)
+    // }
   }
 
   useEffect(() => {
     if (code) {
-      console.log(code)
+      // console.log(code)
       handle({ code }, provider)
     }
 
@@ -86,8 +86,8 @@ export const useOAuthCode = ({
   }, [])
 }
 
-const consoleStyle = `
-padding: 20px;
-background-color: ${baseTheme.colors.success[100]};
-border-radius: 20px;
-color: white}`
+// const consoleStyle = `
+// padding: 20px;
+// background-color: ${baseTheme.colors.success[100]};
+// border-radius: 20px;
+// color: white}`

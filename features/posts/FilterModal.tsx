@@ -109,8 +109,25 @@ const StyledFiltersContainer = styled.div<{ key: string }>`
   padding: 10px;
   width: calc(100% - 490px);
   min-width: 180px;
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 3px;
+    max-height: 3px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #333;
+  }
 
-  overflow: scroll;
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background-color: black;
+  }
+
+  @media (max-width: 995px) {
+    overflow-y: scroll;
+  }
 `
 const HiddenCanvas = styled.div`
   width: fit-content;

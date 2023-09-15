@@ -1,6 +1,8 @@
 import Image from 'next/image'
 
 import {
+  Bold,
+  ModalContent,
   StyledBlockButton,
   StyledCloseButton,
   StyledModalBody,
@@ -17,9 +19,11 @@ const Modal = ({
   title,
   bodyText,
   children,
+  fz,
   width,
   height,
   bg,
+  email,
 }: ModalPropsType) => {
   const onCloseButtonClick = () => {
     if (handleModalClose) {
@@ -37,17 +41,18 @@ const Modal = ({
           <StyledModalTitle>{title}</StyledModalTitle>
           <StyledCloseButton onClick={onCloseButtonClick}>
             <Image
-              priority
               alt="close"
               height={24}
               src="/img/icons/close_white.svg"
               style={{ cursor: 'pointer' }}
               width={24}
+              priority
             />
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
-          <p>{bodyText}</p>
+          <ModalContent>{bodyText}</ModalContent>
+          {email && <Bold>{email}</Bold>}
           <StyledBlockButton>{children}</StyledBlockButton>
         </StyledModalBody>
       </StyledModalContainer>

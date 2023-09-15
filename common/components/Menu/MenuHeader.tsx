@@ -1,7 +1,19 @@
 import React, { useState } from 'react'
 
+import { Path } from 'common/enums/path'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { MainLink, UpperMainLink } from './MainLink/MainLink'
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
+import selectedDots from 'public/img/icons/more-horizontal_selected.svg'
+import dots from 'public/img/icons/more-horizontal_white.svg'
+import styled from 'styled-components'
+import { baseTheme } from 'styles/styledComponents/theme'
+
+import { LogoutModal } from '../Navbar/LogoutLink/logoutLink'
+
+import { MenuItems } from './constant'
+import { UpperMainLink } from './MainLink/MainLink'
 import {
   MenuList,
   MenuWrapper,
@@ -11,16 +23,6 @@ import {
   StyledItemUpperBlock,
   StyledMenuBar,
 } from './Menubar.styled'
-import Image from 'next/image'
-import { useTranslation } from 'next-i18next'
-import styled from 'styled-components'
-import dots from 'public/img/icons/more-horizontal_white.svg'
-import selectedDots from 'public/img/icons/more-horizontal_selected.svg'
-import { baseTheme } from 'styles/styledComponents/theme'
-import { MenuItems } from './constant'
-import { LogoutModal } from '../Navbar/LogoutLink/logoutLink'
-import { useRouter } from 'next/router'
-import { Path } from 'common/enums/path'
 
 export type MenuHeaderPropsType = {
   showMenuHeader: boolean
@@ -61,18 +63,17 @@ export const MenuHeader = () => {
 
   const items = MenuItems.map((item, k) => (
     <UpperMainLink
-      key={k}
-      src={isActive(item.href) ? item.selectIcon : item.icon}
-      name={item.name}
-      // name={t(item.name)}
+      key={item.name}
       callback={callback[k]}
+      name={item.name}
+      src={isActive(item.href) ? item.selectIcon : item.icon}
     />
   ))
 
   return (
     <>
       <MenuWrapper onClick={handleMenu}>
-        <Image priority alt={'menu'} height={24} src={!isMenu ? dots : selectedDots} width={24} />
+        <Image alt="menu" height={24} src={!isMenu ? dots : selectedDots} width={24} priority />
       </MenuWrapper>
 
       {isMenu ? (

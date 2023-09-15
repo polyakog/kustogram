@@ -1,3 +1,182 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "jest": true,
+    "es2021": true,
+    "browser": true
+  },
+  "extends": [
+    "airbnb",
+    "prettier",
+    "eslint:recommended",
+    "plugin:@next/next/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:import/recommended",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "import",
+    "prettier",
+    "react-hooks",
+    "jsx-a11y",
+    "sort-destructure-keys",
+    "sort-keys-fix",
+    "@typescript-eslint",
+    "typescript-sort-keys"
+  ],
+  "overrides": [
+    {
+      "files": [
+        ".js",
+        ".ts",
+        ".jsx",
+        ".tsx",
+        "**/*.spec.js",
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.tsx"
+      ]
+    }
+  ],
+  "rules": {
+    "no-console": "off",
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
+    "no-debugger": "warn",
+    "no-shadow": "off",
+    "class-methods-use-this": "off",
+    "no-unused-vars": "off",
+    "no-underscore-dangle": "off",
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "pathGroupsExcludedImportTypes": ["react"],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ]
+      }
+    ],
+    "no-magic-numbers": [
+      "error",
+      {
+        "ignore": [0, 1, -1, 100, 300, 500, 700, 900, 200, 550, 1000]
+      }
+    ],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      },
+      {
+        "blankLine": "always",
+        "prev": ["const", "let", "var"],
+        "next": "*"
+      },
+      {
+        "blankLine": "any",
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
+      }
+    ],
+    "no-use-before-define": "off",
+    "no-param-reassign": [
+      "warn",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["state", "self"]
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "react/require-default-props": "off",
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".jsx", ".tsx"]
+      }
+    ],
+    "react/jsx-props-no-spreading": [
+      0,
+      {
+        "html": "ignore"
+      }
+    ],
+    "react/jsx-sort-props": [
+      "error",
+      {
+        "callbacksLast": true,
+        "shorthandFirst": false,
+        "shorthandLast": true,
+        "ignoreCase": true,
+        "multiline": "last",
+        "noSortAlphabetically": false,
+        "reservedFirst": true
+      }
+    ],
+    "@typescript-eslint/no-extra-semi": "off",
+    "@typescript-eslint/no-shadow": "warn",
+    "@typescript-eslint/sort-type-constituents": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "off",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "typescript-sort-keys/interface": "error",
+    "typescript-sort-keys/string-enum": "error",
+    "import/no-unresolved": "off",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-continue": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "react/jsx-no-useless-fragment": "warn",
+    "jsx-a11y/label-has-associated-control": "off"
+  },
+  "globals": {
+    "JSX": true
+  }
 }

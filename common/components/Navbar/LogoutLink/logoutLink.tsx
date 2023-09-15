@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import { FC, useState } from 'react'
 
+import { useLogoutMutation } from 'assets/store/api/auth/authApi'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
@@ -88,17 +90,25 @@ type PropsType = {
   setIsOpenModalLogout: (isOpenModalLogout: boolean) => void
 }
 
-export const LogoutModal: React.FC<PropsType> = ({ isOpenModalLogout, setIsOpenModalLogout }) => {
+export const LogoutModal = ({ isOpenModalLogout, setIsOpenModalLogout }: PropsType) => {
   // const [isOpenModalLogout, setIsOpenModalLogout] = useState(false)
-
+  const [logout] = useLogoutMutation()
   const { clearAll, getItem } = useLocalStorage()
   const router = useRouter()
 
   const userEmail = getItem('userEmail')
 
-  const logoutHandler = () => {
-    clearAll()
-    router.push(Path.LOGIN)
+  const logoutHandler = async () => {
+    try {
+      await logout()
+        .unwrap()
+        .then(() => {
+          clearAll()
+          router.push(Path.LOGIN)
+        })
+    } catch {
+      console.log('log out error')
+    }
   }
   const onClose = () => {
     setIsOpenModalLogout(false)
@@ -117,7 +127,8 @@ export const LogoutModal: React.FC<PropsType> = ({ isOpenModalLogout, setIsOpenM
     <>
       {isOpenModalLogout ? (
         <Modal
-          bodyText={`Are you really want to log out of your account "${userEmail}"`}
+          bodyText="Are you really want to log out of your account "
+          email={userEmail}
           handleModalClose={onClose}
           title="Log Out"
           width="440px"

@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
+import {
+  useDeleteAllDevicesMutation,
+  useDeleteDeviceMutation,
+  useGetCurrentDeviceQuery,
+  useGetDevicesQuery,
+} from 'assets/store/api/devices/devicesApi'
+import { useClient } from 'common/hooks/useClients'
 import { getUserBrowser } from 'common/utils/getUserBrowser'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
@@ -7,6 +14,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import chrome from 'public/img/icons/chrome-svgrepo-com.svg'
 import mac from 'public/img/icons/desktop_mac.svg'
+import logout from 'public/img/icons/log-out.svg'
 import iphone from 'public/img/icons/phone_iphone.svg'
 import { useTranslation } from 'react-i18next'
 import { styled } from 'styled-components'
@@ -41,10 +49,16 @@ const fakeDevices = [
 ]
 
 const Devices = () => {
+  const client = useClient()
   const { t } = useTranslation()
   const [ip, setIp] = useState()
   const [currentStatus, setCurrentStatus] = useState('Online')
   const browser = getUserBrowser()
+
+  const { data: currentDevice } = useGetCurrentDeviceQuery()
+  const { data: devices } = useGetDevicesQuery()
+  const [closeSession] = useDeleteDeviceMutation()
+  const [closeAllSessions] = useDeleteAllDevicesMutation()
 
   useEffect(() => {
     fetch('https://ipapi.co/json/')
@@ -53,51 +67,91 @@ const Devices = () => {
   }, [])
 
   return (
-    <SettingsPageWrapper>
-      <PageWrapper>
+    client && (
+      <SettingsPageWrapper>
         <SessionWrapper>
           <SectionTitle>{t('this_devices')}</SectionTitle>
           <ActiveSession>
             <DeviceIcon alt="browser icon" src={chrome} />
-            <Wrapper>
+            <Column>
               <Browser suppressHydrationWarning>{browser}</Browser>
               <SessionIp>IP: {ip}</SessionIp>
               <IsOnline>{currentStatus}</IsOnline>
-            </Wrapper>
+            </Column>
           </ActiveSession>
-          <EndSessionsBtn>
+          <EndSessionsBtn onClick={() => closeAllSessions()}>
             <EndSessionsBtnText>{t('terminate_session')}</EndSessionsBtnText>
           </EndSessionsBtn>
         </SessionWrapper>
-        <SessionWrapper>
-          <div style={{ marginBottom: '18px' }}>{t('active_sessions')}</div>
-          {fakeDevices.map((device, index) => {
-            return (
-              <ActiveSession key={device.deviseIcon} style={{ marginBottom: '12px' }}>
-                <DeviceIcon alt="browser icon" src={device.deviseIcon} />
-                <Wrapper>
-                  <Browser>{device.device}</Browser>
-                  <SessionIp>IP: {device.ip}</SessionIp>
-                  <LastVisit>{device.lastVisit}</LastVisit>
-                </Wrapper>
-              </ActiveSession>
-            )
-          })}
-        </SessionWrapper>
-      </PageWrapper>
-    </SettingsPageWrapper>
+        {devices?.length ? (
+          <SessionWrapper>
+            <div style={{ marginBottom: '18px' }}>{t('active_sessions')}</div>
+            {fakeDevices.map((device, index) => {
+              return (
+                <AllSessions key={device.ip} style={{ marginBottom: '12px' }}>
+                  <Wrapper>
+                    <DeviceIcon alt="browser icon" src={device.deviseIcon} />
+                    <Column>
+                      <Browser>{device.device}</Browser>
+                      <SessionIp>IP: {device.ip}</SessionIp>
+                      <LastVisit>{device.lastVisit}</LastVisit>
+                    </Column>
+                  </Wrapper>
+                  <LogOutWrapper
+                    onClick={() =>
+                      closeSession({ deviceId: '888468be-cf1d-4efe-9c13-f41b751fcb34' })
+                    }
+                  >
+                    <LogOutIcon alt="log out" src={logout} />
+                    <LogOut>Log Out</LogOut>
+                  </LogOutWrapper>
+                </AllSessions>
+              )
+            })}
+          </SessionWrapper>
+        ) : (
+          <NotLoggedWrapper>
+            <NotLogged>You have not yet logged in from other devices</NotLogged>
+          </NotLoggedWrapper>
+        )}
+      </SettingsPageWrapper>
+    )
   )
 }
 
 Devices.getLayout = getLayout
 export default Devices
 
-const Wrapper = styled.div`
+const NotLoggedWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20vh;
+`
+const NotLogged = styled.p``
+
+const LogOutWrapper = styled.div`
+  display: flex;
+  justify-self: flex-end;
+  gap: 12px;
+  cursor: pointer;
+`
+
+const LogOutIcon = styled(Image)``
+const LogOut = styled.p`
+  font-weight: 500;
+`
+
+const Column = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const PageWrapper = styled.div``
+const Wrapper = styled.div`
+  display: flex;
+  gap: 12px;
+`
 
 const ActiveSession = styled.div`
   display: flex;
@@ -105,6 +159,12 @@ const ActiveSession = styled.div`
   background: ${baseTheme.colors.dark[500]};
   border: 1px solid ${baseTheme.colors.dark[300]};
   gap: 12px;
+`
+
+const AllSessions = styled(ActiveSession)`
+  justify-content: space-between;
+  padding-right: 24px;
+  align-items: center;
 `
 
 const LastVisit = styled.p``

@@ -14,6 +14,7 @@ import { useShowPassword } from 'common/hooks/useShowPassword'
 import { registrationErrorHandler } from 'common/utils/registrationErrorHandler'
 import { validateRegistration } from 'common/utils/validateRegistraition'
 import AuthIcons from 'features/auth/AuthIcons'
+import { ProvidersPropsType } from 'features/auth/types'
 import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { GetStaticPropsContext } from 'next'
@@ -33,19 +34,35 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
 
   return {
     props: {
+      provider: {
+        google: {
+          AUTH_URL: process.env.GOOGLE_AUTH_URL,
+          SCOPE: process.env.GOOGLE_SCOPE,
+          REDIRECT_URI: process.env.GOOGLE_REDIRECT_URI,
+          ID: process.env.GOOGLE_ID,
+        },
+        github: {
+          AUTH_URL: process.env.GITHUB_AUTH_URL,
+          SCOPE: process.env.GITHUB_SCOPE,
+          REDIRECT_URI: process.env.GITHUB_REDIRECT_URI,
+          ID: process.env.GITHUB_ID,
+        },
+      },
       ...(await serverSideTranslations(locale as string, ['common'], config)),
     },
   }
 }
 
-const Registration = () => {
+const Registration = (props: ProvidersPropsType) => {
   const { passwordType, passwordConfirmationType, showPassword, showPasswordConfirmation } =
     useShowPassword()
+
+  const { provider } = props
 
   const initialAuthValues = {
     username: '',
@@ -103,7 +120,7 @@ const Registration = () => {
       )}
       <StyledContainerAuth style={{ filter: isModalActive ? 'blur(4px)' : 'blur(0px)' }}>
         <WrapperContainerAuth title={t('sign_up')}>
-          <AuthIcons />
+          <AuthIcons provider={provider} />
           <Formik
             initialValues={initialAuthValues}
             validationSchema={validateRegistration}

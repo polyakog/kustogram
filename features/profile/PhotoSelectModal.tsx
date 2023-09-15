@@ -15,9 +15,11 @@ import PhotoEditorModal from './PhotoEditorModal'
 const PhotoSelectModal = ({
   handleModalClose,
   avatar,
+  setAvatar,
 }: {
   avatar?: string
   handleModalClose: () => void
+  setAvatar: (newAvater: string) => void
 }) => {
   const [photo, setPhoto] = useState<File>() // изображение, передаваемое в компоненту редактирования
   const [isEditorOpen, setIsEditorOpen] = useState(false) // открытие модального окна для редактирования
@@ -47,26 +49,30 @@ const PhotoSelectModal = ({
         <StyledModalHeader>
           <StyledModalTitle>{t('add_prof_photo')}</StyledModalTitle>
           <StyledCloseButton onClick={handleModalClose}>
-            <Image priority alt="close" height={24} src={closeIcon} width={24} />
+            <Image alt="close" height={24} src={closeIcon} width={24} priority />
           </StyledCloseButton>
         </StyledModalHeader>
         <StyledModalBody>
           {isEditorOpen && photo ? (
-            <PhotoEditorModal handleEditorClose={handleEditorClose} photo={photo} />
+            <PhotoEditorModal
+              handleEditorClose={handleEditorClose}
+              photo={photo}
+              setAvatar={setAvatar}
+            />
           ) : (
             <>
               <StyledModalImageContainer>
-                {avatar ? (
+                {/* {avatar ? (
                   <img alt="Avatar" id="avatar" src={avatar} />
-                ) : (
-                  <StyledModalImage
-                    priority
-                    alt="avatar"
-                    height={48}
-                    src="/img/icons/image-outline.svg"
-                    width={48}
-                  />
-                )}
+                ) : ( */}
+                <StyledModalImage
+                  alt="avatar"
+                  height={48}
+                  src="/img/icons/image-outline.svg"
+                  width={48}
+                  priority
+                />
+                {/* )} */}
               </StyledModalImageContainer>
               <input accept="image/*" id="file-upload" type="file" onChange={handleSelectPhoto} />
               <Button id="upload-btn" theme={ThemeButton.PRIMARY} width="222px">

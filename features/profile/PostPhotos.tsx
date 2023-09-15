@@ -56,7 +56,7 @@ export const PostPhotos: React.FC<PropsType> = ({
 }) => {
   const [getCurrentPost, { data: postInfo }] = useLazyGetPostQuery()
 
-  if (isLoading) console.log('%c loading posts...', consoleStyle)
+  // if (isLoading) console.log('%c loading posts...', consoleStyle)
 
   return (
     <PostWrapper>
@@ -86,8 +86,8 @@ export const PostPhotos: React.FC<PropsType> = ({
   )
 }
 
-const consoleStyle = `
-padding: 20px;
-background-color: ${baseTheme.colors.accent[100]};
-border-radius: 20px;
-color: white}`
+// const consoleStyle = `
+// padding: 20px;
+// background-color: ${baseTheme.colors.accent[100]};
+// border-radius: 20px;
+// color: white}`

@@ -1,5 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react'
 
+import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { appWithTranslation } from 'next-i18next'
@@ -26,12 +27,16 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const getLayout = Component.getLayout ?? (page => page)
 
-  return getLayout(
+  return (
     <Provider store={store}>
-      <GlobalStyle />
-      {/* <PrivateRoute> */}
-      <Component {...pageProps} />
-      {/* </PrivateRoute> */}
+      <PrivateRoute>
+        {getLayout(
+          <>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </>
+        )}
+      </PrivateRoute>
     </Provider>
   )
 }
@@ -49,5 +54,23 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
     font-weight: 400;
     line-height: 24px;
+  }
+
+  html{
+    height:100vh;
+    background:black;
+    &::-webkit-scrollbar {
+  width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #333;
+}
+
+&::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  background-color: black;
+}
   }
 `

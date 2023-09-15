@@ -74,8 +74,6 @@ const Recovery = () => {
 
       console.log(token)
 
-      recaptcha.reset()
-
       const data = {
         email: values.email,
         recaptchaValue: token,
@@ -86,6 +84,7 @@ const Recovery = () => {
         .then(() => {
           setEmail(values.email)
           resetForm()
+          recaptcha.reset()
         })
     }
   }

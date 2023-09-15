@@ -1,15 +1,16 @@
+import { useEffect, useState } from 'react'
+
+import { mediaSizes } from 'common/constants/Profile/mediaSizes'
+import { useWindowSize } from 'common/hooks/useWindowSize'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 import bell from '../../../public/img/icons/initialBell.svg'
 import { baseTheme } from '../../../styles/styledComponents/theme'
+import { MenuHeader } from '../Menu/MenuHeader'
 
 import { SelectLanguage } from './SelectedLanguage/SelectLanguage'
-import { useEffect, useState } from 'react'
-import { MenuHeader } from '../Menu/MenuHeader'
-import { useWindowSize } from 'common/hooks/useWindowSize'
-import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 
 const Header = () => {
   const router = useRouter()

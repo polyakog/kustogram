@@ -55,10 +55,11 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
         const refreshRes = refreshResult as RefreshTokenResponse
 
         setItem('accessToken', refreshRes.data.accessToken)
-
         result = await baseQuery(args, api, extraOptions)
       } else {
-        console.log('smth went wrong')
+        const { origin } = window.location
+
+        window.location.replace(`${origin}/auth/login`)
       }
     }
   }
@@ -103,7 +104,7 @@ export const postsApi = createApi({
     }),
     getUserPosts: builder.query<GetUserPostsResponse, GetUserPostsRequest>({
       query: ({ userId, pageNumber, pageSize }) => ({
-        url: `${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        url: `${userId}?pageNumber=${pageNumber}&pageSize=${pageSize}&postId=0`,
         method: 'GET',
       }),
       providesTags: ['deletePost', 'createPost'],

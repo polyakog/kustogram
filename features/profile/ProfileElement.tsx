@@ -10,6 +10,7 @@ import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { Path } from 'common/enums/path'
 import { ThemeButton } from 'common/enums/themeButton'
 import { useWindowSize } from 'common/hooks/useWindowSize'
+// import { urlify } from 'common/utils/urlify'
 import { PostPhotos } from 'features/profile/PostPhotos'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -31,32 +32,41 @@ import {
 } from 'styles/styledComponents/profile/profile.styled'
 
 import Paid from '../../public/img/icons/paid.svg'
-import { urlify } from 'common/utils/urlify'
 
 type PropsType = {
-  isLoading: boolean
-  pageSize: number
+  // getCurrentPost: LazyQueryTrigger<
+  //   QueryDefinition<
+  //     string,
+  //     BaseQueryFn<FetchArgs | string, unknown, FetchBaseQueryError, {}, FetchBaseQueryMeta>,
+  //     'createPost' | 'deletePost' | 'editPost',
+  //     CreatePostResponse,
+  //     'postsApi'
+  //   >
+  // >
+  // isLoading: boolean
+  // pageSize: number
   posts?: CreatePostResponse[] | undefined
-  setIsPostActive: (isPostActive: boolean) => void
-  setPageSize: (pageSize: number) => void
-  setPostInfo: (postInfo: GetPostResponse | undefined) => void
-  status: QueryStatus
+  // // session?: Session | null | undefined
+  // setIsPostActive: (isPostActive: boolean) => void
+  // setPageSize: (pageSize: number) => void
+  // setPostInfo: (postInfo: GetPostResponse | undefined) => void
+  // status: QueryStatus
   t: TFunction
-  totalCount: number
+  // totalCount: number
   user?: UserType | undefined
 }
 
 const ProfileElement: React.FC<PropsType> = ({
   user,
   posts,
-  setIsPostActive,
-  setPageSize,
-  pageSize,
-  setPostInfo,
-  // getCurrentPost,
-  totalCount,
-  isLoading,
-  status,
+  // setIsPostActive,
+  // setPageSize,
+  // pageSize,
+  // setPostInfo,
+  // // getCurrentPost,
+  // totalCount,
+  // isLoading,
+  // status,
   t,
 }) => {
   const avatar = '/img/icons/avatar.svg'
@@ -75,21 +85,21 @@ const ProfileElement: React.FC<PropsType> = ({
 
   /*  ____________</переменные для мобильной версии>_______________ */
 
-  const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
-    const element = e.currentTarget
-    // console.log('scrollHeight', element.scrollHeight)
-    // console.log('scrollTop', element.scrollTop)
-    // console.log('clientHeight', element.clientHeight)
-    // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
+  // const scrollHandler = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+  //   const element = e.currentTarget
+  //   // console.log('scrollHeight', element.scrollHeight)
+  //   // console.log('scrollTop', element.scrollTop)
+  //   // console.log('clientHeight', element.clientHeight)
+  //   // console.log('element.scrollHeight - element.scrollTop', (element.scrollHeight - element.scrollTop))
 
-    if (element.scrollHeight - element.scrollTop < scrollSize) {
-      const newPageSize = pageSize + 9
+  //   if (element.scrollHeight - element.scrollTop < scrollSize) {
+  //     const newPageSize = pageSize + 9
 
-      if (totalCount + 9 >= newPageSize) {
-        setPageSize(newPageSize)
-      }
-    }
-  }
+  //     if (totalCount + 9 >= newPageSize) {
+  //       setPageSize(newPageSize)
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     if (width) {
@@ -109,18 +119,19 @@ const ProfileElement: React.FC<PropsType> = ({
   const userFirstName = user?.firstName !== null ? user?.firstName : ''
   const userLastName = user?.lastName !== null ? user?.lastName : ''
   let name = `${userFirstName} ${userLastName}`
-  if (!userFirstName || !userLastName) name = user?.login!
+
+  if (!userFirstName || !userLastName) name = 'New User'
 
   return (
     <>
-      {status !== 'fulfilled' && (
+      {/* {status !== 'fulfilled' && (
         <>
           <LoadingPostStyle>{`${t('loading')}...`}</LoadingPostStyle>
           <LoadingPostBackStyle />
         </>
-      )}
+      )} */}
 
-      <ProfileWrapper onScroll={status === 'fulfilled' ? scrollHandler : () => {}}>
+      <ProfileWrapper>
         <HeaderStyle>
           {isVisible && (
             <BlockButton>
@@ -142,6 +153,7 @@ const ProfileElement: React.FC<PropsType> = ({
                 height={avatarSize}
                 src={user?.photo || avatar}
                 width={avatarSize}
+                // style={{ maxWidth: "204px", maxHeight: "204px" }}
               />
             </IconBlock>
           </StyledAvatarBlock>
@@ -183,22 +195,22 @@ const ProfileElement: React.FC<PropsType> = ({
             </FollowBlock>
 
             <AboutMeBlock>
-              <AboutMeText>{urlify(user?.userInfo || t('about_me'))}</AboutMeText>
+              <AboutMeText>{user?.userInfo || t('about_me')}</AboutMeText>
             </AboutMeBlock>
           </InfoBlock>
         </HeaderStyle>
 
-        {/* <PhotosBlock> */}
+        {/* <PhotosBlock> 
 
         <PostPhotos
           isLoading={isLoading}
-          postSize={postSize}
           posts={posts}
+          postSize={postSize}
           setIsPostActive={setIsPostActive}
           setPostInfo={setPostInfo}
         />
 
-        {/* </PhotosBlock> */}
+         </PhotosBlock> */}
       </ProfileWrapper>
     </>
   )

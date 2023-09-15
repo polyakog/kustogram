@@ -1,7 +1,8 @@
-import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
-import { useOAuthCode } from 'common/hooks/useOAuthCode'
 import { useState } from 'react'
+
+import { getLayout } from 'common/components/Layout/BaseLayout/BaseLayout'
 import { Oauth } from 'common/components/Oauth/Oauth'
+import { useOAuthCode } from 'common/hooks/useOAuthCode'
 import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
@@ -32,10 +33,10 @@ const GoogleRedirect = () => {
   return (
     <div>
       <Oauth
-        connectionError={connectionError}
         accountError={accountError}
-        status={status}
+        connectionError={connectionError}
         provider={provider}
+        status={status}
       />
     </div>
   )

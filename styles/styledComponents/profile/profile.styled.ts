@@ -1,10 +1,11 @@
-import styled from 'styled-components'
-import { baseTheme } from '../theme'
+// import { DatePicker } from '@mui/x-date-pickers'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
-import { DatePicker } from '@mui/x-date-pickers'
+import styled from 'styled-components'
 
-const media = mediaSizes.media
-const sidebarMedia = mediaSizes.sidebarMedia
+import { baseTheme } from '../theme'
+
+const { media } = mediaSizes
+// const sidebarMedia = mediaSizes.sidebarMedia
 
 export const ProfileWrapper = styled.div`
   position: relative;
@@ -179,7 +180,6 @@ export const AboutMeBlock = styled.div`
   flex-direction: column-reverse;
   flex-shrink: 0;
   margin-top: 24px;
-  padding-right: 72px;
 
   @media (max-width: ${media}) {
     margin-top: 50px;
@@ -194,6 +194,8 @@ export const AboutMeBlock = styled.div`
 `
 
 export const AboutMeText = styled.p`
+  word-break: break-all;
+  text-align: justify;
   font-family: Inter;
   font-size: 16px;
   font-style: normal;

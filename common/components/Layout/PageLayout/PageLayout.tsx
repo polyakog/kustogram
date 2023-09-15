@@ -2,6 +2,7 @@ import { PropsWithChildren, ReactElement, useState } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { Menubar } from 'common/components/Menu/Menubar'
 import { CreatePost } from 'common/components/Navbar/CreatePost/CreatePost'
 import { mediaSizes } from 'common/constants/Profile/mediaSizes'
 import { NextPage } from 'next'
@@ -11,12 +12,12 @@ import styled from 'styled-components'
 import { baseTheme } from '../../../../styles/styledComponents/theme'
 import Header from '../../Header/Header'
 import { Navbar } from '../../Navbar/Navbar'
-import { Menubar } from 'common/components/Menu/Menubar'
 
 const { media } = mediaSizes
 // const sidebar = mediaSizes.sidebarMedia
 
 export const PageLayout: NextPage<PropsWithChildren> = props => {
+  // eslint-disable-next-line react/prop-types
   const { children } = props
 
   const router = useRouter()
@@ -41,7 +42,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
         </Page>
 
         <MenuWrapper>
-          <Menubar showMenuBar={profile} openModalHandler={openModalHandler} />
+          <Menubar openModalHandler={openModalHandler} showMenuBar={profile} />
         </MenuWrapper>
       </LocalizationProvider>
     </StyledWrapper>
@@ -72,15 +73,17 @@ const Page = styled.div`
   padding: 0 0px;
   /* margin: auto; */
 `
-export const Main = styled.div`
-  /* padding-top: 36px; */
-  padding-left: 0px;
-  flex-grow: 1;
-  max-width: 80vw;
 
-  @media (max-width: ${'1400px'}) {
+export const Main = styled.div`
+  width: 100%;
+  /* padding-top: 36px; */
+  /* padding-left: 0px; */
+  /* flex-grow: 1;
+  max-width: 80vw; */
+
+  /* @media (max-width: ${'1400px'}) {
     padding-left: 0px;
-  }
+  } */
 `
 
 export const NavbarWrapper = styled.div`
@@ -95,6 +98,7 @@ export const NavbarWrapper = styled.div`
     display: none;
   }
 `
+// from gennadyi
 export const MenuWrapper = styled.div`
   display: none;
 

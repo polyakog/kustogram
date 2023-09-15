@@ -7,6 +7,40 @@ import { StyledErrorMsgPropsType, TextAreaPropsType } from './types'
 
 // FormikField
 export const StyledField = styled(Field)`
+  &:active {
+    pointer-events: none;
+    border: 1px solid white;
+    color: white;
+    &:focus {
+      border: 1px solid white;
+      color: white;
+    }
+    &:hover {
+      border: 1px solid white;
+      color: white;
+    }
+  }
+  &:focus {
+    border: 1px solid #397df6;
+    color: #8d9094;
+    &:hover {
+      border: 1px solid #397df6;
+      color: #8d9094;
+    }
+    &:-webkit-autofill {
+      -webkit-text-fill-color: #8d9094;
+      caret-color: #8d9094;
+    }
+  }
+  &:disabled {
+    border: 1px solid #4c4c4c;
+    color: #4c4c4c;
+  }
+  &:hover {
+    color: #8d9094;
+    border: 1px solid #8d9094;
+  }
+
   max-width: ${props => (props.width ? props.width : '330px')};
   width: 100%;
   height: 36px;
@@ -18,13 +52,16 @@ export const StyledField = styled(Field)`
   outline: none;
   border-radius: 2px;
   border: ${props =>
-    props.border === 'red'
-      ? `1px solid ${baseTheme.colors.danger[500]}`
-      : `1px solid ${baseTheme.colors.dark[100]}`};
+    props.border === 'red' ? `1px solid ${baseTheme.colors.danger[500]}` : `1px solid #4C4C4C`};
   background: ${baseTheme.colors.dark[500]};
-  color: ${baseTheme.colors.light[100]};
+  color: ${props => (props.border === 'red' ? `#fff` : `#8d9094`)};
   box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
-  -webkit-text-fill-color: ${baseTheme.colors.light[100]};
+  /* -webkit-text-fill-color: ${baseTheme.colors.light[100]}; */
+
+  &:-webkit-autofill {
+    -webkit-text-fill-color: #8d9094;
+    caret-color: #8d9094;
+  }
 
   &::-webkit-calendar-picker-indicator {
     filter: invert(100%);
@@ -39,11 +76,54 @@ export const StyledField = styled(Field)`
 `
 
 export const StyledTextArea = styled.textarea<TextAreaPropsType>`
+  &:active {
+    pointer-events: none;
+    border: 1px solid white;
+    color: white;
+    &:focus {
+      border: 1px solid white;
+      color: white;
+    }
+    &:hover {
+      border: 1px solid white;
+      color: white;
+    }
+  }
+  &:focus {
+    border: 1px solid #397df6;
+    color: #8d9094;
+    &:hover {
+      border: 1px solid #397df6;
+      color: #8d9094;
+    }
+  }
+  &:disabled {
+    border: 1px solid #4c4c4c;
+    color: #4c4c4c;
+  }
+  &:hover {
+    color: #8d9094;
+    border: 1px solid #8d9094;
+  }
   max-width: ${props => (props.width ? props.width : '330px')};
   width: 100%;
   height: 84px;
   padding-left: 8px;
   position: relative;
+  resize: none;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #333;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: black;
+  }
 
   font-size: 14px;
 
@@ -54,9 +134,9 @@ export const StyledTextArea = styled.textarea<TextAreaPropsType>`
       ? `1px solid ${baseTheme.colors.danger[500]}`
       : `1px solid ${baseTheme.colors.dark[100]}`};
   background: ${baseTheme.colors.dark[500]};
-  color: ${baseTheme.colors.light[100]};
-  box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]};
-  -webkit-text-fill-color: ${baseTheme.colors.light[100]};
+  color: #8d9094;
+  /* box-shadow: inset 0 0 0 50px ${baseTheme.colors.dark[500]}; */
+  /* -webkit-text-fill-color: ${baseTheme.colors.light[100]}; */
 
   &::-webkit-calendar-picker-indicator {
     filter: invert(100%);

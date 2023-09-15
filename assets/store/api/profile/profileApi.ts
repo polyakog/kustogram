@@ -51,7 +51,9 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
         setItem('accessToken', refreshRes.data.accessToken)
         result = await baseQuery(args, api, extraOptions)
       } else {
-        console.log('smth went wrong')
+        const { origin } = window.location
+
+        window.location.replace(`${origin}/auth/login`)
       }
     }
   }
@@ -94,21 +96,21 @@ export const profileApi = createApi({
           body,
         }
       },
-      async onQueryStarted(body, { dispatch, queryFulfilled }) {
-        const patchResult = dispatch(
-          profileApi.util.updateQueryData('profile', undefined, draft => {
-            const file = URL.createObjectURL(body.entries().next().value[1])
+      // async onQueryStarted(body, { dispatch, queryFulfilled }) {
+      //   const patchResult = dispatch(
+      //     profileApi.util.updateQueryData('profile', undefined, draft => {
+      //       const file = URL.createObjectURL(body.entries().next().value[1])
 
-            Object.assign(draft || {}, { photo: file })
-          })
-        )
+      //       Object.assign(draft || {}, { photo: file })
+      //     })
+      //   )
 
-        try {
-          await queryFulfilled
-        } catch {
-          patchResult.undo()
-        }
-      },
+      //   try {
+      //     await queryFulfilled
+      //   } catch {
+      //     patchResult.undo()
+      //   }
+      // },
       invalidatesTags: ['UserInfo'],
     }),
   }),

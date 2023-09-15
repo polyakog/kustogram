@@ -167,7 +167,7 @@ const PostResizeModal = ({
     <>
       <StyledModalHeaderNext>
         <StyledCloseNextButton onClick={handleAddPhotoButton}>
-          <Image priority alt="close" height={24} src="/img/icons/arrow-ios-back.svg" width={24} />
+          <Image alt="close" height={24} src="/img/icons/arrow-ios-back.svg" width={24} priority />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{t('cropping')}</StyledModalTitleNext>
         <Button

@@ -1,3 +1,13 @@
+import { useState, useEffect } from 'react'
+
+import { CircularProgress } from '@mui/material'
+import { Button } from 'common/components/Button/Button'
+import { Path } from 'common/enums/path'
+import { ThemeButton } from 'common/enums/themeButton'
+import { ProviderType } from 'common/hooks/useOAuthCode'
+import { useTranslation } from 'next-i18next'
+import { ErrorType } from 'pages/auth/callback/google'
+import { styled } from 'styled-components'
 import {
   SigninOauthWrapper,
   StyledOAuthBlockButton,
@@ -10,21 +20,12 @@ import {
 } from 'styles/styledComponents/auth/signin.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
 import { baseTheme } from 'styles/styledComponents/theme'
-import { Button } from 'common/components/Button/Button'
-
-import { useTranslation } from 'next-i18next'
-
-import { ThemeButton } from 'common/enums/themeButton'
-import { Path } from 'common/enums/path'
-import { useState, useEffect } from 'react'
-import { ErrorType } from 'pages/auth/callback/google'
-import { ProviderType } from 'common/hooks/useOAuthCode'
 
 type PropsType = {
-  connectionError: ErrorType | undefined
   accountError: string | undefined
-  status: string
+  connectionError: ErrorType | undefined
   provider: ProviderType
+  status: string
 }
 
 export const Oauth = ({ connectionError, accountError, status, provider }: PropsType) => {
@@ -54,17 +55,19 @@ export const Oauth = ({ connectionError, accountError, status, provider }: Props
   useEffect(() => {}, [errors])
 
   return (
-    <div>
-      {status !== 'rejected' && status !== 'fulfilled' && !errors && (
-        <div style={LoadingStyle}>{t('loading')} ...</div>
-      )}
+    <>
+      <LoaderWrapper>
+        {status !== 'rejected' && status !== 'fulfilled' && !errors && (
+          <CircularProgress size={100} />
+        )}
+      </LoaderWrapper>
       {status === 'rejected' && <div style={LoadingStyle}> {t('con_rejected')} </div>}
-      <SigninOauthWrapper>
-        <StyledOauthHeader>
+      {/* <SigninOauthWrapper> */}
+      {/* <StyledOauthHeader>
           <StyledOauthTitle>{t(provider.isGoogle ? 'google_con' : 'github_con')}</StyledOauthTitle>
-        </StyledOauthHeader>
-
-        {errors && (
+        </StyledOauthHeader> */}
+      {errors && (
+        <SigninOauthWrapper>
           <StyledOauthBody>
             <StyledOauthErrorBody>
               {connectionError && <StyledOauthText>{t('server_err')}</StyledOauthText>}
@@ -87,17 +90,18 @@ export const Oauth = ({ connectionError, accountError, status, provider }: Props
               </Button>
             </StyledOAuthBlockButton>
           </StyledOauthBody>
-        )}
+        </SigninOauthWrapper>
+      )}
 
-        {!errors && (
+      {/* {!errors && (
           <StyledOauthBody>
             <StyledOautSuccessBody>
               <StyledOauthText>{t('success')} </StyledOauthText>
             </StyledOautSuccessBody>
           </StyledOauthBody>
-        )}
-      </SigninOauthWrapper>
-    </div>
+        )} */}
+      {/* </SigninOauthWrapper> */}
+    </>
   )
 }
 
@@ -106,3 +110,11 @@ padding: 20px;
 background-color: ${baseTheme.colors.danger[100]};
 border-radius: 20px;
 color: white}`
+
+const LoaderWrapper = styled.div`
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`

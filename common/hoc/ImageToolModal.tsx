@@ -68,7 +68,7 @@ export const ImageToolModal: FC<PropsWithChildren<Props>> = ({
     <StyledModalContainer>
       <StyledModalHeaderNext>
         <StyledCloseNextButton onClick={handleBackButton}>
-          <Image priority alt="back" height={24} src="/img/icons/arrow-ios-back.svg" width={24} />
+          <Image alt="back" height={24} src="/img/icons/arrow-ios-back.svg" width={24} priority />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{title}</StyledModalTitleNext>
         <Button disabled={disabled} theme={ThemeButton.CLEAR} onClick={handleNextStepButton}>

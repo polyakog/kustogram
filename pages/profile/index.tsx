@@ -53,9 +53,9 @@ const MyProfile = () => {
   useEffect(() => {
     getProfileInfo()
       .unwrap()
-      .then(({ userId }) => {
-        if (userId) {
-          setUserId(userId)
+      .then(res => {
+        if (res.userId) {
+          setUserId(res.userId)
         }
       })
   }, [])
@@ -132,4 +132,5 @@ const PostsWrapper = styled.div`
 const PostPreview = styled(Image)`
   width: 32%;
   object-fit: cover;
+  cursor: pointer;
 `

@@ -180,7 +180,6 @@ export const AboutMeBlock = styled.div`
   flex-direction: column-reverse;
   flex-shrink: 0;
   margin-top: 24px;
-  /* padding-right: 72px; */
 
   @media (max-width: ${media}) {
     margin-top: 50px;

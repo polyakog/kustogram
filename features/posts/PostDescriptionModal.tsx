@@ -108,6 +108,7 @@ const StyledDescription = styled.textarea.attrs({
   height: 120px;
   word-break: break-all;
   padding: 10px;
+  resize: none;
 `
 
 const StyledDescriptionLimit = styled.p`

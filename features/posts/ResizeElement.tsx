@@ -58,7 +58,7 @@ const ResizeElement = ({
             onClick={() => handleResizeClick(item, index)}
           >
             <StyledIconSize alt={item.alt} src={item.selected ? item.srcActive : item.src} />
-            {t(item.size)}
+            {index > 0 ? item.size : t(item.size)}
           </StyleItemSize>
         )
       })}
@@ -86,7 +86,7 @@ const StyleItemSize = styled.div<{ selected?: string }>`
 const StyledResizeBlock = styled(StyledAddBlock)`
   position: absolute;
   padding: 5px;
-  width: 100px;
+  width: 120px;
   height: 140px;
   background: ${baseTheme.colors.dark['100']};
   bottom: 60px;

@@ -5,6 +5,7 @@ export type ModalPropsType = {
   bodyText?: string
   children?: React.ReactElement
   email?: string
+  fz?: string
   handleCrossClick?: () => void
   handleModalClose?: () => void
   height?: string

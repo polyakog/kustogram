@@ -92,3 +92,6 @@ export const StyledBlockButton = styled.div`
 export const Bold = styled.span`
   font-weight: 700;
 `
+export const ModalContent = styled.p`
+  font-size: 16px;
+`

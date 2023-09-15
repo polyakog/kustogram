@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useDeletePostMutation, useUpdatePostMutation } from 'assets/store/api/posts/postsApi'
 import { CreatePostResponse } from 'assets/store/api/posts/types'
@@ -131,7 +131,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
               <CloseModal alt="close" src={close} onClick={() => setIsPostActive(false)} />
               <User>
                 <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
-                <StyledUsername>{user?.login}</StyledUsername>
+                <StyledUsername>{profile?.login}</StyledUsername>
               </User>
               <EditPost
                 alt="more"
@@ -236,12 +236,12 @@ const NewDescription = styled.textarea.attrs({
   background: #171717;
   color: #fff;
   padding: 0 12px;
-  border: none;
-  outline: none;
   height: 120px;
+  resize: none;
   &::-webkit-scrollbar {
     width: 0;
   }
+  border: 1px solid #4c4c4c;
 `
 
 const SaveChanges = styled.button`
@@ -256,7 +256,7 @@ const SaveChanges = styled.button`
 `
 
 const EditPostContainer = styled.div`
-  background: #4c4c4c;
+  background: #333;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -356,7 +356,7 @@ const TypeOfOperation = styled.p`
 `
 
 const StyledPostOverlay = styled.div`
-  z-index: 10;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;
@@ -369,12 +369,17 @@ const StyledPostOverlay = styled.div`
 `
 
 const StyledModalContainer = styled.div`
+  margin: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 560px;
   max-width: 1000px;
   width: 80vw;
+  @media (max-height: 630px) {
+    position: absolute;
+    top: 20px;
+  }
 `
 
 const CommentsWrapper = styled.div`
@@ -416,7 +421,7 @@ const StyledPostImage = styled(Image)`
 const StyledComents = styled.div`
   display: flex;
   flex-direction: column;
-  background: #4c4c4c;
+  background: #333;
   height: 100%;
   width: 100%;
 `
@@ -444,6 +449,7 @@ const Wrapper = styled.div`
 
 const AddCommentWrapper = styled(Wrapper)`
   padding: 17px 24px;
+  gap: 24px;
 `
 
 const CommentField = styled.input.attrs({
@@ -454,6 +460,8 @@ const CommentField = styled.input.attrs({
   outline: none;
   color: #fff;
   font-size: 14px;
+  background: #333;
+  flex-grow: 2;
 `
 
 const PublishBtn = styled.button`

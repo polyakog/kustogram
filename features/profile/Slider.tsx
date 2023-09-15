@@ -19,12 +19,8 @@ const trackFill = css`
   height: 6px;
   background-color: transparent;
   background-image: linear-gradient(${filllC}, ${filllC}), linear-gradient(${trackC}, ${trackC});
-  background-size:
-    var(--sx) 6px,
-    calc(100% - var(--sx)) 4px;
-  background-position:
-    left center,
-    right center;
+  background-size: var(--sx) 6px, calc(100% - var(--sx)) 4px;
+  background-position: left center, right center;
   background-repeat: no-repeat;
 `
 
@@ -86,9 +82,7 @@ export const Slider = styled.input<SliderPropsType>`
   padding: 0;
   height: ${thumbD};
   background: transparent;
-  font:
-    1em/1 arial,
-    sans-serif;
+  font: 1em/1 arial, sans-serif;
 
   &::-webkit-slider-runnable-track {
     ${trackFill};

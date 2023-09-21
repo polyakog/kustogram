@@ -15,6 +15,7 @@ import {
   AllPaymentsResponse,
   AllSubscriptionsResponse,
   CurrentSubscription,
+  GetUserPaymentsRequest,
   PaypalRequest,
   PaypalResponse,
   StripeRequest,
@@ -93,9 +94,9 @@ export const paymentsApi = createApi({
         method: 'GET',
       }),
     }),
-    payments: builder.query<AllPaymentsResponse, void>({
-      query: () => ({
-        url: 'payments',
+    payments: builder.query<AllPaymentsResponse, GetUserPaymentsRequest>({
+      query: ({ page, pageSize }) => ({
+        url: `payments?pageNumber=${page}&pageSize=${pageSize}`,
         method: 'GET',
       }),
     }),
@@ -108,4 +109,5 @@ export const {
   usePaypalMutation,
   useCurrentSubscriptionQuery,
   useSubscriptionsQuery,
+  useLazyPaymentsQuery,
 } = paymentsApi

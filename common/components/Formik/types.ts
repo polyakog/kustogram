@@ -1,11 +1,12 @@
 import React, { ChangeEvent } from 'react'
 
+import { Dayjs } from 'dayjs'
 import { FormikErrors, FormikState, FormikTouched } from 'formik'
 import { TFunction } from 'next-i18next'
 
 export type FormikAllValuesType = {
   aboutMe?: string
-  birthday?: string
+  birthday?: Dayjs
   city?: string
   email?: string
   firstname?: string
@@ -49,7 +50,7 @@ export type FormValueLogin = {
 
 export type FormValueProfile = {
   aboutMe: string
-  birthday: string
+  birthday: Dayjs
   city: string
   firstname: string
   lastname: string
@@ -71,7 +72,7 @@ export type ResetForm = {
       | Partial<
           FormikState<{
             aboutMe: string
-            birthday: string
+            birthday: Dayjs
             city: string
             email: string
             firstname: string

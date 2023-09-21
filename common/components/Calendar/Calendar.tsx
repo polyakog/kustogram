@@ -1,46 +1,43 @@
 import { ThemeProvider } from '@emotion/react'
-import { DatePicker } from '@mui/x-date-pickers'
+import { DatePicker, DatePickerProps } from '@mui/x-date-pickers'
 import { theme } from 'common/components/Calendar/theme'
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import { StyledErrorMsg } from 'common/components/Formik/Formik.styled'
+import { useField, useFormikContext } from 'formik'
 import { TFunction } from 'next-i18next'
 
 import { StyledTitle } from '../Formik/Formik.styled'
 
 import { themeError } from './themeError'
 
-export type CalendarProps = {
-  date: string
-  errors?: string | undefined
-  setFieldValue: (field: string, value: unknown) => void
+// Add a name property and reuse the date picker props.
+type Props<TDate> = DatePickerProps<TDate> & {
+  name: string
   t: TFunction
-  touched?: boolean | undefined
 }
 
-const Calendar = ({ date, setFieldValue, errors, touched, t }: CalendarProps) => {
-  dayjs.extend(customParseFormat)
-  let birthDate = dayjs()
+const Calendar = <TDate,>({ name, t }: Props<TDate>) => {
+  const [field, meta] = useField(name)
+  const { setFieldValue } = useFormikContext()
 
-  if (date) {
-    birthDate = dayjs(date, 'DD-MM-YYYY')
-  }
+  console.log(field.value)
 
   return (
     <>
       <StyledTitle>
         <span>{t('date_of_birthday')}</span>
       </StyledTitle>
-      <ThemeProvider theme={errors && touched ? themeError : theme}>
+      <ThemeProvider theme={meta.error && meta.touched ? themeError : theme}>
         <DatePicker
           format="DD/MM/YYYY"
-          value={birthDate}
+          value={field.value}
           disableFuture
           onChange={newValue => {
-            const newDate = newValue?.format('DD/MM/YYYY')
-
-            setFieldValue('birthday', newDate)
+            setFieldValue(name, newValue)
           }}
         />
+        {meta.error && meta.touched && (
+          <StyledErrorMsg>{t ? t(`${meta.error}`) : meta.error}</StyledErrorMsg>
+        )}
       </ThemeProvider>
     </>
   )

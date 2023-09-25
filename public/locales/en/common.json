@@ -69,6 +69,10 @@
   "Required city": "Required city",
   "Too Short!": "Too Short!",
   "Required birthday": "Required birthday",
+  "Invalid type of date" : "Invalid type of date",
+  "Date should not be greate than today": "Date should not be greate than today",
+  "You are too old!": "You are too old!",
+
 
   "some_err": "There is some error. Please, try again.",
   "select_from_comp": "Select from Computer",
@@ -94,6 +98,8 @@
   "auto_renewal": "Auto-Renewal",
   "expire_at": "Expire at",
   "next_payment": "Next payment",
+  "show": "Show",
+  "on_page": "on page",
 
   "transaction_error": "Transaction failed, please try again",
   "transaction_success": "Payment was successful!",

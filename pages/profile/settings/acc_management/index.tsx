@@ -55,7 +55,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 const AccountManagement = () => {
   const { t, i18n } = useTranslation()
   const client = useClient()
-  const router = useRouter()
+  const { asPath, push } = useRouter()
 
   const { language } = i18n
 
@@ -71,6 +71,15 @@ const AccountManagement = () => {
   const [isError, setIsError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isAutoRenewal, setIsAutoReneval] = useState(false)
+
+  useEffect(() => {
+    if (asPath.includes('success')) {
+      setIsSuccess(true)
+    }
+    if (asPath.includes('error')) {
+      setIsError(true)
+    }
+  }, [asPath])
 
   useEffect(() => {
     if (currentSubscriptions) {
@@ -96,22 +105,24 @@ const AccountManagement = () => {
     if (paymentType === 'stripe') {
       sendStripeRequest(data)
         .unwrap()
-        .then(res => router.push(res.url))
+        .then(res => push(res.url))
     } else {
       sendPaypalRequest(data)
         .unwrap()
-        .then(res => router.push(res.url))
+        .then(res => push(res.url))
     }
   }
 
   const handleCrossClick = () => {
     setIsError(false)
     setIsSuccess(false)
+    push(asPath.split('?')[0])
   }
 
   const handleModalClose = () => {
     setIsError(false)
     setIsSuccess(false)
+    push(asPath.split('?')[0])
   }
 
   return (

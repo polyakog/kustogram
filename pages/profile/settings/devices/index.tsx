@@ -22,6 +22,7 @@ import { baseTheme } from 'styles/styledComponents/theme'
 
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
+import { useLocalStorage } from 'common/hooks/useLocalStorage'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -60,11 +61,15 @@ const Devices = () => {
   const [closeSession] = useDeleteDeviceMutation()
   const [closeAllSessions] = useDeleteAllDevicesMutation()
 
+  console.log(currentDevice)
+
   useEffect(() => {
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
       .then(res => setIp(res.ip))
   }, [])
+
+  const { removeItem } = useLocalStorage()
 
   return (
     client && (
@@ -99,7 +104,11 @@ const Devices = () => {
                   </Wrapper>
                   <LogOutWrapper
                     onClick={() =>
-                      closeSession({ deviceId: '888468be-cf1d-4efe-9c13-f41b751fcb34' })
+                      closeSession({ deviceId: 'b85f1f11-a60d-4205-a83c-51adc4ed9a6b' })
+                        .unwrap()
+                        .then(() => {
+                          removeItem('accessToken')
+                        })
                     }
                   >
                     <LogOutIcon alt="log out" src={logout} />

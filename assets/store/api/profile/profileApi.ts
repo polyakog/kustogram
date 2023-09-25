@@ -88,6 +88,14 @@ export const profileApi = createApi({
         method: 'GET',
       }),
     }),
+    deleteAvatar: builder.mutation<void, void>({
+      query: () => {
+        return {
+          method: 'DELETE',
+          url: `users/profiles/avatar`,
+        }
+      },
+    }),
     saveAvatar: builder.mutation<void, FormData>({
       query: (body: FormData) => {
         return {
@@ -123,4 +131,5 @@ export const {
   useSaveAvatarMutation,
   useProfileQuery,
   useAuthMeQuery,
+  useDeleteAvatarMutation,
 } = profileApi

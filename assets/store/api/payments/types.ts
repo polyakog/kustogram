@@ -38,3 +38,8 @@ export type ItemsType = {
   price: number
   subscriptionType: string
 }
+
+export type GetUserPaymentsRequest = {
+  page: number
+  pageSize: number
+}

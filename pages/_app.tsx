@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import React, { ReactElement, ReactNode } from 'react'
 
 import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
@@ -11,6 +12,8 @@ import { store } from '../assets/store/store'
 import { useLoader } from '../common/hooks/useLoader'
 
 import 'styles/nprogress.css'
+import { LocalizationProvider } from '@mui/x-date-pickers' // for mui calendar
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs' // for mui calendar
 
 // import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
 

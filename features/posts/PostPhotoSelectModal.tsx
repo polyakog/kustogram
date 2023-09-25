@@ -100,6 +100,7 @@ const StyledModalBody = styled.div`
   flex-direction: column;
 
   width: 100%;
+  height: 564px;
   margin: auto;
 
   & #file-upload {

@@ -5,8 +5,10 @@ import {
   useLazyAuthMeQuery,
   useLazyProfileQuery,
   useSaveProfileInfoMutation,
+  useDeleteAvatarMutation,
 } from 'assets/store/api/profile/profileApi'
 import { Button } from 'common/components/Button/Button'
+import Calendar from 'common/components/Calendar/Calendar'
 import { FormikLabel } from 'common/components/Formik/FormikLabel'
 import { FormValueProfile } from 'common/components/Formik/types'
 import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
@@ -16,14 +18,9 @@ import { ThemeButton } from 'common/enums/themeButton'
 import { useLocalStorage } from 'common/hooks/useLocalStorage'
 import { validateProfile } from 'common/utils/validateProfile'
 import PhotoSelectModal from 'features/profile/PhotoSelectModal'
-import ProfileCalendar from 'features/settings/ProfileCalendar'
 import { SettingsPageWrapper } from 'features/settings/SettingsPageWrapper'
 import { Formik } from 'formik'
 import type {} from '@mui/x-date-pickers/themeAugmentation'
-// import Calendar from 'common/components/Calendar/Calendar'
-// import FilterModal from 'features/posts/FilterModal'
-// import { isElementAccessExpression } from 'typescript'
-// import { StyledErrorMsg, StyledField } from 'common/components/Formik/Formik.styled'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -40,6 +37,7 @@ import {
   StyledLine,
   StyledProfileForm,
 } from 'styles/styledComponents/profile/Settings.styled'
+import dayjs from 'dayjs'
 
 // //// Отображение страницы редактирования профиля  //  ////
 //      с возможностью изменения аватарки                 //
@@ -69,6 +67,7 @@ const GeneralInformation = () => {
   const [saveProfileInfoHandler] = useSaveProfileInfoMutation()
   const [getProfileInfo, { data }] = useLazyProfileQuery()
   const [authMeHandler, { data: usernameAuth }] = useLazyAuthMeQuery()
+  const [deleteAvatarHandler] = useDeleteAvatarMutation()
   const router = useRouter()
 
   const { t } = useTranslation()
@@ -108,17 +107,19 @@ const GeneralInformation = () => {
     username: data?.login || usernameAuth?.login || getItem('name') || '',
     firstname: data?.firstName || '',
     lastname: data?.lastName || '',
-    birthday: data?.dateOfBirthday || '',
+    birthday: data ? dayjs(new Date(data.dateOfBirthday)) : dayjs(),
+    // birthday: dayjs(),
     city: data?.city || '',
     aboutMe: data?.userInfo || '',
   }
+
   // обработчик нажатия кнопки сохранения данных в форме
   const handleSubmit = async (values: FormValueProfile) => {
     const data = {
       login: values.username,
       firstName: values.firstname,
       lastName: values.lastname,
-      dateOfBirthday: values.birthday,
+      dateOfBirthday: dayjs(values.birthday).format('DD/MM/YYYY'),
       city: values.city,
       userInfo: values.aboutMe,
     }
@@ -146,8 +147,16 @@ const GeneralInformation = () => {
   }
 
   // Обработчик удаления аватарки
-  const handleDeleteAvatar = () => {
-    setAvatar('/img/icons/avatar.svg')
+  const handleDeleteAvatar = async () => {
+    try {
+      await deleteAvatarHandler()
+        .unwrap()
+        .then(() => {
+          setAvatar('/img/icons/avatar.svg')
+        })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -223,14 +232,14 @@ const GeneralInformation = () => {
                     width="100%"
                     onChange={e => setFieldValue('city', e)}
                   />
-                  <ProfileCalendar
+                  {/* <ProfileCalendar
                     date={values.birthday || ''}
                     errors={errors.birthday}
                     setFieldValue={setFieldValue}
                     t={t}
                     touched={touched.birthday}
-                  />
-
+                  /> */}
+                  <Calendar name="birthday" t={t} />
                   <FormikLabel
                     border={errors.aboutMe?.length && touched.aboutMe ? 'red' : 'white'}
                     errors={errors}

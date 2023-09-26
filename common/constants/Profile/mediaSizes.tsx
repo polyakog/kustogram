@@ -1,6 +1,6 @@
 export const mediaSizes = {
   buttonUnvisible: 950,
-  mobileScreenSize: 790,
-  media: '790px',
+  mobileScreenSize: 960,
+  media: '960px',
   sidebarMedia: '940px',
 }

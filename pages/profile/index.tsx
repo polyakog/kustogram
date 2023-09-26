@@ -121,16 +121,26 @@ MyProfile.getLayout = getLayout
 export default MyProfile
 
 const PostsWrapper = styled.div`
-  width: 100%;
+  /* width: 100%; */
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  padding-left: 10px;
   padding-bottom: 20px;
-  padding: 53px 20px 20px;
+  /* padding-top: 53px;
+  padding-right: 24px; */
+
+  @media (max-width: 960px) {
+    padding-left: 10px;
+  }
 `
 
 const PostPreview = styled(Image)`
-  width: 32%;
+  width: calc(33.33% - 10px);
   object-fit: cover;
   cursor: pointer;
+
+  @media (max-width: 560px) {
+    width: calc(33.33% - 10px);
+  }
 `

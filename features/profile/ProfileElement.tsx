@@ -101,16 +101,17 @@ const ProfileElement: React.FC<PropsType> = ({
   //   }
   // }
 
-  useEffect(() => {
-    if (width) {
-      if (width < mediaSizes.buttonUnvisible) {
-        // для мобильной версии
-        setIsVisible(false)
-      } else {
-        setIsVisible(true)
-      }
-    }
-  }, [width])
+  // штука котоаря скрывает кнопку
+  // useEffect(() => {
+  //   if (width) {
+  //     if (width < mediaSizes.buttonUnvisible) {
+  //       // для мобильной версии
+  //       setIsVisible(false)
+  //     } else {
+  //       setIsVisible(true)
+  //     }
+  //   }
+  // }, [width])
 
   const handleClick = () => {
     router.push(Path.PROFILE_SETTINGS)

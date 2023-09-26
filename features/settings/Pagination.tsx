@@ -156,9 +156,9 @@ const StyledPagination = styled.div`
   padding: 10px;
   display: flex;
   align-items: center;
-  position: absolute;
-  bottom: 50px;
 `
+// position: absolute;   для StyledPagination работает криво.
+// bottom: 50px;
 
 export const StyledText = styled.div`
   margin: 6px;

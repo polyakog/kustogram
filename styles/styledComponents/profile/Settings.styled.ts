@@ -67,6 +67,13 @@ export const StyledLine = styled.div`
 export const BlockButton = styled.div`
   text-align: right;
   padding-top: 24px;
+
+  @media (max-width: 940px) {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0;
+    padding-bottom: 24px;
+  }
 `
 
 export const StyledCloseIcon = styled.div`

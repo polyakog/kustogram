@@ -356,7 +356,7 @@ const TypeOfOperation = styled.p`
 `
 
 const StyledPostOverlay = styled.div`
-  z-index: 1000;
+  z-index: 9999;
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   top: 0;

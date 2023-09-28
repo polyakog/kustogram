@@ -254,7 +254,7 @@ const GeneralInformation = () => {
                     onChange={e => setFieldValue('aboutMe', e)}
                   />
                   <BlockButton>
-                    <StyledLine />
+                    {/* <StyledLine /> */}
                     <Button theme={ThemeButton.PRIMARY} type="submit" width="auto">
                       {t('save_changes')}
                     </Button>

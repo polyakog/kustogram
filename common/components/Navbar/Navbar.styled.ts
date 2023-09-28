@@ -3,10 +3,13 @@ import { baseTheme } from 'styles/styledComponents/theme'
 
 // Navbar
 export const StyledSidebar = styled.div<{ showNavbar: string[] | string | undefined }>`
-  position: relative;
+  position: fixed;
+  z-index: 999;
+  top: 60px;
   max-width: 220px;
   min-width: 160px;
-  height: 660px;
+  height: calc(100% - 60px);
+  /* height: 660px; */
   width: 220px;
   opacity: ${props => (props.showNavbar ? 0 : 1)};
 
@@ -34,11 +37,15 @@ export const StyledItemBlock = styled.div`
 
 export const StyledLogout = styled.div`
   position: absolute;
-  bottom: 36px;
+  /* bottom: 36px; */
+  top: 600px;
   left: 45px;
 
   @media (max-width: 940px) {
     left: 20px;
+  }
+  @media (max-height: 700px) {
+    top: 450px;
   }
 `
 

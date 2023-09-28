@@ -11,11 +11,11 @@ export const ProfileWrapper = styled.div`
   position: relative;
   max-width: 1065px;
   min-width: 360px;
-  padding-top: 36px;
-  margin-left: 24px;
   overflow-y: auto;
   overflow-x: hidden;
-  width: calc(100vw - 245px);
+  padding-left: 24px;
+  padding-bottom: 24px;
+  /* width: calc(100vw - 245px); */
   scrollbar-width: 5px;
 
   &::-webkit-scrollbar {
@@ -47,6 +47,10 @@ export const BlockButton = styled.div`
   position: absolute;
   right: calc(9% - 15px);
   top: 36px;
+  @media (max-width: ${media}) {
+    // поменять пиксели
+    display: none;
+  }
 `
 
 export const HeaderStyle = styled.div`
@@ -145,6 +149,7 @@ export const InfoBlock = styled.div`
 export const FollowBlock = styled.div`
   display: grid;
   margin-top: -90px;
+  padding-top: 20px;
   grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
   min-width: 290px;

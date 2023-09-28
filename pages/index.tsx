@@ -10,7 +10,7 @@ import { baseTheme } from '../styles/styledComponents/theme'
 import { NextPageWithLayout } from './_app'
 
 const Home: NextPageWithLayout = () => (
-  <>
+  <StyledBlockMainWrapper>
     <Image alt="Logo" height={180} src={kusto} width={180} priority />
     <StyledBlockMain>
       <p>
@@ -44,7 +44,7 @@ const Home: NextPageWithLayout = () => (
         <Link href={Path.ERROR_404}>Page_ERROR_404_</Link>
       </p>
     </StyledBlockMain>
-  </>
+  </StyledBlockMainWrapper>
 )
 
 Home.getLayout = getLayout
@@ -59,4 +59,7 @@ const StyledBlockMain = styled.div`
     color: ${baseTheme.colors.light[100]};
     text-decoration: none;
   }
+`
+const StyledBlockMainWrapper = styled.div`
+  padding: 60px;
 `

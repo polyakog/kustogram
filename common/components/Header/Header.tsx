@@ -46,18 +46,23 @@ const Header = () => {
 export default Header
 
 const StyledHeader = styled.header`
-  max-width: 1310px;
-
+  position: fixed;
+  z-index: 9999;
   width: 100%;
+  max-width: 1310px;
   height: 60px;
   padding: 0 4.6%;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   background: ${baseTheme.colors.dark[700]};
   border-bottom: 1px solid ${baseTheme.colors.dark[300]};
+
+  @media (max-width: 768px) {
+    img {
+    }
+  }
 `
 
 const LogoStyle = styled.div`

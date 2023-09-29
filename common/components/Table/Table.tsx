@@ -1,9 +1,10 @@
+import React from 'react'
+
 import { AllPaymentsResponse } from 'assets/store/api/payments/types'
 import { convertCentsToDollars } from 'common/utils/convertCentsToDollars'
 import { dateParser } from 'common/utils/dateParser'
 import { getSubscriptionType } from 'common/utils/getSubscriptionType'
 import { TFunction } from 'i18next'
-import React from 'react'
 import {
   Cell,
   HeadingText,

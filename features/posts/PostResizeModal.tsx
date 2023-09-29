@@ -41,7 +41,7 @@ const PostResizeModal = ({
   handleAddPhotoButton: () => void
   handleFullScreen: (full: boolean) => void
   handleNextToFilterButton: () => void
-  photoFile: File
+  photoFile: File | string
   photoPost: PhotoType[]
   setPhotoPost: (photoPost: PhotoType[]) => void
 }) => {
@@ -71,7 +71,12 @@ const PostResizeModal = ({
         imageRatio(url)
       }
     }
-    reader.readAsDataURL(photoFile)
+    if (typeof photoFile !== 'string') {
+      reader.readAsDataURL(photoFile)
+    } else {
+      setPhotoFileURL(photoFile)
+      imageRatio(photoFile)
+    }
   }, [])
 
   // Сохранение значений в локальный state при перемещении бегунка
@@ -167,7 +172,13 @@ const PostResizeModal = ({
     <>
       <StyledModalHeaderNext>
         <StyledCloseNextButton onClick={handleAddPhotoButton}>
-          <Image alt="close" height={24} src="/img/icons/arrow-ios-back.svg" width={24} priority />
+          <Image
+            alt="arrowBack"
+            height={24}
+            src="/img/icons/arrow-ios-back.svg"
+            width={24}
+            priority
+          />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{t('cropping')}</StyledModalTitleNext>
         <Button

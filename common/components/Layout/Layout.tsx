@@ -12,7 +12,7 @@ export const Layout: NextPage<PropsWithChildren> = props => {
 
   return (
     <StyledWrapper>
-      <Header />
+      <Header isAdmin={false} />
       <Main>{children}</Main>
     </StyledWrapper>
   )

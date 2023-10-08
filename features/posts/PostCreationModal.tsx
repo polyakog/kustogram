@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from 'common/components/Button/Button'
 import Modal from 'common/components/Modals/ModalPublic/Modal'
@@ -30,6 +30,9 @@ const PostCreationModal = ({
   const [openResize, setOpenResize] = useState(false) // открытие модального окна изменения размеров изображения
   const [photoFile, setPhotoFile] = useState<File | string>() // изображение, передаваемое в компоненту редактирования
   const [postDescription, setPostDescription] = useState('') // описание, добавляемое к изображениям
+  const [isDraft, setIsDraft] = useState(false)
+  const [photoFileURL, setPhotoFileURL] = useState<string>() // url изображени, загруженного из компьютера
+
   // Обработчик перехода из окна выбора изображения в окно изменения размеров
   const handleNextToResize = () => {
     setOpenComp(false)
@@ -75,11 +78,24 @@ const PostCreationModal = ({
     setCloseCreation(true)
   })
 
+  // Отмена сохранения черновика поста в indexed DB
   const handleDiscardDraft = () => {
     setIsOpenModalEdit(false)
   }
   // Сохранение черновика поста в indexed DB
   const handleSafeDraft = () => {
+    // объект для сохранения в БД в ситуации, когда фото загружено, но не сохранено
+    const initialPhotoPost = [
+      {
+        filter: '',
+        photoUrl: photoFileURL,
+        photoUrlWithFilter: photoFileURL,
+      },
+    ]
+
+    // if (photoPost.length === 0 && photoFileURL) {
+    //   setPhotoPost(initialPhotoPost)
+    // }
     const dbName = 'PostDraft'
 
     const openRequest = indexedDB.open(dbName, 1) // открыть БД
@@ -93,8 +109,9 @@ const PostCreationModal = ({
 
       if (!db.objectStoreNames.contains('post')) {
         db.createObjectStore('post', { autoIncrement: true })
+      } else {
+        console.log('store is exist')
       }
-      console.log('store is exist')
     }
     openRequest.onsuccess = () => {
       const db = openRequest.result
@@ -104,10 +121,16 @@ const PostCreationModal = ({
         db.close()
         console.log('База данных устарела, пожалуйста, перезагрузите страницу.')
       }
-
       const transaction = db.transaction('post', 'readwrite') // начало транзакции
       const post = transaction.objectStore('post')
-      const request = post.put({ photoPost, postDescription }, '1') // запись данных в хранилище
+
+      let request: IDBRequest<IDBValidKey>
+
+      if (photoPost.length === 0 && photoFileURL) {
+        request = post.put({ photoPost: initialPhotoPost, postDescription }, '1') // запись данных в хранилище
+      } else {
+        request = post.put({ photoPost, postDescription }, '1') // запись данных в хранилище
+      }
 
       request.onsuccess = () => {
         console.log('Пост добавлен в хранилище', request.result)
@@ -122,6 +145,21 @@ const PostCreationModal = ({
       console.log('пожалуйста, перезагрузите страницу.')
     }
   }
+
+  const handleDB = async () => {
+    const dbName = 'PostDraft'
+    const isExisting = (await window.indexedDB.databases())
+      .map(db => db.name)
+      .includes(dbName) as boolean
+
+    if (isExisting) {
+      setIsDraft(true)
+    }
+  }
+
+  useEffect(() => {
+    handleDB()
+  }, [])
 
   return (
     <>
@@ -149,6 +187,7 @@ const PostCreationModal = ({
             avatar=""
             handleModalClose={handleEditorClose}
             handleNextToResize={handleNextToResize}
+            isDraft={isDraft}
             setPhotoFile={setPhotoFile}
             setPhotoPost={setPhotoPost}
             setPostDescription={setPostDescription}
@@ -160,7 +199,9 @@ const PostCreationModal = ({
             handleFullScreen={handleFullScreen}
             handleNextToFilterButton={handleNextToFilterButton}
             photoFile={photoFile}
+            photoFileURL={photoFileURL}
             photoPost={photoPost}
+            setPhotoFileURL={setPhotoFileURL}
             setPhotoPost={setPhotoPost}
           />
         )}

@@ -15,10 +15,12 @@ const PostPhotoSelectModal = ({
   handleNextToResize,
   setPhotoPost,
   setPostDescription,
+  isDraft,
 }: {
   avatar?: string
   handleModalClose: () => void
   handleNextToResize: () => void
+  isDraft: boolean
   setPhotoFile: (photoFile: File | string) => void
   setPhotoPost: (post: PhotoType[]) => void
   setPostDescription: (postDescription: string) => void
@@ -109,9 +111,11 @@ const PostPhotoSelectModal = ({
       <input accept="image/*" id="file-upload" type="file" onChange={handleSelectPhoto} />
       <StyledLabel htmlFor="file-upload">{t('select_from_comp')}</StyledLabel>
       <StyledContainerButton>
-        <Button theme={ThemeButton.OUTLINED} width="228px" onClick={handleOpenDraft}>
-          Open Draft
-        </Button>
+        {isDraft && (
+          <Button theme={ThemeButton.OUTLINED} width="228px" onClick={handleOpenDraft}>
+            Open Draft
+          </Button>
+        )}
       </StyledContainerButton>
     </StyledModalBody>
   )

@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { Button } from 'common/components/Button/Button'
 import Modal from 'common/components/Modals/ModalPublic/Modal'
+import { ThemeButton } from 'common/enums/themeButton'
 import { useOutsideClick } from 'common/hooks/useOutsideClick'
 import styled from 'styled-components'
 
@@ -26,7 +28,10 @@ const PostCreationModal = ({
   const [isFilterOpen, setIsFilterOpen] = useState(false) // открытие модального окна для наложения фильтров
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false) // открытие модального окна для описания поста
   const [openResize, setOpenResize] = useState(false) // открытие модального окна изменения размеров изображения
-  const [photoFile, setPhotoFile] = useState<File>() // изображение, передаваемое в компоненту редактирования
+  const [photoFile, setPhotoFile] = useState<File | string>() // изображение, передаваемое в компоненту редактирования
+  const [postDescription, setPostDescription] = useState('') // описание, добавляемое к изображениям
+  const [isDraft, setIsDraft] = useState(false)
+  const [photoFileURL, setPhotoFileURL] = useState<string>() // url изображени, загруженного из компьютера
 
   // Обработчик перехода из окна выбора изображения в окно изменения размеров
   const handleNextToResize = () => {
@@ -73,9 +78,88 @@ const PostCreationModal = ({
     setCloseCreation(true)
   })
 
-  const close = () => {
+  // Отмена сохранения черновика поста в indexed DB
+  const handleDiscardDraft = () => {
     setIsOpenModalEdit(false)
   }
+  // Сохранение черновика поста в indexed DB
+  const handleSafeDraft = () => {
+    // объект для сохранения в БД в ситуации, когда фото загружено, но не сохранено
+    const initialPhotoPost = [
+      {
+        filter: '',
+        photoUrl: photoFileURL,
+        photoUrlWithFilter: photoFileURL,
+      },
+    ]
+
+    // if (photoPost.length === 0 && photoFileURL) {
+    //   setPhotoPost(initialPhotoPost)
+    // }
+    const dbName = 'PostDraft'
+
+    const openRequest = indexedDB.open(dbName, 1) // открыть БД
+
+    openRequest.onerror = () => {
+      console.error('Database error')
+    }
+    openRequest.onupgradeneeded = () => {
+      const db = openRequest.result
+      // создать хранилище, если его не существует
+
+      if (!db.objectStoreNames.contains('post')) {
+        db.createObjectStore('post', { autoIncrement: true })
+      } else {
+        console.log('store is exist')
+      }
+    }
+    openRequest.onsuccess = () => {
+      const db = openRequest.result
+
+      // вывод ошибки при устаревшей версии БД
+      db.onversionchange = () => {
+        db.close()
+        console.log('База данных устарела, пожалуйста, перезагрузите страницу.')
+      }
+      const transaction = db.transaction('post', 'readwrite') // начало транзакции
+      const post = transaction.objectStore('post')
+
+      let request: IDBRequest<IDBValidKey>
+
+      if (photoPost.length === 0 && photoFileURL) {
+        request = post.put({ photoPost: initialPhotoPost, postDescription }, '1') // запись данных в хранилище
+      } else {
+        request = post.put({ photoPost, postDescription }, '1') // запись данных в хранилище
+      }
+
+      request.onsuccess = () => {
+        console.log('Пост добавлен в хранилище', request.result)
+        setIsOpenModalEdit(false)
+      }
+
+      request.onerror = () => {
+        console.log('Ошибка', request.error)
+      }
+    }
+    openRequest.onblocked = () => {
+      console.log('пожалуйста, перезагрузите страницу.')
+    }
+  }
+
+  const handleDB = async () => {
+    const dbName = 'PostDraft'
+    const isExisting = (await window.indexedDB.databases())
+      .map(db => db.name)
+      .includes(dbName) as boolean
+
+    if (isExisting) {
+      setIsDraft(true)
+    }
+  }
+
+  useEffect(() => {
+    handleDB()
+  }, [])
 
   return (
     <>
@@ -85,13 +169,16 @@ const PostCreationModal = ({
           bodyText="Do you really want to close the creation of a publication? If you close everything will be deleted"
           handleCrossClick={() => setCloseCreation(false)}
           height="250px"
-          title="Undo Creation
-        "
+          title="Close"
         >
-          <>
-            <ModalBtn onClick={close}>Yes</ModalBtn>
-            <ModalBtn onClick={() => setCloseCreation(false)}>No</ModalBtn>
-          </>
+          <StyledButtonContainer>
+            <Button theme={ThemeButton.OUTLINED} width="108px" onClick={handleDiscardDraft}>
+              Discard
+            </Button>
+            <Button theme={ThemeButton.PRIMARY} width="128px" onClick={handleSafeDraft}>
+              Save draft
+            </Button>
+          </StyledButtonContainer>
         </Modal>
       )}
       <div ref={ref}>
@@ -100,7 +187,10 @@ const PostCreationModal = ({
             avatar=""
             handleModalClose={handleEditorClose}
             handleNextToResize={handleNextToResize}
+            isDraft={isDraft}
             setPhotoFile={setPhotoFile}
+            setPhotoPost={setPhotoPost}
+            setPostDescription={setPostDescription}
           />
         )}
         {openResize && photoFile && (
@@ -109,7 +199,9 @@ const PostCreationModal = ({
             handleFullScreen={handleFullScreen}
             handleNextToFilterButton={handleNextToFilterButton}
             photoFile={photoFile}
+            photoFileURL={photoFileURL}
             photoPost={photoPost}
+            setPhotoFileURL={setPhotoFileURL}
             setPhotoPost={setPhotoPost}
           />
         )}
@@ -122,9 +214,11 @@ const PostCreationModal = ({
         )}
         {isDescriptionOpen && (
           <PostDescriptionModal
+            description={postDescription}
             handleBackToFilters={handleBackToFilters}
             handleModalClose={handleEditorClose}
             photoPost={photoPost}
+            setDescription={setPostDescription}
           />
         )}
       </div>
@@ -141,15 +235,8 @@ export type PhotoType = {
   photoUrlWithFilter: string
 }
 
-const ModalBtn = styled.button`
-  background: black;
-  border: 1px solid #397df6;
-  color: #397df6;
-  cursor: pointer;
-  width: 50px;
-  padding: 5px 10px;
-  &:hover {
-    color: white;
-    background: #397df6;
-  }
+const StyledButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 `

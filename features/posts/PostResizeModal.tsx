@@ -37,12 +37,16 @@ const PostResizeModal = ({
   photoPost,
   photoFile,
   handleAddPhotoButton,
+  photoFileURL,
+  setPhotoFileURL,
 }: {
   handleAddPhotoButton: () => void
   handleFullScreen: (full: boolean) => void
   handleNextToFilterButton: () => void
-  photoFile: File
+  photoFile: File | string
+  photoFileURL: string | undefined
   photoPost: PhotoType[]
+  setPhotoFileURL: (photoFileURL: string) => void
   setPhotoPost: (photoPost: PhotoType[]) => void
 }) => {
   const [value, setValue] = useState(1) // начальное значение для zoom
@@ -54,7 +58,7 @@ const PostResizeModal = ({
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<CropArgType | null>(null) // сохранение вырезанной области
   const [isObjectFit, setIsObjectFit] = useState(false) // параметр вписывания изображения для easy-crop
   const [sizeData, setSizeData] = useState(initSizeData) // массив параметров для модального окна изменения размеров
-  const [photoFileURL, setPhotoFileURL] = useState<string>() // url изображени, загруженного из компьютера
+  // const [photoFileURL, setPhotoFileURL] = useState<string>() // url изображени, загруженного из компьютера
 
   const { t } = useTranslation('post_cr')
 
@@ -71,7 +75,12 @@ const PostResizeModal = ({
         imageRatio(url)
       }
     }
-    reader.readAsDataURL(photoFile)
+    if (typeof photoFile !== 'string') {
+      reader.readAsDataURL(photoFile)
+    } else {
+      setPhotoFileURL(photoFile)
+      imageRatio(photoFile)
+    }
   }, [])
 
   // Сохранение значений в локальный state при перемещении бегунка
@@ -167,7 +176,13 @@ const PostResizeModal = ({
     <>
       <StyledModalHeaderNext>
         <StyledCloseNextButton onClick={handleAddPhotoButton}>
-          <Image alt="close" height={24} src="/img/icons/arrow-ios-back.svg" width={24} priority />
+          <Image
+            alt="arrowBack"
+            height={24}
+            src="/img/icons/arrow-ios-back.svg"
+            width={24}
+            priority
+          />
         </StyledCloseNextButton>
         <StyledModalTitleNext>{t('cropping')}</StyledModalTitleNext>
         <Button

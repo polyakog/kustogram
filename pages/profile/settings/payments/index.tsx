@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { useLazyPaymentsQuery } from 'assets/store/api/payments/paymentsApi'
 import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
+import PaymentsTable from 'common/components/Table/Table'
 import { useClient } from 'common/hooks/useClients'
 import PagesNavigation from 'features/settings/Pagination'
 import { TabBar } from 'features/settings/TabBar'
@@ -9,7 +10,6 @@ import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import { useTranslation } from 'react-i18next'
-import PaymentsTable from 'common/components/Table/Table'
 import { PageWrapper, TabBarWrapper } from 'styles/styledComponents/payments/payments.styled'
 
 export async function getStaticProps(context: GetStaticPropsContext) {

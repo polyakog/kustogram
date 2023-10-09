@@ -69,10 +69,9 @@
   "Required city": "Required city",
   "Too Short!": "Too Short!",
   "Required birthday": "Required birthday",
-  "Invalid type of date" : "Invalid type of date",
+  "Invalid type of date": "Invalid type of date",
   "Date should not be greate than today": "Date should not be greate than today",
   "You are too old!": "You are too old!",
-
 
   "some_err": "There is some error. Please, try again.",
   "select_from_comp": "Select from Computer",
@@ -84,6 +83,7 @@
   "this_devices": "This device",
   "terminate_session": "Terminate all other session",
   "active_sessions": "Active sessions",
+  "no_active_sessions": "You have not yet logged in from other devices",
 
   "account_type": "Account type:",
   "your_subscription_costs": "Your subscription costs:",

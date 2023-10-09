@@ -16,13 +16,16 @@ const PostDescriptionModal = ({
   handleBackToFilters,
   photoPost,
   handleModalClose,
+  description,
+  setDescription,
 }: {
+  description: string
   handleBackToFilters: (photoPost: PhotoType[]) => void
   handleModalClose: () => void
   photoPost: PhotoType[]
+  setDescription: (description: string) => void
 }) => {
   const [photo, setPhoto] = useState(photoPost[0]) // изображение из массива, отображаемое в модальном окне
-  const [description, setDescription] = useState('') // описание, добавляемое к изображениям
   const [disabled, setDisabled] = useState(false)
 
   const [createPostHandler] = useCreatePostMutation() // сохрание поста на сервере

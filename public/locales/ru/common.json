@@ -78,10 +78,9 @@
   "Required city": "Необходимо указать город",
   "Too Short!": "Слишком мало символов!",
   "Required birthday": "Необходимо указать день рождения",
-  "Invalid type of date" : "Недопустимый тип даты",
+  "Invalid type of date": "Недопустимый тип даты",
   "Date should not be greate than today": "Дата должна быть не позднее сегодняшнего дня.",
   "You are too old!": "Ты слишком стар для этой фигни!",
-
 
   "some_err": "Произошла ошибка. Попробуйте еще раз.",
 
@@ -94,6 +93,7 @@
   "this_devices": "Это устройство",
   "terminate_session": "Завершить все остальные сеансы",
   "active_sessions": "Активные сессии",
+  "no_active_sessions": "Вы еще не авторизовались с других устройств",
 
   "account_type": "Тип аккаунта:",
   "your_subscription_costs": "Стоимость вашей подписки:",

@@ -12,6 +12,10 @@ export const setItem = (key: string, value: unknown) => {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
+export const removeItem = (key: string) => {
+  localStorage.removeItem(key)
+}
+
 export const useLocalStorage = () => {
   const setItem = (key: string, value: unknown) => {
     localStorage.setItem(key, JSON.stringify(value))

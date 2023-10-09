@@ -1,32 +1,50 @@
+import { TFunction } from 'i18next'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 import { baseTheme } from '../../styles/styledComponents/theme'
 
-export const TabBar = () => {
-  const { t } = useTranslation()
+/* Компонента для создания блока с вкладками.
+   Пропсы: baseUrl - общий url для всех вкладок,
+           titleList - объект с названиями вкладок (name) и соответсвующими url для редиректа (ref)
+                     который добавляется к основному baseUrl
+*/
+
+type TabBarProps = {
+  baseUrl: string
+  t: TFunction
+  titleList: {
+    name: string
+    ref: string
+  }[]
+}
+
+export const TabBar = ({ baseUrl, titleList, t }: TabBarProps) => {
   const location = usePathname()
   const isActive = (name: string) => (location.includes(name) ? 'active' : '')
 
   return (
     <StyledNavigation>
-      <StyledItem
-        active={location === '/profile/settings' ? 'active' : ''}
-        href="/profile/settings"
-      >
-        {t('general_info')}
-      </StyledItem>
-      <StyledItem active={isActive('devices')} href="/profile/settings/devices">
-        {t('devices')}
-      </StyledItem>
-      <StyledItem active={isActive('acc_management')} href="/profile/settings/acc_management">
-        {t('acc_management')}
-      </StyledItem>
-      <StyledItem active={isActive('payments')} href="/profile/settings/payments">
-        {t('my_payments')}
-      </StyledItem>
+      {titleList.map((item, index) => {
+        if (index === 0) {
+          return (
+            <StyledItem
+              key={item.name}
+              active={location === baseUrl ? 'active' : ''}
+              href={`${baseUrl}/${item.ref}`}
+            >
+              {t(item.name)}
+            </StyledItem>
+          )
+        }
+
+        return (
+          <StyledItem key={item.name} active={isActive(item.ref)} href={`${baseUrl}/${item.ref}`}>
+            {t(item.name)}
+          </StyledItem>
+        )
+      })}
     </StyledNavigation>
   )
 }

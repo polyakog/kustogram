@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 
 import { useLazyMeQuery, useLoginMutation } from 'assets/store/api/auth/authApi' // ?
 import { LoginResponseType } from 'assets/store/api/auth/types'
@@ -35,6 +35,12 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
+import { deviceDetect, browserName, osName } from 'react-device-detect'
+
+type DeviceInfo = {
+  model: string | undefined
+  vendor: string | undefined
+}
 
 export const getStaticProps = async (context: GetStaticPropsContext) => {
   const { locale } = context
@@ -77,6 +83,37 @@ const Login = (props: ProvidersPropsType) => {
   // const status = "unauthenticated";
   // const session = "";
 
+  const [ip, setIp] = useState('')
+  const [vendor, setVendor] = useState('')
+  const [model, setModel] = useState('')
+
+  const { getItem } = useLocalStorage()
+
+  useLayoutEffect(() => {
+    // const token = getItem('accessToken')
+    // if (token) {
+    //   route.push('/profile')
+    // }
+  }, [])
+
+  useEffect(() => {
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(res => setIp(res.ip))
+  }, [])
+
+  useEffect(() => {
+    const deviceInfo = deviceDetect(navigator.userAgent) as DeviceInfo
+
+    if (deviceInfo.model) {
+      setModel(deviceInfo.model)
+    }
+
+    if (deviceInfo.vendor) {
+      setVendor(deviceInfo.vendor)
+    }
+  }, [])
+
   const initialAuthValues = {
     password: '',
     loginOrEmail: '',
@@ -93,6 +130,13 @@ const Login = (props: ProvidersPropsType) => {
     const data = {
       email: values.loginOrEmail,
       password: values.password,
+      ip,
+      browserName,
+      deviceName: `${vendor} ${model}`,
+    }
+
+    if (data.deviceName.length < 2) {
+      data.deviceName = `Desktop/${osName}`
     }
 
     try {
@@ -113,7 +157,13 @@ const Login = (props: ProvidersPropsType) => {
 
   useEffect(() => {
     getInitialize()
-  }, [])
+
+    const token = getItem('accessToken')
+
+    if (token && me) {
+      route.push('/profile')
+    }
+  }, [me])
 
   useEffect(() => {
     redirect(loginRes, setItem, route)

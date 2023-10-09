@@ -20,11 +20,12 @@ import { styled } from 'styled-components'
 import { fakeData } from './fakeData'
 
 type PostProps = {
+  login: string
   postInfo: CreatePostResponse | undefined
   setIsPostActive: (state: boolean) => void
 }
 
-const Post = ({ postInfo, setIsPostActive }: PostProps) => {
+const Post = ({ postInfo, setIsPostActive, login }: PostProps) => {
   const { data: profile } = useProfileQuery()
 
   const [isLiked, setIsLiked] = useState(false)
@@ -196,7 +197,7 @@ const Post = ({ postInfo, setIsPostActive }: PostProps) => {
             </EditPostHeader>
             <User>
               <StyledAvatar alt="avatar" height={48} src={profile?.photo || ''} width={48} />
-              <StyledUsername>{user?.login}</StyledUsername>
+              <StyledUsername>{login}</StyledUsername>
             </User>
             <NewDescriptionWrapper>
               <Text>Add publication descriptions</Text>

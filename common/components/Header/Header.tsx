@@ -12,7 +12,11 @@ import { MenuHeader } from '../Menu/MenuHeader'
 
 import { SelectLanguage } from './SelectedLanguage/SelectLanguage'
 
-const Header = () => {
+type HeaderProps = {
+  isAdmin: boolean
+}
+
+const Header = ({ isAdmin }: HeaderProps) => {
   const router = useRouter()
   const [isMenuHeader, setIsMenuHeader] = useState(true)
   const [isBell, setIsBell] = useState(false)
@@ -35,10 +39,12 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <LogoStyle onClick={handleClick}>KustoSocialNet</LogoStyle>
-      {isBell && <Image alt="bell" height={24} src={bell} width={24} />}
+      <LogoStyle onClick={handleClick}>
+        KustoSocialNet{isAdmin ? <span>SuperAdmin</span> : ''}
+      </LogoStyle>
+      {!isAdmin && isBell && <Image alt="bell" height={24} src={bell} width={24} />}
       <SelectLanguage />
-      {isMenuHeader && <MenuHeader />}
+      {!isAdmin && isMenuHeader && <MenuHeader />}
     </StyledHeader>
   )
 }

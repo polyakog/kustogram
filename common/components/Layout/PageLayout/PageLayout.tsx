@@ -32,7 +32,7 @@ export const PageLayout: NextPage<PropsWithChildren> = props => {
   return (
     <StyledWrapper>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Header />
+        <Header isAdmin={false} />
         <Page>
           <CreatePost isOpenModalEdit={isOpenModalEdit} setIsOpenModalEdit={setIsOpenModalEdit} />
           <NavbarWrapper>

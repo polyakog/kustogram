@@ -13,6 +13,7 @@
     "INClint": "eslint --fix ./**/*.{tsx,ts,jsx,js} --no-error-on-unmatched-pattern"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.4",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@it-incubator/eslint-config": "^0.1.3",
@@ -37,6 +38,7 @@
     "dayjs": "^1.11.9",
     "file-loader": "^6.2.0",
     "formik": "^2.4.2",
+    "graphql": "^16.8.1",
     "i18next": "^23.2.5",
     "next": "13.3.0",
     "next-auth": "latest",
@@ -46,6 +48,7 @@
     "react": "18.2.0",
     "react-avatar-editor": "^13.0.0",
     "react-cropper": "^2.3.3",
+    "react-device-detect": "^2.2.3",
     "react-dom": "18.2.0",
     "react-easy-crop": "^5.0.0",
     "react-google-recaptcha": "^3.1.0",

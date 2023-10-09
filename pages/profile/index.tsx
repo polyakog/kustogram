@@ -91,7 +91,6 @@ const MyProfile = () => {
 
   return (
     <>
-      {}
       <ProfileElement t={t} user={user} />
       <PostsWrapper>
         {posts.map(post => {
@@ -112,7 +111,9 @@ const MyProfile = () => {
         })}
       </PostsWrapper>
 
-      {isPostActive && <Post postInfo={postInfo} setIsPostActive={setIsPostActive} />}
+      {isPostActive && (
+        <Post login={user?.login || ''} postInfo={postInfo} setIsPostActive={setIsPostActive} />
+      )}
     </>
   )
 }

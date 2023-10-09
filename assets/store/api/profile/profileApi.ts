@@ -12,8 +12,11 @@ import { contentTypeSetup } from 'common/utils/contentTypeSetup'
 import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
 
 import { AuthMeType, SaveProfileInfoType, UserType } from './types'
+import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 const statusCode = 401
+
+const browserData = getBrowserInfo()
 
 const baseQuery = retry(
   fetchBaseQuery({
@@ -40,7 +43,11 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 
     if (res.error.originalStatus === statusCode) {
       const refreshResult = await baseQuery(
-        'https://kustogram.site/api/v1/auth/refresh-token',
+        {
+          url: 'https://kustogram.site/api/v1/auth/refresh-token',
+          body: browserData,
+          method: 'POST',
+        },
         api,
         extraOptions
       )

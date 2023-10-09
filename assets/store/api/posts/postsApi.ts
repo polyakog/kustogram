@@ -18,14 +18,16 @@ import {
   GetUserPostsRequest,
   GetUserPostsResponse,
 } from './types'
+import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 const statusCode = 401
+
+const browserData = getBrowserInfo()
 
 const baseQuery = retry(
   fetchBaseQuery({
     baseUrl: 'https://kustogram.site/api/v1/posts/',
     credentials: 'include',
-    method: 'POST',
     prepareHeaders: (headers, { endpoint }) =>
       contentTypeSetup(headers, { endpoint }, ['createPost']),
   }),
@@ -46,7 +48,11 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 
     if (res.error.originalStatus === statusCode) {
       const refreshResult = await baseQuery(
-        'https://kustogram.site/api/v1/auth/refresh-token',
+        {
+          url: 'https://kustogram.site/api/v1/auth/refresh-token',
+          body: browserData,
+          method: 'POST',
+        },
         api,
         extraOptions
       )
@@ -70,6 +76,8 @@ const baseQueryWithReauth: BaseQueryFn<FetchArgs | string, unknown, FetchBaseQue
 export const postsApi = createApi({
   reducerPath: 'postsApi',
   baseQuery: baseQueryWithReauth,
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   tagTypes: ['editPost', 'deletePost', 'createPost'],
   endpoints: builder => ({
     createPost: builder.mutation<CreatePostResponse, FormData>({

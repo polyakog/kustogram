@@ -8,7 +8,7 @@ import { NextPage } from 'next'
 import styled from 'styled-components'
 import { baseTheme } from 'styles/styledComponents/theme'
 
-export const AdminLayout: NextPage<PropsWithChildren> = props => {
+export const AdminUserLayout: NextPage<PropsWithChildren> = props => {
   // eslint-disable-next-line react/prop-types
   const { children } = props
 
@@ -17,7 +17,6 @@ export const AdminLayout: NextPage<PropsWithChildren> = props => {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Page>
           <Header isAdmin />
-          <AdminNavbar />
           <Main>{children}</Main>
         </Page>
       </LocalizationProvider>
@@ -26,7 +25,7 @@ export const AdminLayout: NextPage<PropsWithChildren> = props => {
 }
 
 export const getLayout = (page: ReactElement) => {
-  return <AdminLayout>{page}</AdminLayout>
+  return <AdminUserLayout>{page}</AdminUserLayout>
 }
 
 export const Main = styled.div`

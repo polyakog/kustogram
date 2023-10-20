@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ModalSizePropsType } from './types'
 
 export const StyledModalOverlay = styled.div<{ bg?: string }>`
-  z-index: 1000;
+  z-index: 10000;
   background-color: ${props => (props.bg ? 'none' : 'rgba(0, 0, 0, 0.4)')};
   position: fixed;
   top: 0;

@@ -8,6 +8,8 @@ import {
 } from 'assets/store/api/devices/devicesApi'
 import { useClient } from 'common/hooks/useClients'
 import { dateParser } from 'common/utils/dateParser'
+import { defineDeviceIcon } from 'common/utils/defineDeviceIcon'
+import { defineUserOS } from 'common/utils/defineUserOS'
 import { getUserBrowser } from 'common/utils/getUserBrowser'
 import { GetStaticPropsContext } from 'next'
 import Image from 'next/image'
@@ -34,8 +36,6 @@ import { baseTheme } from 'styles/styledComponents/theme'
 
 import { getLayout } from '../../../../common/components/Layout/PageLayout/PageLayout'
 import { SettingsPageWrapper } from '../../../../features/settings/SettingsPageWrapper'
-import { defineDeviceIcon } from 'common/utils/defineDeviceIcon'
-import { defineUserOS } from 'common/utils/defineUserOS'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context

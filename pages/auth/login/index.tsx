@@ -22,6 +22,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
 import hidePasswordBtn from 'public/img/icons/eye-off-outline.svg'
 import showPasswordBtn from 'public/img/icons/eye-outline.svg'
+import { deviceDetect, browserName, osName } from 'react-device-detect'
 import {
   StyledContainerAuth,
   StyledForgotLink,
@@ -35,7 +36,6 @@ import {
   StyledText,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 import { LoadingStyle } from 'styles/styledComponents/profile/profile.styled'
-import { deviceDetect, browserName, osName } from 'react-device-detect'
 
 type DeviceInfo = {
   model: string | undefined

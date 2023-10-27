@@ -12,8 +12,6 @@ import { store } from '../assets/store/store'
 import { useLoader } from '../common/hooks/useLoader'
 
 import 'styles/nprogress.css'
-import { LocalizationProvider } from '@mui/x-date-pickers' // for mui calendar
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs' // for mui calendar
 
 import { ApolloProvider } from '@apollo/client'
 import client from 'assets/apollo/client'
@@ -37,12 +35,8 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     <Provider store={store}>
       <ApolloProvider client={client}>
         <PrivateRoute>
-          {getLayout(
-            <>
-              <GlobalStyle />
-              <Component {...pageProps} />
-            </>
-          )}
+          <GlobalStyle />
+          {getLayout(<Component {...pageProps} />)}
         </PrivateRoute>
       </ApolloProvider>
     </Provider>

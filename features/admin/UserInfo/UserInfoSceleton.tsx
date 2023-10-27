@@ -3,8 +3,8 @@ import {
   StyledIdDate,
   StyledIdDateContainer,
   StyledNameContainer,
-} from 'features/admin/UserInfo'
-import { Sceleton } from 'styles/styledComponents/admin/sceleton.styled'
+} from './UserInfo'
+import { Sceleton } from '../../../styles/styledComponents/admin/sceleton.styled'
 
 // Компонента для отображения схемы, где на странице должны будут располагаться данные,
 // которая появляется во время загрузки

@@ -1,17 +1,17 @@
 import { useQuery } from '@apollo/client'
-import { GET_USER } from 'assets/apollo/users'
-import { Path } from 'common/enums/path'
-import Typograthy from 'common/hoc/Typograthy'
-import UserInfoSceleton from 'features/admin/UserInfoSceleton'
+import { GET_USER } from '../../../assets/apollo/users'
+import { Path } from '../../../common/enums/path'
+import Typograthy from '../../../common/hoc/Typograthy'
+import UserInfoSceleton from './UserInfoSceleton'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
-import { baseTheme } from 'styles/styledComponents/theme'
+import { baseTheme } from '../../../styles/styledComponents/theme'
 
 // Компонента для отображения основных данных пользователя в админке
 
-const UserInfo = () => {
+const UserInfo = ({ userId }: { userId: string }) => {
   const router = useRouter()
   const handleBackToList = () => {
     router.push(Path.ADMIN)
@@ -20,7 +20,7 @@ const UserInfo = () => {
   const { t } = useTranslation('admin')
 
   const { loading, error, data } = useQuery(GET_USER, {
-    variables: { id: '45fc377a-4c96-46c4-a7b4-cb0d6dffbcc2' },
+    variables: { id: userId },
   })
 
   if (error) {

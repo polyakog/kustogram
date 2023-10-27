@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/client'
 import { GET_USER_IMAGES } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminUserLayout'
 import { TabBar } from 'common/components/TabBar'
-import UserInfo from 'features/admin/UserInfo'
-import { GetStaticPropsContext } from 'next'
+import UserInfo from '../../../features/admin/UserInfo/UserInfo'
+import { GetServerSidePropsContext, GetStaticPaths, GetStaticPropsContext } from 'next'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -14,17 +14,24 @@ import { Sceleton } from 'styles/styledComponents/admin/sceleton.styled'
 /*
     Страница отображения данных о пользователе, включающая загруженные им фотографии
 */
-export async function getStaticProps(context: GetStaticPropsContext) {
-  const { locale } = context
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { locale, params } = context
+  const { userId } = params || {}
 
   return {
     props: {
       ...(await serverSideTranslations(locale as string, ['admin'], config)),
+      userId,
     },
   }
 }
 
-const UserPhoto = () => {
+type propsType = {
+  userId: string
+}
+
+const UserPhoto = ({ userId }: propsType) => {
   const imagesAmount = 10
 
   const {
@@ -32,7 +39,7 @@ const UserPhoto = () => {
     error,
     data: userImages,
   } = useQuery(GET_USER_IMAGES, {
-    variables: { id: '45fc377a-4c96-46c4-a7b4-cb0d6dffbcc2' },
+    variables: { id: userId },
   })
 
   if (error) {
@@ -42,7 +49,7 @@ const UserPhoto = () => {
   const { t } = useTranslation('admin')
 
   // Данные для создания вкладок
-  const baseUrl = '/admin/user'
+  const baseUrl = `/admin/user/${userId}`
   const adminUserTabData = [
     {
       name: 'Uploaded photos',
@@ -64,7 +71,7 @@ const UserPhoto = () => {
 
   return (
     <>
-      <UserInfo />
+      <UserInfo userId={userId} />
       <TabBar baseUrl={baseUrl} t={t} titleList={adminUserTabData} />
       <PostsWrapper>
         {loading

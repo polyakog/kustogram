@@ -10,8 +10,8 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
 
-      email: 'admin@admin.ru',
-      password: 'qwerty',
+      email: process.env.NEXT_PUBLIC_AUTH_ADMIN_LOGIN,
+      password: process.env.NEXT_PUBLIC_AUTH_ADMIN_PASSWORD,
     },
   }
 })

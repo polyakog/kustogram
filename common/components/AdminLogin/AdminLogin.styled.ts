@@ -1,4 +1,5 @@
 import { styled } from 'styled-components'
+
 import { baseTheme } from '../../../styles/styledComponents/theme'
 
 export const Main = styled.div`

@@ -1,5 +1,6 @@
-import styled from 'styled-components'
 import Image from 'next/image'
+import styled from 'styled-components'
+
 import { Cell, HeadingText } from '../../styles/styledComponents/payments/payments.styled'
 
 export const WrapperAdmin = styled.div`

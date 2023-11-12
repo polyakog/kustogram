@@ -1,13 +1,19 @@
 import { OptionAdmin, SelectAdmin } from './Admin.styled'
 
-export const SelectStatusAdmin = () => {
+type Select = {
+  initialValue: string
+  options: string[]
+}
+
+export const SelectStatusAdmin = ({ options, initialValue }: Select) => {
   return (
     <SelectAdmin defaultValue="Not selected">
       <OptionAdmin hidden selected>
-        Not selected
+        {initialValue}
       </OptionAdmin>
-      <OptionAdmin>Blocked</OptionAdmin>
-      <OptionAdmin>Not Blocked</OptionAdmin>
+      {options.map(option => (
+        <OptionAdmin key={option}>{option}</OptionAdmin>
+      ))}
     </SelectAdmin>
   )
 }

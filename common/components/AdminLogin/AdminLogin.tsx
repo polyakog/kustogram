@@ -2,21 +2,21 @@ import { ThemeButton } from 'common/enums/themeButton'
 import { useSessionStorage } from 'common/hooks/useSessionStorage'
 import { useShowPassword } from 'common/hooks/useShowPassword'
 import { validateAdminLogin } from 'common/utils/validateLogin'
+import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
 import { Formik } from 'formik'
 import { useRouter } from 'next/router'
 import hidePasswordBtn from 'public/img/icons/eye-off-outline.svg'
 import showPasswordBtn from 'public/img/icons/eye-outline.svg'
+import styled from 'styled-components'
 import {
   StyledAuthForm,
   StyledShowPasswordBtn,
 } from 'styles/styledComponents/auth/FormikAuth.styled'
 
+import { adminAuth } from '../../constants/Admin/adminSession'
 import { Button } from '../Button/Button'
 import { FormikLabel } from '../Formik/FormikLabel'
 import { FormValueLogin, SetFieldErrorType } from '../Formik/types'
-import styled from 'styled-components'
-import { WrapperContainerAuth } from 'features/auth/WrapperContainerAuth'
-import { adminAuth } from '../../constants/Admin/adminSession'
 
 export const AdminLogin = () => {
   const { setItem } = useSessionStorage()
@@ -76,7 +76,7 @@ export const AdminLogin = () => {
                 <StyledShowPasswordBtn
                   alt="show password"
                   src={passwordType === 'password' ? showPasswordBtn : hidePasswordBtn}
-                  onClick={() => showPassword()}
+                  onClick={showPassword}
                 />
               </FormikLabel>
               <Button theme={ThemeButton.PRIMARY} type="submit">

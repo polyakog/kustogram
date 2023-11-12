@@ -2,12 +2,13 @@ import { PropsWithChildren, ReactElement } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AdminLogin } from 'common/components/AdminLogin/AdminLogin'
 import { AdminNavbar } from 'common/components/AdminNavbar/AdminNavbar'
 import Header from 'common/components/Header/Header'
-import { NextPage } from 'next'
-import { useIsAdmin } from 'common/hooks/useIsAdmin'
-import { AdminLogin } from 'common/components/AdminLogin/AdminLogin'
 import { useClient } from 'common/hooks/useClients'
+import { useIsAdmin } from 'common/hooks/useIsAdmin'
+import { NextPage } from 'next'
+
 import { Main, Page, StyledWrapper } from '../../AdminLogin/AdminLogin.styled'
 
 export const AdminLayout: NextPage<PropsWithChildren> = props => {

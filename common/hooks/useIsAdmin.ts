@@ -1,5 +1,6 @@
-import { useSessionStorage } from './useSessionStorage'
 import { adminAuth } from '../constants/Admin/adminSession'
+
+import { useSessionStorage } from './useSessionStorage'
 
 export const useIsAdmin = () => {
   const { getItem } = useSessionStorage()

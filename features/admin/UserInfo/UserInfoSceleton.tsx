@@ -1,10 +1,11 @@
+import { Sceleton } from '../../../styles/styledComponents/admin/sceleton.styled'
+
 import {
   StyledFlexContainer,
   StyledIdDate,
   StyledIdDateContainer,
   StyledNameContainer,
 } from './UserInfo'
-import { Sceleton } from '../../../styles/styledComponents/admin/sceleton.styled'
 
 // Компонента для отображения схемы, где на странице должны будут располагаться данные,
 // которая появляется во время загрузки

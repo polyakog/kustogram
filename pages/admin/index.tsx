@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, ChangeEvent } from 'react'
 
 import { useLazyQuery } from '@apollo/client'
-import { GET_USERS } from 'assets/apollo/users'
+import { GET_TOTAL_COUNT, GET_USERS } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminLayout'
-import UsersTable from 'common/components/Table/UsersTable'
 import { useClient } from 'common/hooks/useClients'
 import { useDebounce } from 'common/hooks/useDebounce'
 import { GetStaticPropsContext } from 'next'
@@ -20,6 +19,13 @@ import {
 } from '../../features/admin/Admin.styled'
 import { SelectStatusAdmin } from '../../features/admin/SelectStatusAdmin'
 import PagesNavigation from '../../features/settings/Pagination'
+import { UniversalTable } from '../../common/components/Table/UniversalTable/UniversalTable'
+import {
+  FormatDataTableType,
+  TableHeaderType,
+} from '../../common/components/Table/UniversalTable/types'
+import { filterByStatus } from 'common/utils/filterByStatus'
+import { Filtredusers } from 'features/admin/types'
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   const { locale } = context
@@ -45,35 +51,30 @@ const Admin = () => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(initialPageSize)
 
-  const selectedSort = (sortType: string): void => {
-    console.log(sortType)
+  const [selected, setSelected] = useState('Not Selected')
+  const [filtredUsers, setFiltredUsers] = useState<Filtredusers[] | []>([])
 
-    if (sortType === 'Date Added') {
-      if (sortDirection === 'desc') {
-        setSortDirection('asc')
-      } else {
-        setSortDirection('desc')
-      }
-      setSortBy('createdAt')
+  const selectedSort = (sortType: string): void => {
+    setSortBy(sortType)
+
+    if (sortDirection === 'desc') {
+      setSortDirection('asc')
     } else {
-      if (sortDirection === 'desc') {
-        setSortDirection('asc')
-      } else {
-        setSortDirection('desc')
-      }
-      setSortBy('login')
+      setSortDirection('desc')
     }
   }
-  const [getAllUsers, { data: allUsers }] = useLazyQuery(GET_USERS, {
+
+  const [getCountUser, { data: countUser }] = useLazyQuery(GET_TOTAL_COUNT, {
     variables: {
-      pageSize: 10000,
-      searchName: '',
-      sortBy: 'createdAt',
+      pageSize,
+      searchName: getSearchValue() || '',
+      sortBy,
       sortDirection,
-      pageNumber: 1,
+      pageNumber: page,
     },
   })
-  const pagesCount = allUsers ? Math.ceil(allUsers.users.length / 10) : 0
+
+  const pagesCount = countUser ? Math.ceil(countUser.totalCountUsers / 10) : 0
 
   const [getUsers, { data: users }] = useLazyQuery(GET_USERS, {
     variables: {
@@ -85,11 +86,43 @@ const Admin = () => {
     },
   })
 
+  useEffect(() => {
+    if (users) {
+      filterByStatus(selected, users, setFiltredUsers)
+    }
+  }, [selected, users])
+
+  const sortByStatus = (status: string) => {
+    if (status === 'Blocked') {
+      setSortDirection('desc')
+      setSortBy('ban')
+    } else if (status === 'Not Blocked') {
+      setSortDirection('asc')
+      setSortBy('ban')
+    } else {
+      setSortDirection('desc')
+      setSortBy('createdAt')
+    }
+  }
+
+  // const formatTableData: FormatDataTableType[] | undefined = users?.users
+  const tableHeadingData: TableHeaderType[] = [
+    { tableTitle: 'User ID', back: '', sort: false, text: 'id', avatar: 'ban' },
+    { tableTitle: 'Username', back: 'login', sort: true },
+    { tableTitle: 'Profile Link', back: 'login', sort: false },
+    { tableTitle: 'Date Added', back: 'createdAt', sort: true },
+    { tableTitle: '', back: 'noName', sort: false },
+  ]
+
   const debouncedSearch = useDebounce(getUsers, 500)
 
+  const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelected(event.target.value)
+  }
+
   useEffect(() => {
-    getAllUsers()
     getUsers()
+    getCountUser()
   }, [])
 
   useEffect(() => {
@@ -108,9 +141,19 @@ const Admin = () => {
             <SearchIconAdmin alt="search" src={search} />
             <SearchAdmin ref={inputRef} />
           </SearchBarAdmin>
-          <SelectStatusAdmin />
+          <SelectStatusAdmin
+            handleSelect={handleSelect}
+            initialValue="Not Selected"
+            options={['Blocked', 'Not Blocked']}
+            selected={selected}
+            sortByStatus={sortByStatus}
+          />
         </WrapperAdmin>
-        <UsersTable selectedSort={selectedSort} users={users} />
+        <UniversalTable
+          formatTableData={filtredUsers}
+          selectedSort={selectedSort}
+          tableHeadingData={tableHeadingData}
+        />
         {users && (
           <PagesNavigation
             pageNumber={page}

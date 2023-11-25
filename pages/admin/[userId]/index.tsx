@@ -1,8 +1,10 @@
+/* eslint-disable react/no-array-index-key */
 import { useQuery } from '@apollo/client'
 import { GET_USER_IMAGES } from 'assets/apollo/users'
 import { getLayout } from 'common/components/Layout/AdminLayout/AdminUserLayout'
 import { TabBar } from 'common/components/TabBar'
-import { GetServerSidePropsContext, GetStaticPaths, GetStaticPropsContext } from 'next'
+import { adminUserTabData } from 'common/utils/adminUserTabData'
+import { GetServerSidePropsContext } from 'next'
 import Image from 'next/image'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -32,7 +34,7 @@ type propsType = {
   userId: string
 }
 
-const UserPhoto = ({ userId }: propsType) => {
+const AdminUserUploadedPhoto = ({ userId }: propsType) => {
   const imagesAmount = 10
 
   const {
@@ -49,26 +51,8 @@ const UserPhoto = ({ userId }: propsType) => {
 
   const { t } = useTranslation('admin')
 
-  // Данные для создания вкладок
-  const baseUrl = `/admin/user/${userId}`
-  const adminUserTabData = [
-    {
-      name: 'Uploaded photos',
-      ref: '',
-    },
-    {
-      name: 'Payments',
-      ref: 'payments',
-    },
-    {
-      name: 'Followers',
-      ref: 'followers',
-    },
-    {
-      name: 'Following',
-      ref: 'following',
-    },
-  ]
+  // Базовый URL для вкладок
+  const baseUrl = `/admin/${userId}`
 
   return (
     <>
@@ -76,8 +60,8 @@ const UserPhoto = ({ userId }: propsType) => {
       <TabBar baseUrl={baseUrl} t={t} titleList={adminUserTabData} />
       <PostsWrapper>
         {loading
-          ? [...Array(imagesAmount)].map(item => (
-              <StyledContainer key={item}>
+          ? [...Array(imagesAmount)].map((item, index) => (
+              <StyledContainer key={index}>
                 <Sceleton height="100%" radius="5px" width="100%" />
               </StyledContainer>
             ))
@@ -96,8 +80,8 @@ const UserPhoto = ({ userId }: propsType) => {
   )
 }
 
-UserPhoto.getLayout = getLayout
-export default UserPhoto
+AdminUserUploadedPhoto.getLayout = getLayout
+export default AdminUserUploadedPhoto
 
 const PostsWrapper = styled.div`
   display: flex;

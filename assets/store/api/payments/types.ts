@@ -32,8 +32,8 @@ export type AllPaymentsResponse = {
 }
 
 export type ItemsType = {
-  dateOfPayments: string
-  endDateOfSubscription: string
+  dateOfPayments?: string | null | undefined
+  endDateOfSubscription?: string | null | undefined
   paymentType: string
   price: number
   subscriptionType: string

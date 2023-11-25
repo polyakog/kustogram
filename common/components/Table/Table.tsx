@@ -39,8 +39,12 @@ const PaymentsTable = ({ t, payments, language }: TableProps) => {
       </TableHeading>
       {payments?.items.map(payment => (
         <TableRow key={payment.dateOfPayments}>
-          <Cell style={{ paddingLeft: '24px' }}>{dateParser(payment.dateOfPayments)}</Cell>
-          <Cell>{dateParser(payment.endDateOfSubscription)}</Cell>
+          <Cell style={{ paddingLeft: '24px' }}>
+            {payment.dateOfPayments ? dateParser(payment.dateOfPayments) : '-'}
+          </Cell>
+          <Cell>
+            {payment.endDateOfSubscription ? dateParser(payment.endDateOfSubscription) : '-'}
+          </Cell>
           <Cell>{convertCentsToDollars(payment.price)}</Cell>
           <Cell>{getSubscriptionType(payment.price, language)}</Cell>
           <Cell>{payment.paymentType}</Cell>

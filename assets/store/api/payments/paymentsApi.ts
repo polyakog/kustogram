@@ -8,6 +8,7 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
+import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
 
@@ -21,7 +22,6 @@ import {
   StripeRequest,
   StripeResponse,
 } from './types'
-import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 const statusCode = 401
 

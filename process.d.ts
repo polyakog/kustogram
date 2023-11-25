@@ -10,8 +10,10 @@ declare namespace NodeJS {
     GOOGLE_REDIRECT_URI: string | null;
     GOOGLE_SCOPE: string | null;
     GOOGLE_SECRET: string | null;
-    NEXTAUTH_SECRET: string;
     NEXTAUTH_URL: string;
+    NEXT_PUBLIC_AUTH_ADMIN_LOGIN: string;
+    NEXT_PUBLIC_AUTH_ADMIN_PASSWORD: string;
+    NEXT_PUBLIC_AUTH_ADMIN_PASSWORD: string;
   }
 }
 

@@ -10,7 +10,9 @@
     "prepare": "husky install",
     "test": "jest",
     "format": "prettier --write ./**/*.{tsx,ts,jsx,js}",
-    "INClint": "eslint --fix ./**/*.{tsx,ts,jsx,js} --no-error-on-unmatched-pattern"
+    "INClint": "eslint --fix ./**/*.{tsx,ts,jsx,js} --no-error-on-unmatched-pattern",
+    "compile": "graphql-codegen",
+    "watch": "graphql-codegen -w"
   },
   "dependencies": {
     "@apollo/client": "^3.8.4",
@@ -57,12 +59,17 @@
     "style-loader": "^3.3.3",
     "styled-components": "^6.0.4",
     "typeface-inter": "^3.18.1",
-    "typescript": "5.0.4",
+    "typescript": "^5.2.2",
     "url-loader": "^4.1.1",
     "webrtc-adapter": "^8.2.3",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "@graphql-codegen/cli": "^5.0.0",
+    "tailwindcss": "^3.3.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@next/eslint-plugin-next": "^13.4.19",
     "@types/nprogress": "0.2.0",
     "@types/styled-components": "5.1.26",

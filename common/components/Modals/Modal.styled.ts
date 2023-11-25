@@ -23,6 +23,18 @@ export const StyledModalContainer = styled.div<ModalSizePropsType>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  animation-name: rotate;
+  animation-duration: 0.9s;
+
+  @keyframes rotate {
+    0% {
+      transform: perspective(600px) translate(-50%, -50%) rotateY(-180deg);
+    }
+    100% {
+      transform: perspective(600px) translate(-50%, -50%) rotateY(0);
+    }
+  }
 `
 
 export const StyledModalHeader = styled.div`

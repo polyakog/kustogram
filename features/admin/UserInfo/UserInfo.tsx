@@ -1,10 +1,11 @@
 import { useQuery } from '@apollo/client'
+import { dateParser } from 'common/utils/dateParser'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { styled } from 'styled-components'
 
-import { GET_USER } from '../../../assets/apollo/users'
+import { GET_USER_PROFILE } from '../../../assets/apollo/users'
 import { Path } from '../../../common/enums/path'
 import Typograthy from '../../../common/hoc/Typograthy'
 import { baseTheme } from '../../../styles/styledComponents/theme'
@@ -21,9 +22,11 @@ const UserInfo = ({ userId }: { userId: string }) => {
 
   const { t } = useTranslation('admin')
 
-  const { loading, error, data } = useQuery(GET_USER, {
+  const { loading, error, data } = useQuery(GET_USER_PROFILE, {
     variables: { id: userId },
   })
+
+  console.log(data)
 
   if (error) {
     console.log(error)
@@ -42,10 +45,20 @@ const UserInfo = ({ userId }: { userId: string }) => {
             </StyledBack>
           </StyledFlexContainer>
           <StyledFlexContainer>
-            <StyledImage alt="userPhoto" height={60} src="/img/icons/avatar.svg" width={60} />
+            <StyledImage
+              alt="userPhoto"
+              height={60}
+              style={{ objectFit: 'cover' }}
+              width={60}
+              src={
+                data?.user?.profiles?.photo ? data?.user?.profiles?.photo : '/img/icons/avatar.svg'
+              }
+            />
             <StyledNameContainer>
-              <Typograthy variant="H1">{data?.user?.login}</Typograthy>
-              <StyledUserName>{data?.user?.email}</StyledUserName>
+              <Typograthy variant="H1">
+                {data?.user?.profiles?.firstName} {data?.user?.profiles?.lastName}
+              </Typograthy>
+              <StyledUserName>{data?.user?.profiles?.login}</StyledUserName>
             </StyledNameContainer>
           </StyledFlexContainer>
           <StyledIdDateContainer>
@@ -59,7 +72,9 @@ const UserInfo = ({ userId }: { userId: string }) => {
               <StyledTitle>
                 <Typograthy variant="regular_text 14">{t('Profile Creation Date')}</Typograthy>
               </StyledTitle>
-              <Typograthy variant="regular_text 16">{data?.user?.createdAt}</Typograthy>
+              <Typograthy variant="regular_text 16">
+                {data?.user?.createdAt ? dateParser(data.user.createdAt) : '-'}
+              </Typograthy>
             </StyledIdDate>
           </StyledIdDateContainer>
         </>
@@ -90,6 +105,7 @@ export const StyledFlexContainer = styled.div`
 `
 const StyledBack = styled.div`
   margin: 0 12px;
+  cursor: pointer;
 `
 
 const StyledImage = styled(Image)`
@@ -113,6 +129,7 @@ const StyledUserName = styled.div`
   font-size: 14px;
 
   text-decoration: underline;
+  cursor: pointer;
 `
 
 export const StyledIdDateContainer = styled.div`

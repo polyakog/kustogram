@@ -22,7 +22,7 @@ type TabBarProps = {
 
 export const TabBar = ({ baseUrl, titleList, t }: TabBarProps) => {
   const location = usePathname()
-  const isActive = (name: string) => (location.includes(name) ? 'active' : '')
+  const isactive = (name: string) => (location.includes(name) ? 'active' : '')
 
   return (
     <StyledNavigation>
@@ -40,7 +40,7 @@ export const TabBar = ({ baseUrl, titleList, t }: TabBarProps) => {
         }
 
         return (
-          <StyledItem key={item.name} active={isActive(item.ref)} href={`${baseUrl}/${item.ref}`}>
+          <StyledItem key={item.name} active={isactive(item.ref)} href={`${baseUrl}/${item.ref}`}>
             {t(item.name)}
           </StyledItem>
         )

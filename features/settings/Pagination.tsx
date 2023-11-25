@@ -65,7 +65,7 @@ const PagesNavigation: FC<PropsType> = ({
     <StyledPagination>
       <StyledArrow
         alt="prev"
-        isHidden={isFirst}
+        ishidden={isFirst.toString()}
         src={prev}
         style={{ height: 16, width: 16 }}
         onClick={() => {
@@ -76,7 +76,7 @@ const PagesNavigation: FC<PropsType> = ({
         return (
           <StyledPageNumber
             key={p}
-            isActive={p === pageNumber}
+            isactive={(p === pageNumber).toString()}
             onClick={() => {
               onPageChange(p)
             }}
@@ -87,7 +87,7 @@ const PagesNavigation: FC<PropsType> = ({
       })}
       {!isLast && <StyledText>...</StyledText>}
       <StyledPageNumber
-        isActive={pagesCount === pageNumber}
+        isactive={(pagesCount === pageNumber).toString()}
         onClick={() => {
           onPageChange(pagesCount)
         }}
@@ -97,7 +97,7 @@ const PagesNavigation: FC<PropsType> = ({
 
       <StyledArrow
         alt="next"
-        isHidden={isLast}
+        ishidden={isLast.toString()}
         src={next}
         style={{ height: 16, width: 16 }}
         onClick={() => {
@@ -123,11 +123,11 @@ type PropsType = {
 }
 
 type DivPropsType = {
-  isActive: boolean
+  isactive: string
 }
 
 type ImagePropsType = {
-  isHidden: boolean
+  ishidden: string
 }
 
 // Style
@@ -144,13 +144,9 @@ const StyledPageNumber = styled.div<DivPropsType>`
   cursor: pointer;
   color: ${baseTheme.colors.light['100']};
 
-  ${props =>
-    props.isActive &&
-    `
-    background: ${baseTheme.colors.light['100']};
-    color: ${baseTheme.colors.dark['900']}
-  
-  `}
+  background: ${props => (props.isactive === 'true' ? baseTheme.colors.light['100'] : '')};
+  color: ${props =>
+    props.isactive === 'true' ? baseTheme.colors.dark['900'] : baseTheme.colors.light['100']};
 `
 const StyledPagination = styled.div`
   padding: 10px;
@@ -167,5 +163,5 @@ const StyledArrow = styled(Image)<ImagePropsType>`
   cursor: pointer;
   margin: auto 0px;
   z-index: 10;
-  visibility: ${props => (props.isHidden ? 'hidden' : '')};
+  visibility: ${props => (props.ishidden === 'true' ? 'hidden' : '')};
 `

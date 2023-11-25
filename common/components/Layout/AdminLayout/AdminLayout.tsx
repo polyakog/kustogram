@@ -14,7 +14,6 @@ import { Main, Page, StyledWrapper } from '../../AdminLogin/AdminLogin.styled'
 export const AdminLayout: NextPage<PropsWithChildren> = props => {
   // eslint-disable-next-line react/prop-types
   const { children } = props
-
   const isAdmin = useIsAdmin()
   const client = useClient()
 

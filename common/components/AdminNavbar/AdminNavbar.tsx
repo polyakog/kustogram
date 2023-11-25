@@ -18,25 +18,25 @@ export const AdminNavbar = () => {
 
   const links = [
     {
-      title: t('users'),
+      title: t('Users list'),
       href: person,
       activeHref: personActive,
       name: '/admin',
     },
     {
-      title: t('statistics'),
+      title: t('Statistics'),
       href: statistics,
       activeHref: statisticsActive,
       name: '/admin/statistics',
     },
     {
-      title: t('payments'),
+      title: t('Payments list'),
       href: payments,
       activeHref: paymentsActive,
       name: '/admin/payments',
     },
     {
-      title: t('posts'),
+      title: t('Posts list'),
       href: posts,
       activeHref: postsActive,
       name: '/admin/posts',

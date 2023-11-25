@@ -1,8 +1,8 @@
 export type SceletonType = {
   height: string
   margin?: string
-  maxWidth?: string
-  minWidth?: string
+  maxwidth?: string
+  minwidth?: string
   radius?: string
   width?: string
 }

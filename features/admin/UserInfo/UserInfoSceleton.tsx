@@ -17,8 +17,8 @@ const UserInfoSceleton = () => {
       <StyledFlexContainer>
         <Sceleton height="60px" radius="50%" width="60px" />
         <StyledNameContainer>
-          <Sceleton height="20px" margin="10px 0" maxWidth="425px" minWidth="100px" radius="5px" />
-          <Sceleton height="14px" maxWidth="425px" minWidth="100px" radius="5px" />
+          <Sceleton height="20px" margin="10px 0" maxwidth="425px" minwidth="100px" radius="5px" />
+          <Sceleton height="14px" maxwidth="425px" minwidth="100px" radius="5px" />
         </StyledNameContainer>
       </StyledFlexContainer>
       <StyledIdDateContainer>

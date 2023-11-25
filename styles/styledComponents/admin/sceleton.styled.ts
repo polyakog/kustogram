@@ -9,8 +9,8 @@ const SceletonAnimation = keyframes`
 `
 
 export const Sceleton = styled.div<SceletonType>`
-  min-width: ${props => (props.minWidth ? props.minWidth : props.width)};
-  max-width: ${props => (props.maxWidth ? props.maxWidth : props.width)};
+  min-width: ${props => (props.minwidth ? props.minwidth : props.width)};
+  max-width: ${props => (props.maxwidth ? props.maxwidth : props.width)};
 
   height: ${props => props.height};
   border-radius: ${props => (props.radius ? props.radius : '0px')};

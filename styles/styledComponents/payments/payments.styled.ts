@@ -14,14 +14,14 @@ export const TabBarWrapper = styled.div`
 export const HeadingText = styled.td`
   padding: 12px 0;
   font-weight: 600;
+  margin: auto;
 `
 
 export const TableHeading = styled.tr`
-  padding: 12px 0;
   background: #171717;
 `
 export const TableRow = styled.tr`
-  padding: 12px 0;
+  border: 1px solid #171717;
 `
 
 export const Cell = styled.td`

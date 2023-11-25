@@ -1,4 +1,5 @@
 export enum Path {
+  ADMIN = '/admin',
   CALLBACK_GITHUB = '/api/auth/callback/github',
   CALLBACK_GOOGLE = '/api/auth/callback/google',
   ERROR_404 = '*',

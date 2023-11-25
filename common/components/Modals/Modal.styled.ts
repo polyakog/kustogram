@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ModalSizePropsType } from './types'
 
 export const StyledModalOverlay = styled.div<{ bg?: string }>`
-  z-index: 1000;
+  z-index: 10000;
   background-color: ${props => (props.bg ? 'none' : 'rgba(0, 0, 0, 0.4)')};
   position: fixed;
   top: 0;
@@ -23,6 +23,18 @@ export const StyledModalContainer = styled.div<ModalSizePropsType>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  animation-name: rotate;
+  animation-duration: 0.9s;
+
+  @keyframes rotate {
+    0% {
+      transform: perspective(600px) translate(-50%, -50%) rotateY(-180deg);
+    }
+    100% {
+      transform: perspective(600px) translate(-50%, -50%) rotateY(0);
+    }
+  }
 `
 
 export const StyledModalHeader = styled.div`

@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 
 import { useLazyPaymentsQuery } from 'assets/store/api/payments/paymentsApi'
 import { getLayout } from 'common/components/Layout/PageLayout/PageLayout'
+import { TabBar } from 'common/components/TabBar'
 import PaymentsTable from 'common/components/Table/Table'
 import { useClient } from 'common/hooks/useClients'
 import PagesNavigation from 'features/settings/Pagination'
-import { TabBar } from 'features/settings/TabBar'
 import { GetStaticPropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import config from 'next-i18next.config.js'
@@ -32,6 +32,26 @@ const Payments = () => {
   const [getPayments, { data: payments }] = useLazyPaymentsQuery()
   const client = useClient()
 
+  const baseUrl = '/profile/settings'
+  const settingsTabData = [
+    {
+      name: 'general_info',
+      ref: '',
+    },
+    {
+      name: 'devices',
+      ref: 'devices',
+    },
+    {
+      name: 'acc_management',
+      ref: 'acc_management',
+    },
+    {
+      name: 'my_payments',
+      ref: 'payments',
+    },
+  ]
+
   useEffect(() => {
     getPayments({ page, pageSize })
   }, [page, pageSize])
@@ -40,7 +60,7 @@ const Payments = () => {
     client && (
       <>
         <TabBarWrapper>
-          <TabBar />
+          <TabBar baseUrl={baseUrl} t={t} titleList={settingsTabData} />
         </TabBarWrapper>
         <PageWrapper>
           <PaymentsTable language={language} payments={payments} t={t} />

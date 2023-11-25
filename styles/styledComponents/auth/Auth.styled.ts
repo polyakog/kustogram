@@ -6,8 +6,9 @@ import { baseTheme } from '../theme'
 
 export const StyledContainerAuth = styled.div`
   width: 96vw;
-  min-height: 90vh;
-  margin: 20px 0;
+  min-height: 100vh;
+  padding: 20px 0;
+  padding-top: 80px;
 
   display: flex;
   justify-content: center;

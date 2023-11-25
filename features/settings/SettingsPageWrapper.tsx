@@ -1,18 +1,41 @@
 import { ReactNode } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
-import { TabBar } from './TabBar'
+import { TabBar } from '../../common/components/TabBar'
 
 type SettingsPageWrapperType = {
   children: ReactNode
 }
 
 export const SettingsPageWrapper = ({ children }: SettingsPageWrapperType) => {
+  const baseUrl = '/profile/settings'
+  const { t } = useTranslation()
+
+  const settingsTabData = [
+    {
+      name: 'general_info',
+      ref: '',
+    },
+    {
+      name: 'devices',
+      ref: 'devices',
+    },
+    {
+      name: 'acc_management',
+      ref: 'acc_management',
+    },
+    {
+      name: 'my_payments',
+      ref: 'payments',
+    },
+  ]
+
   return (
     <SettingsWrapper>
       <StyledContainerSettings>
-        <TabBar />
+        <TabBar baseUrl={baseUrl} t={t} titleList={settingsTabData} />
         <StyledContent>{children}</StyledContent>
       </StyledContainerSettings>
     </SettingsWrapper>

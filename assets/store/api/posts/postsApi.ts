@@ -8,6 +8,7 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { setItem } from 'common/hooks/useLocalStorage'
 import { contentTypeSetup } from 'common/utils/contentTypeSetup'
+import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 import { NotAuthorization, RefreshTokenResponse } from '../auth/types'
 
@@ -18,7 +19,6 @@ import {
   GetUserPostsRequest,
   GetUserPostsResponse,
 } from './types'
-import { getBrowserInfo } from 'common/utils/getBrowserInfo'
 
 const statusCode = 401
 

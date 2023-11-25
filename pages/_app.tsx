@@ -15,6 +15,9 @@ import 'styles/nprogress.css'
 import { LocalizationProvider } from '@mui/x-date-pickers' // for mui calendar
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs' // for mui calendar
 
+import { ApolloProvider } from '@apollo/client'
+import client from 'assets/apollo/client'
+
 // import PrivateRoute from 'common/components/PrivateRoute/PrivateRoute'
 
 export type NextPageWithLayout<P = object> = NextPage<P> & {
@@ -32,14 +35,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <Provider store={store}>
-      <PrivateRoute>
-        {getLayout(
-          <>
-            <GlobalStyle />
-            <Component {...pageProps} />
-          </>
-        )}
-      </PrivateRoute>
+      <ApolloProvider client={client}>
+        <PrivateRoute>
+          <GlobalStyle />
+          {getLayout(<Component {...pageProps} />)}
+        </PrivateRoute>
+      </ApolloProvider>
     </Provider>
   )
 }

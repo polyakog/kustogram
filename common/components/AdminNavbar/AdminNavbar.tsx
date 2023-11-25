@@ -1,16 +1,16 @@
-import styled from 'styled-components'
 import Image from 'next/image'
-import personActive from 'public/img/icons/person-select.svg'
-import person from 'public/img/icons/person-admin.svg'
-import statistics from 'public/img/icons/trending-up.svg'
-import statisticsActive from 'public/img/icons/trending-up_selected.svg'
-import payments from 'public/img/icons/credit.svg'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import paymentsActive from 'public/img/icons/credit-active.svg'
+import payments from 'public/img/icons/credit.svg'
 import posts from 'public/img/icons/image-outline.svg'
 import postsActive from 'public/img/icons/image.svg'
-import { usePathname } from 'next/navigation'
+import person from 'public/img/icons/person-admin.svg'
+import personActive from 'public/img/icons/person-select.svg'
+import statistics from 'public/img/icons/trending-up.svg'
+import statisticsActive from 'public/img/icons/trending-up_selected.svg'
 import { useTranslation } from 'react-i18next'
-import Link from 'next/link'
+import styled from 'styled-components'
 
 export const AdminNavbar = () => {
   const path = usePathname()
@@ -18,25 +18,25 @@ export const AdminNavbar = () => {
 
   const links = [
     {
-      title: t('users'),
+      title: t('Users list'),
       href: person,
       activeHref: personActive,
       name: '/admin',
     },
     {
-      title: t('statistics'),
+      title: t('Statistics'),
       href: statistics,
       activeHref: statisticsActive,
       name: '/admin/statistics',
     },
     {
-      title: t('payments'),
+      title: t('Payments list'),
       href: payments,
       activeHref: paymentsActive,
       name: '/admin/payments',
     },
     {
-      title: t('posts'),
+      title: t('Posts list'),
       href: posts,
       activeHref: postsActive,
       name: '/admin/posts',

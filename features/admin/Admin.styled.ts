@@ -48,6 +48,12 @@ export const HeadingWithSortAdmin = styled(HeadingText)`
   align-items: center;
   gap: 5px;
 `
+export const HeadingWithSortPayment = styled(HeadingText)`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 200px;
+`
 
 export const SortAdmin = styled.div`
   display: flex;
@@ -90,8 +96,17 @@ export const BlockAdmin = styled(Image)`
 export const TextAdmin = styled.span`
   font-size: 14px;
   font-weight: 400;
+  width: 70px;
   position: relative;
   left: 10px;
+  max-width: 300px;
+  white-space: nowrap; /* Запрещаем перенос строк */
+  overflow: hidden; /* Обрезаем все, что не помещается в область */
+  text-overflow: ellipsis; /* Добавляем многоточие */
+
+  &:hover {
+    overflow: visible;
+  }
 `
 
 export const MenuItemsAdmin = styled.div`
